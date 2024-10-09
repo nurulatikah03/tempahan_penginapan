@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
 <link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
 <link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
@@ -23,18 +24,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-</head>
+</head><style>
+.footer-1-middle {
+    position: relative;
+    padding: 120px 0 60px;
+    background: #254222;
+}
+
+body {
+	font-size: 14px;
+	color: #6E6E6E;
+	line-height: 1.7em;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	background: rgb(255, 255, 255);
+	font-family: 'Poppins';
+}
+
+.btn-1 {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
+    padding: 17px 35px 16px;
+    text-align: center;
+    z-index: 1;
+    letter-spacing: 1px;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: .5s;
+    background-color: #c77a63;
+}
+
+
+.btn-1 span {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+	transform: translate(-50%, -50%);
+	z-i
+}
+
+.btn-1:hover {
+	color: black;
+}
+
+
+.dark-bg {
+	background-color: #254222 !important;
+}
+
+.loader-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    background-color: white;
+}
+
+.spinner {
+    width: 60px; /* Adjust size as needed */
+    height: 60px;
+    border: 8px solid #cae4c5;
+    border-top: 8px solid #254222;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+</style>
 
 <body>
 
 <div class="page-wrapper">
 
     <div class="loader-wrap">
-        <div class="preloader"><div class="preloader-close">Preloader Close</div></div>
-        <div class="layer layer-one"><span class="overlay"></span></div>
-        <div class="layer layer-two"><span class="overlay"></span></div>        
-        <div class="layer layer-three"><span class="overlay"></span></div>        
-    </div>
+		<div class="spinner"></div>
+	</div>
 
     <header class="main-header header-style-two">
         <div class="header-upper">
@@ -54,14 +129,17 @@
                                         <li><a href="penginapan.php">Penginapan</a></li> 
                                         <li><a href="pakej.php">Pakej</a></li> 
                                         <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
-										<li><a href="contact.php"><i class="fas fa-phone" style="font-size: 20px; color:white;"></i></a></li>
                                     </ul>
                                 </div>
                             </nav>
                         </div>
                     </div>
                     <div class="right-column d-flex align-items-center">
-                        <button type="button" class="theme-btn search-toggler"><i class="icon-1"></i></button>                        
+                        <li>
+							<button type="button" class="theme-btn search-toggler" onclick="window.location.href='contact.html'" style="border: none; background: transparent; padding: 0;">
+								<i class="fas fa-phone" style="font-size: 20px; color: white;"></i>
+							</button>
+						</li>					
                         <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
                     </div>                      
                 </div>
@@ -120,32 +198,6 @@
         </div>
     </header>
 
-    <div id="search-popup" class="search-popup">
-        <div class="close-search theme-btn"><span class="fal fa-times"></span></div>
-        <div class="popup-inner">
-            <div class="overlay-layer"></div>
-            <div class="search-form">
-                <form method="post" action="index.php">
-                    <div class="form-group">
-                        <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
-                            <input type="submit" value="Search Now!" class="theme-btn">
-                        </fieldset>
-                    </div>
-                </form>
-                <br>
-                <h3>Recent Search Keywords</h3>
-                <ul class="recent-searches">
-                    <li><a href="#">Finance</a></li>
-                    <li><a href="#">Idea</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Growth</a></li>
-                    <li><a href="#">Plan</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
     <section class="banner-section">
         <div class="swiper-container banner-slider">
             <div class="swiper-wrapper">                
@@ -157,7 +209,7 @@
                                 <h4>Kemudahan</h4>
                                 <h1>Dewan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
+                                    <a href="kemudahanDewan.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +223,7 @@
                                 <h4>Kemudahan</h4>
                                 <h1>Penginapan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +236,7 @@
                                 <h4>Kemudahan</h4>
                                 <h1>Pakej</h1>
                                 <div class="link-box">
-                                    <a href="room-1.html" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.html" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +249,7 @@
                                 <h4>Pakej</h4>
                                 <h1>Perkahwinan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
