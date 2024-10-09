@@ -33,17 +33,17 @@ ul.navigation li a.active {
 											</a>
 										</li>   
 										<li>
-											<a href="index-3.html" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="penginapan.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
 												Penginapan
 											</a>
 										</li> 
 										<li>
-											<a href="index-3.html" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="pakejAktiviti.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
 												Aktiviti
 											</a>
 										</li> 
 										<li>
-											<a href="index-3.html" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="pakejPerkahwinan.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
 												Pakej Perkahwinan
 											</a>
 										</li>         
