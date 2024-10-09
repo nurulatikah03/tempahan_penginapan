@@ -17,6 +17,7 @@
 
 <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
 <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,121 +25,133 @@
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
+<style>
+.footer-1-middle {
+    position: relative;
+    padding: 120px 0 60px;
+    background: #254222;
+}
+
+.footer-bottom {
+    position: relative;
+    background: #fff;
+    text-align: center;
+    padding: 15px 0;
+    color: black;
+}
+
+body {
+	font-size: 14px;
+	color: #6E6E6E;
+	line-height: 1.7em;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	background: rgb(255, 255, 255);
+	font-family: 'Poppins';
+}
+
+.btn-1 {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
+    padding: 17px 35px 16px;
+    text-align: center;
+    z-index: 1;
+    letter-spacing: 1px;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: .5s;
+    background-color: #c77a63;
+}
+
+
+.btn-1 span {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+	transform: translate(-50%, -50%);
+	z-i
+}
+
+.btn-1:hover {
+	color: black;
+}
+
+
+.dark-bg {
+	background-color: #254222 !important;
+}
+
+.loader-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    background-color: white;
+}
+
+.spinner {
+    width: 60px; /* Adjust size as needed */
+    height: 60px;
+    border: 8px solid #cae4c5;
+    border-top: 8px solid #254222;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.section-padding {
+    padding: 40px 0; /* Adjust padding as needed */
+}
+
+.text-center {
+    text-align: center; /* Centers text within the container */
+}
+
+.contact-info-1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the list items */
+}
+
+.map {
+    display: flex;
+    justify-content: center; /* Centers the map */
+}
+
+.contact-info-1 {
+    display: flex;
+    flex-direction: column; /* Change to column for vertical alignment */
+    align-items: center; /* Center the items horizontally */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+}
+
+.contact-info-1 li {
+    text-align: center; /* Center text within each list item */
+    margin: 10px 0; /* Add margin between list items */
+}
+
+</style>
 
 <body>
 
 <div class="page-wrapper">
 
-
-<header class="main-header header-style-two">
-        <div class="header-upper">
-            <div class="auto-container">
-                <div class="inner-container d-flex align-items-center justify-content-between">
-                    <div class="logo-box">
-                        <div class="logo" style="width: 240px;"><a href="index.html"><img src="assets/images/logo-light.png" alt=""></a></div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="nav-outer">
-                            <div class="mobile-nav-toggler"><img src="assets/images/icons/icon-bar.png" alt=""></div>
-                            <nav class="main-menu navbar-expand-md navbar-light">
-                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                                    <ul class="navigation">
-                                        <li><a href="index.php">Laman Utama</a></li>   
-                                        <li><a href="kemudahanDewan.php">Dewan</a></li>   
-                                        <li><a href="room_selection.php">Penginapan</a></li> 
-                                        <li><a href="pakej.php">Pakej</a></li> 
-                                        <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
-										<li><a href="contact.php"><i class="fas fa-phone" style="font-size: 20px; color:white;"></i></a></li>
-                                    </ul>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="right-column d-flex align-items-center">
-                        <button type="button" class="theme-btn search-toggler"><i class="icon-1"></i></button>                        
-                        <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
-                    </div>                      
-                </div>
-            </div>
-        </div>
-        <div class="sticky-header dark-bg">
-            <div class="header-upper">
-                <div class="auto-container">
-                    <div class="inner-container d-flex align-items-center justify-content-between">
-                        <!--Logo-->
-                        <div class="logo-box">
-                            <div class="logo" style="width: 240px;"><a href="index.php"><img src="assets/images/logo-light.png" alt=""></a></div>
-                        </div>
-                        <div class="middle-column">
-                            <!--Nav Box-->
-                            <div class="nav-outer">
-                                <!--Mobile Navigation Toggler-->
-                                <div class="mobile-nav-toggler"><img src="assets/images/icons/icon-bar-2.png" alt=""></div>
-    
-                                <!-- Main Menu -->
-                                <nav class="main-menu navbar-expand-md navbar-light">
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="right-column d-flex align-items-center">                        
-                            <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mobile-menu">
-            <div class="menu-backdrop"></div>
-            <div class="close-btn"><span class="fal fa-times"></span></div>
-            
-            <nav class="menu-box">
-                <div class="nav-logo"><a href="index.php"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
-                <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
-				<!--Social Links-->
-				<div class="social-links">
-					<ul class="clearfix">
-						<li><a href="#"><span class="fab fa-twitter"></span></a></li>
-						<li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
-						<li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
-						<li><a href="#"><span class="fab fa-instagram"></span></a></li>
-						<li><a href="#"><span class="fab fa-youtube"></span></a></li>
-					</ul>
-                </div>
-            </nav>
-        </div>
-
-        <div class="nav-overlay">
-            <div class="cursor"></div>
-            <div class="cursor-follower"></div>
-        </div>
-    </header>
-
-    <div id="search-popup" class="search-popup">
-        <div class="close-search theme-btn"><span class="fal fa-times"></span></div>
-        <div class="popup-inner">
-            <div class="overlay-layer"></div>
-            <div class="search-form">
-                <form method="post" action="index.html">
-                    <div class="form-group">
-                        <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
-                            <input type="submit" value="Search Now!" class="theme-btn">
-                        </fieldset>
-                    </div>
-                </form>
-                <br>
-                <h3>Recent Search Keywords</h3>
-                <ul class="recent-searches">
-                    <li><a href="#">Finance</a></li>
-                    <li><a href="#">Idea</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Growth</a></li>
-                    <li><a href="#">Plan</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <div class="loader-wrap">
+		<div class="spinner"></div>
+	</div>
+	
+	<?php include 'partials/header.php';?>
 
     <div class="page-title" style="background-image: url(assets/images/background/page-title-6.jpg);">
         <div class="auto-container">
@@ -148,8 +161,8 @@
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="room_selection.php"> Selection</a></li>
+                <li><a href="index.php">Laman Utama</a></li>
+                <li><a href="room_selection.php">Penginapan</a></li>
                 <li>Home Stay INSKET</li>
             </ul>
         </div>
@@ -224,22 +237,6 @@
                                 </div>
                             </div>
                         </div>
-                        <h3 class="fs_40 mb_30">Homestay Rules</h3>
-                        <p class="mb_30">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing integer ultrices suspendisse varius etiam est. Est, felis, tempus nec vitae orci sodales Metus, velit nec at diam in sed. Massa dui ipsum ornare sagittis dolor sagittis amet odio est. Sit semper et velit fusce.</p>
-                        <ul class="list-2 mb_70">
-                            <li><i class="icon-23"></i>Check-in: 3:00 PM - 9:00 PM</li>
-                            <li><i class="icon-23"></i>Check-ouy: 10:30 AM</li>
-                            <li><i class="icon-23"></i>No Pets</li>
-                            <li><i class="icon-23"></i>No Smoking</li>
-                        </ul>
-                        <h3 class="fs_40 mb_30">Cancellation</h3>
-                        <p class="mb_70">Est felis tempus nec vitae orci sodales Metus, velit nec at diam in sed. Massa dui ipsum ornare sagittis dolor sagittis amet odio est. Sit semper et velit fusce.</p>
-                        <h3 class="fs_40 mb_30">Location</h3>
-                        <p class="mb_30">Est felis tempus nec vitae orci sodales Metus, velit nec at diam in sed. Massa dui ipsum ornare sagittis dolor sagittis amet odio est. Sit semper et velit fusce.</p>
-                        <div class="map">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2405.086839836816!2d102.31962568058454!3d6.03284566916159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31b6bb265822af6d%3A0xa7b2a0c9426eb60e!2sSalamku%20Bukit%20Marak!5e0!3m2!1sen!2smy!4v1728449558571!5m2!1sen!2smy" width="600" height="450" frameborder="0" style="border:0; width: 100%" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-                        </div>
-                        
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -329,13 +326,6 @@
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
-                            <div class="room-1-rating">
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-7"></i>
-                            </div>
                             <h4 class="room-1-title mb_20"><a href="room-details-1.html">Bilik biasa</a></h4>
                             <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
                             <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
@@ -349,13 +339,6 @@
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
-                            <div class="room-1-rating">
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                            </div>
                             <h4 class="room-1-title mb_20"><a href="room-details_2.html">Bilik VIP</a></h4>
                             <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
                             <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
@@ -366,70 +349,8 @@
         </div>
     </section>
 
-    <footer class="main-footer">
-        <div class="footer-1-middle">
-            <div class="auto-container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Contact Us</h4></div>
-                            <ul class="contact-widget-1-list">
-                                <li><span>Add:</span> New Hyde Park, NY 11040</li>
-                                <li><span>Email:</span><a href="mailto:example@royalking.com">example@royalking.com</a></li>
-                                <li><span>Phone:</span><a href="tel:3336660000">333 666 0000</a></li>
-                            </ul>
-                            <ul class="footer-social-icon d-flex align-items-center">
-                                <li><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0);"><i class="fab fa-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="link-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Links</h4></div>
-                            <ul class="link-widget-1-list">
-                                <li><a href="javascript:void(0);">About Us</a></li>
-                                <li><a href="javascript:void(0);">Services</a></li>
-                                <li><a href="javascript:void(0);">Case</a></li>
-                                <li><a href="javascript:void(0);">Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="link-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Hours</h4></div>
-                            <p class="mb_25">Tincidunt neque pretium lectus <br>
-                                donec risus.</p>
-                            <p>Mon - Fri: 9:00AM - 6:00PM <br> Sat - Sun: 8:00AM - 4:00PM</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="about-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Newsletter</h4></div>
-                            <div class="about-widget-1-text">
-                                <p class="mb_30">Tincidunt neque pretium lectus <br>
-                                    donec risus.</p>
-                                <div class="footer-newsletter">
-                                    <form>
-                                        <input type="email" placeholder="Email address">
-                                        <button class="btn-1">Subscribe <span></span></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="auto-container">    
-                <div class="footer-bottom-row">
-                    <div class="footer-bottom-text">Copyright 2022 by <a href="javascript:void(0);">royalking</a> theme All Right Reserved.</div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
+    <?php include 'partials/footer.php';?>
 	
 </div>
 

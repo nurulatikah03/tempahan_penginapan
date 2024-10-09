@@ -38,7 +38,7 @@ ul.navigation li a.active {
 											</a>
 										</li> 
 										<li>
-											<a href="pakejAktiviti.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="pakejAktiviti.php" class="<?php echo ($current_page == 'pakejAktiviti.php') ? 'active' : ''; ?>">
 												Aktiviti
 											</a>
 										</li> 
