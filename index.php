@@ -66,7 +66,6 @@ body {
 	background-color: #fff;
 	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
 	transform: translate(-50%, -50%);
-	z-i
 }
 
 .btn-1:hover {
@@ -132,14 +131,14 @@ body {
                     </div>
                 </div>
                 <!-- Slide Item -->
-                <div class="swiper-slide" style="background-image: url(assets/images/main-slider/banner-1.jpg);">
+                <div class="swiper-slide" style="background-image: url(assets/images/background/blok_asarama.webp);">
                     <div class="content-outer">
                         <div class="content-box">
                             <div class="inner">
                                 <h4>Kemudahan</h4>
                                 <h1>Penginapan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.php" class="btn-1">Tempah Sekarang <span></span></a>
+                                    <a href="room_selection.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>

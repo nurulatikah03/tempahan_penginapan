@@ -33,7 +33,7 @@ ul.navigation li a.active {
 											</a>
 										</li>   
 										<li>
-											<a href="penginapan.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="room_selection.php" class="<?php echo ($current_page == 'room_selection.php') ? 'active' : ''; ?>">
 												Penginapan
 											</a>
 										</li> 
@@ -70,7 +70,7 @@ ul.navigation li a.active {
                     <div class="inner-container d-flex align-items-center justify-content-between">
                         <!--Logo-->
                         <div class="logo-box">
-                            <div class="logo" style="width: 240px;"><a href="index.html"><img src="assets/images/logo-light.png" alt=""></a></div>
+                            <div class="logo" style="width: 240px;"><a href="index.php"><img src="assets/images/logo-light.png" alt=""></a></div>
                         </div>
                         <div class="middle-column">
                             <!--Nav Box-->
@@ -101,7 +101,7 @@ ul.navigation li a.active {
             <div class="close-btn"><span class="fal fa-times"></span></div>
             
             <nav class="menu-box">
-                <div class="nav-logo"><a href="index.html"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
+                <div class="nav-logo"><a href="index.php"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
                 <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
 				<!--Social Links-->
 				<div class="social-links">

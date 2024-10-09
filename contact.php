@@ -75,7 +75,6 @@ body {
 	background-color: #fff;
 	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
 	transform: translate(-50%, -50%);
-	z-i
 }
 
 .btn-1:hover {
