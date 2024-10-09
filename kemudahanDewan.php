@@ -12,140 +12,117 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
 <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
+<style>
+.footer-1-middle {
+    position: relative;
+    padding: 120px 0 60px;
+    background: #254222;
+}
+
+body {
+	font-size: 14px;
+	color: #6E6E6E;
+	line-height: 1.7em;
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+	background: rgb(255, 255, 255);
+	font-family: 'Poppins';
+}
+
+.footer-bottom {
+    position: relative;
+    background: #fff;
+    text-align: center;
+    padding: 15px 0;
+    color: black;
+}
+
+.btn-1 {
+    position: relative;
+    display: inline-flex;
+    overflow: hidden;
+    padding: 17px 35px 16px;
+    text-align: center;
+    z-index: 1;
+    letter-spacing: 1px;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: .5s;
+    background-color: #c77a63;
+}
+
+
+.btn-1 span {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background-color: #fff;
+	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+	transform: translate(-50%, -50%);
+	z-i
+}
+
+.btn-1:hover {
+	color: black;
+}
+
+
+.dark-bg {
+	background-color: #254222 !important;
+}
+
+.loader-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full screen height */
+    background-color: white;
+}
+
+.spinner {
+    width: 60px; /* Adjust size as needed */
+    height: 60px;
+    border: 8px solid #cae4c5;
+    border-top: 8px solid #254222;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+</style>
 
 <body>
 
 <div class="page-wrapper">
 
     <div class="loader-wrap">
-        <div class="preloader"><div class="preloader-close">Preloader Close</div></div>
-        <div class="layer layer-one"><span class="overlay"></span></div>
-        <div class="layer layer-two"><span class="overlay"></span></div>        
-        <div class="layer layer-three"><span class="overlay"></span></div>        
-    </div>
+		<div class="spinner"></div>
+	</div>
 
-    <header class="main-header header-style-two">
-        <div class="header-upper">
-            <div class="auto-container">
-                <div class="inner-container d-flex align-items-center justify-content-between">
-                    <div class="logo-box">
-                        <div class="logo" style="width: 240px;"><a href="index.html"><img src="assets/images/logo-light.png" alt=""></a></div>
-                    </div>
-                    <div class="middle-column">
-                        <div class="nav-outer">
-                            <div class="mobile-nav-toggler"><img src="assets/images/icons/icon-bar.png" alt=""></div>
-                            <nav class="main-menu navbar-expand-md navbar-light">
-                                <div class="collapse navbar-collapse show clearfix" id="navbarSupportedContent">
-                                    <ul class="navigation">
-                                        <li><a href="index.php">Laman Utama</a></li>   
-                                        <li><a href="kemudahanDewan.php">Dewan</a></li>   
-                                        <li><a href="index-3.html">Penginapan</a></li> 
-                                        <li><a href="index-3.html">Pakej</a></li> 
-                                        <li><a href="index-3.html">Pakej Perkahwinan</a></li>         
-                                    </ul>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="right-column d-flex align-items-center">
-                        <button type="button" class="theme-btn search-toggler"><i class="icon-1"></i></button>                        
-                        <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
-                    </div>                      
-                </div>
-            </div>
-        </div>
-        <div class="sticky-header dark-bg">
-            <div class="header-upper">
-                <div class="auto-container">
-                    <div class="inner-container d-flex align-items-center justify-content-between">
-                        <!--Logo-->
-                        <div class="logo-box">
-                            <div class="logo" style="width: 240px;"><a href="index.html"><img src="assets/images/logo-light.png" alt=""></a></div>
-                        </div>
-                        <div class="middle-column">
-                            <!--Nav Box-->
-                            <div class="nav-outer">
-                                <!--Mobile Navigation Toggler-->
-                                <div class="mobile-nav-toggler"><img src="assets/images/icons/icon-bar-2.png" alt=""></div>
-    
-                                <!-- Main Menu -->
-                                <nav class="main-menu navbar-expand-md navbar-light">
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="right-column d-flex align-items-center">                        
-                            <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+	<?php include'partials/header.php'; ?>
 
-        <div class="mobile-menu">
-            <div class="menu-backdrop"></div>
-            <div class="close-btn"><span class="fal fa-times"></span></div>
-            
-            <nav class="menu-box">
-                <div class="nav-logo"><a href="index.html"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
-                <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
-				<!--Social Links-->
-				<div class="social-links">
-					<ul class="clearfix">
-						<li><a href="#"><span class="fab fa-twitter"></span></a></li>
-						<li><a href="#"><span class="fab fa-facebook-square"></span></a></li>
-						<li><a href="#"><span class="fab fa-pinterest-p"></span></a></li>
-						<li><a href="#"><span class="fab fa-instagram"></span></a></li>
-						<li><a href="#"><span class="fab fa-youtube"></span></a></li>
-					</ul>
-                </div>
-            </nav>
-        </div>
-
-        <div class="nav-overlay">
-            <div class="cursor"></div>
-            <div class="cursor-follower"></div>
-        </div>
-    </header>
-
-    <div id="search-popup" class="search-popup">
-        <div class="close-search theme-btn"><span class="fal fa-times"></span></div>
-        <div class="popup-inner">
-            <div class="overlay-layer"></div>
-            <div class="search-form">
-                <form method="post" action="index.html">
-                    <div class="form-group">
-                        <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
-                            <input type="submit" value="Search Now!" class="theme-btn">
-                        </fieldset>
-                    </div>
-                </form>
-                <br>
-                <h3>Recent Search Keywords</h3>
-                <ul class="recent-searches">
-                    <li><a href="#">Finance</a></li>
-                    <li><a href="#">Idea</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Growth</a></li>
-                    <li><a href="#">Plan</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-title" style="background-image: url(assets/images/background/page-title-5.jpg);">
+    <div class="page-title" style="background-image: url(assets/images/dewan-1.png);">
         <div class="auto-container">
-            <h1>Room Style 1</h1>
+            <h1>Kemudahan Dewan</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
-                <li><a href="index.html">Home</a></li>
-                <li>Room Style 1</li>
+                <li><a href="index.php">Laman Utama</a></li>
+                <li>Kemudahan Dewan</li>
             </ul>
         </div>
     </div>
@@ -160,17 +137,10 @@
                             <img src="assets/images/resource/room-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Start from <span class="theme-color">$55.0</span>/night</p>
-                            <div class="room-1-rating">
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-7"></i>
-                            </div>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">Luxury Room</a></h4>
-                            <p class="room-1-text mb_30">Mattis cras magna morb punar aenean aliquet in. Risus a arcu eget.</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Book Now <span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM500.00</span>/hari</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN JUBLI</a></h4>
+                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
+                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
@@ -180,108 +150,31 @@
                             <img src="assets/images/resource/room-2.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Start from <span class="theme-color">$55.0</span>/night</p>
-                            <div class="room-1-rating">
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-7"></i>
-                            </div>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">Delux Room</a></h4>
-                            <p class="room-1-text mb_30">Mattis cras magna morb punar aenean aliquet in. Risus a arcu eget.</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Book Now <span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM350.00</span>/hari</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN FIBER</a></h4>
+                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
+                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
+                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-3.jpg" alt="">
+                            <img src="assets/images/resource/room-2.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Start from <span class="theme-color">$55.0</span>/night</p>
-                            <div class="room-1-rating">
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-6"></i>
-                                <i class="icon-7"></i>
-                            </div>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">Luxury Room</a></h4>
-                            <p class="room-1-text mb_30">Mattis cras magna morb punar aenean aliquet in. Risus a arcu eget.</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Book Now <span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM200.00</span>/hari</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN KULIAH KENAF</a></h4>
+                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 40 orang</p>
+                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <footer class="main-footer">
-        <div class="footer-1-middle">
-            <div class="auto-container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="contact-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Contact Us</h4></div>
-                            <ul class="contact-widget-1-list">
-                                <li><span>Add:</span> New Hyde Park, NY 11040</li>
-                                <li><span>Email:</span><a href="mailto:example@royalking.com">example@royalking.com</a></li>
-                                <li><span>Phone:</span><a href="tel:3336660000">333 666 0000</a></li>
-                            </ul>
-                            <ul class="footer-social-icon d-flex align-items-center">
-                                <li><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="javascript:void(0);"><i class="fab fa-linkedin-in"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="link-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Links</h4></div>
-                            <ul class="link-widget-1-list">
-                                <li><a href="javascript:void(0);">About Us</a></li>
-                                <li><a href="javascript:void(0);">Services</a></li>
-                                <li><a href="javascript:void(0);">Case</a></li>
-                                <li><a href="javascript:void(0);">Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="link-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Hours</h4></div>
-                            <p class="mb_25">Tincidunt neque pretium lectus <br>
-                                donec risus.</p>
-                            <p>Mon - Fri: 9:00AM - 6:00PM <br> Sat - Sun: 8:00AM - 4:00PM</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="about-widget-1 mb_30">
-                            <div class="footer-widget-title"><h4>Newsletter</h4></div>
-                            <div class="about-widget-1-text">
-                                <p class="mb_30">Tincidunt neque pretium lectus <br>
-                                    donec risus.</p>
-                                <div class="footer-newsletter">
-                                    <form>
-                                        <input type="email" placeholder="Email address">
-                                        <button class="btn-1">Subscribe <span></span></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="auto-container">    
-                <div class="footer-bottom-row">
-                    <div class="footer-bottom-text">Copyright 2022 by <a href="javascript:void(0);">royalking</a> theme All Right Reserved.</div>
-                </div>
-            </div>
-        </div>
-    </footer>
+	
+	<?php include 'partials/footer.php'; ?>
 	
 </div>
 
