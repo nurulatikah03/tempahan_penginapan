@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Royalking Hotel & Resort HTML Template</title>
+<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -15,8 +15,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
-<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
+<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
 
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,9 +51,10 @@
                                     <ul class="navigation">
                                         <li><a href="index.php">Laman Utama</a></li>   
                                         <li><a href="kemudahanDewan.php">Dewan</a></li>   
-                                        <li><a href="index-3.html">Penginapan</a></li> 
-                                        <li><a href="index-3.html">Pakej</a></li> 
-                                        <li><a href="index-3.html">Pakej Perkahwinan</a></li>         
+                                        <li><a href="penginapan.php">Penginapan</a></li> 
+                                        <li><a href="pakej.php">Pakej</a></li> 
+                                        <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
+										<li><a href="contact.php"><i class="fas fa-phone" style="font-size: 20px; color:white;"></i></a></li>
                                     </ul>
                                 </div>
                             </nav>
@@ -72,7 +73,7 @@
                     <div class="inner-container d-flex align-items-center justify-content-between">
                         <!--Logo-->
                         <div class="logo-box">
-                            <div class="logo" style="width: 240px;"><a href="index.html"><img src="assets/images/logo-light.png" alt=""></a></div>
+                            <div class="logo" style="width: 240px;"><a href="index.php"><img src="assets/images/logo-light.png" alt=""></a></div>
                         </div>
                         <div class="middle-column">
                             <!--Nav Box-->
@@ -98,7 +99,7 @@
             <div class="close-btn"><span class="fal fa-times"></span></div>
             
             <nav class="menu-box">
-                <div class="nav-logo"><a href="index.html"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
+                <div class="nav-logo"><a href="index.php"><img src="assets/images/logo-light.png" alt="" title=""></a></div>
                 <div class="menu-outer"><!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header--></div>
 				<!--Social Links-->
 				<div class="social-links">
@@ -124,7 +125,7 @@
         <div class="popup-inner">
             <div class="overlay-layer"></div>
             <div class="search-form">
-                <form method="post" action="index.html">
+                <form method="post" action="index.php">
                     <div class="form-group">
                         <fieldset>
                             <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
@@ -156,7 +157,7 @@
                                 <h4>Kemudahan</h4>
                                 <h1>Dewan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.html" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +171,7 @@
                                 <h4>Kemudahan</h4>
                                 <h1>Penginapan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.html" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +197,7 @@
                                 <h4>Pakej</h4>
                                 <h1>Perkahwinan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.html" class="btn-1">Book Room <span></span></a>
+                                    <a href="room-1.php" class="btn-1">Book Room <span></span></a>
                                 </div>
                             </div>
                         </div>
