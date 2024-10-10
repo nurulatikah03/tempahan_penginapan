@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
+<title>INSKET Booking</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -15,9 +16,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
-<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
 
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -98,8 +96,6 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-
 </style>
 
 <body>
@@ -138,7 +134,7 @@ body {
                                 <h4>Kemudahan</h4>
                                 <h1>Penginapan</h1>
                                 <div class="link-box">
-                                    <a href="room_selection.php" class="btn-1">Tempah Sekarang <span></span></a>
+                                    <a href="pakejPenginapan.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
