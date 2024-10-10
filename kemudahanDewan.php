@@ -134,39 +134,39 @@ body {
                 <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-1.jpg" alt="">
+                            <img src="assets/images/resource/event-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM500.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN JUBLI</a></h4>
+                            <h4 class="room-1-title mb_20"><a href="dewanJubli.php">DEWAN JUBLI</a></h4>
                             <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <div class="link-btn"><a href="dewanJubli.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-2.jpg" alt="">
+                            <img src="assets/images/resource/event-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM350.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN FIBER</a></h4>
+                            <h4 class="room-1-title mb_20"><a href="dewanFiber.php">DEWAN FIBER</a></h4>
                             <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <div class="link-btn"><a href="dewanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-2.jpg" alt="">
+                            <img src="assets/images/resource/event-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM200.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details.html">DEWAN KULIAH KENAF</a></h4>
+                            <h4 class="room-1-title mb_20"><a href="dewanKuliahKenaf.php">DEWAN KULIAH KENAF</a></h4>
                             <p class="room-1-text mb_30">Bilangan Muatan sebanyak 40 orang</p>
-                            <div class="link-btn"><a href="room-details.html" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <div class="link-btn"><a href="dewanKenaf.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>

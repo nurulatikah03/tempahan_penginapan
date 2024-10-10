@@ -25,6 +25,7 @@
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
+
 <style>
 .footer-1-middle {
     position: relative;
@@ -153,17 +154,17 @@ body {
 	
 	<?php include 'partials/header.php';?>
 
-    <div class="page-title" style="background-image: url(assets/images/background/page-title-5.jpeg);">
+    <div class="page-title" style="background-image: url(assets/images/background/page-title-4.jpg);">
         <div class="auto-container">
-            <h1>VIP Room</h1>
+            <h1>Dewan Kuliah Kenaf</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li><a href="room_selection.php">Penginapan</a></li>
-                <li>VIP Room</li>
+                <li><a href="kemudahanDewan.php">Dewan</a></li>
+                <li>Dewan Kuliah Kenaf</li>
             </ul>
         </div>
     </div>
@@ -173,13 +174,11 @@ body {
             <div class="row">                
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post"> 
-                        <span class="section_heading_title_small">RM150.00</span>
-                        <h2 class="mb_40">VIP Room</h2>
-                        <p class="mb_20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisl turpis cum tempor vitae. Curabitur at amet, enim sit commodo semper lectus phasellus. Non egestas ultrices magna gravida est sociis non ornare bibendum. tellus Dignissim ornare metus, interdum et, tellus justo. Urna libero, in scelerisque porttitor et, sagittis, et ut. Eget quam at at etiam accumsan integer facilisi justo. Lorem ut tempus cursus fames ultrices nisl, laoreet tortor, blandit. Leo diam, donec pretium, massa pellentesque et eleifend ut. Porta proin malesuada volutpat purus. </p>
-                        <p class="mb_40">At quam ac ipsum volutpat non. Duis sagittis, sollicitudin eget tristique consectetur et facilisi. Viverra sit non sed orci magna venenatis. Magna pharetra non ornare lectus sed risus maecenas adipiscing. Cras pretium vivamus nunc posuere.</p>
-                        <div class="mb_60"><img src="assets/images/resource/room-2.jpg" alt="" style="width: 828px; height :450px;"></div>
-                        <h3 class="fs_40 mb_30">Amenities</h3>
-                        <p class="mb_50">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing integer ultrices suspendisse varius etiam est. Est, felis, tempus nec vitae orci sodales Metus, velit nec at diam in sed. Massa dui ipsum ornare sagittis dolor sagittis amet odio est. Sit semper et velit fusce.</p>
+                        <span class="section_heading_title_small">Kadar Sewa RM20.00/hari</span>
+                        <h2 class="mb_40">Dewan Kuliah Kenaf</h2>
+                        <p class="mb_20">Description. </p>
+						<div class="mb_60"><img src="assets/images/resource/event-1.jpg" alt="" style="width: 828px; height :450px;"></div>
+                        <h3 class="fs_40 mb_30">Kemudahan</h3>
 
                         <div class="row mb_30">
                             <div class="col-md-4 col-sm-6 mb_45">
@@ -242,7 +241,7 @@ body {
                 </div>
                 <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40">
-                        <h4 class="mb_20">Your Reservation</h4>
+                        <h4 class="mb_20">Buat Tempahan Anda</h4>
                         <div class="booking-form-3">
                             <form class="hotel-booking-form-1-form d-block">
                                 <div class="form-group">
@@ -253,60 +252,14 @@ body {
                                     <p class="hotel-booking-form-1-label">Check - Out:</p>
                                     <input placeholder="21 Sep, 2022" class="" type="text" name="form-name" id="nd_booking_archive_form_date_range_to" value="" />                            
                                 </div>
-                                <div class="form-group">
-                                    <p class="hotel-booking-form-1-label">Rooms:</p>
-                                    <select>
-                                        <option data-display="1 Room">1 Room</option>
-                                        <option value="2 Rooms">2 Rooms</option>
-                                        <option value="3 Rooms">3 Rooms</option>
-                                        <option value="4 Rooms">4 Rooms</option>
-                                        <option value="5 Rooms">5 Rooms</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <p class="hotel-booking-form-1-label">Adults:</p>
-                                    <select>
-                                        <option data-display="2 Adults">2 Adults</option>
-                                        <option value="1 Adult">1 Adult</option>
-                                        <option value="3 Adults">3 Adults</option>
-                                        <option value="4 Adults">4 Adults</option>
-                                        <option value="5 Adults">5 Adults</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb_50">
-                                    <p class="hotel-booking-form-1-label">Child:</p>
-                                    <select>
-                                        <option data-display="1 Children">1 Children</option>
-                                        <option value="0 Children">0 Children</option>
-                                        <option value="2 Childrens">2 Childrens</option>
-                                        <option value="3 Childrens">3 Childrens</option>
-                                        <option value="4 Childrens">4 Childrens</option>
-                                        <option value="5 Childrens">5 Childrens</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mt-5">
-                                    <h4 class="mb_20">Extra Services</h4>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Cleaning Fee</p>
-                                        <p>$9.0</p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Free</p>
-                                        <p>$9.0</p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Parking</p>
-                                        <p>$7.0</p>
-                                    </div>
-                                </div>
                                 <div class="form-group mt-4">                                    
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h4 class="mb_20">Your Price</h4>
-                                        <p>$9.0</p>
+                                        <h4 class="mb_20">Jumlah Bayaran</h4>
+                                        <p>RM200.00</p>
                                     </div>
                                 </div>
                                 <div class="form-group mb-0">
-                                    <button type="submit" class="btn-1">Book Now<span></span></button>
+                                    <button type="submit" class="btn-1">Tempah<span></span></button>
                                 </div>
                             </form>
                         </div>
@@ -323,26 +276,26 @@ body {
             <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-1.jpg" alt="">
+                            <img src="assets/images/resource/event-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details-1.html">Bilik biasa</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
-                            <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM500.00</span>/hari</p>
+                            <h4 class="room-1-title mb_20"><a href="dewanJubli.php">DEWAN JUBLI</a></h4>
+                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
+                            <div class="link-btn"><a href="dewanJubli.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
+                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-3.jpg" alt="">
+                            <img src="assets/images/resource/event-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_3.html">Home Stay INSKET</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
-                            <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM350.00</span>/hari</p>
+                            <h4 class="room-1-title mb_20"><a href="dewanFiber.php">DEWAN FIBER</a></h4>
+                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
+                            <div class="link-btn"><a href="dewanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>

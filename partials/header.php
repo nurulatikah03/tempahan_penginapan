@@ -38,7 +38,7 @@ ul.navigation li a.active {
 											</a>
 										</li> 
 										<li>
-											<a href="pakejAktiviti.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="pakejAktiviti.php" class="<?php echo ($current_page == 'pakejAktiviti.php') ? 'active' : ''; ?>">
 												Aktiviti
 											</a>
 										</li> 
@@ -59,7 +59,7 @@ ul.navigation li a.active {
 								<i class="fas fa-phone" style="font-size: 20px; color: white;"></i>
 							</button>
 						</li>	                    
-                        <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
+                        <div class="header-link-btn"><a href="index.php" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
                     </div>                      
                 </div>
             </div>

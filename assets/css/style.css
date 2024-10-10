@@ -3765,16 +3765,6 @@ section.section-padding.testimonial-page .testimonial-1-block {
 	margin-right: 55px;;
 }
 
-.contact-info-1 li + li:before {
-	position: absolute;
-	content: '';
-	width: 1px;
-	height: 47px;
-	left: -30px;
-	top: 5px;
-	background: #E5E5E5;
-}
-
 .contact-info-1 a {
     color: #676767;
 }

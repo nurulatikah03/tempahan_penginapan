@@ -117,7 +117,7 @@ body {
         <div class="swiper-container banner-slider">
             <div class="swiper-wrapper">                
                 <!-- Slide Item -->
-                <div class="swiper-slide" style="background-image: url(assets/images/main-slider/banner-2.jpg);">
+                <div class="swiper-slide" style="background-image: url(assets/images/dewan1.png);">
                     <div class="content-outer">
                         <div class="content-box">
                             <div class="inner">
@@ -144,27 +144,27 @@ body {
                         </div>
                     </div>
                 </div>
-				<div class="swiper-slide" style="background-image: url(assets/images/main-slider/banner-1.jpg);">
+				<div class="swiper-slide" style="background-image: url(assets/images/resource/teambuilding.jpg);">
                     <div class="content-outer">
                         <div class="content-box">
                             <div class="inner">
                                 <h4>Pakej</h4>
                                 <h1>Aktiviti</h1>
                                 <div class="link-box">
-                                    <a href="room-1.html" class="btn-1">Tempah Sekarang <span></span></a>
+                                    <a href="pakejAktiviti.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-				<div class="swiper-slide" style="background-image: url(assets/images/main-slider/banner-1.jpg);">
+				<div class="swiper-slide" style="background-image: url(assets/images/pakejPerkahwinan.jpeg);">
                     <div class="content-outer">
                         <div class="content-box">
                             <div class="inner">
                                 <h4>Pakej</h4>
                                 <h1>Perkahwinan</h1>
                                 <div class="link-box">
-                                    <a href="room-1.php" class="btn-1">Tempah Sekarang <span></span></a>
+                                    <a href="pakejPerkahwinan.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>

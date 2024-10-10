@@ -232,6 +232,8 @@ body {
         </div>
     </section>
 	
+	<?php include'partials/footer.php'; ?>
+	
 </div>
 
 <!--Scroll to top-->
