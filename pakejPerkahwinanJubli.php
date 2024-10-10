@@ -180,16 +180,16 @@ body {
         </div>
     </div>
 
-    <div class="page-title" style="background-image: url(assets/images/background/pakejj.jpg);">
+    <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
         <div class="auto-container">
-            <h1>Pakej Kem Pelajar</h1>
+            <h1>Dewan Jubli</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li>Pakej kem Pelajar</li>
+                <li>Dewan Jubli</li>
             </ul>
         </div>
     </div>
@@ -199,93 +199,46 @@ body {
             <div class="row">                
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post">                        
-                        <span class="section_heading_title_small">Kadar harian RM55.00 setiap seorang</span>
-                        <h2 class="mb_40">Pakej Kem Pelajar</h2>
-                        <p class="mb_20">Kem pelajar adalah program yang dirancang untuk memberikan 
-										pengalaman pendidikan dan sosial yang berharga kepada pelajar. 
-										Melalui pelbagai aktiviti seperti sesi pembelajaran, permainan 
-										berpasukan, dan latihan luar, kem ini memfokuskan kepada 
-										pembelajaran holistik yang merangkumi aspek akademik, sosial, 
-										dan emosi. Aktiviti-aktiviti ini membantu pelajar untuk mengasah 
-										kemahiran komunikasi, kerjasama, dan kepimpinan, sambil membina 
-										semangat persahabatan di antara mereka.</p>
+                        <span class="section_heading_title_small">Kadar harian RM600.00</span>
+                        <h2 class="mb_40">Dewan Jubli</h2>
+                        <p class="mb_20">Pakej perkahwinan di Dewan Jubli menawarkan pengalaman yang lengkap 
+										dan menyeluruh untuk pasangan yang ingin mengadakan majlis yang meriah. 
+										Pakej ini biasanya merangkumi ruang dewan yang luas, dekorasi yang menarik, 
+										serta pilihan menu katering yang pelbagai, termasuk hidangan tradisional dan 
+										moden. Dengan adanya pengarah majlis yang berpengalaman, setiap aspek majlis 
+										diuruskan dengan teliti, memastikan aliran acara berjalan lancar dan teratur.</p>
 										
-                        <p class="mb_40">Selain itu, kem pelajar juga menyediakan ruang untuk refleksi 
-										dan pengembangan diri. Pelajar diberikan peluang untuk merenung 
-										pengalaman yang mereka lalui, belajar dari kejayaan dan cabaran 
-										yang dihadapi. Dengan semua pengalaman ini, kem pelajar bukan 
-										sahaja membantu meningkatkan keyakinan diri, tetapi juga memupuk 
-										nilai-nilai positif yang dapat diterapkan dalam kehidupan seharian, 
-										menjadikannya platform yang efektif untuk perkembangan peribadi dan 
-										sosial.</p>
+                        <p class="mb_40">Selain itu, pakej ini juga menyediakan perkhidmatan tambahan seperti fotografi, 
+										sistem audio dan visual, serta pilihan hiburan untuk memeriahkan suasana. 
+										Kelebihan lain termasuk penginapan untuk tetamu dan pilihan kenderaan bagi 
+										pasangan pengantin. Dengan pelbagai pilihan harga dan promosi yang ditawarkan, 
+										Dewan Jubli berkomitmen untuk membantu pasangan merealisasikan majlis perkahwinan 
+										impian mereka dalam suasana yang elegan dan penuh makna.</p>
 										
-                        <div class="mb_60"><img src="assets/images/resource/kemPelajar.jpg" alt=""></div>
+                        <div class="mb_60"><img src="assets/images/resource/dewanJubli.jpg" alt=""></div>
                         <h3 class="fs_40 mb_30">Kemudahan</h3>
-                        <p class="mb_50">Kemudahan yang disediakan semasa kem pelajar biasanya dirancang untuk 
-										menyokong pelbagai aktiviti dan memastikan pengalaman yang selesa dan 
-										bermanfaat. Berikut adalah beberapa kemudahan yang disediakan:</p>
+                        <p class="mb_50">Dewan Jubli menyediakan pelbagai kemudahan untuk memastikan majlis perkahwinan 
+										berjalan dengan lancar dan memuaskan. Berikut adalah beberapa kemudahan yang disediakan:</p>
 
                         <div class="row mb_30">
-                            <div class="col-md-6 col-sm-6 mb_45">
+                            <div class="col-md-4 col-sm-6 mb_45">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-bed icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Berhawa dingin</p>
+                                    <i class="fa fa-user icon theme-color fs_40 w_55 mr_25"></i>
+                                    <p class="fw_medium mb_0">Menampung 50 orang</p>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
+                            <div class="col-md-4 col-sm-6 mb_45">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-star theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Makan minum  (3x/hari)</p>
+                                    <i class="fas fa-table theme-color fs_40 w_55 mr_25"></i>
+                                    <p class="fw_medium mb_0">8 unit</p>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
+                            </div>   
+							<div class="col-md-4 col-sm-6 mb_45">
                                 <div class="d-flex align-items-center">
-                                    <i class="fas fa-moon icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">(Hari 1 –  makan malam)</p>
+                                    <i class="fas fa-chair theme-color fs_40 w_55 mr_25"></i>
+                                    <p class="fw_medium mb_0">80 unit</p>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-utensils icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">(Hari 2 – Sarapan pagi, makan tengahari dan makan malam</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-sun icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">(Hari 3 – Sarapan pagi dan makan tengahari)</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-chalkboard-teacher icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Dewan seminar</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-mosque icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Kemudahan surau</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-shower icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Bilik air</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-futbol icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Tempat riadah</p>
-                                </div>
-                            </div>
-							<div class="col-md-6 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-running icon theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Trek berjogging</p>
-                                </div>
-                            </div>
+                            </div> 
                         </div>
                         <h3 class="fs_40 mb_30">Waktu </h3>
                         <ul class="list-2 mb_70">
@@ -293,8 +246,8 @@ body {
                             <li><i class="icon-23"></i>Daftar Keluar: 10:30 AM</li>
                         </ul>
                         <h3 class="fs_40 mb_30">Lokasi</h3>
-                        <p class="mb_30">Institut Latihan Kenaf dan Tembakau (INSKET) Lembaga Kenaf dan 
-										Tembakau Negara (LKTN) terletak di Padang Pak Amat, 16800 Pasir 
+                        <p class="mb_30">Dewan Jubli terletak di Institut Latihan Kenaf dan Tembakau (INSKET) Lembaga Kenaf dan 
+										Tembakau Negara (LKTN) di Padang Pak Amat, 16800 Pasir 
 										Puteh, Kelantan. Ianya terletak 39 km dari Bandar Kota Bharu, 
 										4 km dari Bandar Pasir Puteh, 5 km dari Air Terjun Jeram Pasu dan 
 										18 km dari Pantai Bisikan Bayu Semerak.</p>
@@ -328,7 +281,23 @@ body {
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Kapasiti:</p>
 									<input  class="" type="number" name="kapasiti" id="kapasiti" value="" min="1"/>
-                                </div>                                
+                                </div>    
+								
+								 <div class="form-group mt-5">
+                                    <h4 class="mb_20">Extra Services</h4>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Meja dan Alas</p>
+                                        <p>RM8.00/Unit</p>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Kerusi</p>
+                                        <p>RM1.00/Unit</p>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Meja Banquet</p>
+                                        <p>RM5.00/Unit</p>
+                                    </div>
+                                </div>
                              
                                 <div class="form-group mt-4">                                    
                                     <div class="d-flex align-items-center justify-content-between">

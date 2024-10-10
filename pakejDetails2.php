@@ -289,8 +289,8 @@ body {
                             <li><i class="icon-23"></i>Daftar Keluar: 10:30 AM</li>
                         </ul>
                         <h3 class="fs_40 mb_30">Lokasi</h3>
-                        <p class="mb_30">Institut Latihan Kenaf dan Tembakau (INSKET) Lembaga Kenaf dan 
-										Tembakau Negara (LKTN) terletak di Padang Pak Amat, 16800 Pasir 
+                        <p class="mb_30">Teambuilding dijalankan di Institut Latihan Kenaf dan Tembakau (INSKET) Lembaga Kenaf dan 
+										Tembakau Negara (LKTN) di Padang Pak Amat, 16800 Pasir 
 										Puteh, Kelantan. Ianya terletak 39 km dari Bandar Kota Bharu, 
 										4 km dari Bandar Pasir Puteh, 5 km dari Air Terjun Jeram Pasu dan 
 										18 km dari Pantai Bisikan Bayu Semerak.</p>

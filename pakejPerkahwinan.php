@@ -220,7 +220,9 @@ body {
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Kadar Harian <span class="theme-color">RM600.00 </span></p>
                             <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanJubli.php">Dewan Jubli</a></h4>
-                           <p class="room-1-text mb_30">Pppppppppppppp.<br></p>
+                           <p class="room-1-text mb_30">Dewan Jubli adalah tempat yang popular untuk majlis perkahwinan, 
+									menawarkan reka bentuk elegan dan kemudahan lengkap seperti sistem pencahayaan dan 
+									audio yang baik.<br></p>
                             <div class="link-btn"><a href="pakejPerkahwinanJubli.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
                         </div>
                     </div>
