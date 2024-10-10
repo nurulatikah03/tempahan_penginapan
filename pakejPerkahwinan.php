@@ -180,16 +180,16 @@ body {
         </div>
     </div>
 
-    <div class="page-title" style="background-image: url(assets/images/background/pakejj.jpg);">
+    <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
         <div class="auto-container">
-            <h1>Pakej yang disediakan oleh INSKET</h1>
+            <h1>Pakej Perkahwinan 'Raikan Cinta'</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li>Aktiviti</li>
+                <li>Pakej Perkahwinan</li>
             </ul>
         </div>
     </div>
@@ -201,15 +201,13 @@ body {
                 <div class="col-lg-6 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/kemPelajar.jpg" alt="">
+                            <img src="assets/images/resource/dewanFiber.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar harian <span class="theme-color">RM55.00 </span>setiap seorang</p>
-                            <h4 class="room-1-title mb_20"><a href="pakejDetails1.php">Pakej Kem Pelajar</a></h4>
-                            <p class="room-1-text mb_30">Kem ini direka untuk menggalakkan pembelajaran secara aktif 
-								dan kolaboratif, di samping memberi ruang kepada pelajar untuk bersosial dan berkembang 
-								sebagai individu.</p>
-                            <div class="link-btn"><a href="pakejDetails1.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <p class="room-1-meta-info">Kadar harian <span class="theme-color">RM500.00 </span></p>
+                            <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanFiber.php">Dewan Fiber</a></h4>
+                            <p class="room-1-text mb_30">qqqqqqqqqqqqqqqqqqqqq</p>
+                            <div class="link-btn"><a href="pakejPerkahwinanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
@@ -217,14 +215,13 @@ body {
                 <div class="col-lg-6 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/kemPelajar.jpg" alt="">
+                            <img src="assets/images/resource/dewanJubli.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Harga <span class="theme-color">RM99.00 </span>setiap seorang</p>
-                            <h4 class="room-1-title mb_20"><a href="pakejDetails2.php">Pakej Teambuilding</a></h4>
-                           <p class="room-1-text mb_30">Pakej teambuilding dirancang untuk meningkatkan kerjasama, 
-									komunikasi, dan semangat pasukan di kalangan pelajar.<br><br></p>
-                            <div class="link-btn"><a href="pakejDetails2.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
+                            <p class="room-1-meta-info">Kadar Harian <span class="theme-color">RM600.00 </span></p>
+                            <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanJubli.php">Dewan Jubli</a></h4>
+                           <p class="room-1-text mb_30">Pppppppppppppp.<br></p>
+                            <div class="link-btn"><a href="pakejPerkahwinanJubli.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
                         </div>
                     </div>
                 </div>
