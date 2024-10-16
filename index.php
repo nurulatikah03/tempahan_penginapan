@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
-<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
+<link rel="shortcut icon" href="https://www.lktn.gov.my/lktn/wp-content/uploads/2022/08/download-150x150-1-75x75.png" type="image/x-icon" sizes="32x32" >
 <link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
 
 <!-- Responsive -->
@@ -177,6 +177,8 @@ body {
             <div class="banner-slider-control banner-slider-button-next"><span><i class="icon-2"></i></span> </div>
         </div>
     </section>
+
+    <?php include 'partials/footer.php';?>
 </div>
 
 <script src="assets/js/jquery.min.js"></script>

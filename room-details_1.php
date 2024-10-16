@@ -76,7 +76,6 @@ body {
 	background-color: #fff;
 	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
 	transform: translate(-50%, -50%);
-	z-i
 }
 
 .btn-1:hover {
@@ -242,72 +241,51 @@ body {
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="widget mb_40 gray-bg p_40">
-                        <h4 class="mb_20">Your Reservation</h4>
+                    <div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
+                        <h4 class="mb_20"><u>Matlumat Tempahan</u></h4>
                         <div class="booking-form-3">
-                            <form class="hotel-booking-form-1-form d-block">
+                            <form class="hotel-booking-form-1-form d-block" action="booking_confirmation.php" method="POST">
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Check - in:</p>
-                                    <input placeholder="17 Sep, 2022" class="" type="text" name="form-name" id="nd_booking_archive_form_date_range_from" value="" />
+                                    <input placeholder="17 Sep, 2022" type="text" name="check_in" id="nd_booking_archive_form_date_range_from" value="" />
                                 </div>
-                                <div class="form-group">        
+                                <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Check - Out:</p>
-                                    <input placeholder="21 Sep, 2022" class="" type="text" name="form-name" id="nd_booking_archive_form_date_range_to" value="" />                            
+                                    <input placeholder="21 Sep, 2022" type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="" />
                                 </div>
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Rooms:</p>
-                                    <select>
-                                        <option data-display="1 Room">1 Room</option>
-                                        <option value="2 Rooms">2 Rooms</option>
-                                        <option value="3 Rooms">3 Rooms</option>
-                                        <option value="4 Rooms">4 Rooms</option>
-                                        <option value="5 Rooms">5 Rooms</option>
+                                    <select name="rooms">
+                                        <option value="1">1 Room</option>
+                                        <option value="2">2 Rooms</option>
+                                        <option value="3">3 Rooms</option>
+                                        <option value="4">4 Rooms</option>
+                                        <option value="5">5 Rooms</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Adults:</p>
-                                    <select>
-                                        <option data-display="2 Adults">2 Adults</option>
-                                        <option value="1 Adult">1 Adult</option>
-                                        <option value="3 Adults">3 Adults</option>
-                                        <option value="4 Adults">4 Adults</option>
-                                        <option value="5 Adults">5 Adults</option>
+                                    <select name="adults">
+                                        <option value="2">2 Adults</option>
+                                        <option value="1">1 Adult</option>
+                                        <option value="3">3 Adults</option>
+                                        <option value="4">4 Adults</option>
+                                        <option value="5">5 Adults</option>
                                     </select>
                                 </div>
                                 <div class="form-group mb_50">
                                     <p class="hotel-booking-form-1-label">Child:</p>
-                                    <select>
-                                        <option data-display="1 Children">1 Children</option>
-                                        <option value="0 Children">0 Children</option>
-                                        <option value="2 Childrens">2 Childrens</option>
-                                        <option value="3 Childrens">3 Childrens</option>
-                                        <option value="4 Childrens">4 Childrens</option>
-                                        <option value="5 Childrens">5 Childrens</option>
+                                    <select name="children">
+                                        <option value="1">1 Child</option>
+                                        <option value="0">0 Children</option>
+                                        <option value="2">2 Children</option>
+                                        <option value="3">3 Children</option>
+                                        <option value="4">4 Children</option>
+                                        <option value="5">5 Children</option>
                                     </select>
                                 </div>
-                                <div class="form-group mt-5">
-                                    <h4 class="mb_20">Extra Services</h4>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Cleaning Fee</p>
-                                        <p>$9.0</p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Free</p>
-                                        <p>$9.0</p>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p><input type="checkbox" name="vehicle1" value="Bike"> Parking</p>
-                                        <p>$7.0</p>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-4">                                    
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h4 class="mb_20">Your Price</h4>
-                                        <p>$9.0</p>
-                                    </div>
-                                </div>
                                 <div class="form-group mb-0">
-                                    <button type="submit" class="btn-1">Book Now<span></span></button>
+                                    <button type="submit" class="btn-1">Tempah Sekarang<span></span></button>
                                 </div>
                             </form>
                         </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSKEP Room</title>
+<title>INSKET Room Booking</title>
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -25,6 +25,7 @@
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
+
 <style>
 .footer-1-middle {
     position: relative;
@@ -152,45 +153,77 @@ body {
 	
 	<?php include 'partials/header.php';?>
 
-    <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
+    <div class="page-title" style="background-image: url(assets/images/background/page-title-4.jpg);">
         <div class="auto-container">
-            <h1>Pakej Penginapan</h1>
+            <h1>Bilik biasa</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li>Penginapan</li>
+                <li><a href="room_selection.php">Penginapan</a></li>
+                <li>Bilik biasa</li>
             </ul>
         </div>
     </div>
-
-    <!-- Room -->
+    <?php
+        $room_num = $_POST['rooms'];
+        $price = $room_num * 70 ;
+        ?>
     <section class="section-padding">
         <div class="auto-container">
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-1.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details-1.php">Normal Room</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
-                            <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
-                        </div>
+            <div class="col-lg-4">
+                    <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
+                        <u><h4 class="mb_20">Booking Confirmation</h4></u>
+                        <p><strong>Check-in Date:</strong> <?php echo htmlspecialchars($_POST['check_in']); ?></p>
+                                <p><strong>Check-out Date:</strong> <?php echo htmlspecialchars($_POST['check_out']); ?></p>
+                                <p><strong>Number of Rooms:</strong> <?php echo htmlspecialchars($_POST['rooms']); ?></p>
+                                <p><strong>Number of Adults:</strong> <?php echo htmlspecialchars($_POST['adults']); ?></p>
+                                <p><strong>Number of Children:</strong> <?php echo htmlspecialchars($_POST['children']); ?></p>
+                                <p><strong>Price: </strong>RM<?php echo htmlspecialchars($price); ?></p>
                     </div>
+                </div>                
+                <div class="col-lg-8 pe-lg-35">
+                    <div class="single-post"> 
+                        <h2 class="mb_40">Masukkan maklumat peribadi anda</h2>
+                            <form class="hotel-booking-form-1-form d-block" action="payment_page.php" method="POST">
+                                        <div class="form-group">
+                                            <p class="hotel-booking-form-1-label">Nama Penuh: </p>
+                                            <input class="" type="text" name="full_name" value=""  required/>
+                                        </div>
+                                        <div class="form-group">        
+                                            <p class="hotel-booking-form-1-label">Address E-mail:</p>
+                                            <input class="" type="email" name="form-email"  value="" required/>                            
+                                        </div>
+                                        <div class="form-group">        
+                                            <p class="hotel-booking-form-1-label">Nombor fon:</p>
+                                            <input class="" type="text" name="phone_number" id="phone_number"  value="" required />                            
+                                        </div>
+                                        <div class="form-group mb-0" style="margin-top: 100px;">
+                                            <button type="submit" class="btn-1" >Pay<span></span></button>
+                                        </div>
+                                </form>
                 </div>
-                <div class="col-lg-4 col-md-6">
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Room Selection -->
+    <section class="section-padding">
+        <div class="auto-container">
+            <strong><h3 style="padding-bottom : 10px">More room</h3></strong>
+            <div class="row">
+            <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
                             <img src="assets/images/resource/room-2.jpg" alt="">
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_2.php">Bilik VIP</a></h4>
+                            <h4 class="room-1-title mb_20"><a href="room-details_2.html">Bilik VIP</a></h4>
                             <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
                             <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
@@ -203,7 +236,7 @@ body {
                         </div>
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_3.php">Home Stay INSKET</a></h4>
+                            <h4 class="room-1-title mb_20"><a href="room-details_3.html">Home Stay INSKET</a></h4>
                             <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
                             <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
@@ -213,6 +246,7 @@ body {
         </div>
     </section>
 
+    
     <?php include 'partials/footer.php';?>
 	
 </div>
@@ -249,3 +283,4 @@ body {
 
 </body>
 </html>
+
