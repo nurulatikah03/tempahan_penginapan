@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSKET Room Booking</title>
+<title>INSKET Booking</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -295,7 +296,7 @@ body {
                             <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM200.00</span>/hari</p>
                             <h4 class="room-1-title mb_20"><a href="dewanKuliahKenaf.php">DEWAN KULIAH KENAF</a></h4>
                             <p class="room-1-text mb_30">Bilangan Muatan sebanyak 40 orang</p>
-                            <div class="link-btn"><a href="dewanKenaf.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <div class="link-btn"><a href="dewanKuliahKenaf.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>

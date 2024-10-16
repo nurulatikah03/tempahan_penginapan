@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
-<!-- Stylesheets -->
+<title>INSKET Booking</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 <!-- Responsive File -->
@@ -189,6 +189,7 @@ body {
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
+                <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
                 <li>Dewan Jubli</li>
             </ul>
         </div>
@@ -309,6 +310,28 @@ body {
                                     <button type="submit" class="btn-1">Buat Tempahan<span></span></button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	
+    <section class="section-padding">
+        <div class="auto-container">
+            <div class="row">
+				<div class="col-lg-4 col-md-6">
+                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
+                        <div class="room-1-image hvr-img-zoom-1">
+                            <img src="assets/images/resource/dewanFiber.jpg" alt="">
+                        </div>
+                        <div class="room-1-content">
+                            <p class="room-1-meta-info">Kadar harian <span class="theme-color">RM500.00 </span></p>
+                            <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanFiber.php">Dewan Fiber</a></h4>
+                            <p class="room-1-text mb_30">Dewan Fiber adalah tempat yang popular untuk majlis perkahwinan, 
+									menawarkan reka bentuk elegan dan kemudahan lengkap seperti sistem pencahayaan dan 
+									audio yang baik. </p>
+                            <div class="link-btn"><a href="pakejPerkahwinanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
-<!-- Stylesheets -->
+<title>INSKET Booking</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 <!-- Responsive File -->
@@ -206,7 +206,9 @@ body {
                         <div class="room-1-content">
                             <p class="room-1-meta-info">Kadar harian <span class="theme-color">RM500.00 </span></p>
                             <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanFiber.php">Dewan Fiber</a></h4>
-                            <p class="room-1-text mb_30">qqqqqqqqqqqqqqqqqqqqq</p>
+                            <p class="room-1-text mb_30">Dewan Fiber adalah tempat yang popular untuk majlis perkahwinan, 
+									menawarkan reka bentuk elegan dan kemudahan lengkap seperti sistem pencahayaan dan 
+									audio yang baik. </p>
                             <div class="link-btn"><a href="pakejPerkahwinanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
@@ -230,6 +232,7 @@ body {
             </div>
         </div>
     </section>
+	<?php include 'partials/footer.php';?>
 	
 </div>
 

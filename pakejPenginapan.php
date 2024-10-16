@@ -6,22 +6,38 @@
 <link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
+<!-- Responsive File -->
 <link href="assets/css/responsive.css" rel="stylesheet">
+<!-- Color File -->
 <link href="assets/css/color.css" rel="stylesheet">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
 <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
 <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+<!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
 <style>
 .footer-1-middle {
     position: relative;
     padding: 120px 0 60px;
     background: #254222;
+}
+
+.footer-bottom {
+    position: relative;
+    background: #fff;
+    text-align: center;
+    padding: 15px 0;
+    color: black;
 }
 
 body {
@@ -32,14 +48,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 	background: rgb(255, 255, 255);
 	font-family: 'Poppins';
-}
-
-.footer-bottom {
-    position: relative;
-    background: #fff;
-    text-align: center;
-    padding: 15px 0;
-    color: black;
 }
 
 .btn-1 {
@@ -101,6 +109,37 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+.section-padding {
+    padding: 40px 0; /* Adjust padding as needed */
+}
+
+.text-center {
+    text-align: center; /* Centers text within the container */
+}
+
+.contact-info-1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the list items */
+}
+
+.map {
+    display: flex;
+    justify-content: center; /* Centers the map */
+}
+
+.contact-info-1 {
+    display: flex;
+    flex-direction: column; /* Change to column for vertical alignment */
+    align-items: center; /* Center the items horizontally */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+}
+
+.contact-info-1 li {
+    text-align: center; /* Center text within each list item */
+    margin: 10px 0; /* Add margin between list items */
+}
 
 </style>
 
@@ -111,19 +150,19 @@ body {
     <div class="loader-wrap">
 		<div class="spinner"></div>
 	</div>
+	
+	<?php include 'partials/header.php';?>
 
-	<?php include'partials/header.php'; ?>
-
-    <div class="page-title" style="background-image: url(assets/images/dewan-1.png);">
+    <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
         <div class="auto-container">
-            <h1>Kemudahan Dewan</h1>
+            <h1>Pakej Penginapan</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li>Kemudahan Dewan</li>
+                <li>Penginapan</li>
             </ul>
         </div>
     </div>
@@ -135,47 +174,47 @@ body {
                 <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
+                            <img src="assets/images/resource/room-1.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM500.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanJubli.php">DEWAN JUBLI</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="dewanJubli.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details_1.php">Normal Room</a></h4>
+                            <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
+                            <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
+                            <img src="assets/images/resource/room-2.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM350.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanFiber.php">DEWAN FIBER</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="dewanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details_2.php">Bilik VIP</a></h4>
+                            <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
+                            <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
+                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
                         <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
+                            <img src="assets/images/resource/room-3.jpg" alt="">
                         </div>
                         <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM200.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanKuliahKenaf.php">DEWAN KULIAH KENAF</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 40 orang</p>
-                            <div class="link-btn"><a href="dewanKuliahKenaf.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
+                            <h4 class="room-1-title mb_20"><a href="room-details_3.php">Home Stay INSKET</a></h4>
+                            <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
+                            <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-	
-	<?php include 'partials/footer.php'; ?>
+
+    <?php include 'partials/footer.php';?>
 	
 </div>
 
@@ -211,14 +250,3 @@ body {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

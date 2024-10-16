@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
-<!-- Stylesheets -->
+<title>INSKET Booking</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 <!-- Responsive File -->
@@ -189,6 +189,7 @@ body {
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
+                <li><a href="pakejAktiviti.php">Aktiviti</a></li>
                 <li>Pakej kem Pelajar</li>
             </ul>
         </div>

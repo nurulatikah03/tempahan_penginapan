@@ -33,7 +33,7 @@ ul.navigation li a.active {
 											</a>
 										</li>   
 										<li>
-											<a href="room_selection.php" class="<?php echo ($current_page == 'room_selection.php') ? 'active' : ''; ?>">
+											<a href="pakejPenginapan.php" class="<?php echo ($current_page == 'pakejPenginapan.php') ? 'active' : ''; ?>">
 												Penginapan
 											</a>
 										</li> 
@@ -43,7 +43,7 @@ ul.navigation li a.active {
 											</a>
 										</li> 
 										<li>
-											<a href="pakejPerkahwinan.php" class="<?php echo ($current_page == 'index-3.html') ? 'active' : ''; ?>">
+											<a href="pakejPerkahwinan.php" class="<?php echo ($current_page == 'pakejPerkahwinan.php') ? 'active' : ''; ?>">
 												Pakej Perkahwinan
 											</a>
 										</li>         

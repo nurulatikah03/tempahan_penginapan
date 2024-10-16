@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSTITUT LATIHAN KENAF DAN TEMBAKAU NEGARA (INSKET)</title>
+<title>INSKET Booking</title>
+
+<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
+<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -16,15 +19,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
-<link rel="shortcut icon" href="https://www.lktn.gov.my/lktn/wp-content/uploads/2022/08/download-150x150-1-75x75.png" type="image/x-icon" sizes="32x32" >
-<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
+
 
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-</head><style>
+</head>
+
+<style>
 .footer-1-middle {
     position: relative;
     padding: 120px 0 60px;
@@ -98,8 +102,6 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-
 </style>
 
 <body>
@@ -138,7 +140,7 @@ body {
                                 <h4>Kemudahan</h4>
                                 <h1>Penginapan</h1>
                                 <div class="link-box">
-                                    <a href="room_selection.php" class="btn-1">Tempah Sekarang <span></span></a>
+                                    <a href="pakejPenginapan.php" class="btn-1">Tempah Sekarang <span></span></a>
                                 </div>
                             </div>
                         </div>
