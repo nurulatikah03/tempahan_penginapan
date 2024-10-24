@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSKET Booking</title>
-<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
+<title>INSKEP Room</title>
+<!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 <!-- Responsive File -->
@@ -25,133 +25,36 @@
 <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
+
 <style>
-.footer-1-middle {
-    position: relative;
-    padding: 120px 0 60px;
-    background: #254222;
-}
-
-.footer-bottom {
-    position: relative;
-    background: #fff;
-    text-align: center;
-    padding: 15px 0;
-    color: black;
-}
-
-body {
-	font-size: 14px;
-	color: #6E6E6E;
-	line-height: 1.7em;
-	font-weight: 400;
-	-webkit-font-smoothing: antialiased;
-	background: rgb(255, 255, 255);
-	font-family: 'Poppins';
-}
-
-.btn-1 {
-    position: relative;
-    display: inline-flex;
-    overflow: hidden;
-    padding: 17px 35px 16px;
-    text-align: center;
-    z-index: 1;
-    letter-spacing: 1px;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: .5s;
-    background-color: #c77a63;
-}
-
-
-.btn-1 span {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-radius: 50%;
-	background-color: #fff;
-	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-	transform: translate(-50%, -50%);
-	z-i
-}
-
-.btn-1:hover {
-	color: black;
-}
-
-
-.dark-bg {
-	background-color: #254222 !important;
-}
-
-.loader-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full screen height */
-    background-color: white;
-}
-
-.spinner {
-    width: 60px; /* Adjust size as needed */
-    height: 60px;
-    border: 8px solid #cae4c5;
-    border-top: 8px solid #254222;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-.section-padding {
-    padding: 40px 0; /* Adjust padding as needed */
-}
-
-.text-center {
-    text-align: center; /* Centers text within the container */
-}
-
-.contact-info-1 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers the list items */
-}
-
-.map {
-    display: flex;
-    justify-content: center; /* Centers the map */
-}
-
-.contact-info-1 {
-    display: flex;
-    flex-direction: column; /* Change to column for vertical alignment */
-    align-items: center; /* Center the items horizontally */
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-}
-
-.contact-info-1 li {
-    text-align: center; /* Center text within each list item */
-    margin: 10px 0; /* Add margin between list items */
-}
 
 </style>
 
 <body>
-
 <div class="page-wrapper">
 
     <div class="loader-wrap">
 		<div class="spinner"></div>
 	</div>
 	
-	<?php include 'partials/header.php';?>
+	<?php 
+    include 'partials/header.php';
+    include("database/database.php");
+
+    $stmt = "SELECT * FROM room";
+    try {
+        $result = mysqli_query($conn, $stmt);
+        $row = mysqli_fetch_assoc($result);
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    ?>
 
     <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
         <div class="auto-container">
@@ -170,51 +73,58 @@ body {
     <!-- Room -->
     <section class="section-padding">
         <div class="auto-container">
+            <div class="section_heading text-center mb_30 mt_30">
+                <span class="section_heading_title_small">TAWARAN ISTIMEWA</span>
+                <h2 class="section_heading_title_big">Pilihan bilik</h2>
+            </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-1.jpg" alt="">
+                <?php
+                $stmt = "SELECT r.room_id,r.room_name,r.price_per_day, r.short_description,ri.image_url FROM room r LEFT JOIN room_img ri ON r.room_id = ri.room_id WHERE image_type = 'main';"; 
+                $result = $conn->query($stmt);
+
+                // Check if there are rooms available
+                if ($result->num_rows > 0) {
+                    // Loop through each room and display it
+                    while ($room = $result->fetch_assoc()) {
+
+                        $room_name = $room['room_name'];
+                        $short_description = $room['short_description'];
+                        $price = $room['price_per_day'];
+                        $main_img = $room['image_url']; 
+                        $room_id = $room['room_id']; 
+                ?>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
+                                <div class="room-1-image hvr-img-zoom-1">
+                                    <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
+                                </div>
+                                <div class="room-1-content">
+                                    <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
+                                    <h4 class="room-1-title mb_20">
+                                        <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
+                                            <?php echo htmlspecialchars($room_name); ?>
+                                        </a>
+                                    </h4>
+                                    <p class="room-1-text mb_30"><?php echo htmlspecialchars($short_description); ?></p>
+                                    <div class="link-btn">
+                                        <a href="room_details.php?room_id=<?php echo htmlspecialchars($room_id); ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_1.php">Normal Room</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
-                            <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-2.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_2.php">Bilik VIP</a></h4>
-                            <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
-                            <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-3.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_3.php">Home Stay INSKET</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
-                            <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
+                    <?php
+                }
+                } else {
+                    // If no rooms are found
+                    echo "<p>No rooms available at the moment.</p>";
+                }
+                ?>
             </div>
         </div>
     </section>
 
-    <?php include 'partials/footer.php';?>
+    <?php include 'partials/footer.php';
+    mysqli_close($conn)?>
 	
 </div>
 
