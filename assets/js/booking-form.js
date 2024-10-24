@@ -8,7 +8,7 @@ jQuery(document).ready(function() {
           altField: "#nd_booking_date_month_from",
           altFormat: "M",
           firstDay: 0,
-          dateFormat: "mm/dd/yy",
+          dateFormat: "dd/mm/yy",
           monthNames: ["January","February","March","April","May","June", "July","August","September","October","November","December"],
           monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
           dayNamesMin: ["SU","MO","TU","WE","TH","FR", "SA"],
@@ -52,7 +52,7 @@ jQuery(document).ready(function() {
           prevText: "PREV",
           changeMonth: false,
           firstDay: 0,
-          dateFormat: "mm/dd/yy",
+          dateFormat: "dd/mm/yy",
           numberOfMonths: 1,
           onClose: function() {   
             

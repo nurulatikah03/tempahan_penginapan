@@ -186,13 +186,13 @@ body {
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="assets/images/resource/room-1.jpg" alt="Room 1" style="width: 100%; height: 450px;">
+                                    <img src="assets/images/resource/room-1_normal.jpg" alt="Room 1" style="width: 100%; height: 450px;">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="assets/images/resource/room-2.jpg" alt="Room 2" style="width: 100%; height: 450px;">
+                                    <img src="assets/images/resource/room-2_VIP.jpg" alt="Room 2" style="width: 100%; height: 450px;">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="assets/images/resource/room-3.jpg" alt="Room 3" style="width: 100%; height: 450px;">
+                                    <img src="assets/images/resource/room-3_homestay.jpg" alt="Room 3" style="width: 100%; height: 450px;">
                                 </div>
                                 <div class="swiper-slide">
                                     <img src="assets/images/resource/room-4.jpg" alt="Room 4" style="width: 100%; height: 450px;">

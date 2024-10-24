@@ -1,3 +1,5 @@
+<?php session_start();?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,136 +28,15 @@
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 </head>
 
-<style>
-.footer-1-middle {
-    position: relative;
-    padding: 120px 0 60px;
-    background: #254222;
-}
-
-.footer-bottom {
-    position: relative;
-    background: #fff;
-    text-align: center;
-    padding: 15px 0;
-    color: black;
-}
-
-body {
-	font-size: 14px;
-	color: #6E6E6E;
-	line-height: 1.7em;
-	font-weight: 400;
-	-webkit-font-smoothing: antialiased;
-	background: rgb(255, 255, 255);
-	font-family: 'Poppins';
-}
-
-.btn-1 {
-    position: relative;
-    display: inline-flex;
-    overflow: hidden;
-    padding: 17px 35px 16px;
-    text-align: center;
-    z-index: 1;
-    letter-spacing: 1px;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: .5s;
-    background-color: #c77a63;
-}
-
-
-.btn-1 span {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-radius: 50%;
-	background-color: #fff;
-	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-	transform: translate(-50%, -50%);
-}
-
-.btn-1:hover {
-	color: black;
-}
-
-
-.dark-bg {
-	background-color: #254222 !important;
-}
-
-.loader-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full screen height */
-    background-color: white;
-}
-
-.spinner {
-    width: 60px; /* Adjust size as needed */
-    height: 60px;
-    border: 8px solid #cae4c5;
-    border-top: 8px solid #254222;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.section-padding {
-    padding: 40px 0; /* Adjust padding as needed */
-}
-
-.text-center {
-    text-align: center; /* Centers text within the container */
-}
-
-.contact-info-1 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers the list items */
-}
-
-.map {
-    display: flex;
-    justify-content: center; /* Centers the map */
-}
-
-.contact-info-1 {
-    display: flex;
-    flex-direction: column; /* Change to column for vertical alignment */
-    align-items: center; /* Center the items horizontally */
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-}
-
-.contact-info-1 li {
-    text-align: center; /* Center text within each list item */
-    margin: 10px 0; /* Add margin between list items */
-}
-
-</style>
-
 <body>
 
 <div class="page-wrapper">
-
-    <div class="loader-wrap">
-		<div class="spinner"></div>
-	</div>
 	
 	<?php include 'partials/header.php';?>
 
-    <div class="page-title" style="background-image: url(assets/images/background/page-title-4.jpg);">
+    <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
         <div class="auto-container">
-            <h1>Bilik biasa</h1>
+            <h1><?php echo $_SESSION['room_name']?></h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
@@ -163,46 +44,81 @@ body {
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
                 <li><a href="room_selection.php">Penginapan</a></li>
-                <li>Bilik biasa</li>
+                <li><?php echo $_SESSION['room_name']?></li>
             </ul>
         </div>
     </div>
     <?php
+        $check_in = $_POST['check_in'];
+        $check_out = $_POST['check_out'];
+
+        $checkInDate = DateTime::createFromFormat('d/m/Y', $check_in);
+        $checkOutDate = DateTime::createFromFormat('d/m/Y', $check_out);
+        $_SESSION["checkInDate"] = $checkInDate->format('d-m-Y');
+        $_SESSION["checkOutDate"] = $checkOutDate->format('d-m-Y');
+        $interval = $checkInDate->diff($checkOutDate);
+        $num_of_night = $interval->days; 
         $room_num = $_POST['rooms'];
-        $price = $room_num * 70 ;
+        $price = $room_num * $_SESSION['room_price'] * $num_of_night;
         ?>
     <section class="section-padding">
         <div class="auto-container">
             <div class="row">
             <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
-                        <u><h4 class="mb_20">Booking Confirmation</h4></u>
-                        <p><strong>Check-in Date:</strong> <?php echo htmlspecialchars($_POST['check_in']); ?></p>
-                                <p><strong>Check-out Date:</strong> <?php echo htmlspecialchars($_POST['check_out']); ?></p>
-                                <p><strong>Number of Rooms:</strong> <?php echo htmlspecialchars($_POST['rooms']); ?></p>
-                                <p><strong>Number of Adults:</strong> <?php echo htmlspecialchars($_POST['adults']); ?></p>
-                                <p><strong>Number of Children:</strong> <?php echo htmlspecialchars($_POST['children']); ?></p>
-                                <p><strong>Price: </strong>RM<?php echo htmlspecialchars($price); ?></p>
-                    </div>
+                        <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
+                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_POST['check_in']); ?></p>
+                            <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_POST['check_out']); ?></p>
+                            <p><strong>Bilangan Hari:</strong> <?php echo $num_of_night; ?></p>
+                            <?php
+                            if ($_SESSION['room_type'] !== "homestay") {
+                                echo "<p><strong>Bilangan Bilik:</strong> " . htmlspecialchars($_POST['rooms']) . "</p>";
+                            }
+                            ?>
+                            <p><strong>Bilangan Orang Dewasa:</strong> <?php echo htmlspecialchars($_POST['adults']); ?></p>
+                            <p><strong>Bilangan Kanak-kanak:</strong> <?php echo htmlspecialchars($_POST['children']); ?></p>
+                            <p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($price); ?></p>
+                            <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat<span></span></a>
+                        </div>
                 </div>                
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post"> 
-                        <h2 class="mb_40">Masukkan maklumat peribadi anda</h2>
+                        <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
                             <form class="hotel-booking-form-1-form d-block" action="payment_page.php" method="POST">
                                         <div class="form-group">
-                                            <p class="hotel-booking-form-1-label">Nama Penuh: </p>
-                                            <input class="" type="text" name="full_name" value=""  required/>
+                                        <p class="hotel-booking-form-1-label">Nama Penuh: </p>
+                                            <div class="form-floating">
+                                                <input class="form-control" type="text" name="full_name" value="" placeholder="Nama"  required/>
+                                                <label for = "text">Nama</label>
+                                            </div>
                                         </div>
-                                        <div class="form-group">        
-                                            <p class="hotel-booking-form-1-label">Address E-mail:</p>
-                                            <input class="" type="email" name="form-email"  value="" required/>                            
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <p class="hotel-booking-form-1-label">Alamat Email: </p>
+                                                    <div class="form-floating">
+                                                        <input class="form-control" type="email" name="form-email" value="" placeholder="" required />
+                                                        <label for="email">E-mail</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <p class="hotel-booking-form-1-label">Nombor telefon:</p>
+                                                    <div class="form-floating">
+                                                        <input class="form-control" type="text" name="phone_number" id="phone_number" placeholder="" value="" required />
+                                                        <label for="phone_number">Nombor fon</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-group">        
-                                            <p class="hotel-booking-form-1-label">Nombor fon:</p>
-                                            <input class="" type="text" name="phone_number" id="phone_number"  value="" required />                            
-                                        </div>
-                                        <div class="form-group mb-0" style="margin-top: 100px;">
-                                            <button type="submit" class="btn-1" >Pay<span></span></button>
+                                        <input type="hidden" name="price" value ="<?php echo $price ?>">
+                                        <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
+                                        
+                                        <div class="form-group mb-0 text-end">
+                                            <button type="submit" class="btn-1" >Bayar<span></span></button>
                                         </div>
                                 </form>
                 </div>
@@ -213,56 +129,68 @@ body {
 
     <!-- Room Selection -->
     <section class="section-padding">
-        <div class="auto-container">
-            <strong><h3 style="padding-bottom : 10px">More room</h3></strong>
-            <div class="row">
-            <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-2.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_2.html">Bilik VIP</a></h4>
-                            <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
-                            <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
+    <div class="auto-container">
+        <div class="section_heading text-left mb_30 mt_30">
+            <h3 class="section_heading_title_big">Pilihan bilik lain</h3>
+        </div>
+        <div class="row">
+            <?php
+            include("database/database.php");
+
+            $selected_room_id = $_SESSION['room_id'];
+            $stmt = "SELECT * FROM room r LEFT JOIN room_img ri ON r.room_id = ri.room_id WHERE image_type = 'main';"; // Only available rooms
+            $result = $conn->query($stmt);
+
+            if ($result->num_rows > 0) {
+                while ($room = $result->fetch_assoc()) {
+                    $room_id = $room['room_id'];
+                    
+                    if ($room_id == $selected_room_id) {
+                        continue;
+                    }
+
+                    $room_name = $room['room_name'];
+                    $short_description = $room['short_description'];
+                    $price = $room['price_per_day'];
+                    $main_img = $room['image_url'];
+
+                    ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
+                            <div class="room-1-image hvr-img-zoom-1">
+                                <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
+                            </div>
+                            <div class="room-1-content">
+                                <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
+                                <h4 class="room-1-title mb_20">
+                                    <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
+                                        <?php echo htmlspecialchars($room_name); ?>
+                                    </a>
+                                </h4>
+                                <p class="room-1-text mb_30"><?php echo htmlspecialchars($short_description); ?></p>
+                                <div class="link-btn">
+                                    <a href="room_details.php?room_id=<?php echo htmlspecialchars($room_id); ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-3.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_3.html">Home Stay INSKET</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
-                            <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
+                    <?php
+                }
+                } else {
+                    echo "<p>No rooms available at the moment.</p>";
+                }
+                ?>
             </div>
         </div>
     </section>
 
+
     
-    <?php include 'partials/footer.php';?>
+    <?php include 'partials/footer.php';
+    mysqli_close($conn);?>
 	
 </div>
 
-<!--Scroll to top-->
-<div class="scroll-to-top">
-    <div>
-        <div class="scroll-top-inner">
-            <div class="scroll-bar">
-                <div class="bar-inner"></div>
-            </div>
-            <div class="scroll-bar-text">Go To Top</div>
-        </div>
-    </div>
-</div>
-<!-- Scroll to top end -->
 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -283,4 +211,3 @@ body {
 
 </body>
 </html>
-

@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$database = "room_book_test";
+$database = "insket_service";
 
 $conn = "";
 

@@ -3381,6 +3381,11 @@ Copyright (c) 2015 Daniel Eden
   animation-name: slideOutUp;
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @keyframes anime {
 from {
 	opacity: 0;
