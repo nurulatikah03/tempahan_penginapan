@@ -10,8 +10,12 @@ ul.navigation li a.active {
             <div class="auto-container">
                 <div class="inner-container d-flex align-items-center justify-content-between">
                     <div class="logo-box">
-                        <div class="logo" style="width: 240px;"><a><img src="assets/images/logo-light.png" alt=""></a></div>
-                    </div>
+						<a href="index.php">
+							<span class="logo-lg d-flex align-items-center justify-content-center">
+								<div class="logo" style="width:200px;"><a href="index.php"><img src="assets/images/logo1.png" alt="logo"></a></div>
+							</span>
+						</a>
+					</div>
 					
 					<div class="middle-column">
 						<div class="nav-outer">
@@ -70,7 +74,7 @@ ul.navigation li a.active {
                     <div class="inner-container d-flex align-items-center justify-content-between">
                         <!--Logo-->
                         <div class="logo-box">
-                            <div class="logo" style="width: 240px;"><a href="index.php"><img src="assets/images/logo-light.png" alt=""></a></div>
+                            <div class="logo" style="width:200px;"><a href="index.php"><img src="assets/images/logo1.png" alt="logo"></a></div>
                         </div>
                         <div class="middle-column">
                             <!--Nav Box-->
