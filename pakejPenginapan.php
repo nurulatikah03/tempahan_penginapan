@@ -1,145 +1,137 @@
+<?php include'db-connect.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>INSKET Booking</title>
-<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
-<link href="assets/css/bootstrap.css" rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
-<!-- Responsive File -->
-<link href="assets/css/responsive.css" rel="stylesheet">
-<!-- Color File -->
-<link href="assets/css/color.css" rel="stylesheet">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
-<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-<!-- Responsive -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+	<meta charset="utf-8">
+	<title>eTempahan INSKET</title>
+	<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/responsive.css" rel="stylesheet">
+	<link href="assets/css/color.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <style>
-.footer-1-middle {
-    position: relative;
-    padding: 120px 0 60px;
-    background: #254222;
-}
+	.footer-1-middle {
+		position: relative;
+		padding: 120px 0 60px;
+		background: #254222;
+	}
 
-.footer-bottom {
-    position: relative;
-    background: #fff;
-    text-align: center;
-    padding: 15px 0;
-    color: black;
-}
+	.footer-bottom {
+		position: relative;
+		background: #fff;
+		text-align: center;
+		padding: 15px 0;
+		color: black;
+	}
 
-body {
-	font-size: 14px;
-	color: #6E6E6E;
-	line-height: 1.7em;
-	font-weight: 400;
-	-webkit-font-smoothing: antialiased;
-	background: rgb(255, 255, 255);
-	font-family: 'Poppins';
-}
+	body {
+		font-size: 14px;
+		color: #6E6E6E;
+		line-height: 1.7em;
+		font-weight: 400;
+		-webkit-font-smoothing: antialiased;
+		background: rgb(255, 255, 255);
+		font-family: 'Poppins';
+	}
 
-.btn-1 {
-    position: relative;
-    display: inline-flex;
-    overflow: hidden;
-    padding: 17px 35px 16px;
-    text-align: center;
-    z-index: 1;
-    letter-spacing: 1px;
-    color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    transition: .5s;
-    background-color: #c77a63;
-}
-
-
-.btn-1 span {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-radius: 50%;
-	background-color: #fff;
-	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-	transform: translate(-50%, -50%);
-	z-i
-}
-
-.btn-1:hover {
-	color: black;
-}
+	.btn-1 {
+		position: relative;
+		display: inline-flex;
+		overflow: hidden;
+		padding: 17px 35px 16px;
+		text-align: center;
+		z-index: 1;
+		letter-spacing: 1px;
+		color: white;
+		font-weight: 500;
+		text-transform: uppercase;
+		transition: .5s;
+		background-color: #c77a63;
+	}
 
 
-.dark-bg {
-	background-color: #254222 !important;
-}
+	.btn-1 span {
+		position: absolute;
+		display: block;
+		width: 0;
+		height: 0;
+		border-radius: 50%;
+		background-color: #fff;
+		transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+		transform: translate(-50%, -50%);
+		z-i
+	}
 
-.loader-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full screen height */
-    background-color: white;
-}
+	.btn-1:hover {
+		color: black;
+	}
 
-.spinner {
-    width: 60px; /* Adjust size as needed */
-    height: 60px;
-    border: 8px solid #cae4c5;
-    border-top: 8px solid #254222;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+	.dark-bg {
+		background-color: #254222 !important;
+	}
 
-.section-padding {
-    padding: 40px 0; /* Adjust padding as needed */
-}
+	.loader-wrap {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh; /* Full screen height */
+		background-color: white;
+	}
 
-.text-center {
-    text-align: center; /* Centers text within the container */
-}
+	.spinner {
+		width: 60px; /* Adjust size as needed */
+		height: 60px;
+		border: 8px solid #cae4c5;
+		border-top: 8px solid #254222;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
 
-.contact-info-1 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers the list items */
-}
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
 
-.map {
-    display: flex;
-    justify-content: center; /* Centers the map */
-}
+	.section-padding {
+		padding: 40px 0; /* Adjust padding as needed */
+	}
 
-.contact-info-1 {
-    display: flex;
-    flex-direction: column; /* Change to column for vertical alignment */
-    align-items: center; /* Center the items horizontally */
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-}
+	.text-center {
+		text-align: center; /* Centers text within the container */
+	}
 
-.contact-info-1 li {
-    text-align: center; /* Center text within each list item */
-    margin: 10px 0; /* Add margin between list items */
-}
+	.contact-info-1 {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center; /* Centers the list items */
+	}
+
+	.map {
+		display: flex;
+		justify-content: center; /* Centers the map */
+	}
+
+	.contact-info-1 {
+		display: flex;
+		flex-direction: column; /* Change to column for vertical alignment */
+		align-items: center; /* Center the items horizontally */
+		list-style: none; /* Remove default list styling */
+		padding: 0; /* Remove default padding */
+	}
+
+	.contact-info-1 li {
+		text-align: center; /* Center text within each list item */
+		margin: 10px 0; /* Add margin between list items */
+	}
 
 </style>
 
@@ -150,6 +142,7 @@ body {
     <div class="loader-wrap">
 		<div class="spinner"></div>
 	</div>
+
 	
 	<?php include 'partials/header.php';?>
 
@@ -167,52 +160,54 @@ body {
         </div>
     </div>
 
-    <!-- Room -->
-    <section class="section-padding">
-        <div class="auto-container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-1.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM70.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_1.php">Normal Room</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.</p>
-                            <div class="link-btn"><a href="room-details_1.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-2.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM150.00</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_2.php">Bilik VIP</a></h4>
-                            <p class="room-1-text mb_30">Disediakan dengan 2 katil super single and televisyen.</p>
-                            <div class="link-btn"><a href="room-details_2.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/room-3.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Bermula dari <span class="theme-color">dari RM199 hingga RM399</span>/malam</p>
-                            <h4 class="room-1-title mb_20"><a href="room-details_3.php">Home Stay INSKET</a></h4>
-                            <p class="room-1-text mb_30">Sesuai untuk keluarga besar.</p>
-                            <div class="link-btn"><a href="room-details_3.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+	$counter = 1;
+
+	$sql = "SELECT penginapan_id, jenis_bilik, jumlah_bilik, kadar_sewa, bilanganPenyewa, penerangan, gambar FROM penginapan";
+	$result = $conn->query($sql);
+
+	if ($result->num_rows > 0) {
+		?>
+		<section class="section-padding">
+			<div class="auto-container">
+				<div class="row">
+					<?php
+					while($row = $result->fetch_assoc()) {
+						$animation_delay = 0.2 * $counter;
+						?>
+						<div class="col-lg-4 col-md-6">
+							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>s" data-wow-duration=".8s">
+								<div class="room-1-image hvr-img-zoom-1">
+									<img src="adminDashboard/controller/uploads/<?php echo $row['gambar']; ?>" 
+										 alt="<?php echo $row['jenis_bilik']; ?>" 
+										 style="width: 100%; height: 250px; object-fit: cover;">
+								</div>
+								<div class="room-1-content">
+									<p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM<?php echo number_format($row['kadar_sewa'], 2); ?></span>/hari</p>
+									<h4 class="room-1-title mb_20">
+										<a href="penginapanDetail.php?penginapan_id=<?php echo $row['penginapan_id']; ?>"><?php echo strtoupper($row['jenis_bilik']); ?></a>
+									</h4>
+									<p class="room-1-text mb_30">Bilangan penyewa sebanyak <?php echo $row['bilanganPenyewa']; ?> orang</p>
+									<div class="link-btn">
+										<a href="penginapanDetail.php?penginapan_id=<?php echo $row['penginapan_id']; ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						$counter++;
+					}
+					?>
+				</div>
+			</div>
+		</section>
+		<?php
+	} else {
+		echo "<p>Tiada penginapan yang tersedia.</p>";
+	}
+
+	$conn->close();
+	?>
 
     <?php include 'partials/footer.php';?>
 	
