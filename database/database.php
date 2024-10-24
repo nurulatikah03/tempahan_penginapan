@@ -2,7 +2,7 @@
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$database = "insket_service";
+$database = "tempahan_penginapan";
 
 $conn = "";
 
