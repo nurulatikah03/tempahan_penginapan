@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 05:17 AM
+-- Generation Time: Oct 24, 2024 at 05:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,8 +18,32 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `insket_service`
+-- Database: `tempahan_penginapan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aktiviti`
+--
+
+CREATE TABLE `aktiviti` (
+  `id_aktiviti` int(11) NOT NULL,
+  `nama_aktiviti` varchar(50) NOT NULL,
+  `kadar_harga` decimal(10,2) NOT NULL,
+  `kemudahan` varchar(500) NOT NULL,
+  `penerangan` varchar(550) NOT NULL,
+  `status_aktiviti` enum('Tersedia','Tidak Tersedia') NOT NULL,
+  `gambar` varchar(550) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aktiviti`
+--
+
+INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudahan`, `penerangan`, `status_aktiviti`, `gambar`) VALUES
+(3, 'Pakej Kem Pelajar', 55.00, 'Dewan seminar dan kemudahan seperti  P.A System, LCD, Whiteboard dan Marker.', 'Kem ini direka untuk menggalakkan pembelajaran secara aktif dan kolaboratif, di samping memberi ruang kepada pelajar untuk bersosial dan berkembang sebagai individu.', 'Tersedia', 'kemPelajar.jpg'),
+(4, 'Pakej Teambuilding', 99.00, 'Penginapan berdua sebilik yang berhawa dingin.', 'Pakej teambuilding dirancang untuk meningkatkan kerjasama, komunikasi, dan semangat pasukan di kalangan pelajar.', 'Tersedia', 'teambuilding.jpg');
 
 -- --------------------------------------------------------
 
@@ -37,6 +61,55 @@ CREATE TABLE `booking` (
   `room_id` int(11) NOT NULL,
   `add_on_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dewan`
+--
+
+CREATE TABLE `dewan` (
+  `id_dewan` int(11) NOT NULL,
+  `nama_dewan` varchar(50) NOT NULL,
+  `kadar_sewa` decimal(10,2) NOT NULL,
+  `bilangan_muatan` int(11) NOT NULL,
+  `penerangan` varchar(550) NOT NULL,
+  `status_dewan` enum('Tersedia','Tidak Tersedia') NOT NULL,
+  `gambar` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dewan`
+--
+
+INSERT INTO `dewan` (`id_dewan`, `nama_dewan`, `kadar_sewa`, `bilangan_muatan`, `penerangan`, `status_dewan`, `gambar`) VALUES
+(6, 'Dewan Jubli', 500.00, 250, 'Dewan untuk acara rasmi atau tidak rasm dan boleh diubahsuai kerusi dan meja.', 'Tersedia', 'dewanJubli1.png'),
+(7, 'Dewan Kuliah Kenaf', 200.00, 40, 'Menyediakan pelbagai kemudahan penggunaan.', 'Tersedia', 'dewanKuliah.png'),
+(8, 'Dewan Fiber', 350.00, 250, 'Dewan untuk acara rasmi atau tidak rasm dan boleh diubahsuai kerusi dan meja.', 'Tersedia', 'dewanJubli2.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `perkahwinan`
+--
+
+CREATE TABLE `perkahwinan` (
+  `id_perkahwinan` int(11) NOT NULL,
+  `nama_dewan` varchar(255) NOT NULL,
+  `kadar_harga` decimal(10,2) NOT NULL,
+  `penerangan` varchar(550) NOT NULL,
+  `tambahan` varchar(50) NOT NULL,
+  `status_perkahwinan` enum('Tersedia','Tidak Tersedia','') NOT NULL,
+  `gambar` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `perkahwinan`
+--
+
+INSERT INTO `perkahwinan` (`id_perkahwinan`, `nama_dewan`, `kadar_harga`, `penerangan`, `tambahan`, `status_perkahwinan`, `gambar`) VALUES
+(1, 'Dewan Fiber', 500.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang', 'Meja dan alas – RM8.00/Unit', 'Tersedia', 'DALL·E 2024-10-09 10.02.33 - A clean and modern hall with blue chairs neatly arranged in rows, and grey curtains hanging on both sides of the walls. There is a small stage at the .webp'),
+(3, 'Dewan Jubli', 600.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang', 'Meja dan alas – RM8.00/Unit', 'Tersedia', 'pakejPerkahwinan.jpg');
 
 -- --------------------------------------------------------
 
@@ -95,12 +168,30 @@ INSERT INTO `room_img` (`image_id`, `image_type`, `image_url`, `room_id`) VALUES
 --
 
 --
+-- Indexes for table `aktiviti`
+--
+ALTER TABLE `aktiviti`
+  ADD PRIMARY KEY (`id_aktiviti`);
+
+--
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`booking_id`),
   ADD KEY `add_on_id` (`add_on_id`),
   ADD KEY `room_id` (`room_id`);
+
+--
+-- Indexes for table `dewan`
+--
+ALTER TABLE `dewan`
+  ADD PRIMARY KEY (`id_dewan`);
+
+--
+-- Indexes for table `perkahwinan`
+--
+ALTER TABLE `perkahwinan`
+  ADD PRIMARY KEY (`id_perkahwinan`);
 
 --
 -- Indexes for table `room`
@@ -120,10 +211,28 @@ ALTER TABLE `room_img`
 --
 
 --
+-- AUTO_INCREMENT for table `aktiviti`
+--
+ALTER TABLE `aktiviti`
+  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
   MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `dewan`
+--
+ALTER TABLE `dewan`
+  MODIFY `id_dewan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `perkahwinan`
+--
+ALTER TABLE `perkahwinan`
+  MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `room`
