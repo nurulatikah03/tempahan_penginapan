@@ -1,10 +1,4 @@
-<?php session_start();
-$_SESSION['cust_name'] = htmlspecialchars($_POST['full_name']);
-$_SESSION['form-email'] = htmlspecialchars($_POST['form-email']);
-$_SESSION['phone_number'] = htmlspecialchars($_POST['phone_number']);
-$_SESSION['num_of_night'] = htmlspecialchars($_POST['num_of_night']);
-$_SESSION['total_price'] = htmlspecialchars($_POST['price']);
-?>
+<?php session_start()?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,13 +43,13 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
                     <li><a href="index.php">Laman Utama</a></li>
                     <li><a href="pakejPenginapan.php">Penginapan</a></li>
                     <li><a href="room_details.php?room_id=<?php echo htmlspecialchars($_SESSION["room_id"]); ?>"><?php echo $_SESSION['room_name']?></a></li>
-                    <li>Pengesahan</li>
+                    <li>Pengesahan Berjaya</li>
                 </ul>
             </div>
         </div>
         
         <div class="container-md mt-5" style="max-width: 800px;">
-            <h2 class="text-center mb-4">Booking Confirmation</h2>
+            <h2 class="text-center mb-4">Your Booking is Successful!</h2>
             
             <!-- Booking Summary -->
             <div class="card">
@@ -128,16 +122,66 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-end">
-                    <a href="booking_success.php" class="btn-1">Proceed to Payment<span></span></a>
-                    <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat<span></span></a>
-                </div>
             </div>
+            <div style="margin: 50px;"><h3>Check your email for your booking confirmation</h3></div>
         </div>
         <!-- Booking Summary END -->
 
         
-        <?php include 'partials/footer.php';?>
+        <?php 
+            include 'database/database.php';
+
+            try {
+                // Prepare the SQL statement
+                $sql = "INSERT INTO tempahan (nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, id_bilik) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                
+                // Set the current date
+                $tarikh_tempahan = date("Y-m-d"); 
+
+                // Prepare the statement
+                $stmt = $conn->prepare($sql);
+                if ($stmt === false) {
+                    throw new Exception("Error preparing statement: " . $conn->error);
+                }
+
+                $checkInDate = $_SESSION["checkInDate"];
+                $dateTime = DateTime::createFromFormat('d-m-Y', $checkInDate);
+                $_SESSION["checkInDate"] = $dateTime->format('Y-m-d');
+                $checkOutDate = $_SESSION["checkOutDate"];
+                $dateTime = DateTime::createFromFormat('d-m-Y', $checkOutDate);
+                $_SESSION["checkOutDate"] = $dateTime->format('Y-m-d');
+
+                // Bind parameters (ensure data types match)
+                $stmt->bind_param("ssssssdi", 
+                    $_SESSION['cust_name'], 
+                    $_SESSION['phone_number'], 
+                    $_SESSION['form-email'], 
+                    $tarikh_tempahan, 
+                    $_SESSION["checkInDate"], 
+                    $_SESSION["checkOutDate"], 
+                    $_SESSION['total_price'], 
+                    $_SESSION['room_id']
+                );
+
+                // Execute the statement
+                if ($stmt->execute()) {
+                } else {
+                    throw new Exception("Error executing statement: " . $stmt->error);
+                }
+                
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            } finally {
+                // Close statement and connection
+                if ($stmt) {
+                    $stmt->close();
+                }
+                if ($conn) {
+                    $conn->close();
+                }
+            }
+        include 'partials/footer.php';?>
         
     </div>
 

@@ -1,3 +1,8 @@
+<script>
+  window.onload = function() {
+    window.scrollTo(0, 480); 
+  };
+</script>
 <?php session_start();?>
 
 <!DOCTYPE html>
@@ -5,6 +10,7 @@
 <head>
 <meta charset="utf-8">
 <title>INSKET Room Booking</title>
+
 <!-- Stylesheets -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
@@ -17,8 +23,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
-<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<link rel="shortcut icon" href="assets/images/logoLKTN.png" type="image/x-icon">
+<link rel="icon" href="assets/images/logoLKTN.png" type="image/x-icon">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
 <!-- Responsive -->
@@ -31,10 +37,9 @@
 <body>
 
 <div class="page-wrapper">
-	
-	<?php include 'partials/header.php';?>
 
     <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
+    <?php include 'partials/header.php';?>
         <div class="auto-container">
             <h1><?php echo $_SESSION['room_name']?></h1>
         </div>
@@ -43,17 +48,21 @@
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li><a href="room_selection.php">Penginapan</a></li>
+                <li><a href="pakejPenginapan.php">Penginapan</a></li>
                 <li><?php echo $_SESSION['room_name']?></li>
             </ul>
         </div>
     </div>
     <?php
-        $check_in = $_POST['check_in'];
-        $check_out = $_POST['check_out'];
+        include 'controller/check_room_availability.php';
 
-        $checkInDate = DateTime::createFromFormat('d/m/Y', $check_in);
-        $checkOutDate = DateTime::createFromFormat('d/m/Y', $check_out);
+        if (!checkRoomAvailability($_SESSION['room_id'],$_POST['check_in'], $_POST['check_out'])) {
+            $_SESSION['availability_error'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
+            echo "<script>window.history.back();</script>";
+            exit;} 
+        else {
+        $checkInDate = DateTime::createFromFormat('d/m/Y', $_POST['check_in']);
+        $checkOutDate = DateTime::createFromFormat('d/m/Y', $_POST['check_out']);
         $_SESSION["checkInDate"] = $checkInDate->format('d-m-Y');
         $_SESSION["checkOutDate"] = $checkOutDate->format('d-m-Y');
         $interval = $checkInDate->diff($checkOutDate);
@@ -127,66 +136,11 @@
         </div>
     </section>
 
-    <!-- Room Selection -->
-    <section class="section-padding">
-    <div class="auto-container">
-        <div class="section_heading text-left mb_30 mt_30">
-            <h3 class="section_heading_title_big">Pilihan bilik lain</h3>
-        </div>
-        <div class="row">
-            <?php
-            include("database/database.php");
-
-            $selected_room_id = $_SESSION['room_id'];
-            $stmt = "SELECT * FROM room r LEFT JOIN room_img ri ON r.room_id = ri.room_id WHERE image_type = 'main';"; // Only available rooms
-            $result = $conn->query($stmt);
-
-            if ($result->num_rows > 0) {
-                while ($room = $result->fetch_assoc()) {
-                    $room_id = $room['room_id'];
-                    
-                    if ($room_id == $selected_room_id) {
-                        continue;
-                    }
-
-                    $room_name = $room['room_name'];
-                    $short_description = $room['short_description'];
-                    $price = $room['price_per_day'];
-                    $main_img = $room['image_url'];
-
-                    ?>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                            <div class="room-1-image hvr-img-zoom-1">
-                                <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
-                            </div>
-                            <div class="room-1-content">
-                                <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
-                                <h4 class="room-1-title mb_20">
-                                    <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
-                                        <?php echo htmlspecialchars($room_name); ?>
-                                    </a>
-                                </h4>
-                                <p class="room-1-text mb_30"><?php echo htmlspecialchars($short_description); ?></p>
-                                <div class="link-btn">
-                                    <a href="room_details.php?room_id=<?php echo htmlspecialchars($room_id); ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                } else {
-                    echo "<p>No rooms available at the moment.</p>";
-                }
-                ?>
-            </div>
-        </div>
-    </section>
-
-
     
-    <?php include 'partials/footer.php';
+    <?php 
+    }
+    include 'partials/additional_room.php';
+    include 'partials/footer.php';
     mysqli_close($conn);?>
 	
 </div>
