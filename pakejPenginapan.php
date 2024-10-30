@@ -91,7 +91,7 @@
                                 <div class="room-1-content">
                                     <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
                                     <h4 class="room-1-title mb_20">
-                                        <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
+                                        <a href="room-details?room_id=<?php echo htmlspecialchars($room_id); ?>.php">
                                             <?php echo htmlspecialchars($room_name); ?>
                                         </a>
                                     </h4>
