@@ -4,7 +4,7 @@
 <section class="section-padding">
         <div class="auto-container">
             <div class="section_heading text-left mb_30 mt_30">
-                <h3 class="section_heading_title_big">Pilihan bilik lain</h3>
+                <h3 class="section_heading_title_big">Pilihan penginapan lain</h3>
             </div>
             <div class="row">
                 <?php

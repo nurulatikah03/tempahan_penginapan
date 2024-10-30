@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>INSKEP Room</title>
-<!-- Stylesheets -->
-<link href="assets/css/bootstrap.css" rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
-<!-- Responsive File -->
-<link href="assets/css/responsive.css" rel="stylesheet">
-<!-- Color File -->
-<link href="assets/css/color.css" rel="stylesheet">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
-<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-<!-- Responsive -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+	<meta charset="utf-8">
+	<title>eTempahan INSKET</title>
+	<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/responsive.css" rel="stylesheet">
+	<link href="assets/css/color.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 
 <style>
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
 
 
 </style>
@@ -42,22 +32,6 @@
     <div class="loader-wrap">
 		<div class="spinner"></div>
 	</div>
-<<<<<<< Updated upstream
-	
-	<?php 
-    include 'partials/header.php';
-    include("database/database.php");
-
-    $stmt = "SELECT * FROM room";
-    try {
-        $result = mysqli_query($conn, $stmt);
-        $row = mysqli_fetch_assoc($result);
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
-    }
-    ?>
-=======
->>>>>>> Stashed changes
 
     <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
         <?php 
@@ -82,7 +56,7 @@
         <div class="auto-container">
             <div class="section_heading text-center mb_30 mt_30">
                 <span class="section_heading_title_small">TAWARAN ISTIMEWA</span>
-                <h2 class="section_heading_title_big">Pilihan bilik</h2>
+                <h2 class="section_heading_title_big">Pilihan Penginapan</h2>
             </div>
             <div class="row">
                 <?php

@@ -93,43 +93,43 @@
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post"> 
                         <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                            <form class="hotel-booking-form-1-form d-block" action="payment_page.php" method="POST">
-                                        <div class="form-group">
-                                        <p class="hotel-booking-form-1-label">Nama Penuh: </p>
-                                            <div class="form-floating">
-                                                <input class="form-control" type="text" name="full_name" value="" placeholder="Nama"  required/>
-                                                <label for = "text">Nama</label>
-                                            </div>
-                                        </div>
+                        <form class="hotel-booking-form-1-form d-block" action="payment_page.php" method="POST">
+                            <div class="form-group">
+                            <p class="hotel-booking-form-1-label">Nama Penuh: </p>
+                                <div class="form-floating">
+                                    <input class="form-control" type="text" name="full_name" value="" placeholder="Nama"  required/>
+                                    <label for = "text">Nama</label>
+                                </div>
+                            </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <p class="hotel-booking-form-1-label">Alamat Email: </p>
-                                                    <div class="form-floating">
-                                                        <input class="form-control" type="email" name="form-email" value="" placeholder="" required />
-                                                        <label for="email">E-mail</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">Alamat Email: </p>
+                                        <div class="form-floating">
+                                            <input class="form-control" type="email" name="form-email" value="" placeholder="" required />
+                                            <label for="email">E-mail</label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <p class="hotel-booking-form-1-label">Nombor telefon:</p>
-                                                    <div class="form-floating">
-                                                        <input class="form-control" type="text" name="phone_number" id="phone_number" placeholder="" value="" required />
-                                                        <label for="phone_number">Nombor fon</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">Nombor telefon:</p>
+                                        <div class="form-floating">
+                                            <input class="form-control" type="text" name="phone_number" id="phone_number" placeholder="" value="" required />
+                                            <label for="phone_number">Nombor fon</label>
                                         </div>
-                                        <input type="hidden" name="price" value ="<?php echo $price ?>">
-                                        <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
-                                        
-                                        <div class="form-group mb-0 text-end">
-                                            <button type="submit" class="btn-1" >Bayar<span></span></button>
-                                        </div>
-                                </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="price" value ="<?php echo $price ?>">
+                            <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
+                            
+                            <div class="form-group mb-0 text-end">
+                                <button type="submit" class="btn-1" >Bayar<span></span></button>
+                            </div>
+                        </form>
                 </div>
                 
             </div>
