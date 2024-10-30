@@ -179,12 +179,7 @@ body {
             <div class="banner-slider-control banner-slider-button-next"><span><i class="icon-2"></i></span> </div>
         </div>
     </section>
-<<<<<<< Updated upstream
-
-    <?php include 'partials/footer.php';?>
-=======
     <div class="btn-1"><a href="adminDashboard/index.php">ADMIN<span style="background-color:aqua;"></span></a></div>
->>>>>>> Stashed changes
 </div>
 
 <script src="assets/js/jquery.min.js"></script>

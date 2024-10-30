@@ -54,21 +54,19 @@
         </div>
     </div>
     <?php
-        include 'controller/check_room_availability.php';
+        include 'controller/functions.php';
 
         if (!checkRoomAvailability($_SESSION['room_id'],$_POST['check_in'], $_POST['check_out'])) {
             $_SESSION['availability_error'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
             echo "<script>window.history.back();</script>";
             exit;} 
         else {
-        $checkInDate = DateTime::createFromFormat('d/m/Y', $_POST['check_in']);
-        $checkOutDate = DateTime::createFromFormat('d/m/Y', $_POST['check_out']);
-        $_SESSION["checkInDate"] = $checkInDate->format('d-m-Y');
-        $_SESSION["checkOutDate"] = $checkOutDate->format('d-m-Y');
-        $interval = $checkInDate->diff($checkOutDate);
-        $num_of_night = $interval->days; 
+        $num_of_night = calcNumOfNight($_POST['check_in'],$_POST['check_out']);
         $room_num = $_POST['rooms'];
         $price = $room_num * $_SESSION['room_price'] * $num_of_night;
+        
+        $_SESSION["checkInDate"] = $_POST['check_in'];
+        $_SESSION["checkOutDate"] = $_POST['check_out'];
         ?>
     <section class="section-padding">
         <div class="auto-container">

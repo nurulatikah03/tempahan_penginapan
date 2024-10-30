@@ -1,17 +1,39 @@
 <?php
-// Include the TCPDF library
+session_start();
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
+include 'database/database.php';
+include 'controller/functions.php';
+
+try {
+    $nomborTempahan = $_SESSION["booking_number"];
+
+    $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
+            FROM tempahan t 
+            INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
+            WHERE t.nombor_tempahan = ?";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $nomborTempahan);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();} 
+    }
+
+catch (mysqli_sql_exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 
 // Sample customer and booking data
-$customerName = "John Doe";
-$customerEmail = "johndoe@example.com";
-$invoiceDate = date("d-m-Y");
-$bookingNumber = "INV-20241020-1234";
-$checkInDate = "2024-11-05";
-$checkOutDate = "2024-11-10";
-$roomType = "Deluxe Suite";
-$roomRate = 150; // per night
-$numNights = (strtotime($checkOutDate) - strtotime($checkInDate)) / (60 * 60 * 24);
+$customerName = $row['nama_penuh'];
+$customerEmail = $row['email'];
+$invoiceDate = $row['tarikh_tempahan'];
+$bookingNumber = $row['nombor_tempahan'];
+$checkInDate = $row['tarikh_daftar_masuk'];
+$checkOutDate = $row['tarikh_daftar_keluar'];
+$roomType = $row['jenis_bilik'];
+$roomRate = $row['harga_semalaman']; // per night
+$numNights = calcNumOfNight($checkInDate,$checkOutDate);
 $totalAmount = $roomRate * $numNights;
 $additionalCharges = 50; // For example, service or cleaning fees
 $taxRate = 0.1; // 10% tax
@@ -43,23 +65,29 @@ $pdf->AddPage();
 $pdf->SetFont('helvetica', '', 12);
 
 // Title
-$pdf->Write(0, 'Room Booking Invoice', '', 0, 'C', true, 0, false, false, 0);
-$pdf->Ln(5);
+//$pdf->Write(0, 'Room Booking Invoice', '', 0, '', true, 0, false, false, 0);
+//$pdf->Ln(5);
 
 // Customer details
 $html = '
+    <h2>Invoice tempahan penginapan</h2>
     <table cellpadding="5">
         <tr>
-            <td><strong>Customer Name:</strong> ' . $customerName . '</td>
+            <td><strong>Nama penyewa:</strong> ' . $customerName . '</td>
+        </tr>
+        <tr>
             <td><strong>Email:</strong> ' . $customerEmail . '</td>
         </tr>
+    </table>
+
+    <table cellpadding="5">
         <tr>
-            <td><strong>Invoice Date:</strong> ' . $invoiceDate . '</td>
-            <td><strong>Booking Number:</strong> ' . $bookingNumber . '</td>
+            <td><strong>Tarikh Invoice:</strong> ' . $invoiceDate . '</td>
+            <td><strong>Nombor tempahan:</strong> ' . $bookingNumber . '</td>
         </tr>
         <tr>
-            <td><strong>Check-in Date:</strong> ' . $checkInDate . '</td>
-            <td><strong>Check-out Date:</strong> ' . $checkOutDate . '</td>
+            <td><strong>Tarikh masuk:</strong> ' . $checkInDate . '</td>
+            <td><strong>Tarikh keluar:</strong> ' . $checkOutDate . '</td>
         </tr>
     </table>';
 
