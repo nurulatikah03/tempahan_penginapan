@@ -35,21 +35,11 @@
 		<div class="spinner"></div>
 	</div>
 
-	
-	<?php 
-    include 'partials/header.php';
-    include("database/database.php");
-
-    $stmt = "SELECT * FROM room";
-    try {
-        $result = mysqli_query($conn, $stmt);
-        $row = mysqli_fetch_assoc($result);
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
-    }
-    ?>
-
     <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
+        <?php 
+        include 'partials/header.php';
+        include("database/database.php");
+        ?>
         <div class="auto-container">
             <h1>Pakej Penginapan</h1>
         </div>
@@ -64,27 +54,34 @@
     </div>
 
     <!-- Room -->
-    <section class="section-padding">
+    <section class="section-padding" style="padding-top: 10px;">
         <div class="auto-container">
             <div class="section_heading text-center mb_30 mt_30">
                 <span class="section_heading_title_small">TAWARAN ISTIMEWA</span>
-                <h2 class="section_heading_title_big">Pilihan bilik</h2>
+                <h2 class="section_heading_title_big">Pilihan Penginapan</h2>
             </div>
             <div class="row">
                 <?php
-                $stmt = "SELECT r.room_id,r.room_name,r.price_per_day, r.short_description,ri.image_url FROM room r LEFT JOIN room_img ri ON r.room_id = ri.room_id WHERE image_type = 'main';"; 
-                $result = $conn->query($stmt);
+                $stmt = "SELECT b.id_bilik, b.nama_bilik, b.harga_semalaman, b.huraian_pendek,g.url_gambar FROM bilik b LEFT JOIN bilik_pic g ON b.id_bilik = g.id_bilik WHERE jenis_gambar = 'main';"; 
+                try {
+                    $result = $conn->query($stmt);
+                    if (!$result) {
+                        throw new Exception($conn->error);
+                    }
+                } catch (Exception $e) {
+                    echo "Error: " . $e->getMessage();
+                }
 
                 // Check if there are rooms available
                 if ($result->num_rows > 0) {
                     // Loop through each room and display it
                     while ($room = $result->fetch_assoc()) {
 
-                        $room_name = $room['room_name'];
-                        $short_description = $room['short_description'];
-                        $price = $room['price_per_day'];
-                        $main_img = $room['image_url']; 
-                        $room_id = $room['room_id']; 
+                        $room_name = $room['nama_bilik'];
+                        $short_description = $room['huraian_pendek'];
+                        $price = $room['harga_semalaman'];
+                        $main_img = $room['url_gambar']; 
+                        $room_id = $room['id_bilik']; 
                 ?>
                         <div class="col-lg-4 col-md-6">
                             <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">

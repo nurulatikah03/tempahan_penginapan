@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2024 at 05:36 AM
+-- Generation Time: Oct 30, 2024 at 09:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,19 +48,58 @@ INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudaha
 -- --------------------------------------------------------
 
 --
--- Table structure for table `booking`
+-- Table structure for table `bilik`
 --
 
-CREATE TABLE `booking` (
-  `booking_id` int(11) NOT NULL,
-  `full_name` varchar(65) NOT NULL,
-  `phone_number` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `booking_date` date NOT NULL,
-  `total_price` float NOT NULL,
-  `room_id` int(11) NOT NULL,
-  `add_on_id` int(11) DEFAULT NULL
+CREATE TABLE `bilik` (
+  `id_bilik` int(10) NOT NULL,
+  `nama_bilik` varchar(50) NOT NULL,
+  `kapasiti` int(4) NOT NULL,
+  `jenis_bilik` varchar(15) NOT NULL,
+  `harga_semalaman` float NOT NULL,
+  `huraian_pendek` text DEFAULT NULL,
+  `huraian` text DEFAULT NULL,
+  `keluasan` int(10) NOT NULL,
+  `id_admin` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bilik`
+--
+
+INSERT INTO `bilik` (`id_bilik`, `nama_bilik`, `kapasiti`, `jenis_bilik`, `harga_semalaman`, `huraian_pendek`, `huraian`, `keluasan`, `id_admin`) VALUES
+(1, 'Bilik biasa', 2, 'room', 70, 'Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.', 'Bilik yang selesa dan terang ini kini tersedia untuk disewa di kawasan kejiranan yang aman. Sesuai untuk individu bujang atau pelajar, bilik ini menawarkan katil yang selesa, cahaya semula jadi yang mencukupi, almari pakaian terbina dalam, dan akses ke kemudahan bilik mandi dan dapur bersama. Sewa termasuk utiliti asas dan lokasinya berada di kawasan yang tenang dan selamat.', 50, 0),
+(2, 'Bilik VIP', 2, 'room', 150, 'Disediakan dengan 2 katil super single and televisyen.', 'Bilik VIP yang mewah dan luas ini terletak di kawasan kejiranan berprestij. Sesuai untuk mereka yang mencari pengalaman hidup mewah, bilik ini menawarkan katil bersaiz king, bilik mandi peribadi dengan kelengkapan berkualiti tinggi, pemandangan panorama dari balkoni peribadi, dapur kecil yang lengkap dengan peralatan moden, akses ke kemudahan eksklusif seperti kolam renang, gimnasium, dan keselamatan 24 jam, serta lokasi utama dengan akses mudah ke pengangkutan dan kemudahan lain.', 100, NULL),
+(3, 'Home Stay INSKET', 8, 'homestay', 200, 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 450, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bilik_pic`
+--
+
+CREATE TABLE `bilik_pic` (
+  `id_gambar` int(10) NOT NULL,
+  `jenis_gambar` varchar(50) NOT NULL,
+  `url_gambar` text NOT NULL,
+  `id_bilik` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bilik_pic`
+--
+
+INSERT INTO `bilik_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`) VALUES
+(1, 'main', 'assets\\images\\resource\\room-1_normal.jpg', 1),
+(2, 'main', 'assets\\images\\resource\\room-2_VIP.jpg', 2),
+(3, 'main', 'assets\\images\\resource\\room-3_homestay.jpg', 3),
+(4, 'banner', 'assets/images/background/page-title-4_normal.jpg', 1),
+(5, 'banner', 'assets/images/background/page-title-5_VIP.jpeg', 2),
+(6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3),
+(7, 'add', 'assets\\images\\resource\\homestay_patio.jpg', 3),
+(8, 'add', 'assets\\images\\resource\\homestay_swimming.jpg', 3),
+(9, 'add', 'assets\\images\\resource\\room-1_livingroom.jpg', 1),
+(10, 'add', 'assets\\images\\resource\\room-1_bathroom.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -114,54 +153,29 @@ INSERT INTO `perkahwinan` (`id_perkahwinan`, `nama_dewan`, `kadar_harga`, `pener
 -- --------------------------------------------------------
 
 --
--- Table structure for table `room`
+-- Table structure for table `tempahan`
 --
 
-CREATE TABLE `room` (
-  `room_id` int(10) NOT NULL,
-  `room_name` varchar(50) NOT NULL,
-  `capacity` int(4) NOT NULL,
-  `room_type` varchar(15) NOT NULL,
-  `price_per_day` float NOT NULL,
-  `short_description` text DEFAULT NULL,
-  `long_description` text DEFAULT NULL,
-  `size` int(10) NOT NULL,
-  `admin_id` int(10) DEFAULT NULL
+CREATE TABLE `tempahan` (
+  `id_tempahan` int(11) NOT NULL,
+  `nombor_tempahan` varchar(30) NOT NULL,
+  `nama_penuh` varchar(65) NOT NULL,
+  `numbor_fon` varchar(15) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `tarikh_tempahan` date NOT NULL,
+  `tarikh_daftar_masuk` date NOT NULL,
+  `tarikh_daftar_keluar` date NOT NULL,
+  `harga_keseluruhan` float NOT NULL,
+  `id_bilik` int(11) NOT NULL,
+  `add_on_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `room`
+-- Dumping data for table `tempahan`
 --
 
-INSERT INTO `room` (`room_id`, `room_name`, `capacity`, `room_type`, `price_per_day`, `short_description`, `long_description`, `size`, `admin_id`) VALUES
-(1, 'Bilik biasa', 2, 'room', 70, 'Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.', 'Bilik yang selesa dan terang ini kini tersedia untuk disewa di kawasan kejiranan yang aman. Sesuai untuk individu bujang atau pelajar, bilik ini menawarkan katil yang selesa, cahaya semula jadi yang mencukupi, almari pakaian terbina dalam, dan akses ke kemudahan bilik mandi dan dapur bersama. Sewa termasuk utiliti asas dan lokasinya berada di kawasan yang tenang dan selamat.', 50, 0),
-(2, 'Bilik VIP', 2, 'room', 150, 'Disediakan dengan 2 katil super single and televisyen.', 'Bilik VIP yang mewah dan luas ini terletak di kawasan kejiranan berprestij. Sesuai untuk mereka yang mencari pengalaman hidup mewah, bilik ini menawarkan katil bersaiz king, bilik mandi peribadi dengan kelengkapan berkualiti tinggi, pemandangan panorama dari balkoni peribadi, dapur kecil yang lengkap dengan peralatan moden, akses ke kemudahan eksklusif seperti kolam renang, gimnasium, dan keselamatan 24 jam, serta lokasi utama dengan akses mudah ke pengangkutan dan kemudahan lain.', 100, NULL),
-(3, 'Home Stay INSKET', 8, 'homestay', 200, 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 450, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `room_img`
---
-
-CREATE TABLE `room_img` (
-  `image_id` int(10) NOT NULL,
-  `image_type` varchar(50) NOT NULL,
-  `image_url` text NOT NULL,
-  `room_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `room_img`
---
-
-INSERT INTO `room_img` (`image_id`, `image_type`, `image_url`, `room_id`) VALUES
-(1, 'main', 'assets\\images\\resource\\room-1_normal.jpg', 1),
-(2, 'main', 'assets\\images\\resource\\room-2_VIP.jpg', 2),
-(3, 'main', 'assets\\images\\resource\\room-3_homestay.jpg', 3),
-(4, 'banner', 'assets/images/background/page-title-4_normal.jpg', 1),
-(5, 'banner', 'assets/images/background/page-title-5_VIP.jpeg', 2),
-(6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3);
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `id_bilik`, `add_on_id`) VALUES
+(21, 'BOOK-202410-92369', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', '2024-10-30', '2024-10-30', '2024-10-31', 70, 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -174,12 +188,17 @@ ALTER TABLE `aktiviti`
   ADD PRIMARY KEY (`id_aktiviti`);
 
 --
--- Indexes for table `booking`
+-- Indexes for table `bilik`
 --
-ALTER TABLE `booking`
-  ADD PRIMARY KEY (`booking_id`),
-  ADD KEY `add_on_id` (`add_on_id`),
-  ADD KEY `room_id` (`room_id`);
+ALTER TABLE `bilik`
+  ADD PRIMARY KEY (`id_bilik`);
+
+--
+-- Indexes for table `bilik_pic`
+--
+ALTER TABLE `bilik_pic`
+  ADD PRIMARY KEY (`id_gambar`),
+  ADD KEY `room_id` (`id_bilik`);
 
 --
 -- Indexes for table `dewan`
@@ -194,17 +213,12 @@ ALTER TABLE `perkahwinan`
   ADD PRIMARY KEY (`id_perkahwinan`);
 
 --
--- Indexes for table `room`
+-- Indexes for table `tempahan`
 --
-ALTER TABLE `room`
-  ADD PRIMARY KEY (`room_id`);
-
---
--- Indexes for table `room_img`
---
-ALTER TABLE `room_img`
-  ADD PRIMARY KEY (`image_id`),
-  ADD KEY `room_id` (`room_id`);
+ALTER TABLE `tempahan`
+  ADD PRIMARY KEY (`id_tempahan`),
+  ADD KEY `add_on_id` (`add_on_id`),
+  ADD KEY `room_id` (`id_bilik`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -217,10 +231,16 @@ ALTER TABLE `aktiviti`
   MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `booking`
+-- AUTO_INCREMENT for table `bilik`
 --
-ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `bilik`
+  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `bilik_pic`
+--
+ALTER TABLE `bilik_pic`
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `dewan`
@@ -235,32 +255,26 @@ ALTER TABLE `perkahwinan`
   MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `room`
+-- AUTO_INCREMENT for table `tempahan`
 --
-ALTER TABLE `room`
-  MODIFY `room_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `room_img`
---
-ALTER TABLE `room_img`
-  MODIFY `image_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `tempahan`
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `booking`
+-- Constraints for table `bilik_pic`
 --
-ALTER TABLE `booking`
-  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `bilik_pic`
+  ADD CONSTRAINT `bilik_pic_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `room_img`
+-- Constraints for table `tempahan`
 --
-ALTER TABLE `room_img`
-  ADD CONSTRAINT `room_img_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `tempahan`
+  ADD CONSTRAINT `tempahan_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

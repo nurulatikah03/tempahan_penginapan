@@ -41,7 +41,7 @@
         <div class="footer-bottom">
             <div class="auto-container">    
                 <div class="footer-bottom-row">
-                    <div class="footer-bottom-text">Copyright 2022 by <a href="javascript:void(0);">royalking</a> theme All Right Reserved.</div>
+                    <div class="footer-bottom-text">Copyright 2024 by <a href="javascript:void(0);">eTempahan</a> theme All Right Reserved.</div>
                 </div>
             </div>
         </div>

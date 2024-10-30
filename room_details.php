@@ -1,18 +1,18 @@
 <?php
 include("database/database.php");
 
-$stmt = "SELECT * FROM room WHERE room_id = '" . $_GET['room_id'] . "'";
+$stmt = "SELECT * FROM bilik WHERE id_bilik = '" . $_GET['room_id'] . "'";
 try {
     $result = mysqli_query($conn, $stmt);
     $row = mysqli_fetch_assoc($result);
     
     session_start();
     $_SESSION['room_id'] = $_GET['room_id'];
-    $_SESSION['room_name'] = $row['room_name'];
-    $_SESSION['room_type'] = $row['room_type'];
-    $_SESSION['room_price'] = $row['price_per_day'];
-    $_SESSION['room_short_desc'] =$row['short_description'];
-    $_SESSION['room_long_desc'] = $row['long_description'];
+    $_SESSION['room_name'] = $row['nama_bilik'];
+    $_SESSION['room_type'] = $row['jenis_bilik'];
+    $_SESSION['room_price'] = $row['harga_semalaman'];
+    $_SESSION['room_short_desc'] =$row['huraian_pendek'];
+    $_SESSION['room_long_desc'] = $row['huraian'];
 
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
@@ -24,7 +24,7 @@ try {
 <head>
 <meta charset="utf-8">
 <title>INSKET Booking</title>
-<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
+<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 
@@ -58,11 +58,11 @@ try {
 	
 	<?php include 'partials/header.php';
     
-    $stmt2 = "SELECT image_url FROM room_img WHERE room_id = '" . $_GET['room_id'] . "' AND image_type = 'banner'";
+    $stmt2 = "SELECT url_gambar FROM bilik_pic WHERE id_bilik = '" . $_GET['room_id'] . "' AND jenis_gambar = 'banner'";
     try {
         $result2 = mysqli_query($conn, $stmt2);
         $row2 = mysqli_fetch_assoc($result2);
-        $imgt = $row2['image_url'];
+        $imgt = $row2['url_gambar'];
         $_SESSION['room_banner'] = $imgt;
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
@@ -71,14 +71,14 @@ try {
 
     <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
         <div class="auto-container">
-            <h1><?php echo $row['room_name'] ?></h1>
+            <h1><?php echo $_SESSION['room_name'] ?></h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li><a href="room_selection.php">Penginapan</a></li>
+                <li><a href="pakejPenginapan.php">Penginapan</a></li>
                 <li><?php echo $_SESSION['room_name'] ?></li>
             </ul>
         </div>
@@ -89,29 +89,54 @@ try {
             <div class="row">                
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post"> 
-                        <h2 class="mb_10"><?php echo $row['room_name'] ?></h2>
-                        <span class="section_heading_title_small" style="font-size: 25px;" >RM<?php echo $row['price_per_day'] ?></span>
-                        <p class="mb_20 mt_20"><?php echo $row['long_description'];?></p>
+                        <h2 class="mb_10"><?php echo $_SESSION['room_name'] ?></h2>
+                        <span class="section_heading_title_small" style="font-size: 25px;" >RM<?php echo $_SESSION['room_price'] ?></span>
+                        <p class="mb_20 mt_20"><?php echo $_SESSION['room_long_desc'];?></p>
+
                         <!--picture slider-->
                         <div class="slider-container" style="width: 100%; max-width: 828px; height: 450px; position: relative; overflow: hidden; margin-bottom: 20px;">
                             <div class="slider-wrapper" style="display: flex; transition: transform 0.5s ease;">
-                                    <?php 
-                                    // Loop through your image data (e.g., from database or an array)
-                                    $images = ['assets/images/resource/room-1_normal.jpg', 'assets/images/resource/room-2_VIP.jpg', 'assets/images/resource/room-3_homestay.jpg']; // Example images
-                                    foreach ($images as $image) {
-                                        echo '<div class="slider-slide" style="min-width: 100%; box-sizing: border-box;">
-                                                <div class="room-1-image hvr-img-zoom-1">
-                                                    <img src="'.$image.'" alt="Slide image" style="width: 100%; height: 450px; object-fit: cover;">
-                                                </div>
+                                <?php
+                                $stmt3 = "SELECT url_gambar FROM bilik_pic WHERE id_bilik = ? AND jenis_gambar IN ('main', 'add')";
+                                $stmt = mysqli_prepare($conn, $stmt3);
+                                mysqli_stmt_bind_param($stmt, "i", $_GET['room_id']);
+
+                                try {
+                                    mysqli_stmt_execute($stmt);
+                                    $result3 = mysqli_stmt_get_result($stmt);
+                                    $slideCount = mysqli_num_rows($result3); // Count the total slides
+                                    $slideIndex = 0; // To assign unique data attribute
+
+                                    while ($row2 = mysqli_fetch_assoc($result3)) {
+                                        $imageUrl = $row2['url_gambar'];
+                                        echo '<div class="slider-slide" style="min-width: 100%; box-sizing: border-box;" data-slide="' . $slideIndex . '">
+                                                <img src="' . $imageUrl . '" alt="Slide image" style="width: 100%; height: 450px; object-fit: cover;">
                                             </div>';
+                                        $slideIndex++;
                                     }
-                                    ?>
+                                } catch (mysqli_sql_exception $e) {
+                                    echo "Error: " . $e->getMessage();
+                                }
+
+                                mysqli_stmt_close($stmt);
+                                ?>
                             </div>
 
-                            <!-- Navigation buttons -->
-                            <button id="prev" style="position: absolute; top: 90%; left: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;"><span><i class="icon-3"></i></span></button>
-                            <button id="next" style="position: absolute; top: 90%; right: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;"><span><i class="icon-2"></i></span></button>
+                            <button id="prev" style="position: absolute; top: 90%; left: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;">
+                                <span><i class="icon-3"></i></span>
+                            </button>
+                            <button id="next" style="position: absolute; top: 90%; right: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;">
+                                <span><i class="icon-2"></i></span>
+                            </button>
                         </div>
+
+                        <div class="pagination-dots" style="text-align: center; margin-top: 10px; color:black">
+                            <?php for ($i = 0; $i < $slideCount; $i++): ?>
+                                <span class="dot" data-slide="<?= $i ?>" style="display: inline-block; width: 10px; height: 10px; margin: 0 5px; background-color: #bbb; border-radius: 50%; cursor: pointer;"></span>
+                            <?php endfor; ?>
+                        </div>
+                        <!--picture slider END-->
+
 
                         <!-- amenities -->
                         <h3 class="fs_40 mb_30">Amenities</h3>
@@ -189,7 +214,7 @@ try {
                                     <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
                                     <input placeholder="21 Sep, 2022" type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="" />
                                 </div>
-                                <?php if ($row['room_type'] == 'room'): ?>
+                                <?php if ($_SESSION['room_type'] == 'room'): ?>
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">BILIK:</p>
                                         <select name="rooms">
@@ -224,11 +249,16 @@ try {
                                         <option value="5">5 KANAK-KANAK</option>
                                     </select>
                                 </div>
-                                <div class="form-group mb-0">
+                                <div class="form-group mb-3">
                                     <button type="submit" class="btn-1">Tempah Sekarang<span></span></button>
                                 </div>
                             </form>
-
+                            <?php
+                            if (isset($_SESSION['availability_error'])) {
+                                echo '<div class="alert alert-danger" role="alert">' . $_SESSION['availability_error'] . '</div>';
+                                unset($_SESSION['availability_error']);
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -236,68 +266,12 @@ try {
         </div>
     </section>
 
-    <!-- Related room -->
-    <section class="section-padding">
-        <div class="auto-container">
-            <div class="section_heading text-left mb_30 mt_30">
-                <h3 class="section_heading_title_big">Pilihan bilik lain</h3>
-            </div>
-            <div class="row">
-                <?php
-                $selected_room_id = isset($_GET['room_id']) ? (int)$_GET['room_id'] : 0;
-                $stmt = "SELECT * FROM room r LEFT JOIN room_img ri ON r.room_id = ri.room_id WHERE image_type = 'main';";
-                $result = $conn->query($stmt);
+    
 
-                // Check if there are rooms available
-                if ($result->num_rows > 0) {
-                    // Loop through each room and display it
-                    while ($room = $result->fetch_assoc()) {
-                        // Get room details from the current row
-                        $room_id = $room['room_id'];
-                        
-                        // Skip the room with room_id = 1 if the selected room_id from GET is also 1
-                        if ($room_id == $selected_room_id) {
-                            continue; // Skip this iteration
-                        }
-
-                        $room_name = $room['room_name'];
-                        $short_description = $room['short_description'];
-                        $price = $room['price_per_day'];
-                        $main_img = $room['image_url']; 
-                ?>
-
-                        <div class="col-lg-4 col-md-6">
-                            <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                                <div class="room-1-image hvr-img-zoom-1">
-                                    <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
-                                </div>
-                                <div class="room-1-content">
-                                    <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
-                                    <h4 class="room-1-title mb_20">
-                                        <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
-                                            <?php echo htmlspecialchars($room_name); ?>
-                                        </a>
-                                    </h4>
-                                    <p class="room-1-text mb_30"><?php echo htmlspecialchars($short_description); ?></p>
-                                    <div class="link-btn">
-                                        <a href="room_details.php?room_id=<?php echo htmlspecialchars($room_id); ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php
-                }
-                } else {
-                    // If no rooms are found
-                    echo "<p>No rooms available at the moment.</p>";
-                }
-                ?>
-            </div>
-        </div>
-    </section>
-
-    <?php include 'partials/footer.php';
-    mysqli_close($conn)?>
+    <?php 
+    include 'partials/additional_room.php';
+    include 'partials/footer.php';
+    mysqli_close($conn);?>
 	
 </div>
 
@@ -316,11 +290,13 @@ try {
 <script src="assets/js/booking-form.js"></script>
 <script src="assets/js/odometer.min.js"></script>
 <script src="assets/js/script.js"></script>
+
 <script>
 let currentIndex = 0;
 
 const slides = document.querySelectorAll('.slider-slide');
 const totalSlides = slides.length;
+const dots = document.querySelectorAll('.dot'); // Get all pagination dots
 
 document.getElementById('next').addEventListener('click', function() {
     if (currentIndex < totalSlides - 1) {
@@ -340,12 +316,32 @@ document.getElementById('prev').addEventListener('click', function() {
     updateSlider();
 });
 
+// Update slider position and highlight active dot
 function updateSlider() {
     const sliderWrapper = document.querySelector('.slider-wrapper');
     const newTranslateValue = -currentIndex * 100 + '%';
     sliderWrapper.style.transform = 'translateX(' + newTranslateValue + ')';
+
+    // Reset all dots' background color
+    dots.forEach(dot => dot.style.backgroundColor = '#bbb');
+    
+    // Highlight the active dot
+    dots[currentIndex].style.backgroundColor = '#717171';
 }
+
+// Add click event for each dot to navigate to the corresponding slide
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', function() {
+        currentIndex = index;
+        updateSlider();
+    });
+});
+
+// Initial state
+updateSlider();
 </script>
+
+
 
 
 </body>

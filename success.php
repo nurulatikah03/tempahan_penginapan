@@ -1,10 +1,4 @@
-<?php session_start();
-$_SESSION['cust_name'] = htmlspecialchars($_POST['full_name']);
-$_SESSION['form-email'] = htmlspecialchars($_POST['form-email']);
-$_SESSION['phone_number'] = htmlspecialchars($_POST['phone_number']);
-$_SESSION['num_of_night'] = htmlspecialchars($_POST['num_of_night']);
-$_SESSION['total_price'] = htmlspecialchars($_POST['price']);
-?>
+<?php session_start()?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,18 +43,19 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
                     <li><a href="index.php">Laman Utama</a></li>
                     <li><a href="pakejPenginapan.php">Penginapan</a></li>
                     <li><a href="room_details.php?room_id=<?php echo htmlspecialchars($_SESSION["room_id"]); ?>"><?php echo $_SESSION['room_name']?></a></li>
-                    <li>Pengesahan</li>
+                    <li>Pengesahan Berjaya</li>
                 </ul>
             </div>
         </div>
         
         <div class="container-md mt-5" style="max-width: 800px;">
-            <h2 class="text-center mb-4">Booking Confirmation</h2>
+            <h2 class="text-center mb-4">Your Booking is Successful!</h2>
             
             <!-- Booking Summary -->
             <div class="card">
                 <div class="card-header">
-                    <h4>Your Booking Details</h4>
+                    <h4>Your Booking Details #<?php echo $_SESSION["booking_number"]?></h4>
+                    <a class="btn-1" href="testPDF.php">View Invoice<span></span></a>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -128,18 +123,12 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-end">
-                <form action="booking_success.php" method="POST">
-                    <button type="submit" class="btn-1">Proceed to Payment<span></span></button>
-                    <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat<span></span></a>
-                    <a href="success.php" class="btn-1">test<span></span></a>
-                </form>
-                </div>
             </div>
+            <div style="margin: 50px;"><h3>Check your email for your booking confirmation</h3></div>
         </div>
         <!-- Booking Summary END -->
-
         
+
         <?php include 'partials/footer.php';?>
         
     </div>
