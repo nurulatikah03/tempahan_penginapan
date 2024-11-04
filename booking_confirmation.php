@@ -54,7 +54,7 @@
         </div>
     </div>
     <?php
-        include 'controller/functions.php';
+        include_once 'controller/functions.php';
 
         if (!checkRoomAvailability($_SESSION['room_id'],$_POST['check_in'], $_POST['check_out'])) {
             $_SESSION['availability_error'] = "Maaf, tiada penginapan ini pada hari yang diminta.";

@@ -1,11 +1,10 @@
 <?php
-session_start();
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
 include 'database/database.php';
-include 'controller/functions.php';
+include_once 'controller/functions.php';
 
 try {
-    $nomborTempahan = $_SESSION["booking_number"];
+    $nomborTempahan = $_SESSION['booking_number'];
 
     $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
             FROM tempahan t 
@@ -150,6 +149,5 @@ $html = '
 // Output summary
 $pdf->writeHTML($html, true, false, false, false, '');
 
-// Close and output PDF document
-$pdf->Output('room_booking_invoice.pdf', 'I');
+$pdfContent = $pdf->Output('', 'S');
 ?>
