@@ -111,8 +111,7 @@
         </div>
     </section>
 
-    <?php include 'partials/footer.php';
-    mysqli_close($conn)?>
+    <?php include 'partials/footer.php';?>
 	
 </div>
 
