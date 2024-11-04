@@ -138,66 +138,35 @@ try {
                         <!--picture slider END-->
 
 
-                        <!-- amenities -->
-                        <h3 class="fs_40 mb_30">Amenities</h3>
-                        <p class="mb_50">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing integer ultrices suspendisse varius etiam est. Est, felis, tempus nec vitae orci sodales Metus, velit nec at diam in sed. Massa dui ipsum ornare sagittis dolor sagittis amet odio est. Sit semper et velit fusce.</p>
+                        <!-- Kemudahan -->
+                        <h3 class="fs_40 mb_30">Kemudahan</h3>
+                        <p class="mb_50"><?php echo $row['huraian_kemudahan']?></p>
 
-                        <div class="row mb_30">
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-8 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Fast wifi</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-9 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Coffee</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-10 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Bath</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-11 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Parking Space​</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-12 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Swimming Pool</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-14 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Breakfast</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-15 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Spa & Wellness</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-16 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Meeting Room</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb_45">
-                                <div class="d-flex align-items-center">
-                                    <i class="icon-17 theme-color fs_40 w_55 mr_25"></i>
-                                    <p class="fw_medium mb_0">Drink</p>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                        $stmt4 = "SELECT k.nama, k.icon FROM kemudahan k LEFT JOIN bilik_kemudahan b ON k.id_kemudahan = b.id_bilik_kemudahan WHERE b.id_bilik = $_GET[room_id]";
+                        
+                        try {
+                        $result4 = mysqli_query($conn, $stmt4);
+
+                        if ($result4->num_rows > 0) {
+                            echo '<div class="row mb_30">';
+                            while($row4 = $result4->fetch_assoc()) {
+                                echo '<div class="col-md-4 col-sm-6 mb_45">';
+                                echo '<div class="d-flex align-items-center">';
+                                echo '<i class="' . $row4['icon'] . ' theme-color fs_40 w_55 mr_25"></i>';
+                                echo '<p class="fw_medium mb_0">' . $row4['nama'] . '</p>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                            echo '</div>';
+                            } else {
+                                echo '<p>Tiada Kemudahan disediakan.</p>';
+                            }
+                        } catch (Exception $e) {
+                        echo 'Error: ' . $e->getMessage();
+                        }
+
+                        ?>
                     </div>
                 </div>
                 <div class="col-lg-4">

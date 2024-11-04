@@ -70,9 +70,7 @@
                     echo "Error: " . $e->getMessage();
                 }
 
-                // Check if there are rooms available
                 if ($result->num_rows > 0) {
-                    // Loop through each room and display it
                     while ($room = $result->fetch_assoc()) {
 
                         $room_name = $room['nama_bilik'];
@@ -111,8 +109,7 @@
         </div>
     </section>
 
-    <?php include 'partials/footer.php';
-    mysqli_close($conn)?>
+    <?php include 'partials/footer.php';?>
 	
 </div>
 
