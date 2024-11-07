@@ -32,7 +32,7 @@
         
         <?php include 'partials/header.php';?>
 
-        <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
+        <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_imgBanner']; ?>);">
             <div class="auto-container">
                 <h1><?php echo $_SESSION['room_name']?></h1>
             </div>
@@ -124,7 +124,10 @@
                     </div>
                 </div>
             </div>
-            <div style="margin: 50px;"><h3>Check your email for your booking confirmation</h3></div>
+            <div style="margin-top: 25px; margin-bottom: 50px;"><h3>Check your email for your invoice</h3></div>
+            <div class="text-left" style="margin-bottom: 25px;">
+                <a href="ses.php" class="btn-1">Kembali ke Laman Utama<span></span></a>
+            </div>
         </div>
         <!-- Booking Summary END -->
         

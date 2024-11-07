@@ -1,9 +1,5 @@
 <?php session_start();
-$_SESSION['cust_name'] = htmlspecialchars($_POST['full_name']);
-$_SESSION['form-email'] = htmlspecialchars($_POST['form-email']);
-$_SESSION['phone_number'] = htmlspecialchars($_POST['phone_number']);
-$_SESSION['num_of_night'] = htmlspecialchars($_POST['num_of_night']);
-$_SESSION['total_price'] = htmlspecialchars($_POST['price']);
+
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +34,7 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
         
         <?php include 'partials/header.php';?>
 
-        <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
+        <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_imgBanner']; ?>);">
             <div class="auto-container">
                 <h1><?php echo $_SESSION['room_name']?></h1>
             </div>
@@ -129,10 +125,9 @@ $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                <form action="booking_success.php" method="POST">
+                <form action="Controller\3_room_booking_success.php" method="POST">
                     <button type="submit" class="btn-1">Proceed to Payment<span></span></button>
-                    <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat<span></span></a>
-                    <a href="success.php" class="btn-1">test<span></span></a>
+                    <a href="booking_confirmation.php" class="btn-1">ubah Butiran Peribadi<span></span></a>
                 </form>
                 </div>
             </div>

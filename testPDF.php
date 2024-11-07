@@ -2,7 +2,7 @@
 session_start();
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
 include 'database/database.php';
-include 'controller/functions.php';
+include_once 'Models/tempahan.php';
 
 try {
     $nomborTempahan = $_SESSION["booking_number"];

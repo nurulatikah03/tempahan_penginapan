@@ -3,8 +3,12 @@
     window.scrollTo(0, 480); 
   };
 </script>
-<?php session_start();?>
-
+<?php session_start();
+if (!isset($_SESSION['room_id'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +42,7 @@
 
 <div class="page-wrapper">
 
-    <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_banner']; ?>);">
+    <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_imgBanner']; ?>);">
     <?php include 'partials/header.php';?>
         <div class="auto-container">
             <h1><?php echo $_SESSION['room_name']?></h1>
@@ -53,49 +57,51 @@
             </ul>
         </div>
     </div>
-    <?php
-        include 'controller/functions.php';
 
-        if (!checkRoomAvailability($_SESSION['room_id'],$_POST['check_in'], $_POST['check_out'])) {
-            $_SESSION['availability_error'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
+    <?php
+        include_once 'Models/tempahan.php';
+
+        if (!checkRoomAvailability($_SESSION['room_id'],$_SESSION['checkInDate'], $_SESSION['checkOutDate'])) {
+            $_SESSION['err'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
             echo "<script>window.history.back();</script>";
             exit;} 
         else {
-        $num_of_night = calcNumOfNight($_POST['check_in'],$_POST['check_out']);
-        $room_num = $_POST['rooms'];
+
+        $num_of_night = calcNumOfNight($_SESSION['checkInDate'],$_SESSION['checkOutDate']);
+        $room_num = $_SESSION['roomsNum'];
         $price = $room_num * $_SESSION['room_price'] * $num_of_night;
-        
-        $_SESSION["checkInDate"] = $_POST['check_in'];
-        $_SESSION["checkOutDate"] = $_POST['check_out'];
         ?>
+        
     <section class="section-padding">
         <div class="auto-container">
             <div class="row">
             <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
-                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_POST['check_in']); ?></p>
-                            <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_POST['check_out']); ?></p>
+                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
+                            <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
                             <p><strong>Bilangan Hari:</strong> <?php echo $num_of_night; ?></p>
                             <?php
                             if ($_SESSION['room_type'] !== "homestay") {
-                                echo "<p><strong>Bilangan Bilik:</strong> " . htmlspecialchars($_POST['rooms']) . "</p>";
+                                echo "<p><strong>Bilangan Bilik:</strong> " . htmlspecialchars($_SESSION['roomsNum']) . "</p>";
                             }
                             ?>
-                            <p><strong>Bilangan Orang Dewasa:</strong> <?php echo htmlspecialchars($_POST['adults']); ?></p>
-                            <p><strong>Bilangan Kanak-kanak:</strong> <?php echo htmlspecialchars($_POST['children']); ?></p>
+                            <p><strong>Bilangan Orang Dewasa:</strong> <?php echo htmlspecialchars($_SESSION['adultsNum']); ?></p>
+                            <p><strong>Bilangan Kanak-kanak:</strong> <?php echo htmlspecialchars($_SESSION['childrenNum']); ?></p>
                             <p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($price); ?></p>
-                            <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat<span></span></a>
+                            <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat tempahan<span></span></a>
                         </div>
-                </div>                
+                </div>
                 <div class="col-lg-8 pe-lg-35">
                     <div class="single-post"> 
                         <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                        <form class="hotel-booking-form-1-form d-block" action="payment_page.php" method="POST">
+
+                        <!-- Booking Form -->
+                        <form class="hotel-booking-form-1-form d-block" action="Controller/2_reservation.php" method="POST">
                             <div class="form-group">
-                            <p class="hotel-booking-form-1-label">Nama Penuh: </p>
+                                <p class="hotel-booking-form-1-label">Nama Penuh: </p>
                                 <div class="form-floating">
-                                    <input class="form-control" type="text" name="full_name" value="" placeholder="Nama"  required/>
+                                    <input class="form-control" type="text" name="full_name" value="" placeholder="Nama" required />
                                     <label for = "text">Nama</label>
                                 </div>
                             </div>
@@ -128,6 +134,12 @@
                                 <button type="submit" class="btn-1" >Bayar<span></span></button>
                             </div>
                         </form>
+                        <?php
+                            if (isset($_SESSION['err'])) {
+                                echo '<div class="alert alert-danger mt-4" role="alert">' . $_SESSION['err'] . '</div>';
+                                unset($_SESSION['err']);
+                            }
+                            ?>
                 </div>
                 
             </div>
@@ -137,9 +149,10 @@
     
     <?php 
     }
+    
     include 'partials/additional_room.php';
     include 'partials/footer.php';
-    mysqli_close($conn);?>
+    ?>
 	
 </div>
 
