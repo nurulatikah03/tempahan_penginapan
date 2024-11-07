@@ -1,7 +1,6 @@
 <?php
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
-ob_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -51,8 +50,6 @@ try {
     $mail->AltBody = 'Thank you for your service';
 
     $mail->send();
-    ob_end_flush();
-    header("Location: success.php");
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }

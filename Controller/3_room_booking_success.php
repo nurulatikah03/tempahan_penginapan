@@ -14,6 +14,7 @@
         $tempahan->insertReservation();
 
         include '../testEMAIL.php'; //send email to customer
+        header("Location: success.php");
         exit();
 }
 ?>
