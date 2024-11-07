@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
 include 'database/database.php';
 include_once 'Models/tempahan.php';
@@ -151,5 +150,6 @@ $html = '
 $pdf->writeHTML($html, true, false, false, false, '');
 
 // Close and output PDF document
-$pdf->Output('room_booking_invoice.pdf', 'I');
+$pdfContent = $pdf->Output('', 'S');
+//$pdf->Output('room_booking_invoice.pdf', 'I');
 ?>
