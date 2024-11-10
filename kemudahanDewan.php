@@ -1,9 +1,11 @@
+<?php include'db-connect.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>INSKET Booking</title>
-<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
+<title>eTempahan INSKET</title>
+<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
 <link href="assets/css/bootstrap.css" rel="stylesheet">
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
@@ -11,8 +13,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
-<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -128,52 +128,58 @@ body {
         </div>
     </div>
 
-    <!-- Room -->
-    <section class="section-padding">
-        <div class="auto-container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM500.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanJubli.php">DEWAN JUBLI</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="dewanJubli.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM350.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanFiber.php">DEWAN FIBER</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 250 orang</p>
-                            <div class="link-btn"><a href="dewanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/event-1.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM200.00</span>/hari</p>
-                            <h4 class="room-1-title mb_20"><a href="dewanKuliahKenaf.php">DEWAN KULIAH KENAF</a></h4>
-                            <p class="room-1-text mb_30">Bilangan Muatan sebanyak 40 orang</p>
-                            <div class="link-btn"><a href="dewanKuliahKenaf.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+	$counter = 1; // Initialize a counter to create variations
+
+	// Fetch data from the dewan table
+	$sql = "SELECT id_dewan, nama_dewan, kadar_sewa, bilangan_muatan, penerangan, status_dewan, gambar FROM dewan";
+	$result = $conn->query($sql);
+
+	if ($result->num_rows > 0) {
+		// Output the data for each dewan
+		?>
+		<section class="section-padding">
+			<div class="auto-container">
+				<div class="row">
+					<?php
+					while($row = $result->fetch_assoc()) {
+						// Set a unique animation delay for each block
+						$animation_delay = 0.2 * $counter; // Increase delay by 0.2s for each iteration
+						?>
+						<div class="col-lg-4 col-md-6">
+							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>s" data-wow-duration=".8s">
+								<div class="room-1-image hvr-img-zoom-1">
+									<img src="adminDashboard/controller/uploads/<?php echo $row['gambar']; ?>" 
+										 alt="<?php echo $row['nama_dewan']; ?>" 
+										 style="width: 100%; height: 250px; object-fit: cover;">
+								</div>
+								<div class="room-1-content">
+									<p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM<?php echo number_format($row['kadar_sewa'], 2); ?></span>/hari</p>
+									<h4 class="room-1-title mb_20">
+										<a href="dewanDetail.php?id_dewan=<?php echo $row['id_dewan']; ?>"><?php echo strtoupper($row['nama_dewan']); ?></a>
+									</h4>
+									<p class="room-1-text mb_30">Bilangan Muatan sebanyak <?php echo $row['bilangan_muatan']; ?> orang</p>
+									<div class="link-btn">
+										<a href="dewanDetail.php?id_dewan=<?php echo $row['id_dewan']; ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						$counter++; // Increment the counter for the next iteration
+					}
+					?>
+				</div>
+			</div>
+		</section>
+		<?php
+	} else {
+		echo "<p>No dewan available.</p>";
+	}
+
+	$conn->close();
+	?>
+
 	
 	<?php include 'partials/footer.php'; ?>
 	

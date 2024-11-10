@@ -1,4 +1,8 @@
-<?php session_start()?>
+<?php session_start();
+if (!isset($_SESSION['room_name'])) {
+    header("Location: index.php");
+    exit();
+}?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,18 +53,26 @@
         </div>
         
         <div class="container-md mt-5" style="max-width: 800px;">
-            <h2 class="text-center mb-4">Your Booking is Successful!</h2>
+            <h2 class="text-center mb-4">Tempahan Anda Berjaya!</h2>
             
             <!-- Booking Summary -->
             <div class="card">
-                <div class="card-header">
-                    <h4>Your Booking Details #<?php echo $_SESSION["booking_number"]?></h4>
-                    <a class="btn-1" href="testPDF.php">View Invoice<span></span></a>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4>Butiran Tempahan Anda</h4>
+                    <a href="testPDF.php?viewInvoice" class="btn" style="background-color: white; border :solid; border-radius :50px; ">View invoice<span></span></a>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Room name:</strong>
+                            <strong>Nombor Tempahan:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php echo "#" . $_SESSION["booking_number"]?>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Nama Bilik:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["room_name"]?>
@@ -68,7 +80,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Full Name:</strong>
+                            <strong>Nama Penuh:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["cust_name"]?>
@@ -76,7 +88,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Email Address:</strong>
+                            <strong>Alamat Email:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["form-email"]?>
@@ -84,7 +96,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Phone Number:</strong>
+                            <strong>Nombor Telefon:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["phone_number"]?>
@@ -92,7 +104,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Check-in Date:</strong>
+                            <strong>Tarikh masuk:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["checkInDate"]?>
@@ -100,7 +112,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Check-out Date:</strong>
+                            <strong>Tarikh keluar:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["checkOutDate"]?>
@@ -116,7 +128,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Total Price:</strong>
+                            <strong>Harga keseluruhan:</strong>
                         </div>
                         <div class="col-sm-8">
                             RM<?php echo $_SESSION["total_price"]?>
@@ -124,7 +136,9 @@
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 25px; margin-bottom: 50px;"><h3>Check your email for your invoice</h3></div>
+            <div style="margin-top: 25px; margin-bottom: 50px;">
+                <h3>An email was sent to <span style="color: green;"><?php echo $_SESSION["form-email"]?></span> for the invoice</h3>
+            </div>
             <div class="text-left" style="margin-bottom: 25px;">
                 <a href="ses.php" class="btn-1">Kembali ke Laman Utama<span></span></a>
             </div>

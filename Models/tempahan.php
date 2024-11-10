@@ -78,6 +78,21 @@
             return $this->total_price;
         }
 
+        public static function getReservationByBookId($bookingNumber){
+            global $conn;
+            $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
+                    FROM tempahan t 
+                    INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
+                    WHERE t.nombor_tempahan = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $bookingNumber);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+            return $reservation;
+        }
+
         public function getReservationById($id){
             global $conn;
             $sql = "SELECT * FROM tempahan WHERE id = ?";

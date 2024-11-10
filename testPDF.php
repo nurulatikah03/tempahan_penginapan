@@ -1,37 +1,22 @@
 <?php
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
-include 'database/database.php';
 include_once 'Models/tempahan.php';
+include_once 'Models/room.php';
+session_start();
+$nomborTempahan = $_SESSION['booking_number'];
+$booking = RoomReservation::getReservationByBookId($nomborTempahan);
+$room = Room::getRoomById($booking->getRoomId());
 
-try {
-    $nomborTempahan = $_SESSION["booking_number"];
-
-    $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
-            FROM tempahan t 
-            INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
-            WHERE t.nombor_tempahan = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $nomborTempahan);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();} 
-    }
-
-catch (mysqli_sql_exception $e) {
-    echo "Error: " . $e->getMessage();
-}
 
 // Sample customer and booking data
-$customerName = $row['nama_penuh'];
-$customerEmail = $row['email'];
-$invoiceDate = $row['tarikh_tempahan'];
-$bookingNumber = $row['nombor_tempahan'];
-$checkInDate = $row['tarikh_daftar_masuk'];
-$checkOutDate = $row['tarikh_daftar_keluar'];
-$roomType = $row['jenis_bilik'];
-$roomRate = $row['harga_semalaman']; // per night
+$customerName = $booking->getCustName();
+$customerEmail = $booking->getEmail();
+$invoiceDate = $booking->getReservationDate();
+$bookingNumber = $booking->getBookingNumber();
+$checkInDate = $booking->getCheckInDate();
+$checkOutDate = $booking->getCheckOutDate();
+$roomType = $room->getType();
+$roomRate = $room->getPrice();
 $numNights = calcNumOfNight($checkInDate,$checkOutDate);
 $totalAmount = $roomRate * $numNights;
 $additionalCharges = 50; // For example, service or cleaning fees
@@ -150,6 +135,10 @@ $html = '
 $pdf->writeHTML($html, true, false, false, false, '');
 
 // Close and output PDF document
-$pdfContent = $pdf->Output('', 'S');
-//$pdf->Output('room_booking_invoice.pdf', 'I');
+
+if (isset($_GET['viewInvoice'])) {
+    $pdf->Output('room_booking_invoice.pdf', 'I');
+}else {
+    $pdfContent = $pdf->Output('', 'S');
+}
 ?>

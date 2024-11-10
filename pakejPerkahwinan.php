@@ -1,29 +1,23 @@
+<?php include'db-connect.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>INSKET Booking</title>
-<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
-<link href="assets/css/bootstrap.css" rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
-<!-- Responsive File -->
-<link href="assets/css/responsive.css" rel="stylesheet">
-<!-- Color File -->
-<link href="assets/css/color.css" rel="stylesheet">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
-<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
-<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-<!-- Responsive -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-<!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
+	<meta charset="utf-8">
+	<title>eTempahan INSKET</title>
+	<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/responsive.css" rel="stylesheet">
+	<link href="assets/css/color.css" rel="stylesheet">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
+	<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <style>
 .footer-1-middle {
@@ -154,32 +148,6 @@ body {
     
 	<?php include'partials/header.php'; ?>
 
-    <div id="search-popup" class="search-popup">
-        <div class="close-search theme-btn"><span class="fal fa-times"></span></div>
-        <div class="popup-inner">
-            <div class="overlay-layer"></div>
-            <div class="search-form">
-                <form method="post" action="index.php">
-                    <div class="form-group">
-                        <fieldset>
-                            <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
-                            <input type="submit" value="Search Now!" class="theme-btn">
-                        </fieldset>
-                    </div>
-                </form>
-                <br>
-                <h3>Recent Search Keywords</h3>
-                <ul class="recent-searches">
-                    <li><a href="#">Finance</a></li>
-                    <li><a href="#">Idea</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">Growth</a></li>
-                    <li><a href="#">Plan</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
     <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
         <div class="auto-container">
             <h1>Pakej Perkahwinan 'Raikan Cinta'</h1>
@@ -194,44 +162,55 @@ body {
         </div>
     </div>
 
-    <!-- Room -->
-    <section class="section-padding">
-        <div class="auto-container">
-            <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration=".8s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/dewanFiber.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar harian <span class="theme-color">RM500.00 </span></p>
-                            <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanFiber.php">Dewan Fiber</a></h4>
-                            <p class="room-1-text mb_30">Dewan Fiber adalah tempat yang popular untuk majlis perkahwinan, 
-									menawarkan reka bentuk elegan dan kemudahan lengkap seperti sistem pencahayaan dan 
-									audio yang baik. </p>
-                            <div class="link-btn"><a href="pakejPerkahwinanFiber.php" class="btn-1 btn-alt">Tempah Sekarang <span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6 col-md-6">
-                    <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.5s">
-                        <div class="room-1-image hvr-img-zoom-1">
-                            <img src="assets/images/resource/dewanJubli.jpg" alt="">
-                        </div>
-                        <div class="room-1-content">
-                            <p class="room-1-meta-info">Kadar Harian <span class="theme-color">RM600.00 </span></p>
-                            <h4 class="room-1-title mb_20"><a href="pakejPerkahwinanJubli.php">Dewan Jubli</a></h4>
-                           <p class="room-1-text mb_30">Dewan Jubli adalah tempat yang popular untuk majlis perkahwinan, 
-									menawarkan reka bentuk elegan dan kemudahan lengkap seperti sistem pencahayaan dan 
-									audio yang baik.<br></p>
-                            <div class="link-btn"><a href="pakejPerkahwinanJubli.php" class="btn-1 btn-alt">Tempah Sekarang<span></span></a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+	$counter = 1;
+
+	$sql = "SELECT id_perkahwinan, nama_dewan, kadar_harga, tambahan, penerangan, gambar FROM perkahwinan";
+	$result = $conn->query($sql);
+
+	if ($result->num_rows > 0) {
+		?>
+		<section class="section-padding">
+			<div class="auto-container">
+				<div class="row">
+					<?php
+					while($row = $result->fetch_assoc()) {
+						$animation_delay = 0.2 * $counter;
+						?>
+						<div class="col-lg-6 col-md-6">
+							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>s" data-wow-duration=".8s">
+								<div class="room-1-image hvr-img-zoom-1">
+									<img src="adminDashboard/controller/uploads/<?php echo $row['gambar']; ?>" 
+										 alt="<?php echo $row['nama_dewan']; ?>" 
+										 style="width: 100%; height: 250px; object-fit: cover;">
+								</div>
+								<div class="room-1-content">
+									<p class="room-1-meta-info">Kadar Harga <span class="theme-color">RM<?php echo number_format($row['kadar_harga'], 2); ?></span>/hari</p>
+									<h4 class="room-1-title mb_20">
+										<a href="perkahwinanDetail.php?id_perkahwinan=<?php echo $row['id_perkahwinan']; ?>"><?php echo strtoupper($row['nama_dewan']); ?></a>
+									</h4>
+									<p class="room-1-text mb_30"><?php echo $row['penerangan']; ?></p>
+									<div class="link-btn">
+										<a href="perkahwinanDetail.php?id_perkahwinan=<?php echo $row['id_perkahwinan']; ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<?php
+						$counter++;
+					}
+					?>
+				</div>
+			</div>
+		</section>
+		<?php
+	} else {
+		echo "<p>Tiada penginapan yang tersedia.</p>";
+	}
+
+	$conn->close();
+	?>
+	
 	<?php include 'partials/footer.php';?>
 	
 </div>
