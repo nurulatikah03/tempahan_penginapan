@@ -1,5 +1,8 @@
 <?php session_start();
-
+if (!isset($_SESSION['room_name'])) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +57,7 @@
             <h2 class="text-center mb-4">Booking Confirmation</h2>
             
             <!-- Booking Summary -->
-            <div class="card">
+            <div class="card mb-5">
                 <div class="card-header">
                     <h4>Your Booking Details</h4>
                 </div>
@@ -117,18 +120,27 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Total Price:</strong>
+                            <strong>Harga keseluruahan:</strong>
                         </div>
                         <div class="col-sm-8">
                             RM<?php echo $_SESSION["total_price"]?>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-end">
-                <form action="Controller\3_room_booking_success.php" method="POST">
-                    <button type="submit" class="btn-1">Proceed to Payment<span></span></button>
-                    <a href="booking_confirmation.php" class="btn-1">ubah Butiran Peribadi<span></span></a>
-                </form>
+                <div class="card-footer text-start">
+                    <form action="Controller\3_room_booking_success.php" method="POST">
+                        <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
+                            <select class="mb-4" id="payment-method" name="payment_method" required>
+                                <option value="cash">Tunai</option>
+                                <option value="local order">LO</option>
+                                <option value="e-perolehan">e-perolehan</option>
+                                <option value="bank_transfer">Bank Transfer</option>
+                            </select>
+                        <div class="my-1">
+                            <button type="submit" class="btn-1">Proceed to Payment<span></span></button>
+                            <a href="booking_confirmation.php" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
