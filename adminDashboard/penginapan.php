@@ -1,9 +1,9 @@
 <?php
-include 'db-connect.php';
+include_once '../Models\room.php';
+include_once '../Models\tempahan.php';
 
 // Fetch data from the database
-$query = "SELECT jenis_bilik, jumlah_bilik, kadar_sewa, bilanganPenyewa, statusBilik, penerangan, penginapan_id, gambar FROM penginapan";
-$result = $conn->query($query);
+$roomList = Room::getAllRooms();
 ?>
 
 <!DOCTYPE html>
@@ -86,28 +86,33 @@ $result = $conn->query($query);
 																<label class="form-check-label" for="customCheck1">&nbsp;</label>
 															</div>
 														</th>
-														<th class="all">Jenis bilik</th>
+														<th class="all">Nama</th>
 														<th>Kadar Sewa (RM)</th>
-														<th>Jumlah Bilik</th>
+														<th>Jenis Penginapan</th>
 														<th>Bilangan Penyewa</th>
 														<th>Penerangan</th>
-														<th>Status</th>
+														<th>Availability (Today)</th>
 														<th>Tindakan</th>
 													</tr>
 												</thead>
 												<tbody>
 													<?php
 													// Check if there are results and display them
-													if ($result->num_rows > 0) {
-														while ($row = $result->fetch_assoc()) {
-															$jenis_bilik = $row['jenis_bilik'];
-															$kadar_sewa = $row['kadar_sewa'];
-															$jumlah_bilik = $row['jumlah_bilik'];
-															$bilanganPenyewa = $row['bilanganPenyewa'];
-															$penerangan = $row['penerangan']; // Corrected from bilanganPenyewa
-															$statusBilik = $row['statusBilik']; // Corrected from penerangan
-															$gambar = $row['gambar'];
-															$penginapan_id = $row['penginapan_id'];
+													if (!empty($roomList)) {
+														foreach ($roomList as $room) {
+															$roomId = $room->getId();
+															$nama_bilik = $room->getName();
+															$jenis_bilik = $room->getName();
+															$kadar_sewa = $room->getPrice();
+															$maxCapacity = $room->getMaxCapacity();
+															$date= date('d/m/Y');
+															$dateTomorrow = date('d/m/Y', strtotime($date . ' + 1 day'));
+															$availablity = countRoomAvailable($roomId, $date, $dateTomorrow);
+															$bilanganPenyewa = 404;
+															$penerangan = $room->getLongDesc();
+															$statusBilik = true;
+															$gambar = $room->getImgMain();
+															$penginapan_id = $room->getId();
 															?>
 															<tr>
 																<td>
@@ -117,23 +122,23 @@ $result = $conn->query($query);
 																	</div>
 																</td>
 																<td>
-																	<img src="controller/uploads/<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																	<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
 																	<p class="m-0 d-inline-block align-middle font-16">
-																		<span class="text-body"><?php echo $jenis_bilik; ?></span>
+																		<span class="text-body"><?php echo $nama_bilik; ?></span>
 																	</p>
 																</td>
-																<td><?php echo number_format($kadar_sewa, 2); ?></td>
-																<td><?php echo $jumlah_bilik; ?></td>
-																<td><?php echo $bilanganPenyewa . ' Orang'; ?></td>
+																<td class="text-center"><?php echo number_format($kadar_sewa, 2); ?></td>
+																<td class="text-center"><?php echo ucfirst($jenis_bilik); ?></td>
+																<td ><?php echo $bilanganPenyewa . ' Orang'; ?></td>
 																<td class="limited-text"><?php echo $penerangan; ?></td>
-																<td><?php echo $statusBilik; ?></td>
+																<td class="text-center"><?php echo $availablity . " / " . $maxCapacity ?></td>
 																<td class="table-action">
-																	<a href="penginapan_details.php?penginapan_id=<?php echo isset($penginapan_id) ? $penginapan_id : '0'; ?>" class="action-icon"><i class="mdi mdi-eye"></i></a>
-																	<a href="kemaskini_penginapan.php?penginapan_id=<?php echo isset($penginapan_id) ? $penginapan_id : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
-																	<a href="controller/delete_penginapan.php?penginapan_id=<?php echo isset($penginapan_id) ? $penginapan_id : '0'; ?>" 
-																	   class="action-icon" 
-																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	   <i class="mdi mdi-delete"></i>
+																	<a href="penginapan_details.php?penginapan_id=<?php echo $penginapan_id; ?>" class="action-icon"><i class="mdi mdi-eye"></i></a>
+																	<a href="kemaskini_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
+																	<a href="controller/delete_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" 
+																	class="action-icon" 
+																	onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
+																	<i class="mdi mdi-delete"></i>
 																	</a>
 																</td>
 															</tr>
@@ -144,14 +149,10 @@ $result = $conn->query($query);
 													}
 													?>
 												</tbody>
+
+
 											</table>
 										</div>
-
-										<?php
-										// Close the database connection
-										$conn->close();
-										?>
-
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->
                             </div> <!-- end col -->

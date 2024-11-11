@@ -61,11 +61,13 @@ if (!isset($_SESSION['room_id'])) {
     <?php
         include_once 'Models/tempahan.php';
 
-        if (!checkRoomAvailability($_SESSION['room_id'],$_SESSION['checkInDate'], $_SESSION['checkOutDate'])) {
+        //Check availability
+        $availableRooms = countRoomAvailable($_SESSION['room_id'],$_SESSION['checkInDate'], $_SESSION['checkOutDate']);
+        if ($availableRooms <= 0) {
             $_SESSION['err'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
             echo "<script>window.history.back();</script>";
-            exit;} 
-        else {
+            exit;
+        } else {
 
         $num_of_night = calcNumOfNight($_SESSION['checkInDate'],$_SESSION['checkOutDate']);
         $room_num = $_SESSION['roomsNum'];
@@ -78,7 +80,7 @@ if (!isset($_SESSION['room_id'])) {
             <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
-                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
+                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($availableRooms); ?></p>
                             <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
                             <p><strong>Bilangan Hari:</strong> <?php echo $num_of_night; ?></p>
                             <?php

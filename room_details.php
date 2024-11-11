@@ -47,6 +47,7 @@
     $_SESSION['room_price'] = $room_details->getPrice();
     $_SESSION['room_imgMain'] = $room_details->getImgMain();
     $_SESSION['room_imgBanner'] = $room_details->getImgBanner();
+    $_SESSION['room_max_capacity'] = $room_details->getMaxCapacity();
 
     ?>
 

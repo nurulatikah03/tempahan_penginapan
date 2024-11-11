@@ -118,50 +118,89 @@
 
     }
 
+    function countRoomAvailable($room_id, $start_date, $end_date) {
+        global $conn; // Database connection
 
-    //additonal functions
-    function checkRoomAvailability($room_id, $checkInDate, $checkOutDate) {
-        global $conn;
-        $checkInDateObj = DateTime::createFromFormat('d/m/Y', $checkInDate);
-        $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $checkOutDate);
-    
-        if ($checkInDateObj === false || $checkOutDateObj === false) {
-            return "Invalid date format. Please enter dates in DD/MM/YYYY format.";
-        }
-    
+        $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
+        $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
         $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
         $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
+        
+        // Step 1: Get max_available_room for the room
+        $roomQuery = "SELECT max_capacity FROM bilik WHERE id_bilik = ?";
+        $roomStmt = $conn->prepare($roomQuery);
+        $roomStmt->bind_param("i", $room_id);
+        $roomStmt->execute();
+        $roomResult = $roomStmt->get_result();
+        $roomData = $roomResult->fetch_assoc();
+        $maxAvailable = $roomData['max_capacity'];
+        
+        // Step 2: Count the number of rooms occupied in the given date range
+        $countQuery = "
+            SELECT COUNT(*) AS occupied_count 
+            FROM tempahan 
+            WHERE id_bilik = ? AND (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?)
+        ";
+        $countStmt = $conn->prepare($countQuery);
+        $countStmt->bind_param("iss", $room_id, $formattedCheckOutDate, $formattedCheckInDate);
+        $countStmt->execute();
+        $countResult = $countStmt->get_result();
+        $occupiedData = $countResult->fetch_assoc();
+        $occupiedCount = $occupiedData['occupied_count'];
     
-        $sql = "SELECT * FROM tempahan 
-                WHERE id_bilik = ? 
-                AND (
-                    (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
-                    OR (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
-                    OR (tarikh_daftar_masuk >= ? AND tarikh_daftar_keluar <= ?)
-                )";
+        // Step 3: Calculate available rooms
+        $availableRooms = $maxAvailable - $occupiedCount;
     
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("issssss", 
-            $room_id, 
-            $formattedCheckOutDate, $formattedCheckInDate, 
-            $formattedCheckInDate, $formattedCheckOutDate, 
-            $formattedCheckInDate, $formattedCheckOutDate
-        );
-    
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
-        if ($result->num_rows > 0) {
-            $availability = false;
-        } else {
-            $availability = true;
-        }
-    
-        $stmt->close();
-        $conn->close();
-    
-        return $availability;
+        // Ensure we don't return a negative number if overbooked
+        return max(0, $availableRooms);
     }
+
+
+    //additonal functions
+    // function checkRoomAvailability($room_id, $checkInDate, $checkOutDate) {
+    //     global $conn;
+    //     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $checkInDate);
+    //     $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $checkOutDate);
+    
+    //     if ($checkInDateObj === false || $checkOutDateObj === false) {
+    //         return "Invalid date format. Please enter dates in DD/MM/YYYY format.";
+    //     }
+    
+    //     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
+    //     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
+    
+    //     $sql = "SELECT * FROM tempahan 
+    //             WHERE id_bilik = ? 
+    //             AND (
+    //                 (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
+    //                 OR (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
+    //                 OR (tarikh_daftar_masuk >= ? AND tarikh_daftar_keluar <= ?)
+    //             )";
+    
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->bind_param("issssss", 
+    //         $room_id, 
+    //         $formattedCheckOutDate, $formattedCheckInDate, 
+    //         $formattedCheckInDate, $formattedCheckOutDate, 
+    //         $formattedCheckInDate, $formattedCheckOutDate
+    //     );
+    
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    
+    //     if ($result->num_rows > 0) {
+    //         $availability = false;
+    //     } else {
+    //         $availability = true;
+    //     }
+    
+    //     $stmt->close();
+    //     $conn->close();
+    
+    //     return $availability;
+    // }
+
+
 
     function generateBookingNumber($conn) {
         global $conn;

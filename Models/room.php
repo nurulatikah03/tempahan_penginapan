@@ -11,13 +11,13 @@
         private $amenDesc;
         private $shortDesc;
         private $longDesc;
-        private $saiz;
+        private $maxCapacity;
         private $imgMain;
         private $imgBanner;
         private $imgList;
         private $aminitiesList;
 
-        public function __construct($id, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $saiz, $imgMain, $imgBanner, $imgList, $aminitiesList) {
+        public function __construct($id, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $imgMain, $imgBanner, $imgList, $aminitiesList) {
             $this->id = $id;
             $this->name = $name;
             $this->capacity = $capacity;
@@ -26,7 +26,7 @@
             $this->amenDesc = $amenDesc;
             $this->shortDesc = $shortDesc;
             $this->longDesc = $longDesc;
-            $this->saiz = $saiz;
+            $this->maxCapacity = $maxCapacity;
             $this->imgMain = $imgMain;
             $this->imgBanner = $imgBanner;
             $this->imgList = $imgList;
@@ -65,8 +65,8 @@
             return $this->longDesc;
         }
 
-        public function getSaiz() {
-            return $this->saiz;
+        public function getMaxCapacity() {
+            return $this->maxCapacity;
         }
 
         public function getImgMain() {
@@ -85,6 +85,26 @@
             return $this->aminitiesList;
         }
         
+        public static function getAllRooms() {
+            global $conn;
+            $rooms = [];
+    
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+    
+            $sql = "SELECT id_bilik FROM bilik";
+            $result = $conn->query($sql);
+    
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $rooms[] = Room::getRoomById($row['id_bilik']);
+                }
+            }
+    
+            return $rooms;
+        }
+
         public static function getRoomById($roomId) {
             global $conn;
             $imgMain = Room::getRoomImageByType($roomId, 'main');
@@ -113,7 +133,7 @@
                     $row['huraian_kemudahan'],
                     $row['huraian_pendek'],
                     $row['huraian'],
-                    $row['keluasan'],
+                    $row['max_capacity'],
                     $imgMain,
                     $imgBanner,
                     $imgList,
