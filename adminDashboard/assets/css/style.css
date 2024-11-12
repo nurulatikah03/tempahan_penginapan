@@ -1,0 +1,46 @@
+/* Custom backdrop styling */
+.modal-backdrop {
+	background: rgb(255 255 255 / 20%) !important;
+	backdrop-filter: blur(10px);
+	animation: fadeIn 0.5s ease both;
+}
+
+/* Override Bootstrap fade transition for modal */
+.custom-modal .modal.fade .modal-dialog {
+	animation: fadeIn 0.5s ease both;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+body {
+	font-family: 'Poppins';
+}
+
+body[data-leftbar-theme=dark] {
+	--ct-bg-leftbar: #254222;
+}
+
+.end-bar .rightbar-title {
+	background-color: #254222;
+}
+
+.limited-text {
+max-width: 150px; /* Set a maximum width for the table cell */
+white-space: nowrap; /* Prevent text from wrapping to the next line */
+overflow: hidden; /* Hide the overflowing text */
+text-overflow: ellipsis; /* Show '...' for truncated text */
+}
+
+.rounded-button {
+border-radius: 25px;
+margin: 15px 16px;
+padding: 10px 30px;
+}

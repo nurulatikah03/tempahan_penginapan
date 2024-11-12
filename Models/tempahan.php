@@ -78,6 +78,18 @@
             return $this->total_price;
         }
 
+        public static function getAllReservation(){
+            global $conn;
+            $sql = "SELECT * FROM tempahan";
+            $result = $conn->query($sql);
+            $reservations = [];
+            while($row = $result->fetch_assoc()){
+                $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+                array_push($reservations, $reservation);
+            }
+            return $reservations;
+        }
+
         public static function getReservationByBookId($bookingNumber){
             global $conn;
             $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
@@ -155,53 +167,6 @@
         return max(0, $availableRooms);
     }
 
-
-    //additonal functions
-    // function checkRoomAvailability($room_id, $checkInDate, $checkOutDate) {
-    //     global $conn;
-    //     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $checkInDate);
-    //     $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $checkOutDate);
-    
-    //     if ($checkInDateObj === false || $checkOutDateObj === false) {
-    //         return "Invalid date format. Please enter dates in DD/MM/YYYY format.";
-    //     }
-    
-    //     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
-    //     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
-    
-    //     $sql = "SELECT * FROM tempahan 
-    //             WHERE id_bilik = ? 
-    //             AND (
-    //                 (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
-    //                 OR (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?) 
-    //                 OR (tarikh_daftar_masuk >= ? AND tarikh_daftar_keluar <= ?)
-    //             )";
-    
-    //     $stmt = $conn->prepare($sql);
-    //     $stmt->bind_param("issssss", 
-    //         $room_id, 
-    //         $formattedCheckOutDate, $formattedCheckInDate, 
-    //         $formattedCheckInDate, $formattedCheckOutDate, 
-    //         $formattedCheckInDate, $formattedCheckOutDate
-    //     );
-    
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    
-    //     if ($result->num_rows > 0) {
-    //         $availability = false;
-    //     } else {
-    //         $availability = true;
-    //     }
-    
-    //     $stmt->close();
-    //     $conn->close();
-    
-    //     return $availability;
-    // }
-
-
-
     function generateBookingNumber($conn) {
         global $conn;
         $yearMonth = date("Ym");
@@ -242,4 +207,9 @@
         $num_of_night = $interval->days; 
     
         return $num_of_night;
+    }
+
+    function formatDateFromSQL($date) {
+        $dateObj = DateTime::createFromFormat('Y-m-d', $date);
+        return $dateObj->format('d/m/Y');
     }

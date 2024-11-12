@@ -179,7 +179,7 @@
                 die("Connection failed: " . $conn->connect_error);
             }
     
-            $sql = "SELECT k.nama, k.icon FROM kemudahan k LEFT JOIN bilik_kemudahan b ON k.id_kemudahan = b.id_bilik_kemudahan WHERE b.id_bilik = ?";
+            $sql = "SELECT k.nama, k.icon_url FROM kemudahan k LEFT JOIN bilik_kemudahan b ON k.id_kemudahan = b.id_kemudahan WHERE b.id_bilik = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $room_id);
             $stmt->execute();
@@ -189,7 +189,7 @@
             while ($row = $result->fetch_assoc()) {
             $amenList[] = [
                 'name' => $row['nama'],
-                'icon' => $row['icon']
+                'icon_url' => $row['icon_url']
             ];
             }
     

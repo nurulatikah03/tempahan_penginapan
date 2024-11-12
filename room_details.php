@@ -120,14 +120,20 @@
                         <h3 class="fs_40 mb_30">Kemudahan</h3>
                         <p class="mb_50"><?php echo $room_details->getAmenDesc()?></p>
                         <div class="row mb_30">
+
                         <?php
-                        foreach ($room_details->getAminitiesList() as $row) {
-                            echo '<div class="col-md-4 col-sm-6 mb_45">';
-                            echo '<div class="d-flex align-items-center">';
-                            echo '<i class="' . $row['icon'] . ' theme-color fs_40 w_55 mr_25"></i>';
-                            echo '<p class="fw_medium mb_0">' . $row['name'] . '</p>';
-                            echo '</div>';
-                            echo '</div>';
+                        $amenities = $room_details->getAminitiesList();
+                        if (empty($amenities)) {
+                            echo '<p>No amenities available.</p>';
+                        } else {
+                            foreach ($amenities as $row) {
+                                echo '<div class="col-md-4 col-sm-6 mb_45">';
+                                echo '<div class="d-flex align-items-center">';
+                                echo '<img src="' . $row['icon_url'] . '" alt="' . $row['name'] . ' icon" class="theme-color fs_40 w_55 mr_25">';
+                                echo '<p class="fw_medium mb_0">' . $row['name'] . '</p>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
                         }
                         ?>
                         </div>

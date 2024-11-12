@@ -21,50 +21,8 @@ $roomList = Room::getAllRooms();
 		<link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
 		<link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
 		<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-		<style>
-		
-			
-		/* Custom backdrop styling */
-		.modal-backdrop {
-			background: rgb(255 255 255 / 20%) !important;
-			backdrop-filter: blur(10px);
-			animation: fadeIn 0.5s ease both;
-		}
+		<link rel="stylesheet" href="assets/css/style.css">
 
-		/* Override Bootstrap fade transition for modal */
-		.custom-modal .modal.fade .modal-dialog {
-			animation: fadeIn 0.5s ease both;
-		}
-
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-			}
-			to {
-				opacity: 1;
-			}
-		}
-		
-		body {
-			font-family: 'Poppins';
-		}
-		
-		body[data-leftbar-theme=dark] {
-			--ct-bg-leftbar: #254222;
-		}
-		
-		.end-bar .rightbar-title {
-			background-color: #254222;
-		}
-		
-		.limited-text {
-		max-width: 150px; /* Set a maximum width for the table cell */
-        white-space: nowrap; /* Prevent text from wrapping to the next line */
-        overflow: hidden; /* Hide the overflowing text */
-        text-overflow: ellipsis; /* Show '...' for truncated text */
-		}
-		</style>
     </head>
 
     <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -87,7 +45,13 @@ $roomList = Room::getAllRooms();
                         <!-- start page title -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="page-title-box">
+								<div class="page-title-box">
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="#">Fasiliti</a></li>
+                                            <li class="breadcrumb-item active">Penginapan</li>
+                                        </ol>
+                                    </div>
                                     <h4 class="page-title">Kemudahan Penginapan</h4>
                                 </div>
                             </div>
@@ -137,9 +101,7 @@ $roomList = Room::getAllRooms();
 															$date= date('d/m/Y');
 															$dateTomorrow = date('d/m/Y', strtotime($date . ' + 1 day'));
 															$availablity = countRoomAvailable($roomId, $date, $dateTomorrow);
-															$bilanganPenyewa = 404;
 															$penerangan = $room->getLongDesc();
-															$statusBilik = true;
 															$gambar = $room->getImgMain();
 															$penginapan_id = $room->getId();
 															?>
@@ -164,24 +126,24 @@ $roomList = Room::getAllRooms();
 																<td class="table-action">
 																
 																	<!-- Button trigger modal -->
-																	<a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#detailsModal<?php echo $penginapan_id; ?>"><i class="mdi mdi-eye"></i></a>
+																	<a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#detailsModal<?php echo $penginapan_id; ?>"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
 
 																	<!-- Modal Start -->
 																	<div class="modal fade custom-modal" id="detailsModal<?php echo $penginapan_id; ?>" tabindex="-1" aria-labelledby="detailsModalLabel<?php echo $penginapan_id; ?>" aria-hidden="true">
 																		<div class="modal-dialog modal-lg" style="box-shadow: 0 4px 8px rgba(6, 92, 29, 0.3); border-radius: 10px">
 																			<div class="modal-content dialog" style="max-width: 100%; width: auto;">
 																				<div class="modal-header">
-																					<h5 class="modal-title" id="detailsModalLabel<?php echo $penginapan_id; ?>">Details for <?php echo $nama_bilik; ?></h5>
+																					<h4 class="modal-title text-center" id="detailsModalLabel<?php echo $penginapan_id; ?>">Details for <?php echo $nama_bilik; ?></h4>
 																					<button type="button" class="btn-close x" data-bs-dismiss="modal" aria-label="Close"></button>
 																				</div>
-																				<div class="modal-body">
+																				<div class="modal-body mx-3">
 																					<!-- Add the content you want to display in the modal here -->
 																					<div class="text-center mb-3">
-																						<h3>Room Image main</h4>
+																						<h3>Image main</h4>
 																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="auto" />
 																					</div>
 																					<div class="row">
-																					<h4 class="text-center">Room Additional images</h4>
+																					<h4 class="text-center">Additional images</h4>
 																						<?php
 																						$imgList = $room->getImgList();
 																						if (!empty($imgList)) {
@@ -217,39 +179,58 @@ $roomList = Room::getAllRooms();
 																					<p><strong>Penerangan Kemudahan:</strong> <?php echo $room->getAmenDesc() ?></p>
 
 																					<p><strong>Senarai kemudahan</strong></p>
-																					<ul>
 																					<?php
 																					$amenities = $room->getAminitiesList();
 																					if (!empty($amenities)) {
 																						foreach ($amenities as $row) {
 																							echo '<div class="col-md-4 col-sm-6 mb_45">';
 																							echo '<div class="d-flex align-items-center">';
-																							echo '<i class="' . $row['icon'] . ' theme-color fs_40 w_55 mr_25"></i>';
+																							echo '<img src="../' . $row['icon_url'] . '" alt="' . $row['name'] . ' icon" class="theme-color" style="width: 30px; height: 30px; margin-right: 25px;">';
 																							echo '<p class="fw_medium mb_0">' . $row['name'] . '</p>';
 																							echo '</div>';
 																							echo '</div>';
 																						}
 																					} else {
-																						echo "<li>Tiada kemudahan</li>";
+																						echo "<p class='text-danger' >Tiada kemudahan</p>";
 																					}
 																					?>
-
-																					</ul>
 																				</div>
 																				<div class="modal-footer">
-																					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+																					<a href="kemaskini_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" class="btn btn-primary">Kemaskini</a>
+																					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $penginapan_id; ?>">Delete</button>
+																				<!---->
+																					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 																				</div>
 																			</div>
 																		</div>
 																	</div>
 																	<!-- End Modal -->
 
-																	<a href="kemaskini_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
-																	<a href="controller/delete_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" 
-																	class="action-icon" 
-																	onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	<i class="mdi mdi-delete"></i>
-																	</a>
+																	<a href="kemaskini_penginapan.php?penginapan_id=<?php echo $penginapan_id; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
+															
+																	<a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $penginapan_id; ?>"><i class="mdi mdi-delete" style="color: red;"></i></a>
+																	
+																	<!-- DELETE ALERT -->
+																	<div class="modal fade" id="deleteModal<?php echo $penginapan_id; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $penginapan_id; ?>" aria-hidden="true">
+																		<div class="modal-dialog">
+																			<div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+																				<div class="modal-body">
+																					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+																					<div class="text-center p-4">
+																						<img src="assets/icon-svg/alert.svg" alt="Alert Icon" class="mb-3" style="height: 100px">
+																					</div>
+																					<div class="text-center">
+																						<h1 class="modal-title fs-5" id="deleteModalLabel">Padam <?php echo $nama_bilik; ?></h1>
+																					
+																						<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
+																					</div>
+																					<div class="text-center">
+																						<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+																						<button type="button" class="btn btn-danger rounded-button">Ya, Padam
+																				</div>
+																			</div>
+																		</div>
+																	</div>
 																</td>
 															</tr>
 															<?php

@@ -1,3 +1,8 @@
+<?php
+include_once '../Models\tempahan.php';
+$lisTempahan = RoomReservation::getAllReservation();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -66,57 +71,83 @@
                                                 <thead class="table-light">
                                                     <tr>
                                                         <th class="all" style="width: 20px;">
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                                <label class="form-check-label" for="customCheck1">&nbsp;</label>
-                                                            </div>
-                                                        </th>
-                                                        <th class="all">Jenis</th>
-                                                        <th>Kategori</th>
+															<div class="form-check">
+																<input type="checkbox" class="form-check-input" id="customCheck1">
+																<label class="form-check-label" for="customCheck1">&nbsp;</label>
+															</div>
+														</th>
+                                                        <th class="all">Tarikh tempahan</th>
+                                                        <th>Nama</th>
+                                                        <th>Nombor fon</th>
+                                                        <th>Email</th>
                                                         <th>Check in</th>
                                                         <th>Check out</th>
-                                                        <th>Harga</th>
-                                                        <th>Kuantiti</th>
-                                                        <th>Status</th>
+                                                        <th>Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    <?php if(!empty($lisTempahan)){ 
+                                                    foreach($lisTempahan as $tempahan){ 
+                                                        $tempahan_id = $tempahan->getId();
+                                                        $reservationDateTime = new DateTime($tempahan->getReservationDate());
+                                                        $reservationDate = $reservationDateTime->format('d/m/Y');
+                                                        $reservationTime = $reservationDateTime->format('h:i A');
+                                                        $custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
+                                                        ?>
                                                     <tr>
                                                         <td>
                                                             <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input" id="customCheck2">
-                                                                <label class="form-check-label" for="customCheck2">&nbsp;</label>
+                                                                <input type="checkbox" class="form-check-input" id="customCheck<?php echo $tempahan_id; ?>">
+                                                                <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            <img src="../assets/images/resource/room-1.jpg" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
                                                             <p class="m-0 d-inline-block align-middle font-16">
-                                                                <span class="text-body">Bilik Biasa</span>
+                                                                <span class="text-body"><?php echo $reservationDate . ' @' . $reservationTime; ?></span>
                                                             </p>
                                                         </td>
-                                                        <td>
-                                                            Penginapan
-                                                        </td>
-                                                        <td>
-                                                            09/12/2024
-                                                        </td>
-                                                        <td>
-                                                            10/12/2024
-                                                        </td>
-                                                        <td>
-                                                            RM70.00
-                                                        </td>
-                    
-                                                        <td>
-                                                            2 Dewasa 1 Kanak-kanak
-                                                        </td>
-                    
+                                                        <td><?php echo $custName; ?></td>
+                                                        <td><?php echo $tempahan->getPhoneNumber(); ?></td>
+                                                        <td><?php echo $tempahan->getEmail(); ?></td>
+                                                        <td><?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?></td>
+                                                        <td><?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?></td>
                                                         <td class="table-action">
-                                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                                            <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
+                                                            <a href="javascript:void(0);" class="action-icon" title="Chat with <?php echo $custName?>"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 23px; height: 23px;"></a>
+                                                            
+                                                            <!--start delete modal-->
+                                                            <a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $tempahan_id; ?>"><i class="mdi mdi-delete" style="color: red;"></i></a>
+																	
+																	<!-- DELETE ALERT -->
+																	<div class="modal fade" id="deleteModal<?php echo $tempahan_id; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $tempahan_id; ?>" aria-hidden="true">
+																		<div class="modal-dialog">
+																			<div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+																				<div class="modal-body">
+																					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+																					<div class="text-center p-4">
+																						<img src="assets/icon-svg/alert.svg" alt="Alert Icon" class="mb-3" style="height: 100px">
+																					</div>
+																					<div class="text-center">
+																						<h1 class="modal-title fs-5" id="deleteModalLabel">Padam <?php echo $tempahan->getBookingNumber(); ?></h1>
+																					
+																						<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
+																					</div>
+																					<div class="text-center">
+																						<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+																						<button type="button" class="btn btn-danger rounded-button">Ya, Padam
+																				</div>
+																			</div>
+																		</div>
+																	</div>
                                                             <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                                                         </td>
                                                     </tr>
+
+                                                <?php }} else { ?>
+                                                    <tr><td colspan="8" class="text-center">Tiada tempahan</td></tr>
+                                                <?php } ?>
+
+
                                                 </tbody>
                                             </table>
                                         </div>
