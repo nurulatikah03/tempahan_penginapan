@@ -1,6 +1,7 @@
 <?php
-include 'db-connect.php';
-include 'controller/get_penginapan.php';
+include_once '../Models\room.php';
+$penginapan_id = $_GET['penginapan_id'];
+$room = Room::getRoomById($penginapan_id);
 
 ?>
 
@@ -54,7 +55,7 @@ include 'controller/get_penginapan.php';
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="penginapan.php">Penginapan</a></li>
-                                            <li class="breadcrumb-item"><?php echo $jenis_bilik; ?></a></li>
+                                            <li class="breadcrumb-item"><?php echo $room->getName(); ?></a></li>
                                             <li class="breadcrumb-item active">Kemaskini</li>
                                         </ol>
                                     </div>
@@ -79,42 +80,44 @@ include 'controller/get_penginapan.php';
 											<div class="row mb-3">
 												<label for="jenis_bilik" class="col-3 col-form-label">Jenis Bilik</label>
 												<div class="col-9">
-													<input type="text" class="form-control" id="jenis_bilik" name="jenis_bilik" value="<?php echo $jenis_bilik;?>" required>
+													<input type="text" class="form-control" id="jenis_bilik" name="jenis_bilik" value="<?php echo ucfirst($room->getType());?>" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="jumlahBilik" class="col-3 col-form-label">Jumlah Bilik</label>
 												<div class="col-9">
-													<input type="number" class="form-control" id="jumlahBilik" name="jumlah_bilik" value="<?php echo $jumlah_bilik;?>" min="1" required>
+													<input type="number" class="form-control" id="jumlahBilik" name="jumlah_bilik" value="<?php echo $room->getMaxCapacity();?>" min="1" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="kadar_sewa" class="col-3 col-form-label">Kadar Sewa (RM)</label>
 												<div class="col-9">
-													<input type="number" step="0.01" class="form-control" id="kadar_sewa" name="kadar_sewa" value="<?php echo $kadar_sewa;?>" min="1" required>
+													<input type="number" step="0.01" class="form-control" id="kadar_sewa" name="kadar_sewa" value="<?php echo $room->getPrice();?>" min="1" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="bilanganPenyewa" class="col-3 col-form-label">Bilangan Penyewa per Bilik (Orang)</label>
 												<div class="col-9">
-													<input type="number" class="form-control" id="bilanganPenyewa" name="bilanganPenyewa" value="<?php echo $bilanganPenyewa;?>" min="1" required>
+													<input type="number" class="form-control" id="bilanganPenyewa" name="bilanganPenyewa" value="<?php echo $room->getCapacity();?>" min="1" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="penerangan" class="col-3 col-form-label">Penerangan</label>
 												<div class="col-9">
-													<textarea class="form-control" id="penerangan" name="penerangan" rows="4" required><?php echo $penerangan; ?></textarea>
+													<textarea class="form-control" id="penerangan" name="penerangan" rows="4" required><?php echo $room->getLongDesc(); ?></textarea>
 												</div>
 											</div>
-											<div class="row mb-3">
+
+											<!-- <div class="row mb-3">
 												<label for="statusBilik" class="col-3 col-form-label">Status</label>
 												<div class="col-9">
-													<select class="form-control" id="statusBilik" name="statusBilik" value="<?php echo $statusBilik;?>" required>
-														<option value="tersedia" <?php if($statusBilik == 'tersedia') echo 'selected'; ?>>Tersedia</option>
-														<option value="tidak_tersedia" <?php if($statusBilik == 'tidak_tersedia') echo 'selected'; ?>>Tidak Tersedia</option>
+													<select class="form-control" id="statusBilik" name="statusBilik" value="<?php //echo $statusBilik;?>" required>
+														<option value="tersedia" <?php //if($statusBilik == 'tersedia') echo 'selected'; ?>>Tersedia</option>
+														<option value="tidak_tersedia" <?php //if($statusBilik == 'tidak_tersedia') echo 'selected'; ?>>Tidak Tersedia</option>
 													</select>
 												</div>
-											</div>
+											</div> -->
+
 											<div class="row mb-3">
 												<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
 												<div class="col-9">

@@ -197,4 +197,81 @@
             return $amenList;
         }
 
+      //Update a Room
+
+      public static function setRoomById($roomId, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $imgMain, $imgBanner, $imgList, $aminitiesList) {
+        global $conn;
+
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "UPDATE bilik SET nama_bilik = ?, kapasiti = ?, jenis_bilik = ?, harga_semalaman = ?, huraian_kemudahan = ?, huraian_pendek = ?, huraian = ?, max_capacity = ? WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sisissssi", $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $roomId);
+        $stmt->execute();
+
+        // Update images and amenities if necessary
+        Room::updateRoomImages($roomId, $imgMain, $imgBanner, $imgList);
+        Room::updateAmenList($roomId, $aminitiesList);
+
+        $stmt->close();
+    }
+
+    private static function updateRoomImages($roomId, $imgMain, $imgBanner, $imgList) {
+        global $conn;
+
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Update main image
+        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = 'main'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $imgMain, $roomId);
+        $stmt->execute();
+
+        // Update banner image
+        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = 'banner'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $imgBanner, $roomId);
+        $stmt->execute();
+
+        // Update additional images
+        $sql = "DELETE FROM bilik_pic WHERE id_bilik = ? AND jenis_gambar = 'add'";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+
+        foreach ($imgList as $img) {
+        $sql = "INSERT INTO bilik_pic (id_bilik, jenis_gambar, url_gambar) VALUES (?, 'add', ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $roomId, $img);
+        $stmt->execute();
+        }
+
+        $stmt->close();
+    }
+
+    private static function updateAmenList($roomId, $aminitiesList) {
+        global $conn;
+
+        if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM bilik_kemudahan WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+
+        foreach ($aminitiesList as $amenity) {
+        $sql = "INSERT INTO bilik_kemudahan (id_bilik, id_kemudahan) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $roomId, $amenity['id']);
+        $stmt->execute();
+        }
+
+        $stmt->close();
+        }
     }

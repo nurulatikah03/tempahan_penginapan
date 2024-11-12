@@ -1,7 +1,7 @@
 <?php
-include 'db-connect.php';
-include 'controller/get_penginapan.php';
-
+include_once '../Models\room.php';
+$penginapan_id = $_GET['penginapan_id'];
+$room = Room::getRoomById($penginapan_id);
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +54,7 @@ include 'controller/get_penginapan.php';
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="penginapan.php">Penginapan</a></li>
-                                            <li class="breadcrumb-item active"><?php echo $jenis_bilik; ?></li>
+                                            <li class="breadcrumb-item active"><?php echo $room->getName(); ?></li>
                                         </ol>
                                     </div>
                                     <h4 class="page-title">Maklumat Kemudahan Penginapan</h4>
@@ -68,25 +68,26 @@ include 'controller/get_penginapan.php';
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-5">
-												<!-- Product image -->
-												<img src="controller/uploads/<?php echo $gambar; ?>" class="img-fluid" style="width: 500; height: 400;" alt="Product-img" />
-											</div> <!-- end col -->
+                                            <div class="col-lg-5 d-flex justify-content-center align-items-center">
+                                                <!-- Product image -->
+                                                <img src="../<?php echo $room->getImgMain(); ?>" class="img-fluid" style="width: auto; height: auto;" alt="Product-img" />
+                                            </div> 
+                                            <!-- end col -->
                                             <div class="col-lg-7">
                                                 <form class="ps-lg-4">
                                                     <!-- Product title -->
-                                                    <h3 class="mt-0"><?php echo $jenis_bilik; ?><a href="kemaskini_penginapan.php?penginapan_id=<?php echo isset($penginapan_id) ? $penginapan_id : '0';?>" class="text-muted"><i class="mdi mdi-square-edit-outline ms-2"></i></a> </h3>
+                                                    <h3 class="mt-0"><?php echo $room->getName(); ?><a href="kemaskini_penginapan.php?penginapan_id=<?php echo isset($penginapan_id) ? $penginapan_id : '0';?>" class="text-muted"><i class="mdi mdi-square-edit-outline ms-2"></i></a> </h3>
 
                                                     <!-- Product description -->
                                                     <div class="mt-4">
                                                         <h6 class="font-14">Kadar Sewa (RM):</h6>
-                                                        <h3><?php echo $kadar_sewa; ?></h3>
+                                                        <h3><?php echo $room->getPrice(); ?></h3>
                                                     </div>
                                         
                                                     <!-- Product description -->
                                                     <div class="mt-4">
                                                         <h6 class="font-14">Penerangan:</h6>
-                                                        <p><?php echo $penerangan; ?></p>
+                                                        <p><?php echo $room->getLongDesc(); ?></p>
                                                     </div>
 
                                                     <!-- Product information -->
@@ -94,11 +95,11 @@ include 'controller/get_penginapan.php';
                                                         <div class="row">
                                                             <div class="col-md-4">
                                                                 <h6 class="font-14">Jumlah Bilik</h6>
-                                                                <p class="text-sm lh-150"><?php echo $jumlah_bilik; ?></p>
+                                                                <p class="text-sm lh-150"><?php echo $room->getMaxCapacity(); ?></p>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <h6 class="font-14">Bilangan Penyewa per bilik</h6>
-                                                                <p class="text-sm lh-150"><?php echo $bilanganPenyewa.' Orang'; ?></p>
+                                                                <p class="text-sm lh-150"><?php echo $room->getCapacity() .' Orang'; ?></p>
                                                             </div>
                                                         </div>
                                                     </div>
