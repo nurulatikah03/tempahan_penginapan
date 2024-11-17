@@ -1,27 +1,12 @@
 <?php
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
-include 'database/database.php';
-include_once 'controller/functions.php';
+include_once 'Models/tempahan.php';
+include_once 'Models/room.php';
+session_start();
+$nomborTempahan = $_SESSION['booking_number'];
+$booking = RoomReservation::getReservationByBookId($nomborTempahan);
+$room = Room::getRoomById($booking->getRoomId());
 
-try {
-    $nomborTempahan = $_SESSION['booking_number'];
-
-    $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
-            FROM tempahan t 
-            INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
-            WHERE t.nombor_tempahan = ?";
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $nomborTempahan);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();} 
-    }
-
-catch (mysqli_sql_exception $e) {
-    echo "Error: " . $e->getMessage();
-}
 
 // Sample customer and booking data
 $customerName = $booking->getCustName();
