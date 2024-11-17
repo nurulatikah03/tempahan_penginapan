@@ -24,14 +24,14 @@ catch (mysqli_sql_exception $e) {
 }
 
 // Sample customer and booking data
-$customerName = $row['nama_penuh'];
-$customerEmail = $row['email'];
-$invoiceDate = $row['tarikh_tempahan'];
-$bookingNumber = $row['nombor_tempahan'];
-$checkInDate = $row['tarikh_daftar_masuk'];
-$checkOutDate = $row['tarikh_daftar_keluar'];
-$roomType = $row['jenis_bilik'];
-$roomRate = $row['harga_semalaman']; // per night
+$customerName = $booking->getCustName();
+$customerEmail = $booking->getEmail();
+$invoiceDate = $booking->getReservationDate();
+$bookingNumber = $booking->getBookingNumber();
+$checkInDate = $booking->getCheckInDate();
+$checkOutDate = $booking->getCheckOutDate();
+$roomType = $room->getType();
+$roomRate = $room->getPrice();
 $numNights = calcNumOfNight($checkInDate,$checkOutDate);
 $totalAmount = $roomRate * $numNights;
 $additionalCharges = 50; // For example, service or cleaning fees
@@ -149,5 +149,11 @@ $html = '
 // Output summary
 $pdf->writeHTML($html, true, false, false, false, '');
 
-$pdfContent = $pdf->Output('', 'S');
+// Close and output PDF document
+
+if (isset($_GET['viewInvoice'])) {
+    $pdf->Output('room_booking_invoice.pdf', 'I');
+}else {
+    $pdfContent = $pdf->Output('', 'S');
+}
 ?>

@@ -1,0 +1,245 @@
+/* Custom backdrop styling */
+.modal.fade .modal-dialog {
+    transition: opacity 0.5s ease-out; /* Adjust duration here */
+}
+
+.modal.fade.show .modal-dialog {
+    transform: translate(0, 0);
+    opacity: 1;
+}
+
+.modal.fade:not(.show) .modal-dialog {
+    transform: translate(0, -25%);
+    opacity: 0;
+    animation: fadeOut 0.5s ease both; /* Adjust duration here */
+}
+
+.modal-backdrop-edit .modal-backdrop {
+    background-color: rgba(255, 255, 255, 0) !important;
+    transition: opacity 0.5s linear; /* Adjust duration here */
+}
+
+.modal-backdrop-edit .modal-backdrop.show {
+    opacity: 1;
+}
+
+.modal-backdrop-edit .modal-backdrop.fade {
+    opacity: 0;
+}
+
+
+/* my own */
+
+.modal-backdrop-del {
+	background: rgba(255, 25, 25, 0.227) !important;
+	backdrop-filter: blur(10px);
+	animation: fadeIn 0.1s ease both;
+}
+
+.modal-content {
+	border-radius: 15px;
+}
+
+.modal-backdrop-edit {
+	background: rgba(66, 66, 254, 0.189) !important;
+	backdrop-filter: blur(10px);
+	animation: fadeIn 0.5s ease both;
+}
+
+.modal-backdrop-view {
+	background: rgba(91, 254, 66, 0.189) !important;
+	backdrop-filter: blur(10px);
+	animation: fadeIn 0.5s ease both;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+body {
+	font-family: 'Poppins';
+}
+
+body[data-leftbar-theme=dark] {
+	--ct-bg-leftbar: #254222;
+}
+
+.end-bar .rightbar-title {
+	background-color: #254222;
+}
+
+.limited-text {
+max-width: 150px; 
+white-space: nowrap; 
+overflow: hidden;
+text-overflow: ellipsis; 
+}
+
+.rounded-button {
+border-radius: 25px;
+margin: 15px 16px;
+padding: 10px 30px;
+}
+
+/* drag and drop */
+
+.drop-area {
+	width: 400px;
+	height: 200px;
+	margin: 20px auto;
+	text-align: center;
+	line-height: 200px;
+	border: 2px dashed #ccc;
+	cursor: pointer;
+}
+
+.drop-area:hover {
+	background-color: rgba(140, 173, 207, 0.337);
+}
+
+.drop-area.highlight {
+    border-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.preview-image {
+	width: auto;
+	height: 200px;
+	object-fit: contain;
+}
+
+.modal-lg-custom {
+    max-width: 1000px;
+}
+
+
+/* ------------------- */
+
+body {
+	font-family: 'Poppins';
+	overflow-y: overlay;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+body[data-leftbar-theme=dark] {
+	--ct-bg-leftbar: #254222;
+}
+
+.end-bar .rightbar-title {
+	background-color: #254222;
+}
+
+.img-content-text {
+	position: relative;
+}
+
+
+.img-content-text h3 {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: 5px 10px;
+	margin-top: 5px;
+	margin-left: 15px;
+	border-radius: 5px;
+}
+
+.img-content-text:hover {
+	transform: scale(0.98);
+	transition: transform 0.3s ease;
+}
+
+.img-content-text .swap {
+	position: absolute;
+	top: 0px;
+	right: 15px;
+	padding: 5px 10px;
+	font-size: 30px;
+	margin-top: 5px;
+	margin-left: 15px;
+	border-radius: 5px;
+}
+
+.image-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 10px;
+}
+
+.more-images {
+	position: relative;
+}
+
+.overlay {
+	position: absolute;
+	top: 11px;
+	left: 11px;
+	right: 11px;
+	bottom: 0px;
+	background: rgba(0, 0, 0, 0.6);
+	border-radius: 25px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+}
+
+.form-check-input:hover {
+	background-color: rgba(59, 113, 202, 0.5);
+	border-radius: 5px;
+}
+
+/* SCROLL BAR */
+::-webkit-scrollbar {
+	width: 8px;
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 0, 0, 0.5);
+}
+
+/* Ensure content doesn't shift when scrollbar appears */
+html {
+	margin-right: calc(-1 * (100vw - 100%));
+}
