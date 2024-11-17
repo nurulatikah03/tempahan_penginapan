@@ -20,7 +20,7 @@ if (strlen($fullName) < 10) {
 }
 
 if (!preg_match('/^[0-9]{10,15}$/', $phoneNumber)) {
-    $_SESSION['err'] = "Sila beri nombor telefon yang sah.";
+    $_SESSION['err'] = "Sila beri nombor telefon yang sah dan tanpa dash (-).";
     echo "<script>window.history.back();</script>";
     exit();
 }

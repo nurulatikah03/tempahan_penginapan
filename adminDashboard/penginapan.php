@@ -13,7 +13,7 @@ $roomList = Room::getAllRooms();
 	<meta charset="utf-8" />
 	<title>INSKET Booking</title>
 	<link rel="icon" type="image/x-icon" href="assets/images/logo/logo2.png">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="assets/images/favicon.ico">
 	<link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/vendor/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
@@ -23,7 +23,10 @@ $roomList = Room::getAllRooms();
 	<link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<link rel="stylesheet" href="assets/css/style.css">
+	<style>
+	</style>
 </head>
+
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
 	<!-- Begin page -->
@@ -83,7 +86,7 @@ $roomList = Room::getAllRooms();
 													<th>Jenis Penginapan</th>
 													<th>Bilangan Penyewa</th>
 													<th>Penerangan</th>
-													<th>Availability (Today)</th>
+													<th>Ketersediaan (Hari ini)</th>
 													<th>Tindakan</th>
 												</tr>
 											</thead>
@@ -99,8 +102,7 @@ $roomList = Room::getAllRooms();
 														$kadar_sewa = $room->getPrice();
 														$maxCapacity = $room->getMaxCapacity();
 														$date = date('d/m/Y');
-														$dateTomorrow = date('d/m/Y', strtotime($date . ' + 1 day'));
-														$availablity = countRoomAvailable($roomId, $date, $dateTomorrow);
+														$availablity = countRoomAvailable($roomId, $date, $date);
 														$penerangan = $room->getLongDesc();
 														$gambar = $room->getImgMain();
 														$penginapan_id = $room->getId();
@@ -174,11 +176,11 @@ $roomList = Room::getAllRooms();
 																				<p style="max-height: auto; overflow: hidden; white-space: normal;"><strong>Penerangan Pendek:</strong> <?php echo htmlspecialchars($room->getShortDesc()); ?></p>
 
 																				<p><strong>Bilangan penginapan:</strong> <?php echo $room->getMaxCapacity() ?></p>
-																				<p><strong>Availability (Today):</strong> <?php echo $availablity . " / " . $maxCapacity ?></p>
+																				<p><strong>Ketersediaan (Hari ini):</strong> <?php echo $availablity . " / " . $maxCapacity ?></p>
 
 																				<p><strong>Penerangan Kemudahan:</strong> <?php echo $room->getAmenDesc() ?></p>
 
-																				<p><strong>Senarai kemudahan</strong></p>
+																				<p><strong>Senarai kemudahan:</strong></p>
 																				<?php
 																				$amenities = $room->getAminitiesList();
 																				if (!empty($amenities)) {
@@ -191,7 +193,7 @@ $roomList = Room::getAllRooms();
 																						echo '</div>';
 																					}
 																				} else {
-																					echo "<p class='text-danger' >Tiada kemudahan</p>";
+																					echo "<p class='text-danger' >Tiada kemudahan disediakan</p>";
 																				}
 																				?>
 																			</div>

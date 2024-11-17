@@ -161,52 +161,53 @@ try {
 							<br>
 							<hr>
 							<h3 class="text-center"><label for="penginapan_id" class="col-3 col-form-label">Matlumat bilik</label></h3>
+
 							<!-- Form for updating the room details -->
-							<form class="form-horizontal" method="post" action="controller/kemaskiniPenginapan_process.php" enctype="multipart/form-data">
+							<form class="form-horizontal" method="post" action="controller/kemaskiniPenginapan_process.php">
 								<div class="row my-3">
 									<label for="penginapan_id" class="col-3 col-form-label">Nama bilik</label>
 									<div class="col-3">
-										<input type="text" class="form-control" id="penginapan_id" name="penginapan_id" value="<?php echo $room->getName(); ?>" required>
+										<input type="text" class="form-control" name="nama_penginapan" value="<?php echo $room->getName(); ?>" required>
 									</div>
 									<label for="jenis_bilik" class="col-3 col-form-label">Jenis Bilik</label>
 									<div class="col-3">
-										<input type="text" class="form-control" id="jenis_bilik" name="jenis_bilik" value="<?php echo ucfirst($room->getType()); ?>" required>
+										<input type="text" class="form-control" name="jenis_bilik" value="<?php echo ucfirst($room->getType()); ?>" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="jumlahBilik" class="col-3 col-form-label">Jumlah Bilik</label>
 									<div class="col-9">
-										<input type="number" class="form-control" id="jumlahBilik" name="jumlah_bilik" value="<?php echo $room->getMaxCapacity(); ?>" min="1" required>
+										<input type="number" class="form-control" name="jumlah_bilik" value="<?php echo $room->getMaxCapacity(); ?>" min="1" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="kadar_sewa" class="col-3 col-form-label">Kadar Sewa (RM)</label>
 									<div class="col-9">
-										<input type="number" step="0.01" class="form-control" id="kadar_sewa" name="kadar_sewa" value="<?php echo $room->getPrice(); ?>" min="1" required>
+										<input type="number" class="form-control" name="kadar_sewa" value="<?php echo $room->getPrice(); ?>" min="1" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="bilanganPenyewa" class="col-3 col-form-label">Bilangan Penyewa per Bilik (Orang)</label>
 									<div class="col-9">
-										<input type="number" class="form-control" id="bilanganPenyewa" name="bilanganPenyewa" value="<?php echo $room->getCapacity(); ?>" min="1" required>
+										<input type="number" class="form-control" name="bilanganPenyewa" value="<?php echo $room->getCapacity(); ?>" min="1" required>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="penerangan_panjang" class="col-3 col-form-label">Penerangan panjang</label>
 									<div class="col-9">
-										<textarea class="form-control" id="penerangan_panjang" name="penerangan_panjang" rows="4" required><?php echo $room->getLongDesc(); ?></textarea>
+										<textarea class="form-control" name="penerangan_panjang" rows="4" required><?php echo $room->getLongDesc(); ?></textarea>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="penerangan_pendek" class="col-3 col-form-label">Penerangan pendek</label>
 									<div class="col-9">
-										<textarea class="form-control" id="penerangan_pendek" name="penerangan_pendek" rows="4" required><?php echo $room->getShortDesc(); ?></textarea>
+										<textarea class="form-control" name="penerangan_pendek" rows="4" required><?php echo $room->getShortDesc(); ?></textarea>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="penerangan_kemudahan" class="col-3 col-form-label">Penerangan kemudahan</label>
 									<div class="col-9">
-										<textarea class="form-control" id="penerangan_kemudahan" name="penerangan_kemudahan" rows="4" required><?php echo $room->getAmenDesc(); ?></textarea>
+										<textarea class="form-control" name="penerangan_kemudahan" rows="4" required><?php echo $room->getAmenDesc(); ?></textarea>
 									</div>
 								</div>
 								<div class="row mb-3">
@@ -228,13 +229,11 @@ try {
 										</div>
 									</div>
 								</div>
-
-								<div class="row mb-3 text-center">
-									<h1>Coming Soon</h1>
-								</div>
 								<div class="justify-content-end row">
 									<div class="col-9">
-										<button type="submit" class="btn btn-info ">Kemaskini</button>
+										<input type="hidden" name="penginapan_id" value="<?php echo $room->getId(); ?>">
+										<input type="hidden" name="process" value="UpdateMetaData">
+										<button type="submit" name="Submit" class="btn btn-info ">Kemaskini</button>
 									</div>
 								</div>
 							</form>
@@ -271,7 +270,7 @@ try {
 								<h3>Gambar baru</h3>
 							</div>
 							<input type="hidden" name="process" value="updateImgMain">
-							<button type="submit" class="btn btn-primary rounded-button">Tukar Gambar Utama</button>
+							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tukar Gambar Utama</button>
 						</form>
 
 					</div>
@@ -305,6 +304,7 @@ try {
 								<input type="file" id="fileElem-2" accept="image/*" style="display:none" name="file">
 							</div>
 							<div id="preview-container-2" class="preview-container"></div>
+							<input type="hidden" name="process" value="updateImgBanner">
 							<button type="submit" class="btn btn-primary rounded-button">Tukar Gambar Banner</button>
 						</form>
 					</div>
@@ -327,7 +327,7 @@ try {
 						<div class="row">
 							<?php foreach ($imgList as $index => $img): ?>
 								<div class="col-4 img-content-text">
-										<img src="../<?php echo $img; ?>" alt="Additional Image <?php echo $index + 1; ?>" class="img-fluid" style="border-radius:25px; height: 100%; width: 100%; object-fit: cover;">
+									<img src="../<?php echo $img; ?>" alt="Additional Image <?php echo $index + 1; ?>" class="img-fluid" style="border-radius:25px; height: 100%; width: 100%; object-fit: cover;">
 								</div>
 							<?php endforeach; ?>
 						</div>
@@ -342,7 +342,7 @@ try {
 								<h3>Gambar baru</h3>
 							</div>
 							<div id="preview-container-3" class="preview-container"></div>
-							<button type="submit" class="btn btn-primary rounded-button">Upload Files 3</button>
+							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Upload Files 3</button>
 						</form>
 					</div>
 				</div>

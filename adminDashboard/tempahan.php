@@ -1,7 +1,7 @@
 <?php
 include_once '../Models\tempahan.php';
 $lisTempahan = RoomReservation::getAllReservation();
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +17,7 @@ $lisTempahan = RoomReservation::getAllReservation();
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-	<link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
     </style>
@@ -124,8 +124,11 @@ $lisTempahan = RoomReservation::getAllReservation();
                                                                                     <p class="pt-3"> Tindakan tidak boleh undur semula. </p>
                                                                                 </div>
                                                                                 <div class="text-center">
-                                                                                    <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
-                                                                                    <button type="button" class="btn btn-danger rounded-button">Ya, Padam
+                                                                                    <form method="post" action="controller/delete_tempahan.php">
+                                                                                        <input type="hidden" name="nombor_tempahan" value="<?php echo $tempahan->getBookingNumber(); ?>">
+                                                                                        <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+                                                                                        <button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
+                                                                                    </form>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -134,16 +137,27 @@ $lisTempahan = RoomReservation::getAllReservation();
                                                             </td>
                                                         </tr>
 
-                                                    <?php }
-                                                } else { ?>
+                                                <?php }
+                                                } ?>
+                                                <?php if (empty($lisTempahan)) { ?>
                                                     <tr>
-                                                        <td colspan="8" class="text-center">Tiada tempahan</td>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input" id="customCheck<?php echo $tempahan_id; ?>">
+                                                                <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        <td colspan="8" class="text-center"><strong>Tiada tempahan</strong></td>
                                                     </tr>
                                                 <?php } ?>
-
-
                                             </tbody>
                                         </table>
+                                        <?php
+                                        if (isset($_SESSION['status']) && $_SESSION['status'] == 'success') {
+                                            echo '<div class="alert alert-success" role="alert">Tempahan berjaya dipadamkan.</div>';
+                                            unset($_SESSION['status']);
+                                        }
+                                        ?>
                                     </div>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->

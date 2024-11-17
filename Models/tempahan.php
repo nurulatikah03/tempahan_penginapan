@@ -131,7 +131,16 @@
             $conn->close();
         }
 
+        public static function delReservationByBookingNum($bookingNum){
+            global $conn;
+            $sql = "DELETE FROM tempahan WHERE nombor_tempahan = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $bookingNum);
+            $stmt->execute();
+            $stmt->close();
+            $conn->close();
 
+        }
     }
 
 
