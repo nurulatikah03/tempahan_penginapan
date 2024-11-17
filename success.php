@@ -59,7 +59,7 @@ if (!isset($_SESSION['room_name'])) {
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>Butiran Tempahan Anda</h4>
-                    <a href="#.php" class="btn" style="background-color: white; border :solid; border-radius :50px; ">View invoice<span></span></a>
+                    <a href="testPDF.php?viewInvoice" class="btn" style="background-color: white; border :solid; border-radius :50px; ">View invoice<span></span></a>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
