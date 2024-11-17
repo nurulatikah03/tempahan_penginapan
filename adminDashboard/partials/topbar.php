@@ -45,9 +45,8 @@
                             </li>
 
                         </ul>
-                        <button class="button-menu-mobile open-left">
+                        <button class="button-menu-mobile open-left" id="sidebar-toggle">
                             <i class="mdi mdi-menu"></i>
                         </button>
-                        
                     </div>
                     <!-- end Topbar -->

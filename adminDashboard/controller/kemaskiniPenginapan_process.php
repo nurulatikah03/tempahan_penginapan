@@ -1,7 +1,6 @@
 <?php
 include '../db-connect.php';
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Retrieve and sanitize form inputs
@@ -12,32 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bilanganPenyewa = (int) $_POST['bilanganPenyewa'];
     $penerangan = mysqli_real_escape_string($conn, $_POST['penerangan']);
     $statusBilik = mysqli_real_escape_string($conn, $_POST['statusBilik']);
-    
-    // Image upload handling
-    $gambar = '';
-    if (!empty($_FILES['fileinput']['name'])) {
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES['fileinput']['name']);
-        $targetFilePath = $targetDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-        // Allow certain file formats
-        $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
-        if (in_array(strtolower($fileType), $allowedTypes)) {
-            // Move uploaded file to server
-            if (move_uploaded_file($_FILES['fileinput']['tmp_name'], $targetFilePath)) {
-                // Assign the file name to the variable to be saved in the database
-                $gambar = $fileName;
-            } else {
-                // Error handling if the image upload fails
-                echo "Error uploading file.";
-                exit;
-            }
-        } else {
-            echo "Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
-            exit;
-        }
-    }
 
     // Build the SQL query for updating the accommodation
     $query = "UPDATE penginapan 

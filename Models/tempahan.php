@@ -102,6 +102,8 @@
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+            $stmt->close();
+            $conn->close();
             return $reservation;
         }
 
@@ -114,6 +116,8 @@
             $result = $stmt->get_result();
             $row = $result->fetch_assoc();
             $reservation = new RoomReservation($row['id'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+            $stmt->close();
+            $conn->close();
             return $reservation;
         }
 
@@ -130,6 +134,8 @@
 
     }
 
+
+    //fxs
     function countRoomAvailable($room_id, $start_date, $end_date) {
         global $conn; // Database connection
 
