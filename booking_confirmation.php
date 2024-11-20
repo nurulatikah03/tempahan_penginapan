@@ -59,7 +59,7 @@ if (!isset($_SESSION['room_id'])) {
     </div>
 
     <?php
-        include_once 'Models/tempahan.php';
+        include_once 'Models/tempahanBilik.php';
 
         //Check availability
         $availableRooms = countRoomAvailable($_SESSION['room_id'],$_SESSION['checkInDate'], $_SESSION['checkOutDate']);

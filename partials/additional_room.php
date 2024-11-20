@@ -29,7 +29,7 @@
 
                         <div class="col-lg-4 col-md-6">
                             <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                                <div class="room-1-image hvr-img-zoom-1">
+                                <div class="room-1-image hvr-img-zoom-1" style="height: 200px; width:auto">
                                     <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
                                 </div>
                                 <div class="room-1-content">

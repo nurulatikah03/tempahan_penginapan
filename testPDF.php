@@ -1,6 +1,6 @@
 <?php
 require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
-include_once 'Models/tempahan.php';
+include_once 'Models/tempahanBilik.php';
 include_once 'Models/room.php';
 session_start();
 $nomborTempahan = $_SESSION['booking_number'];

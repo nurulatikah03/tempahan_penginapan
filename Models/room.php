@@ -1,6 +1,6 @@
 <?php
+include_once __DIR__ . '/../database/DBConnec.php';
 
-include_once './/database/DBConnec.php';
 
 class Room
 {
@@ -243,6 +243,100 @@ class Room
 
         return $amenities;
     }
+
+    public static function getRoomNameById($roomId)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT nama_bilik FROM bilik WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $roomName = $row['nama_bilik'];
+
+        $stmt->close();
+        return $roomName;
+    }
+
+    public static function delImgAddByURL($roomID, $imgType, $imgURL)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM bilik_pic WHERE id_bilik = ? AND jenis_gambar = ? AND url_gambar = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $roomID, $imgType, $imgURL);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+    
+    
+
+    //Insert a Room
+
+    public static function addImage($roomId, $imgURL, $imgType)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "INSERT INTO bilik_pic (id_bilik, url_gambar, jenis_gambar) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $roomId, $imgURL, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    public static function addNewRoom($name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $aminitiesList)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "INSERT INTO bilik (nama_bilik, kapasiti, jenis_bilik, harga_semalaman, huraian_kemudahan, huraian_pendek, huraian, max_capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sisisssi", $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity);
+        $stmt->execute();
+
+        $roomId = $conn->insert_id;
+
+        foreach ($aminitiesList as $amenityName) {
+            $sql = "SELECT id_kemudahan FROM kemudahan WHERE nama = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $amenityName);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $amenity = $result->fetch_assoc();
+
+            if ($amenity) {
+                $amenityId = $amenity['id_kemudahan'];
+
+                $sql = "INSERT INTO bilik_kemudahan (id_bilik, id_kemudahan) VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $roomId, $amenityId);
+                $stmt->execute();
+            }
+        }
+
+        $stmt->close();
+        return $roomId;
+    }
+
     //Update a Room
 
     public static function setRoomById($roomId, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $aminitiesList)
@@ -299,19 +393,32 @@ class Room
         $stmt->close();
     }
 
-
-    public static function UpdateImageMainById($roomId, $imgMainURL)
-    {
+    public static function updateNewImgUrl($roomId, $oldUrl, $newUrl, $imgType){
         $conn = DBConnection::getConnection();
-
 
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = 'main'";
+        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND url_gambar = ? AND jenis_gambar = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $imgMainURL, $roomId);
+        $stmt->bind_param("siss", $newUrl, $roomId, $oldUrl, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    public static function updateImageByType($roomId, $imgURL, $imgType)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sis", $imgURL, $roomId, $imgType);
         $stmt->execute();
 
         $stmt->close();

@@ -1,5 +1,6 @@
 <?php
-include_once '../Models\tempahan.php';
+include_once '../Models\tempahanBilik.php';
+include_once '../Models\room.php';
 $lisTempahan = RoomReservation::getAllReservation();
 session_start();
 ?>
@@ -20,6 +21,9 @@ session_start();
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
+        .form-control-display {
+            background-color: #edf7f0;
+        }
     </style>
 </head>
 
@@ -67,7 +71,7 @@ session_start();
                                                             <label class="form-check-label" for="customCheck1">&nbsp;</label>
                                                         </div>
                                                     </th>
-                                                    <th class="all">Tarikh tempahan</th>
+                                                    <th class="all">Nombor Tempahan</th>
                                                     <th>Nama</th>
                                                     <th>Nombor fon</th>
                                                     <th>Email</th>
@@ -80,10 +84,12 @@ session_start();
                                                 <?php if (!empty($lisTempahan)) {
                                                     foreach ($lisTempahan as $tempahan) {
                                                         $tempahan_id = $tempahan->getId();
+                                                        $bookingNumber = $tempahan->getBookingNumber();
                                                         $reservationDateTime = new DateTime($tempahan->getReservationDate());
                                                         $reservationDate = $reservationDateTime->format('d/m/Y');
                                                         $reservationTime = $reservationDateTime->format('h:i A');
                                                         $custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
+                                                        $roomName = Room::getRoomNameById($tempahan->getRoomId());
                                                 ?>
                                                         <tr>
                                                             <td>
@@ -94,7 +100,7 @@ session_start();
                                                             </td>
                                                             <td>
                                                                 <p class="m-0 d-inline-block align-middle font-16">
-                                                                    <span class="text-body"><?php echo $reservationDate . ' @' . $reservationTime; ?></span>
+                                                                    <span class="text-body"><?php echo $bookingNumber; ?></span>
                                                                 </p>
                                                             </td>
                                                             <td><?php echo $custName; ?></td>
@@ -103,39 +109,76 @@ session_start();
                                                             <td><?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?></td>
                                                             <td><?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?></td>
                                                             <td class="table-action">
-                                                                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
+                                                                <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal" data-bs-target="#viewModal<?php echo $bookingNumber; ?>"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
                                                                 <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon" title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- view ALERT -->
+                                                        <div class="modal fade modal-backdrop-view" id="viewModal<?php echo $bookingNumber; ?>" tabindex="-1" aria-labelledby="viewModalLabel<?php echo $bookingNumber; ?>" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                                                    <div class="modal-body">
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+                                                                        <div class="text-center p-4">
+                                                                            <h3>Maklumat tempahan #<?php echo $bookingNumber; ?></h3>
+                                                                        </div>
 
-                                                                <!--start delete modal-->
-                                                                <a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $tempahan_id; ?>"><i class="mdi mdi-delete" style="color: red;"></i></a>
-
-                                                                <!-- DELETE ALERT -->
-                                                                <div class="modal fade modal-backdrop-del" id="deleteModal<?php echo $tempahan_id; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $tempahan_id; ?>" aria-hidden="true">
-                                                                    <div class="modal-dialog ">
-                                                                        <div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                                                                            <div class="modal-body">
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
-                                                                                <div class="text-center p-4">
-                                                                                    <img src="assets/icon-svg/alert.svg" alt="Alert Icon" class="mb-3" style="height: 100px">
+                                                                        <div class="row">
+                                                                            <div class="col-md-6 ps-5 pe-2">
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Nama penyewa</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getCustName(); ?>" readonly style="background-color: white;">
                                                                                 </div>
-                                                                                <div class="text-center">
-                                                                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Padam <?php echo $tempahan->getBookingNumber(); ?></h1>
-
-                                                                                    <p class="pt-3"> Tindakan tidak boleh undur semula. </p>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Nombor Tempahan</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $bookingNumber; ?>" readonly style="background-color: white;">
                                                                                 </div>
-                                                                                <div class="text-center">
-                                                                                    <form method="post" action="controller/delete_tempahan.php">
-                                                                                        <input type="hidden" name="nombor_tempahan" value="<?php echo $tempahan->getBookingNumber(); ?>">
-                                                                                        <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
-                                                                                        <button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
-                                                                                    </form>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Nombor Telefon</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getPhoneNumber(); ?>" readonly style="background-color: white;">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Email</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getEmail(); ?>" readonly style="background-color: white;">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6 ps-2 pe-5">
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Tarikh dan masa tempahan</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $reservationDate . ' @ ' . $reservationTime; ?>" readonly style="background-color: white;">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Check In</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?>" readonly style="background-color: white;">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Check Out</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?>" readonly style="background-color: white;">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Name Bilik</label>
+                                                                                    <input type="text" class="form-control" value="<?php echo $roomName; ?>" readonly style="background-color: white;">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 ps-5">
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Cara pembayaran</label>
+                                                                                    <p>FPX</p>    
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-center">
+                                                                            <h1 class="modal-title fs-5" id="viewModalLabel">Hubungi penempah</h1>
+                                                                        </div>
+                                                                        <div class="text-center">
+                                                                            <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                                            </td>
-                                                        </tr>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                 <?php }
                                                 } ?>
@@ -152,12 +195,6 @@ session_start();
                                                 <?php } ?>
                                             </tbody>
                                         </table>
-                                        <?php
-                                        if (isset($_SESSION['status']) && $_SESSION['status'] == 'success') {
-                                            echo '<div class="alert alert-success" role="alert">Tempahan berjaya dipadamkan.</div>';
-                                            unset($_SESSION['status']);
-                                        }
-                                        ?>
                                     </div>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->

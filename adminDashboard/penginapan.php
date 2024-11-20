@@ -1,6 +1,7 @@
 <?php
+session_start();
 include_once '../Models\room.php';
-include_once '../Models\tempahan.php';
+include_once '../Models\tempahanBilik.php';
 
 // Fetch data from the database
 $roomList = Room::getAllRooms();
@@ -115,7 +116,7 @@ $roomList = Room::getAllRooms();
 																</div>
 															</td>
 															<td>
-																<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																<img src="../<?php echo $gambar; ?>" alt="contact-img" class="rounded me-3" width="78" height="48" />
 																<p class="m-0 d-inline-block align-middle font-16">
 																	<span class="text-body"><?php echo $nama_bilik; ?></span>
 																</p>
@@ -142,7 +143,7 @@ $roomList = Room::getAllRooms();
 																				<!-- Add the content you want to display in the modal here -->
 																				<div class="text-center mb-3">
 																					<h3>Image main</h4>
-																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="auto" />
+																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-responsive"/>
 																				</div>
 																				<div class="row">
 																					<h4 class="text-center">Additional images</h4>
@@ -245,9 +246,13 @@ $roomList = Room::getAllRooms();
 												}
 												?>
 											</tbody>
-
-
 										</table>
+										<?php
+										if (isset($_SESSION['status']) && $_SESSION['status'] == 'success') {
+											echo '<div class="alert alert-success" role="alert">Penginapan berjaya dikemaskini.</div>';
+											unset($_SESSION['status']);
+										}
+										?>
 									</div>
 								</div> <!-- end card-body-->
 							</div> <!-- end card-->

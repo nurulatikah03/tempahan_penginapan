@@ -13,8 +13,8 @@ $email = validate($_POST['form-email']);
 $phoneNumber = validate($_POST['phone_number']);
 
 
-if (strlen($fullName) < 10) {
-    $_SESSION['err'] = "Nama perlu lebih dari 10 perkataan.";
+if (strlen($fullName) < 5) {
+    $_SESSION['err'] = "Nama perlu lebih dari 5 perkataan.";
     echo "<script>window.history.back();</script>";
     exit();
 }

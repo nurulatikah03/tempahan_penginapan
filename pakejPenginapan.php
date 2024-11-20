@@ -82,7 +82,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
                                 <div class="room-1-image hvr-img-zoom-1">
-                                    <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
+                                    <img src="<?php echo htmlspecialchars($main_img); ?>" style="height: 200px; width:425px">
                                 </div>
                                 <div class="room-1-content">
                                     <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>

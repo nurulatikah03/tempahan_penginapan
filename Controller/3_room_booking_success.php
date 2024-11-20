@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    include '..\Models\tempahan.php';
+    include '..\Models\tempahanBilik.php';
     date_default_timezone_set('Asia/Kuala_Lumpur');
     $tarikh_tempahan = date("Y-m-d H:i:s");
     $_SESSION['booking_number'] = generateBookingNumber($conn);
