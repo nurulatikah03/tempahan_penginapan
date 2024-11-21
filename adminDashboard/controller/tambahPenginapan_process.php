@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Define the upload directory
     $uploadDirUtama = '../../assets/images/resource/';
     $uploadDirBanner = '../../assets/images/background/';
+    $uploadDirTambahan = '../../assets/images/resource/';
 
     // Upload Gambar Utama
     if (isset($uploadedFiles['Gambar Utama'])) {
@@ -66,36 +67,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Display all the collected data
-    echo "<h2>Maklumat Penginapan</h2>";
-    echo "<strong>Nama Bilik:</strong> $nama_bilik<br>";
-    echo "<strong>Jenis Bilik:</strong> $jenis_bilik<br>";
-    echo "<strong>Bilangan Penyewa:</strong> $bilangan_penyewa orang<br>";
-    echo "<strong>Jumlah Bilik:</strong> $jumlah_bilik<br>";
-    echo "<strong>Kadar Sewa:</strong> RM $kadar_sewa<br>";
-    echo "<strong>Penerangan Panjang:</strong><br>$penerangan_panjang<br>";
-    echo "<strong>Penerangan Pendek:</strong><br>$penerangan_pendek<br>";
-    echo "<strong>Penerangan Kemudahan:</strong><br>$penerangan_kemudahan<br>";
-
-    echo "<strong>Kemudahan:</strong><ul>";
-    foreach ($kemudahan as $item) {
-        echo "<li>" . htmlspecialchars($item) . "</li>";
-    }
-    echo "</ul>";
-
-    if (!empty($uploadedFiles)) {
-        echo "<strong>Fail Dimuat Naik:</strong><ul>";
-        foreach ($uploadedFiles as $key => $file) {
-            if (is_array($file)) {
-                foreach ($file as $f) {
-                    echo "<li>$key: $f</li>";
+    // Upload Gambar tambahan
+    if (isset($_FILES['fileinput_tambahan'])) {
+        $fileCount = count($_FILES['fileinput_tambahan']['name']);
+        
+        for ($i = 0; $i < $fileCount; $i++) {
+            if ($_FILES['fileinput_tambahan']['error'][$i] === UPLOAD_ERR_OK) {
+                $targetFile = $uploadDirTambahan . basename($_FILES['fileinput_tambahan']['name'][$i]);
+                
+                if (move_uploaded_file($_FILES['fileinput_tambahan']['tmp_name'][$i], $targetFile)) {
+                    $urlToAddrTambahan = 'assets/images/resource/' . basename($_FILES['fileinput_tambahan']['name'][$i]);
+                    Room::addImage($roomId, $urlToAddrTambahan, 'add');
+                    echo "Gambar Tambahan " . ($i + 1) . " berjaya dimuat naik.<br>";
+                } else {
+                    echo "Ralat semasa memuat naik Gambar Tambahan " . ($i + 1) . ".<br>";
                 }
-            } else {
-                echo "<li>$key: $file</li>";
             }
         }
-        echo "</ul>";
     }
+
 } else {
     echo "Invalid request method.";
 }

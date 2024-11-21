@@ -1,4 +1,5 @@
 <?php
+session_start();
 try {
 
 	include_once '../Models\room.php';
@@ -195,6 +196,12 @@ try {
 									</a>
 								</div>
 							</div>
+							<?php
+							if (isset($_SESSION['status'])) {
+								echo '<div class="alert alert-success" role="alert">' . $_SESSION['status'] . '.</div>';
+								unset($_SESSION['status']);
+							}
+							?>
 							<br>
 							<hr>
 							<h3 class="text-center"><label class="col-3 col-form-label">Maklumat bilik</label></h3>
@@ -364,9 +371,11 @@ try {
 					</div>
 					<div class="modal-body">
 						<!-- Image slots -->
-						<div class="text-center mt-1 mb-3">
-							<h3>Gambar Tambahan Sekarang</h3>
-						</div>
+						<?php if (!empty($imgList[0])): ?>
+							<div class="text-center mt-1 mb-3">
+								<h3>Gambar Tambahan Sekarang</h3>
+							</div>
+						<?php endif; ?>
 						<div class="row justify-content-center">
 							<?php for ($i = 0; $i < count($imgList); $i++): ?>
 								<div class="col-4 d-flex justify-content-center align-items-center img-content-text mb-3">
@@ -616,7 +625,7 @@ try {
 			input.files = dt.files;
 		}
 	</script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- demo app -->
 	<script src="assets/js/pages/demo.products.js"></script>
 	<!-- end demo js-->

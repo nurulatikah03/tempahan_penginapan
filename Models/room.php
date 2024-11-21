@@ -264,6 +264,8 @@ class Room
         return $roomName;
     }
 
+    //delete a Room
+
     public static function delImgAddByURL($roomID, $imgType, $imgURL)
     {
         $conn = DBConnection::getConnection();
@@ -280,6 +282,55 @@ class Room
         $stmt->close();
     }
     
+    public static function delImgByRoomId($roomId)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM bilik_pic WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    public static function delAmenByRoomId($roomId)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM bilik_kemudahan WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    public static function delRoomById($roomId)
+    {
+        $conn = DBConnection::getConnection();
+
+        Room::delImgByRoomId($roomId);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM bilik WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+
+        $stmt->close();
+    }
     
 
     //Insert a Room

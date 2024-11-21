@@ -122,13 +122,13 @@
 
     function generateBookingNumber($conn) {
         global $conn;
-        $yearMonth = date("Ym");
+        $yearMonthDay = date("ymd");
         $unique = false;
         $bookingNumber = "";
     
         while (!$unique) {
             $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-            $bookingNumber = "BOOK-" . $yearMonth . "-" . $randomDigits;
+            $bookingNumber = "ROOM-" . $yearMonthDay . "-" . $randomDigits;
     
             $query = "SELECT COUNT(*) FROM tempahan WHERE nombor_tempahan = ?";
             $stmt = $conn->prepare($query);

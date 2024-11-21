@@ -143,7 +143,7 @@ $roomList = Room::getAllRooms();
 																				<!-- Add the content you want to display in the modal here -->
 																				<div class="text-center mb-3">
 																					<h3>Image main</h4>
-																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-responsive"/>
+																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-responsive" />
 																				</div>
 																				<div class="row">
 																					<h4 class="text-center">Additional images</h4>
@@ -229,10 +229,14 @@ $roomList = Room::getAllRooms();
 
 																					<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
 																				</div>
-																				<div class="text-center">
-																					<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
-																					<button type="button" class="btn btn-danger rounded-button">Ya, Padam</button>
-																				</div>
+																				<form action="controller\kemaskiniPenginapan_process.php" method="post">
+																					<input type="hidden" name="process" value="deleteRoom">
+																					<input type="hidden" name="room_id" value="<?php echo $penginapan_id; ?>">
+																					<div class="text-center">
+																						<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+																						<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
+																					</div>
+																				</form>
 																			</div>
 																		</div>
 																	</div>
@@ -248,8 +252,8 @@ $roomList = Room::getAllRooms();
 											</tbody>
 										</table>
 										<?php
-										if (isset($_SESSION['status']) && $_SESSION['status'] == 'success') {
-											echo '<div class="alert alert-success" role="alert">Penginapan berjaya dikemaskini.</div>';
+										if (isset($_SESSION['status'])) {
+											echo '<div class="alert alert-success" role="alert">' . $_SESSION['status'] . '</div>';
 											unset($_SESSION['status']);
 										}
 										?>
@@ -259,7 +263,6 @@ $roomList = Room::getAllRooms();
 						</div> <!-- end col -->
 					</div>
 					<!-- end row -->
-
 				</div> <!-- container -->
 
 			</div> <!-- content -->
@@ -284,7 +287,8 @@ $roomList = Room::getAllRooms();
 	<script src="assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
+	<script>
+	</script>
 	<!-- third party js ends -->
 
 	<!-- demo app -->

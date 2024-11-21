@@ -64,7 +64,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-body">
-									<form class="form-horizontal" method="post" action="controller/tambahPenginapan_process.php" enctype="multipart/form-data">
+									<form class="form-horizontal" method="post" action="controller/kemaskiniPenginapan_process.php" enctype="multipart/form-data">
 										<div class="row mb-3">
 											<label for="nama_bilik" class="col-3 col-form-label">Nama Bilik</label>
 											<div class="col-9">
@@ -152,7 +152,8 @@
 										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
-												<button type="submit" name="submit" class="btn btn-info">Tambah</button>
+												<input type="hidden" name="process" value="addRoom">
+												<button type="submit" name="Submit" class="btn btn-info">Tambah</button>
 											</div>
 										</div>
 									</form>
