@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<title>INSKET Booking</title>
-	<link rel="icon" type="image/x-icon" href="assets/images/logo2.png">
+    <link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
 	<link href="assets/css/bootstrap.css" rel="stylesheet">
 	<link href="assets/css/style.css" rel="stylesheet">
 	<link href="assets/css/responsive.css" rel="stylesheet">
-	<link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/color.css" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -146,7 +146,7 @@ body {
                         </div>
                     </div>
                 </div>
-				<div class="swiper-slide" style="background-image: url(assets/images/pakejPerkahwinan.jpeg);">
+				<div class="swiper-slide" style="background-image: url(assets/images/dewan-1.png);">
                     <div class="content-outer">
                         <div class="content-box">
                             <div class="inner">

@@ -122,10 +122,10 @@ try {
 						</div>
 					</div>
 					<!-- end page title -->
-					<div class="card">
+					<div class="card" style="border-radius: 25px;">
 						<div class="card-body">
 							<div>
-								<h3 class="text-center"><label for="penginapan_id" class="col-3 col-form-label">Gambar Bilik</label></h3>
+								<h3 class="text-center"><label class="col-3 col-form-label">Gambar Bilik</label></h3>
 								<!-- PICTURE -->
 								<div class="images">
 									<div class="row mb-3">

@@ -1,6 +1,6 @@
 <?php
     include_once "tempahan.php";
-    include_once __DIR__ . '/../database/database.php';
+    include_once __DIR__ . '/../database/DBConnec.php';
 
     class RoomReservation extends Reservation{
         private $room_id;
@@ -27,7 +27,7 @@
         }
 
         public static function getAllReservation(){
-            global $conn;
+            $conn = DBConnection::getConnection();
             $sql = "SELECT * FROM tempahan";
             $result = $conn->query($sql);
             $reservations = [];
@@ -39,7 +39,7 @@
         }
 
         public static function getReservationByBookId($bookingNumber){
-            global $conn;
+            $conn = DBConnection::getConnection();
             $sql = "SELECT t.*, b.jenis_bilik, b.harga_semalaman 
                     FROM tempahan t 
                     INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
@@ -56,7 +56,7 @@
         }
 
         public function getReservationById($id){
-            global $conn;
+            $conn = DBConnection::getConnection();
             $sql = "SELECT * FROM tempahan WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
@@ -70,7 +70,7 @@
         }
 
         public function insertReservation(){
-            global $conn;
+            $conn = DBConnection::getConnection();
             $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, id_bilik) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sssssssss", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->room_id);
@@ -84,7 +84,7 @@
 
     //fxs
     function countRoomAvailable($room_id, $start_date, $end_date) {
-        global $conn; // Database connection
+        $conn = DBConnection::getConnection(); // Database connection
 
         $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
         $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
@@ -121,7 +121,7 @@
     }
 
     function generateBookingNumber($conn) {
-        global $conn;
+        $conn = DBConnection::getConnection();
         $yearMonthDay = date("ymd");
         $unique = false;
         $bookingNumber = "";
@@ -129,7 +129,7 @@
         while (!$unique) {
             $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
             $bookingNumber = "ROOM-" . $yearMonthDay . "-" . $randomDigits;
-    
+            $count = 0;
             $query = "SELECT COUNT(*) FROM tempahan WHERE nombor_tempahan = ?";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("s", $bookingNumber);

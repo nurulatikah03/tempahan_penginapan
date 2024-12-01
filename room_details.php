@@ -153,7 +153,7 @@
                                     <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
                                     <input placeholder="21 Sep, 2022" type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="" />
                                 </div>
-                                <?php if ($room_details->getType() == 'room'): ?>
+                                <?php if (!strcasecmp($room_details->getType(), 'homestay') == 0): ?>
 
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">BILIK:</p>
@@ -192,7 +192,8 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <button type="submit" name="submit" class="btn-1">Tempah Sekarang<span></span></button>
-                                </div>
+                                    <input type="hidden" name="process" value="penginapan">
+                                    </div>
                             </form>
                             <?php
                             if (isset($_SESSION['err'])) {

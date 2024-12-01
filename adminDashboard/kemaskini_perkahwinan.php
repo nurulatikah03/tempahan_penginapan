@@ -1,9 +1,3 @@
-<?php
-include 'db-connect.php';
-include 'controller/get_perkahwinan.php';
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
     
@@ -42,7 +36,9 @@ include 'controller/get_perkahwinan.php';
             <div class="content-page">
                 <div class="content">
                     
-					<?php include 'partials/topbar.php'; ?>
+					<?php include 'partials/topbar.php';
+					include_once '../Models/pekejPerkahwinan.php';
+					$pekej = PekejPerkahwinan::getPekejPerkahwinanById($_GET['id_perkahwinan']) ?>
 
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -54,7 +50,7 @@ include 'controller/get_perkahwinan.php';
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="perkahwinan.php">Perkahwinan</a></li>
-                                            <li class="breadcrumb-item"><?php echo $nama_dewan; ?></a></li>
+                                            <li class="breadcrumb-item"><?php echo $pekej->getNamaPekej(); ?></a></li>
                                             <li class="breadcrumb-item active">Kemaskini</li>
                                         </ol>
                                     </div>
@@ -73,49 +69,53 @@ include 'controller/get_perkahwinan.php';
 											<div class="row mb-3">
 												<label for="id_perkahwinan" class="col-3 col-form-label">Perkahwinan ID</label>
 												<div class="col-9">
-													<input type="text" class="form-control" id="id_perkahwinan" name="id_perkahwinan" value="<?php echo $id_perkahwinan; ?>" readonly>
+													<input type="text" class="form-control" id="id_perkahwinan" name="id_perkahwinan" value="<?php echo $pekej->getIdPekej(); ?>" readonly>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="nama_dewan" class="col-3 col-form-label">Nama Pekej</label>
+												<div class="col-9">
+													<input type="text" class="form-control" id="nama_dewan" name="nama_dewan" value="<?php echo $pekej->getNamaPekej();?>" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="nama_dewan" class="col-3 col-form-label">Nama Dewan</label>
 												<div class="col-9">
-													<input type="text" class="form-control" id="nama_dewan" name="nama_dewan" value="<?php echo $nama_dewan;?>" required>
+													<input type="text" class="form-control" id="nama_dewan" name="nama_dewan" value="<?php echo $pekej->getNamaDewanKahwin();?>" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="kadar_harga" class="col-3 col-form-label">Kadar Harga(RM)</label>
 												<div class="col-9">
-													<input type="float" class="form-control" id="kadar_harga" name="kadar_harga" value="<?php echo $kadar_harga;?>" min="1" required>
+													<input type="float" class="form-control" id="kadar_harga" name="kadar_harga" value="<?php echo $pekej->getHargaPekej();?>" min="1" required>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="tambahan" class="col-3 col-form-label">Tambahan</label>
 												<div class="col-9">
-													<input type="text" class="form-control" id="tambahan" name="tambahan" value="<?php echo $tambahan;?>" required>
+													<input type="text" class="form-control" id="tambahan" name="tambahan" value="<?php echo $pekej->getIdPekej();?>" required>
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="penerangan" class="col-3 col-form-label">Penerangan</label>
+												<label for="penerangan" class="col-3 col-form-label">Penerangan pendek</label>
 												<div class="col-9">
-													<textarea class="form-control" id="penerangan" name="penerangan" rows="4" required><?php echo $penerangan; ?></textarea>
+													<textarea class="form-control" id="penerangan" name="penerangan" rows="4" required><?php echo $pekej->getPeneranganPendek(); ?></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="status_perkahwinan" class="col-3 col-form-label">Status</label>
+												<label for="penerangan" class="col-3 col-form-label">Penerangan panjang</label>
 												<div class="col-9">
-													<select class="form-control" id="status_perkahwinan" name="status_perkahwinan" value="<?php echo $status_perkahwinan;?>" required>
-														<option value="tersedia" <?php if($status_perkahwinan == 'tersedia') echo 'selected'; ?>>Tersedia</option>
-														<option value="tidak_tersedia" <?php if($status_perkahwinan == 'tidak_tersedia') echo 'selected'; ?>>Tidak Tersedia</option>
-													</select>
+													<textarea class="form-control" id="penerangan" name="penerangan" rows="4" required><?php echo $pekej->getPeneranganPenuh(); ?></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
 												<div class="col-9">
 													<!-- Display the currently uploaded image if it exists -->
-													<?php if(!empty($gambar)): ?>
+													<?php $gambar = $pekej->getGambarPekej();
+													if(!empty($gambar)): ?>
 														<div class="mb-2">
-															<img src="controller/uploads/<?php echo $gambar; ?>" alt="Gambar Sedia Ada" class="img-thumbnail" style="max-width: 150px;">
+															<img src="../<?php echo $gambar; ?>" alt="Gambar Sedia Ada" class="img-thumbnail" style="max-width: 150px;">
 															<p>Gambar sedia ada: <?php echo $gambar; ?></p>
 														</div>
 													<?php endif; ?>

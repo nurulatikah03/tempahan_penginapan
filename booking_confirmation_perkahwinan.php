@@ -4,7 +4,7 @@
   };
 </script>
 <?php session_start();
-if (!isset($_SESSION['room_id'])) {
+if (!isset($_SESSION['id_perkahwinan'])) {
     header("Location: index.php");
     exit();
 }
@@ -42,28 +42,24 @@ if (!isset($_SESSION['room_id'])) {
 
 <div class="page-wrapper">
 
-    <div class="page-title" style="background-image: url(<?php echo $_SESSION['room_imgBanner']; ?>);">
+    <div class="page-title" style="background-image: url(<?php echo $_SESSION['gambar_pekej']; ?>);">
     <?php include 'partials/header.php';?>
         <div class="auto-container">
-            <h1><?php echo $_SESSION['room_name']?></h1>
+            <h1><?php echo $_SESSION['nama_pekej']?></h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li><a href="pakejPenginapan.php">Penginapan</a></li>
-                <li><?php echo $_SESSION['room_name']?></li>
+                <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
+                <li><?php echo $_SESSION['nama_pekej']?></li>
             </ul>
         </div>
     </div>
 
     <?php
         include_once 'Models/tempahanBilik.php';
-
-        $num_of_night = calcNumOfNight($_SESSION['checkInDate'],$_SESSION['checkOutDate']);
-        $room_num = $_SESSION['roomsNum'];
-        $price = $room_num * $_SESSION['room_price'] * $num_of_night;
         ?>
         
     <section class="section-padding">
@@ -72,18 +68,21 @@ if (!isset($_SESSION['room_id'])) {
             <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
-                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
-                            <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
-                            <p><strong>Bilangan Hari:</strong> <?php echo $num_of_night; ?></p>
+                            <p><strong>Nama Dewan:</strong> <?php echo htmlspecialchars($_SESSION['nama_dewan']); ?></p>
+                            <p><strong>Tarikh Kenduri:</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri']); ?></p>
+                            <p><strong>Bilangan Pax:</strong> <?php echo htmlspecialchars($_SESSION['kapasiti']); ?></p>
                             <?php
-                            if ($_SESSION['room_type'] !== "homestay") {
-                                echo "<p><strong>Bilangan Bilik:</strong> " . htmlspecialchars($_SESSION['roomsNum']) . "</p>";
+                            if (isset($_SESSION['addons']) && is_array($_SESSION['addons'])) {
+                                echo "<p class='mb-0'><strong>Add-ons:</strong></p>";
+                                echo "<ul>";
+                                foreach ($_SESSION['addons'] as $addon) {
+                                    echo "<li>" . htmlspecialchars($addon['name']) . " x " . htmlspecialchars($addon['quantity']) . "</li>";
+                                }
+                                echo "</ul>";
                             }
                             ?>
-                            <p><strong>Bilangan Orang Dewasa:</strong> <?php echo htmlspecialchars($_SESSION['adultsNum']); ?></p>
-                            <p><strong>Bilangan Kanak-kanak:</strong> <?php echo htmlspecialchars($_SESSION['childrenNum']); ?></p>
-                            <p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($price); ?></p>
-                            <a href="room_details.php?room_id=<?php echo $_SESSION["room_id"]?>" class="btn-1">Ubah matlumat tempahan<span></span></a>
+                            <p class="mt_20"><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price_kahwin']); ?></p>
+                            <a href="perkahwinanDetail.php?id_perkahwinan=<?php echo $_SESSION["id_perkahwinan"]?>" class="btn-1">Ubah matlumat tempahan<span></span></a>
                         </div>
                 </div>
                 <div class="col-lg-8 pe-lg-35">
@@ -123,7 +122,7 @@ if (!isset($_SESSION['room_id'])) {
                             </div>
                             <input type="hidden" name="price" value ="<?php echo $price ?>">
                             <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
-                            <input type="hidden" name="process" value ="penginapan">
+                            <input type="hidden" name="process" value ="kahwin">
                             
                             <div class="form-group mb-0 text-end">
                                 <button type="submit" class="btn-1" >Bayar<span></span></button>
@@ -144,7 +143,7 @@ if (!isset($_SESSION['room_id'])) {
     
     <?php 
     
-    include 'partials/additional_room.php';
+    include 'partials/additional_pekejKahwin.php';
     include 'partials/footer.php';
     ?>
 	

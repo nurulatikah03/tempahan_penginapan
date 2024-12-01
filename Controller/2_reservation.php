@@ -1,13 +1,15 @@
 <?php 
 session_start();
-// if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['submit'])) {
-//     header("Location: ../index.php");
-//     exit();
-// }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: ../index.php");
+    exit();
+}
 function validate($data) {
     // Add your validation logic here
     return trim(htmlspecialchars($data));
 }
+
+
 $fullName = validate($_POST['full_name']);
 $email = validate($_POST['form-email']);
 $phoneNumber = validate($_POST['phone_number']);
@@ -27,6 +29,14 @@ if (!preg_match('/^[0-9]{10,15}$/', $phoneNumber)) {
 $_SESSION['cust_name'] = htmlspecialchars($fullName);
 $_SESSION['form-email'] = htmlspecialchars($email);
 $_SESSION['phone_number'] = htmlspecialchars($phoneNumber);
-$_SESSION['num_of_night'] = htmlspecialchars($_POST['num_of_night']);
-$_SESSION['total_price'] = htmlspecialchars($_POST['price']);
-header("Location: ../payment_page.php");
+
+if ($_POST['process'] == 'penginapan') {
+    $_SESSION['num_of_night'] = htmlspecialchars($_POST['num_of_night']);
+    $_SESSION['total_price'] = htmlspecialchars($_POST['price']);
+    header("Location: ../payment_page.php");
+    exit();
+}
+else if ($_POST['process'] == 'kahwin') {
+    header("Location: ../payment_page_kahwin.php");
+    exit();
+}

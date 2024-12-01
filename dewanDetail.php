@@ -76,7 +76,6 @@ body {
 	background-color: #fff;
 	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
 	transform: translate(-50%, -50%);
-	z-i
 }
 
 .btn-1:hover {
@@ -217,11 +216,11 @@ body {
                            <form class="hotel-booking-form-1-form" method="post" action="tempahan.php">
 								<div class="form-group">
 									<p class="hotel-booking-form-1-label">Tarikh masuk:</p>
-									<input type="date" name="tarikh_masuk" id="" required />
+									<input placeholder="17 Sep, 2022" type="text" name="tarikh_masuk" id="nd_booking_archive_form_date_range_from" required />
 								</div>
 								<div class="form-group">        
 									<p class="hotel-booking-form-1-label">Tarikh keluar:</p>
-									<input type="date" name="tarikh_keluar" id="" required />                            
+									<input placeholder="21 Sep, 2022" type="text" name="tarikh_keluar" id="nd_booking_archive_form_date_range_to" required />                            
 								</div>
 								<div class="form-group mb-0">
 									<button type="submit" class="btn-1">Tempah<span></span></button>
