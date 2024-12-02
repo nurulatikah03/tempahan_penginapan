@@ -192,33 +192,34 @@ body {
                 </div>
                 <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40">
-                        <h4 class="mb_20">Buat Tempahan Anda</h4>
-                        <div class="booking-form-3">
-                            <form class="hotel-booking-form-1-form d-block">
-                                <div class="form-group">
-                                    <p class="hotel-booking-form-1-label">Tarikh masuk:</p>
-                                    <input placeholder="" class="" type="text" name="form-name" id="nd_booking_archive_form_date_range_from" value="" />
-                                </div>
-                                <div class="form-group">        
-                                    <p class="hotel-booking-form-1-label">Tarikh keluar:</p>
-                                    <input placeholder="" class="" type="text" name="form-name" id="nd_booking_archive_form_date_range_to" value="" />                            
-                                </div>
-                                <div class="form-group">
-                                    <p class="hotel-booking-form-1-label">Jumlah orang:</p>
-									<input placeholder="Jumlah orang" class="" type="number" name="form-name" min='1' value="" /> 
-                                </div>
-                                <div class="form-group mt-4">                                    
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h4 class="mb_20">Jumlah Harga</h4>
-                                        <p>RM 10</p>
-                                    </div>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button type="submit" class="btn-1">Tempah<span></span></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+						<h4 class="mb_20">Buat Tempahan Anda</h4>
+						<div class="booking-form-3">
+							<form class="hotel-booking-form-1-form d-block" action="booking_confirmation_aktiviti.php" method="POST">
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">Tarikh masuk:</p>
+									<input placeholder="" class="" type="text" name="tarikh_masuk" id="nd_booking_archive_form_date_range_from" value="" />
+								</div>
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">Tarikh keluar:</p>
+									<input placeholder="" class="" type="text" name="tarikh_keluar" id="nd_booking_archive_form_date_range_to" value="" />
+								</div>
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">Jumlah orang:</p>
+									<input placeholder="Jumlah orang" class="" type="number" name="jumlah_orang" min="1" value="" />
+								</div>
+								<div class="form-group mt-4">
+									<div class="d-flex align-items-center justify-content-between">
+										<h4 class="mb_20">Jumlah Harga</h4>
+										<p>RM 10</p>
+									</div>
+								</div>
+								<div class="form-group mb-0">
+									<button type="submit" class="btn-1">Tempah<span></span></button>
+								</div>
+							</form>
+						</div>
+					</div>
+
                 </div>
             </div>
         </div>
