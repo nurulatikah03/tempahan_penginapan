@@ -64,7 +64,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-body">
-									<form class="form-horizontal" method="post" action="controller/tambahPerkahwinan_process.php" enctype="multipart/form-data">
+									<form class="form-horizontal" method="post" action="controller/process_Perkahwinan.php" enctype="multipart/form-data">
 										<div class="row mb-3">
 											<label for="nama_Pekej" class="col-3 col-form-label">Nama Pekej</label>
 											<div class="col-9">
@@ -74,7 +74,7 @@
 										<div class="row mb-3">
 											<label for="nama_dewan" class="col-3 col-form-label">Pilih Dewan</label>
 											<div class="col-9">
-												<select class="form-control" id="nama_dewan" name="nama_dewan" required>
+												<select class="form-control" id="nama_dewan" name="id_dewan" required>
 													<?php foreach ($dewans as $dewan) { ?>
 														<option value="<?php echo $dewan->getIdDewan(); ?>"><?php echo $dewan->getNamaDewan(); ?></option>
 													<?php } ?>
@@ -107,6 +107,7 @@
 										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
+												<input type="hidden" name="process" value="tambah_pekej">
 												<button type="submit" name="submit" class="btn btn-info">Tambah</button>
 											</div>
 										</div>

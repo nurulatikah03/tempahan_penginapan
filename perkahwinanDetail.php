@@ -259,6 +259,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                                                     <input type="checkbox" id="addon_<?php echo $addOn['add_on_id']; ?>" name="addon[]" value="<?php echo $addOn['add_on_nama']; ?>" onchange="toggleQuantityInput(this, <?php echo $addOn['add_on_id']; ?>)"> <?php echo $addOn['add_on_nama']; ?>
                                                 </label>
                                                 <p>RM<?php echo $addOn['harga']; ?></p>
+                                                <input type="hidden" name="addOnID_<?php echo $addOn['add_on_nama']; ?>" value="<?php echo $addOn['add_on_id']; ?>">
                                             </div>
                                             <?php if (strcasecmp($addOn['add_on_nama'], 'Ruang porch') == 0) { ?>
                                                 <input type="hidden" id="quantity_input_<?php echo $addOn['add_on_id']; ?>" name="quantity_<?php echo $addOn['add_on_nama']; ?>" value="1">
@@ -275,7 +276,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h4 class="mb_20">Jumlah Bayaran</h4>
                                             <p id="totalAmount">RM<?php echo number_format($package->getHargaPekej(), 2); ?></p>
-                                            <input type="hidden" name="total_price_kahwin" id="total_price" value="">
+                                            <input type="hidden" name="total_price_kahwin" id="total_price" value="<?php echo number_format($package->getHargaPekej(), 2); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group mb-0">

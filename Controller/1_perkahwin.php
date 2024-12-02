@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_POST['addon'] as $index => $addon) {
             $quantity = isset($_POST['quantity'][$index]) ? $_POST['quantity'][$index] : 1;
             $addons[] = [
+                'id' => isset($_POST['addOnID_' . str_replace(' ', '_', $addon)]) ? $_POST['addOnID_' . str_replace(' ', '_', $addon)] : 0,
                 'name' => $addon,
                 'quantity' => isset($_POST['quantity_' . str_replace(' ', '_', $addon)]) ? $_POST['quantity_' . str_replace(' ', '_', $addon)] : 0
             ];

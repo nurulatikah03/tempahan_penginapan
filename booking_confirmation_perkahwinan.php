@@ -72,13 +72,15 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                             <p><strong>Tarikh Kenduri:</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri']); ?></p>
                             <p><strong>Bilangan Pax:</strong> <?php echo htmlspecialchars($_SESSION['kapasiti']); ?></p>
                             <?php
-                            if (isset($_SESSION['addons']) && is_array($_SESSION['addons'])) {
+                            if (isset($_SESSION['addons']) && is_array($_SESSION['addons']) && count($_SESSION['addons']) > 0) {
                                 echo "<p class='mb-0'><strong>Add-ons:</strong></p>";
                                 echo "<ul>";
                                 foreach ($_SESSION['addons'] as $addon) {
                                     echo "<li>" . htmlspecialchars($addon['name']) . " x " . htmlspecialchars($addon['quantity']) . "</li>";
                                 }
                                 echo "</ul>";
+                            } else {
+                                echo "<p class='mb-0'><strong>Add-ons:</strong> No add-ons</p>";
                             }
                             ?>
                             <p class="mt_20"><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price_kahwin']); ?></p>

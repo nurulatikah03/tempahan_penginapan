@@ -164,5 +164,64 @@
             return $addons;
         }
 
+        //update package
+        public static function updatePekejPerkahwinan($id, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $idDewan, $gambarPekej){
+            $conn = DBConnection::getConnection();
+            $sql = "UPDATE perkahwinan SET nama_pekej_kahwin = ?, harga_pekej = ?, huraian_pendek = ?, huraian = ?, id_dewan = ?, gambar_pekej = ? WHERE id_perkahwinan = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sdssisi", $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $idDewan, $gambarPekej, $id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        //update add-on
+        public static function updateAddOn($id, $addOnName, $harga){
+            $conn = DBConnection::getConnection();
+            $sql = "UPDATE add_on_perkahwinan SET add_on_nama = ?, harga = ? WHERE add_on_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sdi", $addOnName, $harga, $id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        //add package
+        public static function addPekejPerkahwinan($idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej){
+            $conn = DBConnection::getConnection();
+            $sql = "INSERT INTO perkahwinan (id_dewan, nama_pekej_kahwin, harga_pekej, huraian_pendek, huraian, gambar_pekej) VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("isdsss", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        //add addon
+        public static function addAddOn($addOnName, $harga){
+            $conn = DBConnection::getConnection();
+            $sql = "INSERT INTO add_on_perkahwinan (add_on_nama, harga) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $addOnName, $harga);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        //deletion of package
+        public static function deletePekejPerkahwinan($id){
+            $conn = DBConnection::getConnection();
+            $sql = "DELETE FROM perkahwinan WHERE id_perkahwinan = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        //deletion of add-on
+        public static function deleteAddon($id){
+            $conn = DBConnection::getConnection();
+            $sql = "DELETE FROM add_on_perkahwinan WHERE add_on_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $stmt->close();
+        }
 
     }   

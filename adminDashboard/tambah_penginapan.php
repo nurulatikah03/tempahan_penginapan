@@ -64,7 +64,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-body">
-									<form class="form-horizontal" method="post" action="controller/kemaskiniPenginapan_process.php" enctype="multipart/form-data">
+									<form class="form-horizontal" method="post" action="controller/process_Perkahwinan.php" enctype="multipart/form-data">
 										<div class="row mb-3">
 											<label for="nama_bilik" class="col-3 col-form-label">Nama Bilik</label>
 											<div class="col-9">

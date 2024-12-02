@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $room = Room::setRoomById($roomId, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $jumlahBilik, $aminitiesList);
         $_SESSION['status'] = 'Kemaskini maklumat berjaya.';
         header("Location: ../penginapan.php");
+        exit;
     } else if ($_POST['process'] == 'UpdateImageMainAndBanner') {
         $URLgambarLama = $_POST['URLgambarLama'];
         $imgType = $_POST['imgType'];
@@ -154,6 +155,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         }
         $_SESSION['status'] = 'Penginapan berjaya ditambah.';
         header("Location: ../penginapan.php");
+        exit;
+    } elseif ($_POST['process'] == 'UpdateImageAdd') {
+
+        if (isset($_FILES['images'])) {
+
+            $imgType = $_POST['imgType'];
+            $roomId = $_POST['roomId'];
+            // Loop through each uploaded file
+            foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+                $file_name = $_FILES['images']['name'][$key];
+                $file_size = $_FILES['images']['size'][$key];
+                $file_type = $_FILES['images']['type'][$key];
+                $file_tmp = $_FILES['images']['tmp_name'][$key];
+                // Define the upload directory
+                $upload_dir = '../assets/images/resource/';
+
+                // Check if the upload directory exists, if not, create it
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+
+                // Define the path to save the uploaded file
+                $file_path = $upload_dir . basename($file_name);
+                $urlToAdd = 'assets/images/resource/' . basename($file_name);
+
+                // Move the uploaded file to the upload directory
+                if (move_uploaded_file($file_tmp, $file_path)) {
+                    echo "<p><strong>Uploaded to:</strong> " . htmlspecialchars($file_path) . "</p>";
+                    Room::addImage($roomId, $urlToAdd, $imgType);
+                    $_SESSION['status'] = 'Kemaskini gambar tambahan Berjaya';
+                    header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
+                    exit;
+                } else {
+                    echo "<p style='color: red;'><strong>Error:</strong> Failed to upload file.</p>";
+                }
+                echo "</div>";
+            }
+        }
     } else {
         echo "Invalid process.";
         exit;

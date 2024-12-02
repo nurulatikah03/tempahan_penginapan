@@ -145,7 +145,7 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                     </div>
                 </div>
                 <div class="card-footer text-start">
-                    <form action="Controller\3_room_booking_success.php" method="POST">
+                    <form action="Controller\3_to_payment_GW.php" method="POST">
                         <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
                         <select class="mb-4" id="payment-method" name="payment_method" required>
                             <option value="cash">Tunai</option>
@@ -154,7 +154,7 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                             <option value="bank_transfer">Bank Transfer</option>
                         </select>
                         <div class="my-1">
-                            <button type="submit" class="btn-1">Proceed to Payment<span></span></button>
+                            <button type="submit" name="submit" value="kahwin" class="btn-1">Proceed to Payment<span></span></button>
                             <a href="booking_confirmation_perkahwinan.php" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
                         </div>
                     </form>

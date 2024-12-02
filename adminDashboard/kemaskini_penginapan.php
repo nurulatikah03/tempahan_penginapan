@@ -396,7 +396,7 @@ try {
 						<div class="text-center mt-1 mb-3">
 							<h3>Tambah Gambar disini</h3>
 						</div>
-						<form id="upload-form-3" action="test3.php" method="post" enctype="multipart/form-data">
+						<form id="upload-form-3" action="controller/kemaskiniPenginapan_process.php" method="post" enctype="multipart/form-data">
 							<!-- Container for both previews and upload box -->
 							<div class="d-flex justify-content-start align-items-start flex-wrap gap-3">
 								<!-- Preview container for uploaded images -->

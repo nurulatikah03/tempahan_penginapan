@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<?php session_start(); ?>
 <head>
 	<meta charset="utf-8" />
 	<title>INSKET Booking</title>
@@ -140,9 +140,10 @@
 
 																			<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
 																		</div>
-																		<form action="#" method="post">
-																			<input type="hidden" name="process" value="deleteRoom">
-																			<input type="hidden" name="room_id" value="<?php echo $penginapan_id; ?>">
+																		<form action="controller/process_Perkahwinan.php" method="post">
+																			<input type="hidden" name="process" value="delete_pekej">
+																			<input type="hidden" name="id_pekej" value="<?php echo $pekej->getIdPekej(); ?>">
+																			<input type="hidden" name="gambar_url" value="<?php echo $pekej->getGambarPekej(); ?>">
 																			<div class="text-center">
 																				<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
 																				<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
@@ -160,6 +161,12 @@
 												<?php } ?>
 											</tbody>
 										</table>
+										<?php if (isset($_SESSION['success'])) { ?>
+											<div class="alert alert-success alert-dismissible fade show" role="alert">
+												<?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+												<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+											</div>
+										<?php } ?>
 									</div>
 								</div> <!-- end card-body-->
 							</div> <!-- end card-->
