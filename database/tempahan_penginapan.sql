@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 25, 2024 at 04:45 AM
+-- Generation Time: Dec 02, 2024 at 07:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,8 +40,8 @@ CREATE TABLE `add_on_perkahwinan` (
 INSERT INTO `add_on_perkahwinan` (`add_on_id`, `add_on_nama`, `harga`) VALUES
 (1, 'Ruang porch', 50),
 (2, 'Meja dan alas', 8),
-(3, 'Kerusi ', 1),
-(4, 'Meja Banquet', 5);
+(3, 'Kerusi', 1),
+(5, 'Meja Banquet', 8);
 
 -- --------------------------------------------------------
 
@@ -135,18 +135,19 @@ CREATE TABLE `bilik_pic` (
 --
 
 INSERT INTO `bilik_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`) VALUES
-(1, 'main', 'assets/images/resource/room-1_normal - Copy.jpg', 1),
+(1, 'main', 'assets/images/resource/room-1_normal.jpg', 1),
 (2, 'main', 'assets/images/resource/room-2_VIP.jpg', 2),
 (3, 'main', 'assets/images/resource/room-3_homestay.jpg', 3),
 (4, 'banner', 'assets/images/background/page-title-4_normal.jpg', 1),
 (5, 'banner', 'assets/images/background/page-title-5_VIP.jpeg', 2),
 (6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3),
-(7, 'add', 'assets/images/resource/homestay_patio.jpg', 3),
-(8, 'add', 'assets/images/resource/homestay_patio.jpg', 3),
 (9, 'add', 'assets/images/resource/room-1_livingroom.jpg', 1),
 (10, 'add', 'assets/images/resource/room-1_bathroom.jpg', 1),
-(22, 'add', 'assets/images/resource/IMG_20220310_211222.jpg', 3),
-(29, 'add', 'assets/images/resource/Picture4.png', 1);
+(49, 'add', 'assets/images/resource/room-3_homestay.jpg', 3),
+(50, 'add', 'assets/images/resource/homestay_patio.jpg', 3),
+(51, 'add', 'assets/images/resource/homestay_swimming.jpg', 3),
+(52, 'add', 'assets/images/resource/dewanJubli.jpg', 2),
+(54, 'add', 'assets/images/resource/teambuilding.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -221,8 +222,8 @@ CREATE TABLE `perkahwinan` (
 --
 
 INSERT INTO `perkahwinan` (`id_perkahwinan`, `nama_pekej_kahwin`, `harga_pekej`, `huraian`, `huraian_pendek`, `id_dewan`, `gambar_pekej`) VALUES
-(5, 'Raikan Cinta - Dewan Fiber', 500.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi\r\nBoleh add on \r\nruang porch yang boleh memuatkan 50 orang jemputan – RM50.00\r\nMeja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi', 8, 'adminDashboard/controller/uploads/dewanJubli2.png'),
-(6, 'Raikan Cinta - Dewan Jubli', 600.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi\r\n\r\nMeja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 'Meja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 6, 'adminDashboard/controller/uploads/dewanJubli1.png');
+(5, 'Raikan Cinta - Dewan Fiber', 500.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang\n8 unit meja dan alas meja\n80 unit kerusi\nBoleh add on \nruang porch yang boleh memuatkan 50 orang jemputan – RM50.00\nMeja dan alas – RM8.00/Unit\nKerusi – RM1/Unit\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi', 8, 'adminDashboard/controller/uploads/dewanJubli2.png'),
+(6, 'Raikan Cinta - Dewan Jubli', 600.00, 'Meja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi\r\n\r\nMeja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 6, 'adminDashboard/controller/uploads/dewanFiber.jpg');
 
 -- --------------------------------------------------------
 
@@ -240,7 +241,8 @@ CREATE TABLE `tempahan` (
   `tarikh_daftar_masuk` date NOT NULL,
   `tarikh_daftar_keluar` date NOT NULL,
   `harga_keseluruhan` float NOT NULL,
-  `id_bilik` int(11) NOT NULL,
+  `id_bilik` int(11) DEFAULT NULL,
+  `id_perkahwinan` int(11) DEFAULT NULL,
   `add_on_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -248,12 +250,29 @@ CREATE TABLE `tempahan` (
 -- Dumping data for table `tempahan`
 --
 
-INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `id_bilik`, `add_on_id`) VALUES
-(63, 'BOOK-202411-519', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', '2024-11-17 16:29:32', '2024-11-17', '2024-11-18', 200, 3, NULL),
-(64, 'BOOK-202411-423', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0199313500', 'sharrizan@gmail.com', '2024-11-17 20:38:08', '2024-11-17', '2024-11-18', 150, 2, NULL),
-(65, 'BOOK-202411-644', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', '2024-11-20 14:31:25', '2024-11-20', '2024-11-21', 200, 3, NULL),
-(67, 'ROOM-241121-239', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', '2024-11-21 15:53:36', '2024-11-22', '2024-11-23', 200, 3, NULL),
-(68, 'ROOM-241124-942', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', '2024-11-24 11:00:34', '2024-11-24', '2024-11-25', 136, 1, NULL);
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `id_bilik`, `id_perkahwinan`, `add_on_id`) VALUES
+(75, 'WED-2024-12-02-496', 'WAssss', '0184028240', 'wannaqib01@gmail.com', '2024-12-02 14:54:51', '2024-12-02', '0000-00-00', 509, NULL, 5, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tempahan_perkahwinan_addons`
+--
+
+CREATE TABLE `tempahan_perkahwinan_addons` (
+  `id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `add_on_id` int(11) NOT NULL,
+  `id_tempahan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tempahan_perkahwinan_addons`
+--
+
+INSERT INTO `tempahan_perkahwinan_addons` (`id`, `quantity`, `add_on_id`, `id_tempahan`) VALUES
+(1, 1, 2, 75),
+(2, 1, 3, 75);
 
 --
 -- Indexes for dumped tables
@@ -317,7 +336,16 @@ ALTER TABLE `perkahwinan`
 ALTER TABLE `tempahan`
   ADD PRIMARY KEY (`id_tempahan`),
   ADD KEY `add_on_id` (`add_on_id`),
-  ADD KEY `room_id` (`id_bilik`);
+  ADD KEY `room_id` (`id_bilik`),
+  ADD KEY `id_perkahwinan` (`id_perkahwinan`) USING BTREE;
+
+--
+-- Indexes for table `tempahan_perkahwinan_addons`
+--
+ALTER TABLE `tempahan_perkahwinan_addons`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `add_on_id` (`add_on_id`),
+  ADD KEY `id_tempahan` (`id_tempahan`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -327,7 +355,7 @@ ALTER TABLE `tempahan`
 -- AUTO_INCREMENT for table `add_on_perkahwinan`
 --
 ALTER TABLE `add_on_perkahwinan`
-  MODIFY `add_on_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `add_on_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `aktiviti`
@@ -351,7 +379,7 @@ ALTER TABLE `bilik_kemudahan`
 -- AUTO_INCREMENT for table `bilik_pic`
 --
 ALTER TABLE `bilik_pic`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `dewan`
@@ -369,13 +397,19 @@ ALTER TABLE `kemudahan`
 -- AUTO_INCREMENT for table `perkahwinan`
 --
 ALTER TABLE `perkahwinan`
-  MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+
+--
+-- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
+--
+ALTER TABLE `tempahan_perkahwinan_addons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -404,7 +438,15 @@ ALTER TABLE `perkahwinan`
 -- Constraints for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  ADD CONSTRAINT `tempahan_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tempahan_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tempahan_ibfk_2` FOREIGN KEY (`id_perkahwinan`) REFERENCES `perkahwinan` (`id_perkahwinan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tempahan_perkahwinan_addons`
+--
+ALTER TABLE `tempahan_perkahwinan_addons`
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_1` FOREIGN KEY (`add_on_id`) REFERENCES `add_on_perkahwinan` (`add_on_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_2` FOREIGN KEY (`id_tempahan`) REFERENCES `tempahan` (`id_tempahan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
