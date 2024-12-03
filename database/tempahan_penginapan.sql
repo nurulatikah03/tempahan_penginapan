@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2024 at 07:59 AM
+-- Generation Time: Dec 03, 2024 at 07:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -64,7 +64,7 @@ CREATE TABLE `aktiviti` (
 --
 
 INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudahan`, `penerangan`, `status_aktiviti`, `gambar`) VALUES
-(3, 'Pakej Kem Pelajar', 55.00, 'Dewan seminar dan kemudahan seperti  P.A System, LCD, Whiteboard dan Marker.', 'Kem ini direka untuk menggalakkan pembelajaran secara aktif dan kolaboratif, di samping memberi ruang kepada pelajar untuk bersosial dan berkembang sebagai individu.', 'Tersedia', 'kemPelajar.jpg'),
+(3, 'Pakej Kem Pelajar', 50.00, 'Dewan seminar dan kemudahan seperti  P.A System, LCD, Whiteboard dan Marker.', 'Kem ini direka untuk menggalakkan pembelajaran secara aktif dan kolaboratif, di samping memberi ruang kepada pelajar untuk bersosial dan berkembang sebagai individu.', 'Tersedia', 'kemPelajar.jpg'),
 (4, 'Pakej Teambuilding', 99.00, 'Penginapan berdua sebilik yang berhawa dingin.', 'Pakej teambuilding dirancang untuk meningkatkan kerjasama, komunikasi, dan semangat pasukan di kalangan pelajar.', 'Tersedia', 'teambuilding.jpg');
 
 -- --------------------------------------------------------
@@ -237,10 +237,12 @@ CREATE TABLE `tempahan` (
   `nama_penuh` varchar(65) NOT NULL,
   `numbor_fon` varchar(15) NOT NULL,
   `email` varchar(30) NOT NULL,
+  `bilangan_pax@bilik` int(10) NOT NULL,
   `tarikh_tempahan` datetime NOT NULL,
   `tarikh_daftar_masuk` date NOT NULL,
   `tarikh_daftar_keluar` date NOT NULL,
   `harga_keseluruhan` float NOT NULL,
+  `cara_bayar` enum('FPX','Tunai','LO','E-Perolehan','Bank Transfer') NOT NULL,
   `id_bilik` int(11) DEFAULT NULL,
   `id_perkahwinan` int(11) DEFAULT NULL,
   `add_on_id` int(11) DEFAULT NULL
@@ -250,8 +252,9 @@ CREATE TABLE `tempahan` (
 -- Dumping data for table `tempahan`
 --
 
-INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `id_bilik`, `id_perkahwinan`, `add_on_id`) VALUES
-(75, 'WED-2024-12-02-496', 'WAssss', '0184028240', 'wannaqib01@gmail.com', '2024-12-02 14:54:51', '2024-12-02', '0000-00-00', 509, NULL, 5, NULL);
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax@bilik`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `id_bilik`, `id_perkahwinan`, `add_on_id`) VALUES
+(77, 'ROOM-241202-710', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 0, '2024-12-02 17:02:00', '2024-12-02', '2024-12-03', 68, 'FPX', 1, NULL, NULL),
+(78, 'WED-2024-12-03-232', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 0, '2024-12-03 10:39:25', '2024-12-03', '0000-00-00', 735, 'FPX', NULL, 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -271,8 +274,10 @@ CREATE TABLE `tempahan_perkahwinan_addons` (
 --
 
 INSERT INTO `tempahan_perkahwinan_addons` (`id`, `quantity`, `add_on_id`, `id_tempahan`) VALUES
-(1, 1, 2, 75),
-(2, 1, 3, 75);
+(7, 1, 1, 78),
+(8, 3, 2, 78),
+(9, 5, 3, 78),
+(10, 7, 5, 78);
 
 --
 -- Indexes for dumped tables
@@ -361,25 +366,25 @@ ALTER TABLE `add_on_perkahwinan`
 -- AUTO_INCREMENT for table `aktiviti`
 --
 ALTER TABLE `aktiviti`
-  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `bilik`
 --
 ALTER TABLE `bilik`
-  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `bilik_kemudahan`
 --
 ALTER TABLE `bilik_kemudahan`
-  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `bilik_pic`
 --
 ALTER TABLE `bilik_pic`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `dewan`
@@ -403,13 +408,13 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
 --
 ALTER TABLE `tempahan_perkahwinan_addons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
