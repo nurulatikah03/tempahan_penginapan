@@ -52,7 +52,6 @@ class WeddingReservation extends Reservation
 
     public function insertReservationWithAddOns($addOns, $quantity)
     {
-        // Step 1: Insert the reservation
         $conn = DBConnection::getConnection();
         $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, harga_keseluruhan, id_perkahwinan) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -64,16 +63,13 @@ class WeddingReservation extends Reservation
             throw new Exception("Failed to insert reservation: " . $stmt->error);
         }
 
-        // Get the last inserted reservation ID
         $reservationId = $conn->insert_id;
         $stmt->close();
 
-        // Step 2: Insert add-ons
         if (!empty($addOns) && !empty($quantity)) {
             $sql = "INSERT INTO tempahan_perkahwinan_addons (id_tempahan, add_on_id, quantity) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
 
-            // Loop through the add-ons and insert each one
             foreach ($addOns as $index => $addOnId) {
                 $qty = $quantity[$index];
                 $stmt->bind_param("iii", $reservationId, $addOnId, $qty);
@@ -87,11 +83,37 @@ class WeddingReservation extends Reservation
             $stmt->close();
         }
 
-        // Return the reservation ID for further use if needed
         return $reservationId;
     }
+
+    public static function getAllReservations()
+    {
+        $conn = DBConnection::getConnection();
+        $sql = "SELECT * FROM tempahan WHERE id_perkahwinan IS NOT NULL";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $reservations = [];
+            while ($row = $result->fetch_assoc()) {
+                $reservation = new WeddingReservation(
+                $row['id_tempahan'], 
+                $row['nombor_tempahan'], 
+                $row['nama_penuh'], 
+                $row['numbor_fon'], 
+                $row['email'], 
+                $row['tarikh_tempahan'], 
+                $row['tarikh_daftar_masuk'], 
+                $row['tarikh_daftar_keluar'], 
+                $row['harga_keseluruhan'], 
+                $row['id_perkahwinan']);
+                $reservations[] = $reservation;
+            }
+            return $reservations;
+        } else {
+            return [];
+        }
+    }
 }
-//generate booking number
 function generateBookingNumberWed($date)
 {
     $random_number = mt_rand(100, 999);

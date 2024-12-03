@@ -78,3 +78,8 @@ class Reservation
         return $checkIn->diff($checkOut)->days;
     }
 }
+
+function formatDateFromSQL($date) {
+    $dateObj = DateTime::createFromFormat('Y-m-d', $date);
+    return $dateObj->format('d/m/Y');
+}
