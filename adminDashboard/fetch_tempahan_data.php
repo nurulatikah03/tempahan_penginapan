@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                 <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
                             </div>
                         </td>
-                        <td colspan="8" class="text-center"><strong>Tiada tempahan</strong></td>
+                        <td colspan="8" class="text-center"><strong>Tiada tempahan perkahwinan</strong></td>
                     </tr>
                 <?php } ?>
             </tbody>

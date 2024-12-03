@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 07:47 AM
+-- Generation Time: Dec 03, 2024 at 07:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -243,18 +243,11 @@ CREATE TABLE `tempahan` (
   `tarikh_daftar_keluar` date NOT NULL,
   `harga_keseluruhan` float NOT NULL,
   `cara_bayar` enum('FPX','Tunai','LO','E-Perolehan','Bank Transfer') NOT NULL,
+  `reference_id` varchar(255) DEFAULT NULL,
   `id_bilik` int(11) DEFAULT NULL,
   `id_perkahwinan` int(11) DEFAULT NULL,
   `add_on_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tempahan`
---
-
-INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax@bilik`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `id_bilik`, `id_perkahwinan`, `add_on_id`) VALUES
-(77, 'ROOM-241202-710', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 0, '2024-12-02 17:02:00', '2024-12-02', '2024-12-03', 68, 'FPX', 1, NULL, NULL),
-(78, 'WED-2024-12-03-232', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 0, '2024-12-03 10:39:25', '2024-12-03', '0000-00-00', 735, 'FPX', NULL, 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -268,16 +261,6 @@ CREATE TABLE `tempahan_perkahwinan_addons` (
   `add_on_id` int(11) NOT NULL,
   `id_tempahan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tempahan_perkahwinan_addons`
---
-
-INSERT INTO `tempahan_perkahwinan_addons` (`id`, `quantity`, `add_on_id`, `id_tempahan`) VALUES
-(7, 1, 1, 78),
-(8, 3, 2, 78),
-(9, 5, 3, 78),
-(10, 7, 5, 78);
 
 --
 -- Indexes for dumped tables

@@ -57,9 +57,9 @@
                                 <div class="card-header">
                                     <div class="d-flex justify-content-start gap-2">
                                         <button type="button" class="btn btn-primary" data-action="penginapan">Penginapan</button>
-                                        <button type="button" class="btn btn-secondary" data-action="kahwin">Kahwin</button>
-                                        <button type="button" class="btn btn-success" data-action="aktiviti">Aktiviti</button>
-                                        <button type="button" class="btn btn-danger" data-action="dewan">Dewan</button>
+                                        <button type="button" class="btn btn-primary" data-action="kahwin">Kahwin</button>
+                                        <button type="button" class="btn btn-primary" data-action="aktiviti">Aktiviti</button>
+                                        <button type="button" class="btn btn-primary" data-action="dewan">Dewan</button>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -98,21 +98,29 @@
     <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
     <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
     <script>
-        $(document).on("click", "button[data-action]", function() {
-            const action = $(this).data("action");
-            $.ajax({
-                url: "fetch_tempahan_data.php",
-                type: "POST",
-                data: {
-                    action: action
-                },
-                success: function(response) {
-                    $("#data-display").html(response);
-                },
-                error: function() {
-                    $("#data-display").html("<p class='text-danger'>Error fetching data.</p>");
-                },
+        $(document).ready(function() {
+            fetchData("penginapan");
+
+            $(document).on("click", "button[data-action]", function() {
+                const action = $(this).data("action");
+                fetchData(action);
             });
+
+            function fetchData(action) {
+                $.ajax({
+                    url: "fetch_tempahan_data.php",
+                    type: "POST",
+                    data: {
+                        action: action
+                    },
+                    success: function(response) {
+                        $("#data-display").html(response);
+                    },
+                    error: function() {
+                        $("#data-display").html("<p class='text-danger'>Error fetching data.</p>");
+                    },
+                });
+            }
         });
     </script>
     <!-- third party js ends -->
