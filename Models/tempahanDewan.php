@@ -71,7 +71,7 @@ class DewanReservation extends Reservation
             id_dewan
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssdsi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->id_dewan);
+        $stmt->bind_param("ssssssssssi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->id_dewan);
 
         if (!$stmt->execute()) {
             $stmt->close();

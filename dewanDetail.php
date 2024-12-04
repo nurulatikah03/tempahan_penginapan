@@ -18,6 +18,7 @@ session_start();
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
     <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -127,6 +128,19 @@ session_start();
 </style>
 
 <body>
+
+	<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
@@ -364,6 +378,13 @@ session_start();
         document.getElementById('tarikh_keluar').setAttribute('min', masukDate);
     });
 </script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 </body>

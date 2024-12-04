@@ -15,6 +15,7 @@ session_start();
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -25,6 +26,19 @@ session_start();
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
+
+	<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
     <div class="page-wrapper">
         
         <?php include 'partials/header.php';?>
@@ -191,6 +205,13 @@ session_start();
     <script src="assets/js/booking-form.js"></script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 </body>
