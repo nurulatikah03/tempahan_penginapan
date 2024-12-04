@@ -103,7 +103,7 @@ $roomList = Room::getAllRooms();
 														$kadar_sewa = $room->getPrice();
 														$maxCapacity = $room->getMaxCapacity();
 														$date = date('d/m/Y');
-														$availablity = countRoomAvailable($roomId, $date, $date);
+														$availablity = countRoomAvailable($roomId, $date, $date, 0);
 														$penerangan = $room->getLongDesc();
 														$gambar = $room->getImgMain();
 														$penginapan_id = $room->getId();
@@ -125,7 +125,7 @@ $roomList = Room::getAllRooms();
 															<td class="text-center"><?php echo ucfirst($jenis_bilik); ?></td>
 															<td class="text-center"><?php echo $capacity . ' Orang'; ?></td>
 															<td class="limited-text"><?php echo $penerangan; ?></td>
-															<td class="text-center"><?php echo $availablity . " / " . $maxCapacity ?></td>
+															<td class="text-center"><?php echo $availablity['available_rooms'] . " / " . $maxCapacity ?></td>
 															<td class="table-action">
 
 																<!-- Button trigger modal -->

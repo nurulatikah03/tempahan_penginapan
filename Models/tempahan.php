@@ -6,23 +6,27 @@ class Reservation
     protected $cust_name;
     protected $phone_number;
     protected $email;
+    protected $num_of_Pax;
     protected $reservationDate;
     protected $checkInDate;
     protected $checkOutDate;
     protected $total_price;
+    protected $payment_method;
 
     // Constructor
-    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price)
+    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method)
     {
         $this->id = $id;
         $this->bookingNumber = $bookingNumber;
         $this->cust_name = $cust_name;
         $this->phone_number = $phone_number;
         $this->email = $email;
+        $this->num_of_Pax = $num_of_Pax;
         $this->reservationDate = $reservationDate;
         $this->checkInDate = $checkInDate;
         $this->checkOutDate = $checkOutDate;
         $this->total_price = $total_price;
+        $this->payment_method = $payment_method;
     }
 
     // Getters and setters
@@ -51,6 +55,11 @@ class Reservation
         return $this->email;
     }
 
+    public function getNumOfPax()
+    {
+        return $this->num_of_Pax;
+    }
+
     public function getReservationDate()
     {
         return $this->reservationDate;
@@ -69,6 +78,11 @@ class Reservation
     public function getTotalPrice()
     {
         return $this->total_price;
+    }
+
+    public function getPaymentMethod()
+    {
+        return $this->payment_method;
     }
 
     public function calculateDuration()

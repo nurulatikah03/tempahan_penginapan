@@ -6,9 +6,9 @@ class WeddingReservation extends Reservation
 {
     private $wedding_id;
 
-    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price, $wedding_id)
+    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method, $wedding_id)
     {
-        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price);
+        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->wedding_id = $wedding_id;
     }
 
@@ -35,9 +35,19 @@ class WeddingReservation extends Reservation
     public function insertReservation()
     {
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, harga_keseluruhan, id_perkahwinan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tempahan (
+        nombor_tempahan, 
+        nama_penuh, 
+        numbor_fon, 
+        bilangan_pax,
+        email, 
+        tarikh_tempahan, 
+        tarikh_daftar_masuk, 
+        harga_keseluruhan, 
+        cara_bayar, 
+        id_perkahwinan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssdi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->reservationDate, $this->checkInDate, $this->total_price, $this->wedding_id);
+        $stmt->bind_param("sssssssdsi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();
@@ -53,10 +63,20 @@ class WeddingReservation extends Reservation
     public function insertReservationWithAddOns($addOns, $quantity)
     {
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, harga_keseluruhan, id_perkahwinan) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tempahan (
+        nombor_tempahan, 
+        nama_penuh, 
+        numbor_fon, 
+        email, 
+        bilangan_pax,
+        tarikh_tempahan, 
+        tarikh_daftar_masuk, 
+        harga_keseluruhan, 
+        cara_bayar, 
+        id_perkahwinan) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssdi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->reservationDate, $this->checkInDate, $this->total_price, $this->wedding_id);
+        $stmt->bind_param("sssssssdsi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();
@@ -101,10 +121,12 @@ class WeddingReservation extends Reservation
                 $row['nama_penuh'], 
                 $row['numbor_fon'], 
                 $row['email'], 
+                $row['bilangan_pax'],
                 $row['tarikh_tempahan'], 
                 $row['tarikh_daftar_masuk'], 
                 $row['tarikh_daftar_keluar'], 
                 $row['harga_keseluruhan'], 
+                $row['cara_bayar'],
                 $row['id_perkahwinan']);
                 $reservations[] = $reservation;
             }

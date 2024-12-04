@@ -88,6 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                                     <label class="form-label">Email</label>
                                                     <input type="text" class="form-control" value="<?php echo $tempahan->getEmail(); ?>" readonly style="background-color: white;">
                                                 </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cara pembayaran</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getPaymentMethod(); ?>" readonly style="background-color: white;">
+                                                </div>
                                             </div>
                                             <div class="col-md-6 ps-2 pe-5">
                                                 <div class="mb-3">
@@ -106,13 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                                     <label class="form-label">Name Bilik</label>
                                                     <input type="text" class="form-control" value="<?php echo $roomName; ?>" readonly style="background-color: white;">
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 ps-5">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Cara pembayaran</label>
-                                                    <p>FPX</p>
+                                                    <label class="form-label">Bilangan Bilik</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getNumOfPax(); ?>" readonly style="background-color: white;">
                                                 </div>
                                             </div>
                                         </div>

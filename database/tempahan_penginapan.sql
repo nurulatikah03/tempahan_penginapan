@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2024 at 01:41 AM
+-- Generation Time: Dec 04, 2024 at 02:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -276,7 +276,7 @@ CREATE TABLE `perkahwinan` (
   `harga_pekej` decimal(10,2) NOT NULL,
   `huraian` text NOT NULL,
   `huraian_pendek` text NOT NULL,
-  `id_dewan` int(10) NOT NULL,
+  `id_dewan` int(11) NOT NULL,
   `gambar_pekej` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -285,8 +285,8 @@ CREATE TABLE `perkahwinan` (
 --
 
 INSERT INTO `perkahwinan` (`id_perkahwinan`, `nama_pekej_kahwin`, `harga_pekej`, `huraian`, `huraian_pendek`, `id_dewan`, `gambar_pekej`) VALUES
-(5, 'Raikan Cinta - Dewan Fiber', 500.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang\n8 unit meja dan alas meja\n80 unit kerusi\nBoleh add on \nruang porch yang boleh memuatkan 50 orang jemputan – RM50.00\nMeja dan alas – RM8.00/Unit\nKerusi – RM1/Unit\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi', 8, 'adminDashboard/controller/uploads/dewanJubli2.png'),
-(6, 'Raikan Cinta - Dewan Jubli', 600.00, 'Meja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi\r\n\r\nMeja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 6, 'adminDashboard/controller/uploads/dewanFiber.jpg');
+(5, 'Raikan Cinta - Dewan Fiber', 500.00, 'Dewan utama berhawa dingin yang boleh menampung 50 orang\n8 unit meja dan alas meja\n80 unit kerusi\nBoleh add on \nruang porch yang boleh memuatkan 50 orang jemputan – RM50.00\nMeja dan alas – RM8.00/Unit\nKerusi – RM1/Unit\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi', 1, 'adminDashboard/controller/uploads/dewanJubli2.png'),
+(6, 'Raikan Cinta - Dewan Jubli', 600.00, 'Meja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 'Dewan utama berhawa dingin yang boleh menampung 50 orang\r\n8 unit meja dan alas meja\r\n80 unit kerusi\r\n\r\nMeja dan alas – RM8.00/Unit\r\nKerusi – RM1/Unit\r\nMeja Banquet – RM5/Unit', 3, 'adminDashboard/controller/uploads/dewanFiber.jpg');
 
 -- --------------------------------------------------------
 
@@ -300,7 +300,7 @@ CREATE TABLE `tempahan` (
   `nama_penuh` varchar(65) NOT NULL,
   `numbor_fon` varchar(15) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `bilangan_pax@bilik` int(10) NOT NULL,
+  `bilangan_pax` int(10) NOT NULL,
   `tarikh_tempahan` datetime NOT NULL,
   `tarikh_daftar_masuk` date NOT NULL,
   `tarikh_daftar_keluar` date NOT NULL,
@@ -309,17 +309,17 @@ CREATE TABLE `tempahan` (
   `reference_id` varchar(255) DEFAULT NULL,
   `id_bilik` int(11) DEFAULT NULL,
   `id_dewan` int(11) DEFAULT NULL,
-  `id_perkahwinan` int(11) DEFAULT NULL,
-  `add_on_id` int(11) DEFAULT NULL
+  `id_perkahwinan` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tempahan`
 --
 
-INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax@bilik`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`, `add_on_id`) VALUES
-(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
-(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL, NULL);
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`) VALUES
+(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL),
+(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL),
+(86, 'ROOM-241204-750', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 5, '2024-12-04 09:56:49', '2024-12-04', '2024-12-05', 340, 'LO', NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -407,7 +407,6 @@ ALTER TABLE `perkahwinan`
 --
 ALTER TABLE `tempahan`
   ADD PRIMARY KEY (`id_tempahan`),
-  ADD KEY `add_on_id` (`add_on_id`),
   ADD KEY `room_id` (`id_bilik`),
   ADD KEY `id_perkahwinan` (`id_perkahwinan`) USING BTREE,
   ADD KEY `id_dewan` (`id_dewan`);
@@ -488,7 +487,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
@@ -530,8 +529,8 @@ ALTER TABLE `tempahan`
 -- Constraints for table `tempahan_perkahwinan_addons`
 --
 ALTER TABLE `tempahan_perkahwinan_addons`
-  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_1` FOREIGN KEY (`add_on_id`) REFERENCES `add_on_perkahwinan` (`add_on_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_2` FOREIGN KEY (`id_tempahan`) REFERENCES `tempahan` (`id_tempahan`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_1` FOREIGN KEY (`add_on_id`) REFERENCES `add_on_perkahwinan` (`add_on_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_2` FOREIGN KEY (`id_tempahan`) REFERENCES `tempahan` (`id_tempahan`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

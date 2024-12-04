@@ -96,6 +96,14 @@ if (!isset($_SESSION['room_name'])) {
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
+                            <strong>Bilangan Bilik:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php echo $_SESSION['roomsNum']?>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
                             <strong>Check-in Date:</strong>
                         </div>
                         <div class="col-sm-8">
@@ -131,13 +139,14 @@ if (!isset($_SESSION['room_name'])) {
                     <form action="Controller\3_to_payment_GW.php" method="POST">
                         <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
                             <select class="mb-4" id="payment-method" name="payment_method" required>
-                                <option value="cash">Tunai</option>
-                                <option value="local order">LO</option>
-                                <option value="e-perolehan">e-perolehan</option>
-                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="FPX">FPX</option>
+                                <option value="Tunai">Tunai</option>
+                                <option value="LO">LO</option>
+                                <option value="E-Perolehanan">E-perolehanan</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
                             </select>
                         <div class="my-1">
-                            <button type="submit" name="submit" value="room"  class="btn-1">Proceed to Payment<span></span></button>
+                            <button type="submit" name="submit" value="room"  class="btn-1">Pergi ke pembayaran<span></span></button>
                             <a href="booking_confirmation.php" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
                         </div>
                     </form>

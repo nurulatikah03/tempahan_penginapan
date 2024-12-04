@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 if ($_POST['process'] == 'penginapan') {
     //Check availability
-    $availableRooms = countRoomAvailable($_SESSION['room_id'], $_POST['check_in'], $_POST['check_out']);
-    if ($availableRooms <= 0) {
-        $_SESSION['err'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
+    $availableRooms = countRoomAvailable($_SESSION['room_id'], $_POST['check_in'], $_POST['check_out'], $_POST['rooms']);
+    if (!$availableRooms['available']) {
+        $_SESSION['err'] = $availableRooms['message'];
         echo "<script>window.history.back();</script>";
         exit;
     }

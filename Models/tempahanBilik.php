@@ -6,9 +6,21 @@ class RoomReservation extends Reservation
 {
     private $room_id;
 
-    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price, $room_id)
+    public function __construct(
+        $id, 
+        $bookingNumber, 
+        $cust_name, 
+        $phone_number, 
+        $email, 
+        $num_of_Pax, 
+        $reservationDate, 
+        $checkInDate, 
+        $checkOutDate, 
+        $total_price, 
+        $payment_method, 
+        $room_id)
     {
-        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price);
+        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->room_id = $room_id;
     }
 
@@ -45,10 +57,12 @@ class RoomReservation extends Reservation
                 $row['nama_penuh'],
                 $row['numbor_fon'],
                 $row['email'],
+                $row['bilangan_pax'],
                 $row['tarikh_tempahan'],
                 $row['tarikh_daftar_masuk'],
                 $row['tarikh_daftar_keluar'],
                 $row['harga_keseluruhan'],
+                $row['cara_bayar'],
                 $row['id_bilik']
             );
             array_push($reservations, $reservation);
@@ -69,7 +83,7 @@ class RoomReservation extends Reservation
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+        $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['bilangan_pax'] ,$row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['cara_bayar'], $row['id_bilik']);
         $stmt->close();
         $conn->close();
         return $reservation;
@@ -84,27 +98,34 @@ class RoomReservation extends Reservation
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        $reservation = new RoomReservation($row['id'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['id_bilik']);
+        $reservation = new RoomReservation($row['id'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['bilangan_pax'], $row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['cara_bayar'], $row['id_bilik']);
         $stmt->close();
         $conn->close();
         return $reservation;
     }
 
-    public function insertReservation()
-    {
+    public function insertReservation(){
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, id_bilik) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tempahan (nombor_tempahan, nama_penuh, numbor_fon, email, bilangan_pax, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, cara_bayar, id_bilik) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssss", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->room_id);
-        $stmt->execute();
+        $stmt->bind_param("ssssssssssi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax ,$this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->room_id);
+
+        if (!$stmt->execute()) {
+            $stmt->close();
+            throw new Exception("Failed to insert reservation: " . $stmt->error);
+        }
+
+        $reservationId = $conn->insert_id;
         $stmt->close();
         $conn->close();
+        return $reservationId;
     }
 }
 
 
 //fxs
-function countRoomAvailable($room_id, $start_date, $end_date)
+function countRoomAvailable($room_id, $start_date, $end_date, $num_rooms_requested)
 {
     $conn = DBConnection::getConnection(); // Database connection
 
@@ -122,25 +143,38 @@ function countRoomAvailable($room_id, $start_date, $end_date)
     $roomData = $roomResult->fetch_assoc();
     $maxAvailable = $roomData['max_capacity'];
 
-    // Step 2: Count the number of rooms occupied in the given date range
+    // Step 2: Sum the number of rooms taken in the given date range
     $countQuery = "
-            SELECT COUNT(*) AS occupied_count 
-            FROM tempahan 
-            WHERE id_bilik = ? AND (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?)
-        ";
+        SELECT SUM(bilangan_pax) AS total_rooms_taken 
+        FROM tempahan 
+        WHERE id_bilik = ? AND (tarikh_daftar_masuk <= ? AND tarikh_daftar_keluar >= ?)
+    ";
     $countStmt = $conn->prepare($countQuery);
     $countStmt->bind_param("iss", $room_id, $formattedCheckOutDate, $formattedCheckInDate);
     $countStmt->execute();
     $countResult = $countStmt->get_result();
     $occupiedData = $countResult->fetch_assoc();
-    $occupiedCount = $occupiedData['occupied_count'];
+    $totalRoomsTaken = $occupiedData['total_rooms_taken'] ?? 0; // Handle null case
 
     // Step 3: Calculate available rooms
-    $availableRooms = $maxAvailable - $occupiedCount;
+    $availableRooms = $maxAvailable - $totalRoomsTaken;
 
-    // Ensure we don't return a negative number if overbooked
-    return max(0, $availableRooms);
+    // Step 4: Check if requested number of rooms can be accommodated
+    if ($num_rooms_requested > $availableRooms) {
+        return [
+            'available' => false,
+            'available_rooms' => $availableRooms,
+            'message' => 'Bilik tidah ada atau tidak mencukupi untuk hari yang diminta.'
+        ];
+    }
+
+    return [
+        'available' => true,
+        'available_rooms' => $availableRooms,
+    ];
 }
+
+
 
 function generateBookingNumber($conn)
 {

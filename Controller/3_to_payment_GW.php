@@ -4,13 +4,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     date_default_timezone_set('Asia/Kuala_Lumpur');
     $tarikh_tempahan = date("Y-m-d H:i:s");
     if ($_POST['submit'] == 'room') {
-        include '..\Models\tempahanBilik.php';
+        include_once '..\Models\tempahanBilik.php';
+        $conn = DBConnection::getConnection();
         $_SESSION['booking_number'] = generateBookingNumber($conn);
         $tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
         $tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
 
 
-        $tempahan = new RoomReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $tarikh_tempahan, $tarikhMasukSQL, $tarikhKeluarSQL, $_SESSION['total_price'], $_SESSION['room_id']);
+        $tempahan = new RoomReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['roomsNum'] ,$tarikh_tempahan, $tarikhMasukSQL, $tarikhKeluarSQL, $_SESSION['total_price'], $_POST['payment_method'] ,$_SESSION['room_id']);
 
         $tempahan->insertReservation();
 
@@ -24,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tarikhKendurNextDay = date('Y-m-d', strtotime($tarikhKenduriSQL . ' +1 day'));
 
         $_SESSION['booking_number'] = generateBookingNumberWed($tarikhKenduriSQL);
-        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKendurNextDay, $_SESSION['total_price_kahwin'], $_SESSION["id_perkahwinan"]);
+        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['kapasiti'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKendurNextDay, $_SESSION['total_price_kahwin'], $_POST['payment_method'] , $_SESSION["id_perkahwinan"]);
         if (isset($_SESSION['addons']) && !empty($_SESSION['addons'])) {
             
             $addons = $_SESSION['addons'];
@@ -44,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         echo "hello";
-    } elseif ($_POST['submit'] == 'dewan') {
+    }
+
+     elseif ($_POST['submit'] == 'dewan') {
 		include_once '../Models/tempahanDewan.php';
 		include_once __DIR__ . '/../database/DBConnec.php';
 
