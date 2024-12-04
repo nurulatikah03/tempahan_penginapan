@@ -121,13 +121,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                         </div>
                                         <div class="text-center">
                                             <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="button" class="btn btn-primary rounded-button">Lihat Resit</button>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                <?php }
+                <?php exit;
+                    }
                 } ?>
                 <?php if (empty($lisTempahan)) { ?>
                     <tr>
@@ -139,14 +142,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                         </td>
                         <td colspan="8" class="text-center"><strong>Tiada tempahan penginapan</strong></td>
                     </tr>
-                <?php } ?>
+                <?php exit;
+                } ?>
             </tbody>
         </table>
     <?php
     } elseif ($action === 'kahwin') {
         include_once '../Models\tempahanPerkahwinan.php';
         include_once '../Models\pekejPerkahwinan.php';
-        $lisTempahanKawin = WeddingReservation::getAllReservations();?>
+        $lisTempahanKawin = WeddingReservation::getAllReservations(); ?>
 
         <table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
             <thead class="table-light">
@@ -162,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                     <th>Nombor fon</th>
                     <th>Email</th>
                     <th>Tarikh kenduri</th>
-                    <th>Check out</th>
+                    <th>Bilangan PAX</th>
                     <th>Tindakan</th>
                 </tr>
             </thead>
@@ -193,13 +197,74 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                             <td><?php echo $tempahan->getPhoneNumber(); ?></td>
                             <td><?php echo $tempahan->getEmail(); ?></td>
                             <td><?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?></td>
-                            <td><?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?></td>
+                            <td><?php echo $tempahan->getNumOfPax(); ?></td>
                             <td class="table-action">
                                 <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal" data-bs-target="#viewModal<?php echo $bookingNumber; ?>"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
                                 <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon" title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
+                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
                             </td>
                         </tr>
-                <?php }
+                        // view ALERT
+                        <div class="modal fade modal-backdrop-view" id="viewModal<?php echo $bookingNumber; ?>" tabindex="-1" aria-labelledby="viewModalLabel<?php echo $bookingNumber; ?>" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <div class="modal-body">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+                                        <div class="text-center p-4">
+                                            <h3>Maklumat tempahan #<?php echo $bookingNumber; ?></h3>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 ps-5 pe-2">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nama penyewa</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getCustName(); ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombor Tempahan</label>
+                                                    <input type="text" class="form-control" value="<?php echo $bookingNumber; ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Nombor Telefon</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getPhoneNumber(); ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getEmail(); ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Cara pembayaran</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getPaymentMethod(); ?>" readonly style="background-color: white;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 ps-2 pe-5">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tarikh dan masa tempahan</label>
+                                                    <input type="text" class="form-control" value="<?php echo $reservationDate . ' @ ' . $reservationTime; ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tarikh Kenduri</label>
+                                                    <input type="text" class="form-control" value="<?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?>" readonly style="background-color: white;">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Bilangan PAX</label>
+                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getNumOfPax(); ?>" readonly style="background-color: white;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <h1 class="modal-title fs-5" id="viewModalLabel">Hubungi penempah</h1>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="button" class="btn btn-primary rounded-button">Lihat Resit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                <?php  }
+                    exit;
                 } ?>
                 <?php if (empty($lisTempahanKawin)) { ?>
                     <tr>
@@ -211,7 +276,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                         </td>
                         <td colspan="8" class="text-center"><strong>Tiada tempahan perkahwinan</strong></td>
                     </tr>
-                <?php } ?>
+                <?php }
+                exit; ?>
             </tbody>
         </table>
 <?php

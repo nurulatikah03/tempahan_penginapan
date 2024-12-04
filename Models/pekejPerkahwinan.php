@@ -11,9 +11,9 @@ class PekejPerkahwinan extends Dewan
     private $penerangan_penuh;
     private $gambar_pekej;
 
-    public function __construct($idDewan, $nama, $kadar_sewa, $kapasiti, $penerangan, $status, $gambar, $id_pekej, $nama_pekej, $harga_pekej, $penerangan_pendek, $penerangan_penuh, $gambar_pekej)
+    public function __construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd, $id_pekej, $nama_pekej, $harga_pekej, $penerangan_pendek, $penerangan_penuh, $gambar_pekej)
     {
-        parent::__construct($idDewan, $nama, $kadar_sewa, $kapasiti, $penerangan, $status, $gambar);
+        parent::__construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd);
         $this->id_pekej = $id_pekej;
         $this->nama_pekej = $nama_pekej;
         $this->harga_pekej = $harga_pekej;
@@ -60,40 +60,35 @@ class PekejPerkahwinan extends Dewan
     public static function getAllPekejPerkahwinan()
     {
         $conn = DBConnection::getConnection();
-        $sql = "SELECT 
-                        p.id_perkahwinan, 
-                        p.nama_pekej_kahwin, 
-                        p.harga_pekej, 
-                        p.huraian, 
-                        p.huraian_pendek,
-                        p.gambar_pekej,
-                        d.id_dewan,
-                        d.nama_dewan,
-                        d.kadar_sewa,
-                        d.bilangan_muatan,
-                        d.penerangan,
-                        d.status_dewan,
-                        d.gambar 
-                    FROM 
-                        perkahwinan p
-                    JOIN 
-                        dewan d 
-                    ON 
-                        p.id_dewan = d.id_dewan";
+        $sql = "SELECT
+    id_perkahwinan,
+    nama_pekej_kahwin,
+    harga_pekej,
+    huraian,
+    huraian_pendek,
+    gambar_pekej,
+    id_dewan
+FROM
+    perkahwinan;";
 
         $result = $conn->query($sql);
         $packages = [];
 
         if ($result) {
             while ($row = $result->fetch_assoc()) {
+                $dewan = Dewan::getDewanById($row['id_dewan']);
+
                 $package = new PekejPerkahwinan(
                     $row['id_dewan'],
-                    $row['nama_dewan'],
-                    $row['kadar_sewa'],
-                    $row['bilangan_muatan'],
-                    $row['penerangan'],
-                    $row['status_dewan'],
-                    $row['gambar'],
+                    $dewan->getNamaDewan(),
+                    $dewan->getKadarSewa(),
+                    $dewan->getBilanganMuatan(),
+                    $dewan->getPenerangan(),
+                    $dewan->getPeneranganKemudahan(),
+                    $dewan->getStatusDewan(),
+                    $dewan->getGambarMain(),
+                    $dewan->getGambarBanner(),
+                    $dewan->getGambarAdd(),
                     $row['id_perkahwinan'],
                     $row['nama_pekej_kahwin'],
                     $row['harga_pekej'],
@@ -111,42 +106,24 @@ class PekejPerkahwinan extends Dewan
     public static function getPekejPerkahwinanById($id)
     {
         $conn = DBConnection::getConnection();
-        $sql = "SELECT 
-                        p.id_perkahwinan, 
-                        p.nama_pekej_kahwin, 
-                        p.harga_pekej, 
-                        p.huraian, 
-                        p.huraian_pendek,
-                        p.gambar_pekej,
-                        d.id_dewan,
-                        d.nama_dewan,
-                        d.kadar_sewa,
-                        d.bilangan_muatan,
-                        d.penerangan,
-                        d.status_dewan,
-                        d.gambar 
-                    FROM 
-                        perkahwinan p
-                    JOIN 
-                        dewan d 
-                    ON 
-                        p.id_dewan = d.id_dewan
-                    WHERE 
-                        p.id_perkahwinan = ?";
-
+        $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $dewan = Dewan::getDewanById($row['id_dewan']);
         $package = new PekejPerkahwinan(
             $row['id_dewan'],
-            $row['nama_dewan'],
-            $row['kadar_sewa'],
-            $row['bilangan_muatan'],
-            $row['penerangan'],
-            $row['status_dewan'],
-            $row['gambar'],
+            $dewan->getNamaDewan(),
+            $dewan->getKadarSewa(),
+            $dewan->getBilanganMuatan(),
+            $dewan->getPenerangan(),
+            $dewan->getPeneranganKemudahan(),
+            $dewan->getStatusDewan(),
+            $dewan->getGambarMain(),
+            $dewan->getGambarBanner(),
+            $dewan->getGambarAdd(),
             $row['id_perkahwinan'],
             $row['nama_pekej_kahwin'],
             $row['harga_pekej'],
