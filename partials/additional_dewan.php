@@ -56,7 +56,7 @@
             <?php
                     }
                 } else {
-                    echo '<p class="no-results">Tiada pilihan penginapan lain buat masa ini.</p>';
+                    echo '<p class="no-results">Tiada pilihan dewan lain buat masa ini.</p>';
                 }
             } catch (mysqli_sql_exception $e) {
                 echo "<p>Error: " . htmlspecialchars($e->getMessage()) . "</p>";
