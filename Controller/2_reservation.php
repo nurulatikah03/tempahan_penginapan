@@ -39,4 +39,14 @@ if ($_POST['process'] == 'penginapan') {
 else if ($_POST['process'] == 'kahwin') {
     header("Location: ../payment_page_kahwin.php");
     exit();
+}else if ($_POST['process'] == 'dewan') {
+    // Retrieve 'id_dewan' from the GET parameter
+    $id_dewan = isset($_GET['id_dewan']) ? intval($_GET['id_dewan']) : 0;
+    if ($id_dewan <= 0) {
+        $_SESSION['err'] = "ID dewan tidak sah.";
+        echo "<script>window.history.back();</script>";
+        exit();
+    }
+    header("Location: ../payment_Dewan.php?id_dewan=" . $id_dewan);
+    exit();
 }

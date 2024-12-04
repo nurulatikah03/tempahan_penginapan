@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 07:55 AM
+-- Generation Time: Dec 04, 2024 at 01:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -161,18 +161,81 @@ CREATE TABLE `dewan` (
   `kadar_sewa` decimal(10,2) NOT NULL,
   `bilangan_muatan` int(11) NOT NULL,
   `penerangan` varchar(550) NOT NULL,
+  `penerangan_ringkas` varchar(250) NOT NULL,
+  `penerangan_kemudahan` varchar(250) NOT NULL,
   `status_dewan` enum('Tersedia','Tidak Tersedia') NOT NULL,
-  `gambar` varchar(255) NOT NULL
+  `max_capacity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dewan`
 --
 
-INSERT INTO `dewan` (`id_dewan`, `nama_dewan`, `kadar_sewa`, `bilangan_muatan`, `penerangan`, `status_dewan`, `gambar`) VALUES
-(6, 'Dewan Jubli', 500.00, 250, 'Dewan untuk acara rasmi atau tidak rasm dan boleh diubahsuai kerusi dan meja.', 'Tersedia', 'dewanJubli1.png'),
-(7, 'Dewan Kuliah Kenaf', 200.00, 40, 'Menyediakan pelbagai kemudahan penggunaan.', 'Tersedia', 'dewanKuliah.png'),
-(8, 'Dewan Fiber', 350.00, 250, 'Dewan untuk acara rasmi atau tidak rasm dan boleh diubahsuai kerusi dan meja.', 'Tersedia', 'dewanJubli2.png');
+INSERT INTO `dewan` (`id_dewan`, `nama_dewan`, `kadar_sewa`, `bilangan_muatan`, `penerangan`, `penerangan_ringkas`, `penerangan_kemudahan`, `status_dewan`, `max_capacity`) VALUES
+(1, 'Dewan Jubli', 500.00, 250, 'Dewan Jubli merupakan sebuah dewan serbaguna yang sesuai untuk pelbagai acara seperti seminar, mesyuarat, pameran, dan lain-lain, dengan suasana yang kondusif dan reka bentuk yang elegan untuk menjayakan acara anda.', 'Dewan Jubli ialah dewan serbaguna yang sesuai untuk pelbagai acara rasmi dan santai dengan suasana yang kondusif.', 'Dewan Jubli menyediakan pelbagai kemudahan untuk memastikan keselesaan dan kelancaran setiap acara yang diadakan.', 'Tersedia', 1),
+(2, 'Dewan Fiber', 350.00, 250, 'Dewan Fiber dilengkapi dengan sistem audio-visual berkualiti tinggi, penyaman udara penuh, ruang pentas luas, kapasiti tempat duduk yang besar, dan tempat letak kereta yang mencukupi untuk keselesaan pengguna.', 'Dewan Fiber menawarkan ruang serbaguna dengan suasana yang selesa dan sesuai untuk pelbagai jenis acara.', 'Dewan Fiber menyediakan pelbagai kemudahan untuk memastikan keselesaan dan kelancaran setiap acara yang diadakan.', 'Tersedia', 1),
+(3, 'Dewan Kuliah Kenaf', 200.00, 40, 'Dewan Kuliah Kenaf dilengkapi dengan sistem audio-visual berkualiti tinggi, penyaman udara penuh, ruang pentas luas, kapasiti tempat duduk yang besar, dan tempat letak kereta yang mencukupi untuk keselesaan pengguna.', 'Dewan Kuliah Kenaf menawarkan ruang serbaguna dengan suasana yang selesa dan sesuai untuk pelbagai jenis acara.', 'Dewan Kuliah Kenaf menyediakan pelbagai kemudahan untuk memastikan keselesaan dan kelancaran setiap acara yang diadakan.', 'Tersedia', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dewan_kemudahan`
+--
+
+CREATE TABLE `dewan_kemudahan` (
+  `id_dewan_kemudahan` int(11) NOT NULL,
+  `id_dewan` int(11) NOT NULL,
+  `id_kemudahan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dewan_kemudahan`
+--
+
+INSERT INTO `dewan_kemudahan` (`id_dewan_kemudahan`, `id_dewan`, `id_kemudahan`) VALUES
+(10, 1, 1),
+(11, 1, 2),
+(12, 1, 4),
+(13, 1, 7),
+(14, 2, 1),
+(15, 2, 5),
+(16, 2, 7),
+(17, 3, 1),
+(18, 3, 5),
+(19, 3, 7),
+(20, 4, 1),
+(21, 4, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dewan_pic`
+--
+
+CREATE TABLE `dewan_pic` (
+  `id_gambar` int(11) NOT NULL,
+  `jenis_gambar` varchar(50) NOT NULL,
+  `url_gambar` text NOT NULL,
+  `id_dewan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dewan_pic`
+--
+
+INSERT INTO `dewan_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_dewan`) VALUES
+(28, 'Utama', 'assets/images/resource/1733271546_dewan.webp', 1),
+(29, 'Banner', 'assets/images/background/1733271546_dewanJubli1.png', 1),
+(30, 'Tambahan', 'assets/images/resource/1733271546_dewanJubli2.png', 1),
+(31, 'Utama', 'assets/images/resource/1733271705_dewan-1.png', 2),
+(32, 'Banner', 'assets/images/background/1733271705_images (1).jpeg', 2),
+(33, 'Tambahan', 'assets/images/resource/1733271705_lovepik-conference-hall-picture_500680046.jpg', 2),
+(34, 'Utama', 'assets/images/resource/1733271799_dewanKuliah.png', 3),
+(35, 'Banner', 'assets/images/background/1733271799_Dewan_Kuliah_1.jpg', 3),
+(36, 'Tambahan', 'assets/images/resource/1733271799_Dewan_Kuliah_5_6_7_8_9_.jpg', 3),
+(37, 'Utama', 'assets/images/resource/1733272759_Dewan_Kuliah_5_6_7_8_9_.jpg', 4),
+(38, 'Banner', 'assets/images/background/1733272759_Dewan_Kuliah_1.jpg', 4),
+(39, 'Tambahan', 'assets/images/resource/1733272759_images (1).jpeg', 4);
 
 -- --------------------------------------------------------
 
@@ -245,9 +308,18 @@ CREATE TABLE `tempahan` (
   `cara_bayar` enum('FPX','Tunai','LO','E-Perolehan','Bank Transfer') NOT NULL,
   `reference_id` varchar(255) DEFAULT NULL,
   `id_bilik` int(11) DEFAULT NULL,
+  `id_dewan` int(11) DEFAULT NULL,
   `id_perkahwinan` int(11) DEFAULT NULL,
   `add_on_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tempahan`
+--
+
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax@bilik`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`, `add_on_id`) VALUES
+(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
+(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -306,6 +378,18 @@ ALTER TABLE `dewan`
   ADD PRIMARY KEY (`id_dewan`);
 
 --
+-- Indexes for table `dewan_kemudahan`
+--
+ALTER TABLE `dewan_kemudahan`
+  ADD PRIMARY KEY (`id_dewan_kemudahan`);
+
+--
+-- Indexes for table `dewan_pic`
+--
+ALTER TABLE `dewan_pic`
+  ADD PRIMARY KEY (`id_gambar`);
+
+--
 -- Indexes for table `kemudahan`
 --
 ALTER TABLE `kemudahan`
@@ -325,7 +409,8 @@ ALTER TABLE `tempahan`
   ADD PRIMARY KEY (`id_tempahan`),
   ADD KEY `add_on_id` (`add_on_id`),
   ADD KEY `room_id` (`id_bilik`),
-  ADD KEY `id_perkahwinan` (`id_perkahwinan`) USING BTREE;
+  ADD KEY `id_perkahwinan` (`id_perkahwinan`) USING BTREE,
+  ADD KEY `id_dewan` (`id_dewan`);
 
 --
 -- Indexes for table `tempahan_perkahwinan_addons`
@@ -373,7 +458,19 @@ ALTER TABLE `bilik_pic`
 -- AUTO_INCREMENT for table `dewan`
 --
 ALTER TABLE `dewan`
-  MODIFY `id_dewan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_dewan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `dewan_kemudahan`
+--
+ALTER TABLE `dewan_kemudahan`
+  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `dewan_pic`
+--
+ALTER TABLE `dewan_pic`
+  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `kemudahan`
@@ -391,7 +488,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
