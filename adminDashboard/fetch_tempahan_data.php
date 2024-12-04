@@ -201,7 +201,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                             <td class="table-action">
                                 <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal" data-bs-target="#viewModal<?php echo $bookingNumber; ?>"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
                                 <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon" title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
-                                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                <a href="mailto:<?php echo $tempahan->getEmail() ?>" class="action-icon" target="_blank"><img src="assets\icon-svg\gmail.svg"  class="theme-color" style="width: 20px; height: 20px;"></a>
+
                             </td>
                         </tr>
                         // view ALERT

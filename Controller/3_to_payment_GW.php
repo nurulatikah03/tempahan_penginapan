@@ -77,12 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$_SESSION['cust_name'],
 			$_SESSION['phone_number'],
 			$_SESSION['form-email'],
+            0,
 			$tarikh_tempahan,
 			$tarikhMasukSQL,
 			$tarikhKeluarSQL,
 			$_SESSION['total_price'],
 			$_POST['payment_method'],
-			$id_dewan // Gunakan id_dewan langsung dari URL
+			$id_dewan 
 		);
 		$tempahan->insertReservation();
 
