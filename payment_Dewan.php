@@ -152,12 +152,13 @@ session_start();
                 </div>
                 <div class="card-footer">
 					<form action="Controller\3_to_payment_GW.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>" method="POST">
-                        <label class="fs-5 my-3" style="text-align: left;" for="payment-method">Pilih cara bayaran:</label>
+                        <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
                             <select class="mb-4" id="payment-method" name="payment_method" required>
-                                <option value="cash">Tunai</option>
-                                <option value="local order">LO</option>
-                                <option value="e-perolehan">e-perolehan</option>
-                                <option value="bank_transfer">Bank Transfer</option>
+                                <option value="FPX">FPX</option>
+                                <option value="Tunai">Tunai</option>
+                                <option value="LO">LO</option>
+                                <option value="E-Perolehanan">E-perolehanan</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
                             </select>
                         <div class="my-1 text-end">
                             <button type="submit" name="submit" value="dewan" class="btn-1">Proceed to Payment<span></span></button>

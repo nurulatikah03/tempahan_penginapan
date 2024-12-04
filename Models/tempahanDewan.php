@@ -6,22 +6,21 @@ class DewanReservation extends Reservation
 {
     private $id_dewan;
 
-    /**
-     * Constructor to initialize DewanReservation object.
-     */
     public function __construct(
         $id, 
-        $bookingNumber, 
+        $booking_number, 
         $cust_name, 
         $phone_number, 
         $email, 
+        $num_of_Pax, 
         $reservationDate, 
         $checkInDate, 
         $checkOutDate, 
         $total_price, 
+		$payment_method,
         $id_dewan
     ) {
-        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $reservationDate, $checkInDate, $checkOutDate, $total_price);
+		parent::__construct($id, $booking_number, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->id_dewan = $id_dewan;
     }
 
@@ -60,8 +59,8 @@ class DewanReservation extends Reservation
         $conn = DBConnection::getConnection();
 
         $sql = "INSERT INTO tempahan 
-                (nombor_tempahan, nama_penuh, numbor_fon, email, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, id_dewan) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (nombor_tempahan, nama_penuh, numbor_fon, email, bilangan_pax, tarikh_tempahan, tarikh_daftar_masuk, tarikh_daftar_keluar, harga_keseluruhan, cara_bayar, id_dewan) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
         if (!$stmt) {
@@ -69,15 +68,18 @@ class DewanReservation extends Reservation
         }
 
         $stmt->bind_param(
-            "ssssssssi", 
-            $this->bookingNumber, 
+            "ssssssssssi", 
+            $this->id,
+            $this->booking_number, 
             $this->cust_name, 
             $this->phone_number, 
             $this->email, 
+            $this->num_of_Pax, 
             $this->reservationDate, 
             $this->checkInDate, 
             $this->checkOutDate, 
             $this->total_price, 
+			$this->payment_method,
             $this->id_dewan
         );
 
@@ -95,15 +97,15 @@ class DewanReservation extends Reservation
 function generateBookingNumber($conn) {
     $yearMonthDay = date("ymd");
     $unique = false;
-    $bookingNumber = "";
+    $booking_number = "";
 
     while (!$unique) {
         $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-        $bookingNumber = "DEWAN-" . $yearMonthDay . "-" . $randomDigits;
+        $booking_number = "DEWAN-" . $yearMonthDay . "-" . $randomDigits;
 
         $query = "SELECT COUNT(*) FROM tempahan WHERE nombor_tempahan = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("s", $bookingNumber);
+        $stmt->bind_param("s", $booking_number);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
@@ -115,7 +117,7 @@ function generateBookingNumber($conn) {
         $stmt->close();
     }
 
-    return $bookingNumber;
+    return $booking_number;
 }
 
 function getKadarSewa($id_dewan) {

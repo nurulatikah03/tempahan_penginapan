@@ -81,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$tarikhMasukSQL,
 			$tarikhKeluarSQL,
 			$_SESSION['total_price'],
+			$_POST['payment_method'],
 			$id_dewan // Gunakan id_dewan langsung dari URL
 		);
 		$tempahan->insertReservation();
