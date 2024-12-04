@@ -252,7 +252,7 @@ session_start();
 					
                     <div class="col-lg-4">
 						<div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
-							<h4 class="mb_20"><u>Matlumat Tempahan</u></h4>
+							<h4 class="mb_20"><u>Maklumat Tempahan</u></h4>
 							<div class="booking-form-3">
 								
 								<form class="hotel-booking-form-1-form d-block" action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>" method="POST">
