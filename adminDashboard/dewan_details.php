@@ -46,6 +46,78 @@ include 'controller/get_dewan.php';
 
                     <!-- Start Content-->
                     <div class="container-fluid">
+					
+					<?php
+											if (isset($_GET['id_dewan'])) {
+												$id_dewan = $_GET['id_dewan']; // Capture the id_dewan from the URL
+											} else {
+												// If id_dewan is not found in the URL, show an error or redirect
+												echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+												exit;
+											}
+
+											$query = "
+												SELECT 
+													dewan.id_dewan, 
+													dewan.nama_dewan, 
+													dewan.kadar_sewa, 
+													dewan.bilangan_muatan, 
+													dewan.penerangan, 
+													dewan.penerangan_ringkas, 
+													dewan.penerangan_kemudahan, 
+													dewan.status_dewan, 
+													dewan.max_capacity, 
+													dewan_pic.url_gambar,
+													dewan_pic.jenis_gambar
+												FROM dewan
+												LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
+												WHERE dewan.id_dewan = ?
+											";  // Use prepared statement to prevent SQL injection
+
+											$stmt = $conn->prepare($query);
+											$stmt->bind_param("i", $id_dewan); // Bind the id_dewan to the query
+											$stmt->execute();
+											$result = $stmt->get_result();
+
+											// Check if there are any records for the given id_dewan
+											if ($result->num_rows > 0) {
+												echo '<div class="row">';
+												// Variables to store images by type
+												$utama_image = '';
+												$banner_image = '';
+												$tambahan_images = [];
+
+												while ($row = $result->fetch_assoc()) {
+													$id_dewan = $row['id_dewan'];
+													$nama_dewan = $row['nama_dewan'];
+													$kadar_sewa = $row['kadar_sewa'];
+													$bilangan_muatan = $row['bilangan_muatan'];
+													$penerangan = $row['penerangan'];
+													$penerangan_ringkas = $row['penerangan_ringkas'];
+													$penerangan_kemudahan = $row['penerangan_kemudahan'];
+													$max_capacity = $row['max_capacity'];
+													$status_dewan = $row['status_dewan'];
+													$url_gambar = $row['url_gambar'];
+													$jenis_gambar = $row['jenis_gambar'];
+
+													// Sort the images based on jenis_gambar
+													if ($jenis_gambar == 'Utama') {
+														$utama_image = $url_gambar; // Set the 'utama' image
+													} elseif ($jenis_gambar == 'Banner') {
+														$banner_image = $url_gambar; // Set the 'banner' image
+													} elseif ($jenis_gambar == 'Tambahan') {
+														$tambahan_images[] = $url_gambar; // Add to additional images array
+													}
+												}
+												echo '</div>';
+											} else {
+												echo '<div class="alert alert-info">Tiada rekod dewan ditemui untuk ID Dewan: ' . $id_dewan . '.</div>';
+											}
+
+										
+											$stmt->close();
+											$conn->close();
+											?>
                         
                         <!-- start page title -->
                         <div class="row">
@@ -68,10 +140,35 @@ include 'controller/get_dewan.php';
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-5">
+                                           <div class="col-lg-5">
 												<!-- Product image -->
-												<img src="controller/uploads/<?php echo $gambar; ?>" class="img-fluid" style="width: 500; height: 400;" alt="Product-img" />
-											</div> <!-- end col -->
+												<?php if ($utama_image): ?>
+													<a href="javascript: void(0);" class="text-center d-block mb-4">
+														<img src="controller/<?php echo $utama_image; ?>" class="img-fluid" style="max-width: 500px;" alt="Gambar Utama" />
+													</a>
+												<?php endif; ?>
+
+												<!-- Gambar tambahan -->
+												<div class="d-lg-flex d-none justify-content-center">
+
+													<!-- Gambar banner -->
+													<?php if ($banner_image): ?>
+														<a href="javascript: void(0);" class="text-center d-block mb-4">
+															<img src="controller/<?php echo $banner_image; ?>" class="img-fluid img-thumbnail p-2" style="max-width: 150px;" alt="Gambar Banner" />
+														</a>
+													<?php endif; ?>
+													
+													<?php if (!empty($tambahan_images)): ?>
+														<?php foreach ($tambahan_images as $tambahan): ?>
+															<a href="javascript: void(0);" class="ms-2">
+																<img src="controller/<?php echo $tambahan; ?>" class="img-fluid img-thumbnail p-2" style="max-width: 150px;" alt="Gambar Tambahan" />
+															</a>
+														<?php endforeach; ?>
+													<?php else: ?>
+														<p>Tiada gambar tambahan tersedia.</p>
+													<?php endif; ?>
+												</div>
+											</div>
                                             <div class="col-lg-7">
                                                 <form class="ps-lg-4">
                                                     <!-- Product title -->
@@ -79,30 +176,110 @@ include 'controller/get_dewan.php';
 
                                                     <!-- Product description -->
                                                     <div class="mt-4">
-                                                        <h6 class="font-14">Kadar Sewa (RM):</h6>
-                                                        <h3><?php echo $kadar_sewa; ?></h3>
+                                                        <h6 class="font-14">Kadar Sewa</h6>
+                                                        <h3><?php echo 'RM ' . $kadar_sewa; ?></h3>
                                                     </div>
                                         
                                                     <!-- Product description -->
                                                     <div class="mt-4">
-                                                        <h6 class="font-14">Penerangan:</h6>
+                                                        <h6 class="font-14">Penerangan</h6>
                                                         <p><?php echo $penerangan; ?></p>
+                                                    </div>
+													
+													
+                                                    <!-- Product description -->
+                                                    <div class="mt-4">
+                                                        <h6 class="font-14">Penerangan Ringkas</h6>
+                                                        <p><?php echo $penerangan_ringkas; ?></p>
+                                                    </div>
+													
+													
+                                                    <!-- Product description -->
+                                                    <div class="mt-4">
+                                                        <h6 class="font-14">Penerangan Kemudahan</h6>
+                                                        <p><?php echo $penerangan_kemudahan; ?></p>
                                                     </div>
 
                                                     <!-- Product information -->
                                                     <div class="mt-4">
                                                         <div class="row">
                                                             <div class="col-md-4">
-                                                                <h6 class="font-14">Jumlah Bilik</h6>
+                                                                <h6 class="font-14">Status Dewan</h6>
                                                                 <p class="text-sm lh-150"><?php echo $status_dewan; ?></p>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <h6 class="font-14">Bilangan Penyewa per bilik</h6>
+                                                                <h6 class="font-14">Bilangan Muatan</h6>
                                                                 <p class="text-sm lh-150"><?php echo $bilangan_muatan.' Orang'; ?></p>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h6 class="font-14">Kapasiti Dewan</h6>
+                                                                <p class="text-sm lh-150"><?php echo $max_capacity; ?></p>
                                                             </div>
                                                         </div>
                                                     </div>
+													
+													<div class="mt-4">
+														<h6 class="font-14">Kemudahan</h6>
+														<div class="row">
+															<?php
+															$servername = "localhost";
+															$username = "root";
+															$password = "";
+															$dbname = "tempahan_penginapan";
 
+															// Create connection
+															$conn = new mysqli($servername, $username, $password, $dbname);
+
+															if ($conn->connect_error) {
+																die("Connection failed: " . $conn->connect_error);
+															}
+
+															$conn->set_charset("utf8");
+
+															// Semak id_dewan daripada URL
+															if (isset($_GET['id_dewan'])) {
+																$id_dewan = $_GET['id_dewan'];
+															} else {
+																echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+																exit;
+															}
+
+															// Query untuk mendapatkan kemudahan berkaitan dengan dewan ini
+															$query = "
+																SELECT k.nama, k.icon_url
+																FROM kemudahan k
+																JOIN dewan_kemudahan dk ON k.id_kemudahan = dk.id_kemudahan
+																WHERE dk.id_dewan = '$id_dewan'
+															";
+
+															$result = $conn->query($query);
+
+															// Semak dan papar kemudahan
+															if ($result->num_rows > 0) {
+																while ($row = $result->fetch_assoc()) {
+																	$nama = $row['nama'];
+																	$icon_url = $row['icon_url'];
+
+																	echo '<div class="col-4 d-flex align-items-center my-2">';
+																	
+																	// Paparkan ikon jika ada
+																	if ($icon_url) {
+																		echo '<img src="../' . $icon_url . '" alt="' . htmlspecialchars($nama) . '" style="height: 30px; margin-right: 10px;">';
+																	}
+
+																	// Paparkan nama kemudahan
+																	echo '<span>' . htmlspecialchars($nama) . '</span>';
+																	echo '</div>';
+																}
+															} else {
+																echo '<div class="col-12">Tiada kemudahan tersedia untuk dewan ini.</div>';
+															}
+
+															// Tutup sambungan
+															$conn->close();
+															?>
+														</div>
+													</div>
                                                 </form>
                                             </div> <!-- end col -->
                                         </div> <!-- end row-->

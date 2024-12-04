@@ -11,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $penerangan_kemudahan = $_POST['penerangan_kemudahan'] ?? '';
     $status_dewan = $_POST['status_dewan'] ?? '';
     $max_capacity = $_POST['max_capacity'] ?? 0;
-    
+
     // Validate status
-    $validStatus = ['tersedia', 'tidak_tersedia'];
+    $validStatus = ['tersedia', 'tidak tersedia'];
     if (!in_array($status_dewan, $validStatus)) {
         echo "Status bilik tidak sah. Pilih 'tersedia' atau 'tidak tersedia'.";
         exit;
@@ -22,32 +22,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get selected kemudahan
     $selected_kemudahan = isset($_POST['kemudahan']) ? $_POST['kemudahan'] : [];
 
-    // File upload directory
+    // File upload directories
     $uploadFileDirUtama = 'assets/images/resource/';
     $uploadFileDirBanner = 'assets/images/background/';
     $uploadFileDirTambahan = 'assets/images/resource/';
 
-    if (!is_dir($uploadFileDirUtama)) {
-		mkdir($uploadFileDirUtama, 0777, true);
-	}
+    // Ensure directories exist
+    if (!is_dir($uploadFileDirUtama)) mkdir($uploadFileDirUtama, 0777, true);
+    if (!is_dir($uploadFileDirBanner)) mkdir($uploadFileDirBanner, 0777, true);
+    if (!is_dir($uploadFileDirTambahan)) mkdir($uploadFileDirTambahan, 0777, true);
 
-	if (!is_dir($uploadFileDirBanner)) {
-		mkdir($uploadFileDirBanner, 0777, true);
-	}
-
-	if (!is_dir($uploadFileDirTambahan)) {
-		mkdir($uploadFileDirTambahan, 0777, true);
-	}
-
-    // Function to handle file upload
-    function handleFileUploadUtama($fileInputName, $uploadFileDirUtama) {
+    // File upload functions
+    function handleFileUpload($fileInputName, $uploadFileDir) {
         if (isset($_FILES[$fileInputName]) && $_FILES[$fileInputName]['error'] == UPLOAD_ERR_OK) {
             $fileTmpPath = $_FILES[$fileInputName]['tmp_name'];
-            $fileName = time() . '_' . basename($_FILES[$fileInputName]['name']); // Unique filename
-            $dest_path = $uploadFileDirUtama . $fileName;
+            $fileName = time() . '_' . basename($_FILES[$fileInputName]['name']);
+            $dest_path = $uploadFileDir . $fileName;
 
             if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                return $fileName; // Return the uploaded file name
+                return $fileName;
             } else {
                 echo "Terdapat ralat mengalihkan fail " . htmlspecialchars($_FILES[$fileInputName]['name']) . "<br>";
                 return null;
@@ -56,45 +49,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             return null;
         }
     }
-	
-	function handleFileUploadBanner($fileInputName, $uploadFileDirBanner) {
-        if (isset($_FILES[$fileInputName]) && $_FILES[$fileInputName]['error'] == UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES[$fileInputName]['tmp_name'];
-            $fileName = time() . '_' . basename($_FILES[$fileInputName]['name']); // Unique filename
-            $dest_path = $uploadFileDirBanner . $fileName;
 
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                return $fileName; // Return the uploaded file name
-            } else {
-                echo "Terdapat ralat mengalihkan fail " . htmlspecialchars($_FILES[$fileInputName]['name']) . "<br>";
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-	
-	function handleFileUploadTambahan($fileInputName, $uploadFileDirTambahan) {
-        if (isset($_FILES[$fileInputName]) && $_FILES[$fileInputName]['error'] == UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES[$fileInputName]['tmp_name'];
-            $fileName = time() . '_' . basename($_FILES[$fileInputName]['name']); // Unique filename
-            $dest_path = $uploadFileDirTambahan . $fileName;
+    function handleMultipleFileUpload($fileInputName, $uploadFileDir) {
+		$uploadedFiles = [];
+		if (isset($_FILES[$fileInputName]) && is_array($_FILES[$fileInputName]['name'])) {
+			$fileCount = count($_FILES[$fileInputName]['name']);
+			for ($i = 0; $i < $fileCount; $i++) {
+				if ($_FILES[$fileInputName]['error'][$i] == UPLOAD_ERR_OK) {
+					$fileTmpPath = $_FILES[$fileInputName]['tmp_name'][$i];
+					$fileName = time() . '_' . $i . '_' . basename($_FILES[$fileInputName]['name'][$i]);
+					$dest_path = $uploadFileDir . $fileName;
 
-            if (move_uploaded_file($fileTmpPath, $dest_path)) {
-                return $fileName; // Return the uploaded file name
-            } else {
-                echo "Terdapat ralat mengalihkan fail " . htmlspecialchars($_FILES[$fileInputName]['name']) . "<br>";
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
+					if (move_uploaded_file($fileTmpPath, $dest_path)) {
+						$uploadedFiles[] = $fileName;
+					} else {
+						echo "Terdapat ralat mengalihkan fail " . htmlspecialchars($_FILES[$fileInputName]['name'][$i]) . "<br>";
+					}
+				}
+			}
+		} else {
+			echo "File input is not structured as expected or no files selected.";
+		}
+		return $uploadedFiles;
+	}
+
 
     // Process file uploads
-    $fileUtama = handleFileUploadUtama('fileinputUtama', $uploadFileDirUtama);
-    $fileBanner = handleFileUploadBanner('fileinputBanner', $uploadFileDirBanner);
-    $fileTambahan = handleFileUploadTambahan('fileinputTambahan', $uploadFileDirTambahan);
+    $fileUtama = handleFileUpload('fileinputUtama', $uploadFileDirUtama);
+    $fileBanner = handleFileUpload('fileinputBanner', $uploadFileDirBanner);
+	$fileTambahan = handleMultipleFileUpload('fileinputTambahan', $uploadFileDirTambahan);
 
     // Insert into dewan table
     $stmt = $conn->prepare("INSERT INTO dewan (nama_dewan, kadar_sewa, bilangan_muatan, penerangan, penerangan_ringkas, penerangan_kemudahan, status_dewan, max_capacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -118,16 +101,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_dewan);
             $picStmt->execute();
         }
-        if ($fileTambahan) {
-            $jenis_gambar = 'Tambahan';
-            $url_gambar = $uploadFileDirTambahan . $fileTambahan;
-            $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_dewan);
-            $picStmt->execute();
+        if (!empty($fileTambahanList)) {
+            foreach ($fileTambahanList as $fileName) {
+                $jenis_gambar = 'Tambahan';
+                $url_gambar = $uploadFileDirTambahan . $fileName;
+                $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_dewan);
+                $picStmt->execute();
+            }
         }
         $picStmt->close();
-
-        // Insert into dewan_kemudahan table (link selected kemudahan with dewan)
-        if (!empty($selected_kemudahan)) {
+		
+		if (!empty($selected_kemudahan)) {
             $kemudahanStmt = $conn->prepare("INSERT INTO dewan_kemudahan (id_dewan, id_kemudahan) VALUES (?, ?)");
             foreach ($selected_kemudahan as $id_kemudahan) {
                 $kemudahanStmt->bind_param("ii", $id_dewan, $id_kemudahan);
@@ -135,6 +119,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             $kemudahanStmt->close();
         }
+
+        if (!empty($fileTambahan)) {
+			$picStmt = $conn->prepare("INSERT INTO dewan_pic (jenis_gambar, url_gambar, id_dewan) VALUES (?, ?, ?)");
+			foreach ($fileTambahan as $fileName) {
+				$jenis_gambar = 'Tambahan';
+				$url_gambar = $uploadFileDirTambahan . $fileName;
+				$picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_dewan);
+				$picStmt->execute();
+			}
+			$picStmt->close();
+		}
 
         // Redirect to dewan.php after successful insertion
         header("Location: ../dewan.php");

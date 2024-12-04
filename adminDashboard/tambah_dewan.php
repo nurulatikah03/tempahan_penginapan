@@ -139,10 +139,12 @@
 																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
 																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
 																
+																// Check if the icon_url is provided
 																if ($icon_url) {
 																	echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 5px;">';
 																}
-
+																
+																// Display the name of the facility
 																echo $nama;
 																echo '</label>';
 																echo '</div>';
@@ -151,6 +153,9 @@
 														} else {
 															echo '<div class="col-12">No kemudahan available.</div>';
 														}
+
+														// Close connection
+														$conn->close();
 														?>
 													</div>
 												</div>
@@ -161,7 +166,7 @@
 													<select class="form-control" id="status_dewan" name="status_dewan" required>
 														<option value="">Pilih Status</option>
 														<option value="tersedia">Tersedia</option>
-														<option value="tidak_tersedia">Tidak Tersedia</option>
+														<option value="tidak tersedia">Tidak Tersedia</option>
 													</select>
 												</div>
 											</div>
@@ -186,7 +191,7 @@
 											<div class="row mb-3">
 												<label for="fileinputTambahan" class="col-3 col-form-label">Muat Naik Gambar (Tambahan)</label>
 												<div class="col-9">
-													<input type="file" id="fileinputTambahan" name="fileinputTambahan" class="form-control" accept="image/*" required>
+													<input type="file" id="fileinputTambahan" name="fileinputTambahan[]" class="form-control" accept="image/*" multiple>
 												</div>
 											</div>
 											<div class="justify-content-end row">

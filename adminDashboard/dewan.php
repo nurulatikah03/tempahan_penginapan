@@ -148,12 +148,12 @@ $result = $conn->query($query);
 																<td class="limited-text"><?php echo $penerangan_ringkas; ?></td>
 																<td><?php echo $status_dewan; ?></td>
 																<td class="table-action">
-																	<a href="dewan_details.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-eye"></i></a>
-																	<a href="kemaskini_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
+																	<a href="dewan_details.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
+																	<a href="kemaskini_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
 																	<a href="controller/delete_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" 
 																	   class="action-icon" 
 																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	   <i class="mdi mdi-delete"></i>
+																	   <i class="mdi mdi-delete"  style="color: red;"></i>
 																	</a>
 																</td>
 															</tr>
