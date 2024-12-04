@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../perkahwinan.php");
             exit;
         } else {
-            $target_dir = 'uploads/';
+            $target_dir = 'assets/images/resource/';
             $target_dir_database = dirname($URL_gambar_lama) . '/' . basename($gambar_pekej);
             $target_file = $target_dir . basename($gambar_pekej);
 
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (file_exists($URL_gambar_lama)) {
                     unlink($URL_gambar_lama);
                 }
-                PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_panjang, $penerangan_pendek, $id_dewan, $URL_gambar_lama);
+                PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_panjang, $penerangan_pendek, $id_dewan, $target_file);
                 $_SESSION['success'] = "Pekej Perkahwinan telah berjaya dikemaskini.";
                 header("Location: ../perkahwinan.php");
                 exit;

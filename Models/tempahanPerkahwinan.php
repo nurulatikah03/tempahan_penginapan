@@ -138,7 +138,7 @@ class WeddingReservation extends Reservation
 }
 function generateBookingNumberWed($date)
 {
-    $random_number = mt_rand(100, 999);
+    $random_number = mt_rand(1000, 9999);
     $booking_number = 'WED-' . $date . '-' . $random_number;
     return $booking_number;
 }
