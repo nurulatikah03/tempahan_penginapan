@@ -47,7 +47,7 @@
 			<div class="swiper-container banner-slider">
 				<div class="swiper-wrapper">                
 					<!-- Slide Item -->
-					<div class="swiper-slide" style="background-image: url(adminDashboard/controller/assets/images/resource/1733271546_dewan.webp);">
+					<div class="swiper-slide" style="background-image: url(assets/images/background/dewan.webp);">
 						<div class="content-outer">
 							<div class="content-box">
 								<div class="inner">
