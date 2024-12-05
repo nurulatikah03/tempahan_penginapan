@@ -1,8 +1,22 @@
 <?php
 include 'db-connect.php';
 
-// Fetch data from the database
-$query = "SELECT id_aktiviti, nama_aktiviti, kadar_harga, penerangan, kemudahan, status_aktiviti, penerangan, gambar FROM aktiviti";
+$query = "
+    SELECT 
+        a.id_aktiviti, 
+        a.nama_aktiviti, 
+        a.kadar_harga, 
+        a.kemudahan,
+        a.penerangan, 
+        a.status_aktiviti, 
+        ap.url_gambar AS gambar_utama
+    FROM 
+        aktiviti a
+    LEFT JOIN 
+        aktiviti_pic ap
+    ON 
+        a.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'Utama';
+";
 $result = $conn->query($query);
 ?>
 
@@ -11,7 +25,7 @@ $result = $conn->query($query);
     
 	<head>
         <meta charset="utf-8" />
-		<title>INSKET Booking</title>
+		<title>eTempahan INSKET</title>
 		<link rel="icon" type="image/x-icon" href="assets/images/logo/logo2.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -35,9 +49,9 @@ $result = $conn->query($query);
 		
 		.limited-text {
 			max-width: 150px; /* Set a maximum width for the table cell */
-			white-space: nowrap; /* Prevent text from wrapping to the next line */
-			overflow: hidden; /* Hide the overflowing text */
-			text-overflow: ellipsis; /* Show '...' for truncated text */
+        white-space: nowrap; /* Prevent text from wrapping to the next line */
+        overflow: hidden; /* Hide the overflowing text */
+        text-overflow: ellipsis; /* Show '...' for truncated text */
 		}
 		</style>
     </head>
@@ -60,7 +74,7 @@ $result = $conn->query($query);
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title">Pakej Aktiviti INSKET</h4>
+                                    <h4 class="page-title">Kemudahan Aktiviti</h4>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +86,7 @@ $result = $conn->query($query);
                                     <div class="card-body">
 										<div class="row mb-2">
                                             <div class="col-sm-5">
-                                                <a href="tambah_aktiviti.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah</a>
+                                                <a href="tambah_aktiviti.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah Aktiviti</a>
                                             </div>
                                         </div>
 										
@@ -88,7 +102,7 @@ $result = $conn->query($query);
 														</th>
 														<th class="all"></th>
 														<th>Nama Aktiviti</th>
-														<th>Kadar Harga (RM)</th>
+														<th>Kadar Sewa (RM)</th>
 														<th>Kemudahan</th>
 														<th>Penerangan</th>
 														<th>Status</th>
@@ -100,23 +114,25 @@ $result = $conn->query($query);
 													// Check if there are results and display them
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {
+															// Ambil data dari hasil
+															$id_aktiviti = $row['id_aktiviti'];
 															$nama_aktiviti = $row['nama_aktiviti'];
 															$kadar_harga = $row['kadar_harga'];
+															$kemudahan = $row['kemudahan'];
 															$penerangan = $row['penerangan'];
 															$status_aktiviti = $row['status_aktiviti'];
-															$gambar = $row['gambar'];
-															$kemudahan = $row['kemudahan'];
-															$id_aktiviti = $row['id_aktiviti'];
+															$gambar_utama = $row['gambar_utama'] ?? '';
 															?>
 															<tr>
 																<td>
 																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo $id_aktiviti; ?>">
-																		<label class="form-check-label" for="customCheck<?php echo $id_aktiviti; ?>">&nbsp;</label>
+																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo htmlspecialchars($id_aktiviti); ?>">
+																		<label class="form-check-label" for="customCheck<?php echo htmlspecialchars($id_aktiviti); ?>">&nbsp;</label>
 																	</div>
 																</td>
 																<td>
-																	<img src="controller/uploads/<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																	<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																	
 																</td>
 																<td>
 																	<p class="m-0 d-inline-block align-middle font-16">
@@ -128,12 +144,12 @@ $result = $conn->query($query);
 																<td class="limited-text"><?php echo $penerangan; ?></td>
 																<td><?php echo $status_aktiviti; ?></td>
 																<td class="table-action">
-																	<a href="aktiviti_details.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-eye"></i></a>
-																	<a href="kemaskini_aktiviti.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
+																	<a href="aktiviti_details.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
+																	<a href="kemaskini_aktiviti.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
 																	<a href="controller/delete_aktiviti.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" 
 																	   class="action-icon" 
 																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	   <i class="mdi mdi-delete"></i>
+																	   <i class="mdi mdi-delete" style="color: red;"></i>
 																	</a>
 																</td>
 															</tr>

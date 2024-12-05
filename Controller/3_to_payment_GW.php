@@ -77,13 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$_SESSION['cust_name'],
 			$_SESSION['phone_number'],
 			$_SESSION['form-email'],
-            0,
+			0,
 			$tarikh_tempahan,
 			$tarikhMasukSQL,
 			$tarikhKeluarSQL,
 			$_SESSION['total_price'],
-			$_POST['payment_method'],
-			$id_dewan 
+			$id_dewan // Gunakan id_dewan langsung dari URL
 		);
 		$tempahan->insertReservation();
 
@@ -92,5 +91,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		header("Location: $redirectUrl");
 		exit();
+		}
+		elseif ($_POST['submit'] == 'aktiviti') {
+		include '..\Models/tempahanAktiviti.php'; // Include your activity reservation model
+		include_once __DIR__ . '/../database/DBConnec.php';
+
+		$conn = DBConnection::getConnection();
+
+		// Check if 'id_aktiviti' exists in the URL
+		if (isset($_GET['id_aktiviti']) && !empty($_GET['id_aktiviti'])) {
+			$id_aktiviti = htmlspecialchars($_GET['id_aktiviti']); // Get 'id_aktiviti' from URL
+		} else {
+			echo "Error: 'id_aktiviti' not found in the URL.";
+			exit();
+		}
+
+		// Generate booking number for the activity
+		$booking_number = generateBookingNumber($conn);
+		$_SESSION['booking_number'] = $booking_number; // Save booking number in session
+		echo "Generated Booking Number: $booking_number";
+
+		// Format the dates from session data if needed (assuming these are related to the activity)
+	   $tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
+		$tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
+
+		// Create the reservation object for the activity
+		$tempahan = new AktivitiReservation(
+			null,
+			$booking_number,
+			$_SESSION['cust_name'],
+			$_SESSION['phone_number'],
+			$_SESSION['form-email'],
+			0,
+			$tarikh_tempahan,
+			$tarikhMasukSQL,
+			$tarikhKeluarSQL,
+			$_SESSION['total_price'], 
+			$_POST['payment_method'],
+			$id_aktiviti
+		);
+
+		// Insert the reservation into the database
+		$tempahan->insertReservation();
+
+		// Redirect to success_aktiviti.php with the id_aktiviti parameter
+		$redirectUrl = "../success_aktiviti.php?id_aktiviti=" . $id_aktiviti;
+		header("Location: $redirectUrl");
+		exit();
 	}
+
 }

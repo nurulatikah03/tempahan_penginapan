@@ -30,6 +30,18 @@ include 'controller/get_aktiviti.php';
 		.end-bar .rightbar-title {
 			background-color: #254222;
 		}
+		
+		#modalImage {
+			max-width: 100%;
+			max-height: 90vh; /* Supaya gambar tidak melebihi ketinggian skrin */
+		}
+		
+		.uniform-image {
+			width: 150px; /* Tetapkan lebar */
+			height: 150px; /* Tetapkan tinggi */
+			object-fit: cover; /* Potong imej agar sesuai dalam ruang */
+		}
+  
 		</style>
     </head>
 
@@ -46,6 +58,72 @@ include 'controller/get_aktiviti.php';
 
                     <!-- Start Content-->
                     <div class="container-fluid">
+					
+					<?php
+											if (isset($_GET['id_aktiviti'])) {
+												$id_aktiviti = $_GET['id_aktiviti']; // Capture the id_aktiviti from the URL
+											} else {
+												// If id_aktiviti is not found in the URL, show an error or redirect
+												echo '<div class="alert alert-danger">ID Aktiviti tidak ditemui.</div>';
+												exit;
+											}
+
+											$query = "
+												SELECT 
+													aktiviti.id_aktiviti, 
+													aktiviti.nama_aktiviti, 
+													aktiviti.kadar_harga,  	
+													aktiviti.kemudahan, 
+													aktiviti.penerangan, 
+													aktiviti.status_aktiviti,  
+													aktiviti_pic.url_gambar,
+													aktiviti_pic.jenis_gambar
+												FROM aktiviti
+												LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti
+												WHERE aktiviti.id_aktiviti = ?
+											";  // Use prepared statement to prevent SQL injection
+
+											$stmt = $conn->prepare($query);
+											$stmt->bind_param("i", $id_aktiviti); // Bind the id_aktiviti to the query
+											$stmt->execute();
+											$result = $stmt->get_result();
+
+											// Check if there are any records for the given id_aktiviti
+											if ($result->num_rows > 0) {
+												echo '<div class="row">';
+												// Variables to store images by type
+												$utama_image = '';
+												$banner_image = '';
+												$tambahan_images = [];
+
+												while ($row = $result->fetch_assoc()) {
+													$id_aktiviti = $row['id_aktiviti'];
+													$nama_aktiviti = $row['nama_aktiviti'];
+													$kadar_harga = $row['kadar_harga'];
+													$kemudahan = $row['kemudahan'];
+													$penerangan = $row['penerangan'];
+													$status_aktiviti = $row['status_aktiviti'];
+													$url_gambar = $row['url_gambar'];
+													$jenis_gambar = $row['jenis_gambar'];
+
+													// Sort the images based on jenis_gambar
+													if ($jenis_gambar == 'Utama') {
+														$utama_image = $url_gambar; // Set the 'utama' image
+													} elseif ($jenis_gambar == 'Banner') {
+														$banner_image = $url_gambar; // Set the 'banner' image
+													} elseif ($jenis_gambar == 'Tambahan') {
+														$tambahan_images[] = $url_gambar; // Add to additional images array
+													}
+												}
+												echo '</div>';
+											} else {
+												echo '<div class="alert alert-info">Tiada rekod aktiviti ditemui untuk ID Aktiviti: ' . $id_aktiviti . '.</div>';
+											}
+
+										
+											$stmt->close();
+											$conn->close();
+											?>
                         
                         <!-- start page title -->
                         <div class="row">
@@ -57,7 +135,7 @@ include 'controller/get_aktiviti.php';
                                             <li class="breadcrumb-item active"><?php echo $nama_aktiviti; ?></li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Maklumat Pakej Aktiviti</h4>
+                                    <h4 class="page-title">Maklumat Aktiviti</h4>
                                 </div>
                             </div>
                         </div>
@@ -68,10 +146,35 @@ include 'controller/get_aktiviti.php';
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-5">
+                                           <div class="col-lg-5">
 												<!-- Product image -->
-												<img src="controller/uploads/<?php echo $gambar; ?>" class="img-fluid" style="width: 500; height: 400;" alt="Product-img" />
-											</div> <!-- end col -->
+												<?php if ($utama_image): ?>
+													<a href="javascript: void(0);" class="text-center d-block mb-4">
+														<img src="controller/<?php echo $utama_image; ?>" class="img-fluid" style="max-width: 500px;" alt="Gambar Utama" />
+													</a>
+												<?php endif; ?>
+
+												<!-- Gambar tambahan -->
+												<div class="d-lg-flex d-none justify-content-center">
+
+													<!-- Gambar banner -->
+													<?php if ($banner_image): ?>
+														<a href="javascript: void(0);" class="text-center d-block mb-4">
+															<img src="controller/<?php echo $banner_image; ?>" class="img-fluid img-thumbnail p-2" style="max-width: 150px;" alt="Gambar Banner" />
+														</a>
+													<?php endif; ?>
+													
+													<?php if (!empty($tambahan_images)): ?>
+														<?php foreach ($tambahan_images as $tambahan): ?>
+															<a href="javascript: void(0);" class="ms-2">
+																<img src="controller/<?php echo $tambahan; ?>" class="img-fluid img-thumbnail p-2" style="max-width: 150px;" alt="Gambar Tambahan" />
+															</a>
+														<?php endforeach; ?>
+													<?php else: ?>
+														<p>Tiada gambar tambahan tersedia.</p>
+													<?php endif; ?>
+												</div>
+											</div>
                                             <div class="col-lg-7">
                                                 <form class="ps-lg-4">
                                                     <!-- Product title -->
@@ -79,21 +182,95 @@ include 'controller/get_aktiviti.php';
 
                                                     <!-- Product description -->
                                                     <div class="mt-4">
-                                                        <h6 class="font-14">Kadar Harga (RM):</h6>
-                                                        <h3><?php echo $kadar_harga; ?></h3>
+                                                        <h6 class="font-14">Kadar Harga</h6>
+                                                        <h3><?php echo 'RM ' . $kadar_harga; ?></h3>
                                                     </div>
                                         
                                                     <!-- Product description -->
                                                     <div class="mt-4">
-                                                        <h6 class="font-14">Kemudahan:</h6>
+                                                        <h6 class="font-14">Kemudahan</h6>
                                                         <p><?php echo $kemudahan; ?></p>
                                                     </div>
 													
-													<div class="mt-4">
-                                                        <h6 class="font-14">Penerangan:</h6>
+													
+                                                    <!-- Product description -->
+                                                    <div class="mt-4">
+                                                        <h6 class="font-14">Penerangan</h6>
                                                         <p><?php echo $penerangan; ?></p>
                                                     </div>
+		
+                                                    <!-- Product information -->
+                                                    <div class="mt-4">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <h6 class="font-14">Status Aktiviti</h6>
+                                                                <p class="text-sm lh-150"><?php echo $status_aktiviti; ?></p>
+                                                            </div>  
+                                                        </div>
+                                                    </div>
+													
+													<div class="mt-4">
+														<h6 class="font-14">Kemudahan</h6>
+														<div class="row">
+															<?php
+															$servername = "localhost";
+															$username = "root";
+															$password = "";
+															$dbname = "tempahan_penginapan";
 
+															// Create connection
+															$conn = new mysqli($servername, $username, $password, $dbname);
+
+															if ($conn->connect_error) {
+																die("Connection failed: " . $conn->connect_error);
+															}
+
+															$conn->set_charset("utf8");
+
+															// Semak id_aktiviti daripada URL
+															if (isset($_GET['id_aktiviti'])) {
+																$id_aktiviti = $_GET['id_aktiviti'];
+															} else {
+																echo '<div class="alert alert-danger">ID Aktiviti tidak ditemui.</div>';
+																exit;
+															}
+
+															// Query untuk mendapatkan kemudahan berkaitan dengan aktiviti ini
+															$query = "
+																SELECT k.nama, k.icon_url
+																FROM kemudahan k
+																JOIN aktiviti_kemudahan dk ON k.id_kemudahan = ak.id_kemudahan
+																WHERE ak.id_aktiviti = '$id_aktiviti'
+															";
+
+															$result = $conn->query($query);
+
+															// Semak dan papar kemudahan
+															if ($result->num_rows > 0) {
+																while ($row = $result->fetch_assoc()) {
+																	$nama = $row['nama'];
+																	$icon_url = $row['icon_url'];
+
+																	echo '<div class="col-4 d-flex align-items-center my-2">';
+																	
+																	// Paparkan ikon jika ada
+																	if ($icon_url) {
+																		echo '<img src="../' . $icon_url . '" alt="' . htmlspecialchars($nama) . '" style="height: 30px; margin-right: 10px;">';
+																	}
+
+																	// Paparkan nama kemudahan
+																	echo '<span>' . htmlspecialchars($nama) . '</span>';
+																	echo '</div>';
+																}
+															} else {
+																echo '<div class="col-12">Tiada kemudahan tersedia untuk aktiviti ini.</div>';
+															}
+
+															// Tutup sambungan
+															$conn->close();
+															?>
+														</div>
+													</div>
                                                 </form>
                                             </div> <!-- end col -->
                                         </div> <!-- end row-->

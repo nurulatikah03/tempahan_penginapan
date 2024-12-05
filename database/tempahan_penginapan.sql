@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2024 at 01:27 AM
+-- Generation Time: Dec 05, 2024 at 07:53 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -55,17 +55,65 @@ CREATE TABLE `aktiviti` (
   `kadar_harga` decimal(10,2) NOT NULL,
   `kemudahan` varchar(500) NOT NULL,
   `penerangan` varchar(550) NOT NULL,
-  `status_aktiviti` enum('Tersedia','Tidak Tersedia') NOT NULL,
-  `gambar` varchar(550) NOT NULL
+  `status_aktiviti` enum('Tersedia','Tidak Tersedia') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `aktiviti`
 --
 
-INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudahan`, `penerangan`, `status_aktiviti`, `gambar`) VALUES
-(3, 'Pakej Kem Pelajar', 50.00, 'Dewan seminar dan kemudahan seperti  P.A System, LCD, Whiteboard dan Marker.', 'Kem ini direka untuk menggalakkan pembelajaran secara aktif dan kolaboratif, di samping memberi ruang kepada pelajar untuk bersosial dan berkembang sebagai individu.', 'Tersedia', 'kemPelajar.jpg'),
-(4, 'Pakej Teambuilding', 99.00, 'Penginapan berdua sebilik yang berhawa dingin.', 'Pakej teambuilding dirancang untuk meningkatkan kerjasama, komunikasi, dan semangat pasukan di kalangan pelajar.', 'Tersedia', 'teambuilding.jpg');
+INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudahan`, `penerangan`, `status_aktiviti`) VALUES
+(6, 'Pakej Kem Pelajar', 55.00, 'Array', 'Kem pelajar adalah program intensif yang bertujuan untuk mengembangkan potensi pelajar melalui aktiviti yang menyeronokkan, mencabar, dan bermakna. Kem ini biasanya diadakan di lokasi yang jauh dari persekitaran sekolah biasa, seperti kawasan semula jadi, pusat latihan, atau resort, dengan tujuan memberikan suasana baru yang merangsang pembelajaran dan perkembangan diri. ', 'Tersedia'),
+(7, 'Pakej Teambuilding', 99.00, 'Array', 'Pakej teambuilding ini sesuai untuk syarikat, institusi pendidikan, atau organisasi yang ingin mengeratkan hubungan antara ahli pasukan dalam suasana yang santai dan produktif.', 'Tersedia');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aktiviti_kemudahan`
+--
+
+CREATE TABLE `aktiviti_kemudahan` (
+  `id_aktiviti_kemudahan` int(11) NOT NULL,
+  `id_aktiviti` int(11) NOT NULL,
+  `id_kemudahan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aktiviti_kemudahan`
+--
+
+INSERT INTO `aktiviti_kemudahan` (`id_aktiviti_kemudahan`, `id_aktiviti`, `id_kemudahan`) VALUES
+(9, 6, 1),
+(10, 6, 4),
+(11, 6, 7),
+(12, 7, 1),
+(13, 7, 4),
+(14, 7, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aktiviti_pic`
+--
+
+CREATE TABLE `aktiviti_pic` (
+  `id_gambar` int(11) NOT NULL,
+  `jenis_gambar` varchar(50) NOT NULL,
+  `url_gambar` text NOT NULL,
+  `id_aktiviti` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aktiviti_pic`
+--
+
+INSERT INTO `aktiviti_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_aktiviti`) VALUES
+(19, 'Utama', 'assets/images/resource/1733359466_IMG_20200301_190033_077.jpg', 6),
+(20, 'Banner', 'assets/images/background/1733359466_67402092_2105156906262002_7439572943736143872_o-1024x768.jpg', 6),
+(21, 'Tambahan', 'assets/images/resource/1733359466_58381892_321142655236802_8450294592342851584_o.jpg', 6),
+(22, 'Utama', 'assets/images/resource/1733365750_GAMBAR-2.jpg', 7),
+(23, 'Banner', 'assets/images/background/1733365750_teamBuilding2.jpg', 7),
+(24, 'Tambahan', 'assets/images/resource/1733365750_pexels-denniz-futalan-339724-3453047.jpg', 7);
 
 -- --------------------------------------------------------
 
@@ -196,12 +244,12 @@ INSERT INTO `dewan_kemudahan` (`id_dewan_kemudahan`, `id_dewan`, `id_kemudahan`)
 (62, 16, 1),
 (63, 16, 5),
 (64, 16, 7),
-(65, 17, 1),
-(66, 17, 5),
-(67, 17, 7),
 (68, 18, 1),
 (69, 18, 5),
-(70, 18, 7);
+(70, 18, 7),
+(71, 17, 1),
+(72, 17, 5),
+(73, 17, 7);
 
 -- --------------------------------------------------------
 
@@ -295,38 +343,45 @@ CREATE TABLE `tempahan` (
   `reference_id` varchar(255) DEFAULT NULL,
   `id_bilik` int(11) DEFAULT NULL,
   `id_dewan` int(11) DEFAULT NULL,
-  `id_perkahwinan` int(11) DEFAULT NULL
+  `id_perkahwinan` int(11) DEFAULT NULL,
+  `id_aktiviti` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tempahan`
 --
 
-INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`) VALUES
-(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL),
-(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL),
-(86, 'ROOM-241204-750', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 5, '2024-12-04 09:56:49', '2024-12-04', '2024-12-05', 340, 'LO', NULL, 1, NULL, NULL),
-(87, 'ROOM-241204-349', 'nurul atikah', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:14:49', '2024-12-04', '2024-12-05', 150, 'FPX', NULL, 2, NULL, NULL),
-(88, 'DEWAN-241204-959', 'rqgrgqwrcxbfzbddb', '0123456789', 'sayang@GMAIL.COM', NULL, '2024-12-04 12:16:04', '2024-12-04', '2024-12-05', 350, 'FPX', NULL, NULL, 2, NULL),
-(89, 'DEWAN-241204-565', 'nurul atikah', '0075474352', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:16:58', '2024-12-28', '2024-12-29', 200, 'FPX', NULL, NULL, 3, NULL),
-(90, 'DEWAN-241204-869', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:18:50', '2024-12-26', '2024-12-27', 350, 'FPX', NULL, NULL, 2, NULL),
-(91, 'DEWAN-241204-346', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:23:55', '2024-12-28', '2024-12-29', 350, 'FPX', NULL, NULL, 2, NULL),
-(92, 'ROOM-241204-421', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', 1, '2024-12-04 12:26:26', '2024-12-28', '2024-12-29', 150, 'LO', NULL, 2, NULL, NULL),
-(93, 'DEWAN-241204-445', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:32:08', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL),
-(94, 'DEWAN-241204-857', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:36:50', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL),
-(95, 'DEWAN-241204-851', 'agreagweaew', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:37:59', '2024-12-04', '2024-12-05', 200, 'FPX', NULL, NULL, 3, NULL),
-(96, 'ROOM-241204-788', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:43:37', '2024-12-31', '2025-01-01', 150, '', NULL, 2, NULL, NULL),
-(97, 'DEWAN-241204-433', 'nurul', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:44:01', '2024-12-31', '2025-01-01', 150, 'FPX', NULL, NULL, 3, NULL),
-(98, 'ROOM-241204-113', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:44:35', '2024-12-31', '2025-01-01', 150, 'Tunai', NULL, 2, NULL, NULL),
-(99, 'DEWAN-241204-870', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'nurul03atikah@gmail.com', 0, '2024-12-04 12:45:40', '2024-12-15', '2024-12-16', 350, 'Tunai', NULL, NULL, 2, NULL),
-(100, 'ROOM-241204-560', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:46:20', '2024-12-22', '2024-12-23', 150, 'Bank Transfer', NULL, 2, NULL, NULL),
-(101, 'DEWAN-241204-998', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:46:51', '2024-12-19', '2024-12-20', 350, 'Bank Transfer', NULL, NULL, 2, NULL),
-(102, 'ROOM-241204-422', 'rqgrgqwrcxbfzbddb', '0108376005', 'nurul@GMAIL.COM', 1, '2024-12-04 12:47:28', '2024-12-25', '2024-12-26', 200, 'Tunai', NULL, 3, NULL, NULL),
-(103, 'DEWAN-241204-792', 'rqgrgqwrcxbfzbddb', '0075474352', 'nurul@GMAIL.COM', 0, '2024-12-04 12:53:11', '2024-12-12', '2024-12-13', 500, 'LO', NULL, NULL, 1, NULL),
-(104, 'DEWAN-241204-243', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:56:47', '2025-01-01', '2025-01-10', 4500, 'Tunai', NULL, NULL, 1, NULL),
-(105, 'DEWAN-241204-095', 'NIK NADIA NATASYA', '0175474352', 'nadia@gmail.com', 0, '2024-12-04 16:46:52', '2025-02-07', '2025-02-11', 800, 'Tunai', NULL, NULL, 3, NULL),
-(106, 'DEWAN-241205-075', 'atikah nasir', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 00:39:44', '2024-12-05', '2024-12-06', 350, 'Tunai', NULL, NULL, 17, NULL),
-(107, 'DEWAN-241205-087', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 08:18:29', '2024-12-19', '2024-12-20', 350, 'Tunai', NULL, NULL, 17, NULL);
+INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`, `id_aktiviti`) VALUES
+(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
+(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
+(86, 'ROOM-241204-750', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 5, '2024-12-04 09:56:49', '2024-12-04', '2024-12-05', 340, 'LO', NULL, 1, NULL, NULL, NULL),
+(87, 'ROOM-241204-349', 'nurul atikah', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:14:49', '2024-12-04', '2024-12-05', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
+(88, 'DEWAN-241204-959', 'rqgrgqwrcxbfzbddb', '0123456789', 'sayang@GMAIL.COM', NULL, '2024-12-04 12:16:04', '2024-12-04', '2024-12-05', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
+(89, 'DEWAN-241204-565', 'nurul atikah', '0075474352', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:16:58', '2024-12-28', '2024-12-29', 200, 'FPX', NULL, NULL, 3, NULL, NULL),
+(90, 'DEWAN-241204-869', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:18:50', '2024-12-26', '2024-12-27', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
+(91, 'DEWAN-241204-346', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:23:55', '2024-12-28', '2024-12-29', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
+(92, 'ROOM-241204-421', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', 1, '2024-12-04 12:26:26', '2024-12-28', '2024-12-29', 150, 'LO', NULL, 2, NULL, NULL, NULL),
+(93, 'DEWAN-241204-445', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:32:08', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL, NULL),
+(94, 'DEWAN-241204-857', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:36:50', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL, NULL),
+(95, 'DEWAN-241204-851', 'agreagweaew', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:37:59', '2024-12-04', '2024-12-05', 200, 'FPX', NULL, NULL, 3, NULL, NULL),
+(96, 'ROOM-241204-788', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:43:37', '2024-12-31', '2025-01-01', 150, '', NULL, 2, NULL, NULL, NULL),
+(97, 'DEWAN-241204-433', 'nurul', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:44:01', '2024-12-31', '2025-01-01', 150, 'FPX', NULL, NULL, 3, NULL, NULL),
+(98, 'ROOM-241204-113', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:44:35', '2024-12-31', '2025-01-01', 150, 'Tunai', NULL, 2, NULL, NULL, NULL),
+(99, 'DEWAN-241204-870', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'nurul03atikah@gmail.com', 0, '2024-12-04 12:45:40', '2024-12-15', '2024-12-16', 350, 'Tunai', NULL, NULL, 2, NULL, NULL),
+(100, 'ROOM-241204-560', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:46:20', '2024-12-22', '2024-12-23', 150, 'Bank Transfer', NULL, 2, NULL, NULL, NULL),
+(101, 'DEWAN-241204-998', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:46:51', '2024-12-19', '2024-12-20', 350, 'Bank Transfer', NULL, NULL, 2, NULL, NULL),
+(102, 'ROOM-241204-422', 'rqgrgqwrcxbfzbddb', '0108376005', 'nurul@GMAIL.COM', 1, '2024-12-04 12:47:28', '2024-12-25', '2024-12-26', 200, 'Tunai', NULL, 3, NULL, NULL, NULL),
+(103, 'DEWAN-241204-792', 'rqgrgqwrcxbfzbddb', '0075474352', 'nurul@GMAIL.COM', 0, '2024-12-04 12:53:11', '2024-12-12', '2024-12-13', 500, 'LO', NULL, NULL, 1, NULL, NULL),
+(104, 'DEWAN-241204-243', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:56:47', '2025-01-01', '2025-01-10', 4500, 'Tunai', NULL, NULL, 1, NULL, NULL),
+(105, 'DEWAN-241204-095', 'NIK NADIA NATASYA', '0175474352', 'nadia@gmail.com', 0, '2024-12-04 16:46:52', '2025-02-07', '2025-02-11', 800, 'Tunai', NULL, NULL, 3, NULL, NULL),
+(106, 'DEWAN-241205-075', 'atikah nasir', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 00:39:44', '2024-12-05', '2024-12-06', 350, 'Tunai', NULL, NULL, 17, NULL, NULL),
+(107, 'DEWAN-241205-087', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 08:18:29', '2024-12-19', '2024-12-20', 350, 'Tunai', NULL, NULL, 17, NULL, NULL),
+(108, 'DEWAN-241205-166', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 08:52:44', '2024-12-05', '2024-12-06', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
+(109, 'DEWAN-241205-434', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 08:53:22', '2024-12-05', '2024-12-06', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
+(110, 'ROOM-241205-364', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-05 10:21:49', '2024-12-05', '2024-12-06', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
+(111, 'ROOM-241205-669', 'NIK', '0189042908', 'nik92@gmail.com', 1, '2024-12-05 10:22:52', '2024-12-31', '2025-01-01', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
+(112, 'DEWAN-241205-079', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 10:32:50', '2025-02-28', '2025-03-01', 500, 'Tunai', NULL, NULL, 16, NULL, NULL),
+(113, 'AKTIVITI-241205-439', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', NULL, '2024-12-05 11:51:32', '2024-12-05', '2024-12-06', 55, 'FPX', NULL, NULL, NULL, NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -356,6 +411,18 @@ ALTER TABLE `add_on_perkahwinan`
 --
 ALTER TABLE `aktiviti`
   ADD PRIMARY KEY (`id_aktiviti`);
+
+--
+-- Indexes for table `aktiviti_kemudahan`
+--
+ALTER TABLE `aktiviti_kemudahan`
+  ADD PRIMARY KEY (`id_aktiviti_kemudahan`);
+
+--
+-- Indexes for table `aktiviti_pic`
+--
+ALTER TABLE `aktiviti_pic`
+  ADD PRIMARY KEY (`id_gambar`);
 
 --
 -- Indexes for table `bilik`
@@ -416,7 +483,8 @@ ALTER TABLE `tempahan`
   ADD PRIMARY KEY (`id_tempahan`),
   ADD KEY `room_id` (`id_bilik`),
   ADD KEY `id_perkahwinan` (`id_perkahwinan`) USING BTREE,
-  ADD KEY `id_dewan` (`id_dewan`);
+  ADD KEY `id_dewan` (`id_dewan`),
+  ADD KEY `id_aktiviti` (`id_aktiviti`);
 
 --
 -- Indexes for table `tempahan_perkahwinan_addons`
@@ -440,7 +508,19 @@ ALTER TABLE `add_on_perkahwinan`
 -- AUTO_INCREMENT for table `aktiviti`
 --
 ALTER TABLE `aktiviti`
-  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `aktiviti_kemudahan`
+--
+ALTER TABLE `aktiviti_kemudahan`
+  MODIFY `id_aktiviti_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `aktiviti_pic`
+--
+ALTER TABLE `aktiviti_pic`
+  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `bilik`
@@ -470,7 +550,7 @@ ALTER TABLE `dewan`
 -- AUTO_INCREMENT for table `dewan_kemudahan`
 --
 ALTER TABLE `dewan_kemudahan`
-  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `dewan_pic`
@@ -494,7 +574,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
