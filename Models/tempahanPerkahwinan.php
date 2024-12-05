@@ -4,12 +4,14 @@ include_once __DIR__ . '/../database/DBConnec.php';
 
 class WeddingReservation extends Reservation
 {
+    private $dewan_id;
     private $wedding_id;
 
-    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method, $wedding_id)
+    public function __construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method, $dewan_id, $wedding_id)
     {
         parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->wedding_id = $wedding_id;
+        $this->dewan_id = $dewan_id;
     }
 
     public function setName($name)
@@ -27,37 +29,41 @@ class WeddingReservation extends Reservation
         $this->phone_number = $phone_number;
     }
 
+    public function getDewanId()
+    {
+        return $this->dewan_id;
+    }
+
     public function getWeddingId()
     {
         return $this->wedding_id;
     }
+    
 
-    public function insertReservation()
-    {
+    public function insertReservation(){
         $conn = DBConnection::getConnection();
         $sql = "INSERT INTO tempahan (
         nombor_tempahan, 
         nama_penuh, 
         numbor_fon, 
-        bilangan_pax,
         email, 
+        bilangan_pax,
         tarikh_tempahan, 
         tarikh_daftar_masuk, 
         harga_keseluruhan, 
         cara_bayar, 
-        id_perkahwinan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        id_dewan, 
+        id_perkahwinan) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssdsi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->wedding_id);
+        $stmt->bind_param("sssssssdsii", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->dewan_id, $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();
             throw new Exception("Failed to insert reservation: " . $stmt->error);
         }
 
-        $reservationId = $conn->insert_id;
         $stmt->close();
-
-        return $reservationId;
     }
 
     public function insertReservationWithAddOns($addOns, $quantity)
@@ -73,10 +79,11 @@ class WeddingReservation extends Reservation
         tarikh_daftar_masuk, 
         harga_keseluruhan, 
         cara_bayar, 
+        id_dewan, 
         id_perkahwinan) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssdsi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->wedding_id);
+        $stmt->bind_param("sssssssdsii", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->dewan_id, $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();
@@ -106,6 +113,55 @@ class WeddingReservation extends Reservation
         return $reservationId;
     }
 
+    public static function getAddOnsByReservationId($reservationId)
+    {
+        $conn = DBConnection::getConnection();
+        $sql = "SELECT a.*, tpa.quantity FROM tempahan_perkahwinan_addons tpa
+                INNER JOIN add_on_perkahwinan a ON tpa.add_on_id = a.add_on_id
+                WHERE tpa.id_tempahan = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $reservationId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $addons = [];
+        while ($row = $result->fetch_assoc()) {
+            $addons[] = [
+                'id' => $row['add_on_id'],
+                'name' => $row['add_on_nama'],
+                'price' => $row['harga'],
+                'quantity' => $row['quantity']
+            ];
+        }
+        $stmt->close();
+        return $addons;
+    }
+
+    public static function getWedReservationByBookingId($bookingId){
+        $conn = DBConnection::getConnection();
+        $sql = "SELECT * FROM tempahan WHERE nombor_tempahan = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $bookingId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $reservation = new WeddingReservation(
+            $row['id_tempahan'], 
+            $row['nombor_tempahan'], 
+            $row['nama_penuh'], 
+            $row['numbor_fon'], 
+            $row['email'], 
+            $row['bilangan_pax'],
+            $row['tarikh_tempahan'], 
+            $row['tarikh_daftar_masuk'], 
+            $row['tarikh_daftar_keluar'], 
+            $row['harga_keseluruhan'], 
+            $row['cara_bayar'],
+            $row['id_dewan'],
+            $row['id_perkahwinan']);
+        $stmt->close();
+        return $reservation;
+    }
+
     public static function getAllReservations()
     {
         $conn = DBConnection::getConnection();
@@ -127,6 +183,7 @@ class WeddingReservation extends Reservation
                 $row['tarikh_daftar_keluar'], 
                 $row['harga_keseluruhan'], 
                 $row['cara_bayar'],
+                $row['id_dewan'],
                 $row['id_perkahwinan']);
                 $reservations[] = $reservation;
             }

@@ -239,7 +239,6 @@ class Room
             ];
         }
 
-        $conn->close(); // Close connection after fetching all rows
 
         return $amenities;
     }

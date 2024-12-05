@@ -281,7 +281,8 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                                     </div>
                                     <div class="form-group mb-0">
                                         <input type="hidden" name="id_perkahwinan" value="<?php echo $package->getIdPekej(); ?>">
-                                        <input type="hidden" name="nama_dewan" value="<?php echo $package->getNamaDewanKahwin(); ?>">
+                                        <input type="hidden" name="nama_dewan" value="<?php echo $package->getNamaDewan(); ?>">
+                                        <input type="hidden" name="id_dewan" value="<?php echo $package->getIdDewan(); ?>">
                                         <input type="hidden" name="nama_pekej" value="<?php echo $package->getNamaPekej(); ?>">
                                         <input type="hidden" name="gambar_pekej" value="<?php echo $package->getGambarPekej(); ?>">
                                         <input type="hidden" name="peocess" value="kahwin">

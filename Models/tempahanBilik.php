@@ -85,7 +85,6 @@ class RoomReservation extends Reservation
         $row = $result->fetch_assoc();
         $reservation = new RoomReservation($row['id_tempahan'], $row['nombor_tempahan'], $row['nama_penuh'], $row['numbor_fon'], $row['email'], $row['bilangan_pax'] ,$row['tarikh_tempahan'], $row['tarikh_daftar_masuk'], $row['tarikh_daftar_keluar'], $row['harga_keseluruhan'], $row['cara_bayar'], $row['id_bilik']);
         $stmt->close();
-        $conn->close();
         return $reservation;
     }
 

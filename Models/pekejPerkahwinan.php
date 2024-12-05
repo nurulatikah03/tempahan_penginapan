@@ -27,11 +27,6 @@ class PekejPerkahwinan extends Dewan
         return $this->id_pekej;
     }
 
-    public function getNamaDewanKahwin()
-    {
-        return parent::getNamaDewan();
-    }
-
     public function getNamaPekej()
     {
         return $this->nama_pekej;
@@ -230,4 +225,15 @@ FROM
         $stmt->execute();
         $stmt->close();
     }
+}
+
+function checkAvailabilityWed($id, $date){
+    $conn = DBConnection::getConnection();
+    $sql = "SELECT * FROM tempahan WHERE id_perkahwinan = ? AND tarikh_tempahan = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("is", $id, $date);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    return $result->num_rows === 0;
 }

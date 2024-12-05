@@ -1,9 +1,9 @@
 <?php
-require_once('C:\xampp\htdocs\tempahan_penginapan\assets\inc\TCPDF\tcpdf.php');
-include_once 'Models/tempahanBilik.php';
-include_once 'Models/room.php';
+require_once('..\inc\TCPDF\tcpdf.php');
+include_once '../../Models/tempahanBilik.php';
+include_once '../../Models/room.php';
 session_start();
-$nomborTempahan = $_SESSION['booking_number'];
+$nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $_SESSION['booking_number'];
 $booking = RoomReservation::getReservationByBookId($nomborTempahan);
 $room = Room::getRoomById($booking->getRoomId());
 
@@ -15,14 +15,17 @@ $invoiceDate = $booking->getReservationDate();
 $bookingNumber = $booking->getBookingNumber();
 $checkInDate = $booking->getCheckInDate();
 $checkOutDate = $booking->getCheckOutDate();
+$roomName = $room->getName();
 $roomType = $room->getType();
+$numOfPax = $booking->getNumOfPax();
 $roomRate = $room->getPrice();
 $numNights = calcNumOfNight($checkInDate,$checkOutDate);
-$totalAmount = $roomRate * $numNights;
-$additionalCharges = 50; // For example, service or cleaning fees
-$taxRate = 0.1; // 10% tax
-$taxAmount = ($totalAmount + $additionalCharges) * $taxRate;
-$grandTotal = $totalAmount + $additionalCharges + $taxAmount;
+$totalAmount = $roomRate * $numNights * $numOfPax;
+$taxRate = 0.06; // tax
+$roomRate = $roomRate * (1 - $taxRate);
+$grandTotal = $totalAmount;
+$taxAmount = $grandTotal * $taxRate;
+$totalAmount = $grandTotal - $taxAmount;
 
 // Create new PDF document
 $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -58,6 +61,7 @@ $html = '
     <table cellpadding="5">
         <tr>
             <td><strong>Nama penyewa:</strong> ' . $customerName . '</td>
+            <td><strong>Nombor tempahan:</strong> ' . $bookingNumber . '</td>
         </tr>
         <tr>
             <td><strong>Email:</strong> ' . $customerEmail . '</td>
@@ -67,7 +71,7 @@ $html = '
     <table cellpadding="5">
         <tr>
             <td><strong>Tarikh Invoice:</strong> ' . $invoiceDate . '</td>
-            <td><strong>Nombor tempahan:</strong> ' . $bookingNumber . '</td>
+            <td></td>
         </tr>
         <tr>
             <td><strong>Tarikh masuk:</strong> ' . $checkInDate . '</td>
@@ -81,23 +85,25 @@ $pdf->writeHTML($html, true, false, false, false, '');
 // Booking details
 $pdf->Ln(5);
 $html = '
-    <h3>Booking Details</h3>
+    <h3>Butiran Tempahan</h3>
     <table border="1" cellpadding="5">
         <thead>
             <tr>
                 <th width="10%"><strong>Bil</strong></th>
-                <th><strong>Jenis bilik</strong></th>
+                <th><strong>Nama Bilik</strong></th>
                 <th><strong>Harga semalaman</strong></th>
                 <th><strong>Bilangan malam</strong></th>
+                ' . ($roomType !== 'homestay' ? '<th><strong>Bilangan Bilik</strong></th>' : '') . '
                 <th><strong>Harga</strong></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td width="10%">1</td>
-                <td>' . $roomType . '</td>
+                <td>' . $roomName . '</td>
                 <td>RM' . number_format($roomRate, 2) . '</td>
                 <td>' . $numNights . '</td>
+                ' . ($roomType !== 'homestay' ? '<td>' . $numOfPax . '</td>' : '') . '
                 <td>RM' . number_format($totalAmount, 2) . '</td>
             </tr>
         </tbody>
@@ -109,22 +115,18 @@ $pdf->writeHTML($html, true, false, false, false, '');
 // Summary
 $pdf->Ln(5);
 $html = '
-    <h3>Summary</h3>
+    <h3>Ringkasan</h3>
     <table cellpadding="5">
         <tr>
-            <td><strong>Room Total</strong></td>
+            <td><strong>Total harga bilik</strong></td>
             <td align="right">RM' . number_format($totalAmount, 2) . '</td>
-        </tr>
-        <tr>
-            <td><strong>Additional Charges</strong></td>
-            <td align="right">RM' . number_format($additionalCharges, 2) . '</td>
         </tr>
         <tr>
             <td><strong>Tax (' . ($taxRate * 100) . '%)</strong></td>
             <td align="right">RM' . number_format($taxAmount, 2) . '</td>
         </tr>
         <tr>
-            <td><strong>Grand Total</strong></td>
+            <td><strong>Harga total</strong></td>
             <td align="right"><strong>RM' . number_format($grandTotal, 2) . '</strong></td>
         </tr>
     </table>
@@ -139,6 +141,7 @@ $pdf->writeHTML($html, true, false, false, false, '');
 if (isset($_GET['viewInvoice'])) {
     $pdf->Output('room_booking_invoice.pdf', 'I');
 }else {
-    $pdfContent = $pdf->Output('', 'S');
+    //$pdfContent = $pdf->Output('', 'S');
+    echo 'send pdf as string';
 }
 ?>

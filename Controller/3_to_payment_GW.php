@@ -3,10 +3,14 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     date_default_timezone_set('Asia/Kuala_Lumpur');
     $tarikh_tempahan = date("Y-m-d H:i:s");
+
+
+    // elseis starts here
     if ($_POST['submit'] == 'room') {
         include_once '..\Models\tempahanBilik.php';
         $conn = DBConnection::getConnection();
         $_SESSION['booking_number'] = generateBookingNumber($conn);
+        $_SESSION['payment_method'] = $_POST['payment_method'];
         $tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
         $tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
 
@@ -18,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../success.php");
         //send email to customer
         //include '../testEMAIL.php';
+
         exit();
     } elseif ($_POST['submit'] == 'kahwin') {
         include '..\Models/tempahanPerkahwinan.php';
@@ -25,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tarikhKendurNextDay = date('Y-m-d', strtotime($tarikhKenduriSQL . ' +1 day'));
 
         $_SESSION['booking_number'] = generateBookingNumberWed($tarikhKenduriSQL);
-        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['kapasiti'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKendurNextDay, $_SESSION['total_price_kahwin'], $_POST['payment_method'] , $_SESSION["id_perkahwinan"]);
+        $_SESSION['payment_method'] = $_POST['payment_method'];
+        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['kapasiti'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKendurNextDay, $_SESSION['total_price_kahwin'], $_POST['payment_method'], $_SESSION['id_dewan_kahwin'] ,$_SESSION["id_perkahwinan"]);
         if (isset($_SESSION['addons']) && !empty($_SESSION['addons'])) {
             
             $addons = $_SESSION['addons'];
@@ -44,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tempahan->insertReservation();
         }
         
-        echo "hello";
+        header("Location: ../success_kahwin.php");
+        exit();
     }
 
      elseif ($_POST['submit'] == 'dewan') {

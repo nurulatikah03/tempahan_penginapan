@@ -20,7 +20,10 @@ $quantityMejaBanquet = $_POST['quantity_Meja_Banquet'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
 
-    // Validate Kapasiti
+    if (!checkAvailabilityWed($_POST['id_perkahwinan'], $_POST['tarikh_kenduri'])) {
+        $errors[] = "Tarikh kenduri telah ditempah. Sila pilih tarikh yang lain.";
+    }
+
     if (!validateKapasiti($_POST['kapasiti'])) {
         $errors[] = "Kapasiti mesti antara 50 hingga 1000 orang.";
     }
@@ -66,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['addons'] = $addons;
         $_SESSION['kapasiti'] = $_POST['kapasiti'];
         $_SESSION['nama_dewan'] = $_POST['nama_dewan'];
+        $_SESSION['id_dewan_kahwin'] = $_POST['id_dewan'];
         $_SESSION['total_price_kahwin'] = $_POST['total_price_kahwin'];
         $_SESSION['gambar_pekej'] = $_POST['gambar_pekej'];
 
