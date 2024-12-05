@@ -110,7 +110,7 @@
 											<div class="row mb-3">
 												<label class="col-3 col-form-label">Kemudahan</label>
 												<div class="col-9">
-													<div class="row">
+													<div class="row g-2">
 														<?php
 														$servername = "localhost";
 														$username = "root";
@@ -134,7 +134,7 @@
 																$nama = $row['nama'];
 																$icon_url = $row['icon_url'];
 
-																echo '<div class="col-4">';
+																echo '<div class="col-md-4">';
 																echo '<div class="form-check">';
 																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
 																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';

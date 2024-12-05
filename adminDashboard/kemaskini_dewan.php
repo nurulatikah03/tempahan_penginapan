@@ -30,6 +30,7 @@ include 'controller/get_dewan.php';
         .end-bar .rightbar-title {
             background-color: #254222;
         }
+		
     </style>
 </head>
 
@@ -49,77 +50,72 @@ include 'controller/get_dewan.php';
                 <div class="container-fluid">
 
                     <?php
-											if (isset($_GET['id_dewan'])) {
-												$id_dewan = $_GET['id_dewan']; // Capture the id_dewan from the URL
-											} else {
-												// If id_dewan is not found in the URL, show an error or redirect
-												echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
-												exit;
-											}
+						if (isset($_GET['id_dewan'])) {
+							$id_dewan = $_GET['id_dewan']; // Capture the id_dewan from the URL
+						} else {
+							echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+							exit;
+						}
 
-											$query = "
-												SELECT 
-													dewan.id_dewan, 
-													dewan.nama_dewan, 
-													dewan.kadar_sewa, 
-													dewan.bilangan_muatan, 
-													dewan.penerangan, 
-													dewan.penerangan_ringkas, 
-													dewan.penerangan_kemudahan, 
-													dewan.status_dewan, 
-													dewan.max_capacity, 
-													dewan_pic.url_gambar,
-													dewan_pic.jenis_gambar
-												FROM dewan
-												LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
-												WHERE dewan.id_dewan = ?
-											";  // Use prepared statement to prevent SQL injection
-
-											$stmt = $conn->prepare($query);
-											$stmt->bind_param("i", $id_dewan); // Bind the id_dewan to the query
-											$stmt->execute();
-											$result = $stmt->get_result();
-
-											// Check if there are any records for the given id_dewan
-											if ($result->num_rows > 0) {
-												echo '<div class="row">';
-												// Variables to store images by type
-												$utama_image = '';
-												$banner_image = '';
-												$tambahan_images = [];
-
-												while ($row = $result->fetch_assoc()) {
-													$id_dewan = $row['id_dewan'];
-													$nama_dewan = $row['nama_dewan'];
-													$kadar_sewa = $row['kadar_sewa'];
-													$bilangan_muatan = $row['bilangan_muatan'];
-													$penerangan = $row['penerangan'];
-													$penerangan_ringkas = $row['penerangan_ringkas'];
-													$penerangan_kemudahan = $row['penerangan_kemudahan'];
-													$max_capacity = $row['max_capacity'];
-													$status_dewan = $row['status_dewan'];
-													$url_gambar = $row['url_gambar'];
-													$jenis_gambar = $row['jenis_gambar'];
-
-													// Sort the images based on jenis_gambar
-													if ($jenis_gambar == 'Utama') {
-														$utama_image = $url_gambar; // Set the 'utama' image
-													} elseif ($jenis_gambar == 'Banner') {
-														$banner_image = $url_gambar; // Set the 'banner' image
-													} elseif ($jenis_gambar == 'Tambahan') {
-														$tambahan_images[] = $url_gambar; // Add to additional images array
-													}
+						$query = "
+							SELECT 
+								dewan.id_dewan, 
+								dewan.nama_dewan, 
+								dewan.kadar_sewa, 
+								dewan.bilangan_muatan, 
+								dewan.penerangan, 
+								dewan.penerangan_ringkas, 
+								dewan.penerangan_kemudahan, 
+								dewan.status_dewan, 
+								dewan.max_capacity, 
+								dewan_pic.url_gambar,
+								dewan_pic.jenis_gambar
+							FROM dewan
+							LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
+							WHERE dewan.id_dewan = ?";
+							
+							$stmt = $conn->prepare($query);
+							$stmt->bind_param("i", $id_dewan);
+							$stmt->execute();
+							$result = $stmt->get_result();
+							
+							if ($result->num_rows > 0) {
+								echo '<div class="row">';
+								$utama_image = '';
+								$banner_image = '';
+								$tambahan_images = [];
+								
+								while ($row = $result->fetch_assoc()) {
+									$id_dewan = $row['id_dewan'];
+									$nama_dewan = $row['nama_dewan'];
+									$kadar_sewa = $row['kadar_sewa'];
+									$bilangan_muatan = $row['bilangan_muatan'];
+									$penerangan = $row['penerangan'];
+									$penerangan_ringkas = $row['penerangan_ringkas'];
+									$penerangan_kemudahan = $row['penerangan_kemudahan'];
+									$max_capacity = $row['max_capacity'];
+									$status_dewan = $row['status_dewan'];
+									$url_gambar = $row['url_gambar'];
+									$jenis_gambar = $row['jenis_gambar'];
+									
+									if ($jenis_gambar == 'Utama') {
+										$utama_image = $url_gambar;
+										} elseif ($jenis_gambar == 'Banner') {
+											$banner_image = $url_gambar;
+											} elseif ($jenis_gambar == 'Tambahan') {
+												$tambahan_images[] = $url_gambar;
 												}
-												echo '</div>';
-											} else {
-												echo '<div class="alert alert-info">Tiada rekod dewan ditemui untuk ID Dewan: ' . $id_dewan . '.</div>';
-											}
+								}
+									echo '</div>';
+							} else {
+								echo '<div class="alert alert-info">Tiada rekod dewan ditemui untuk ID Dewan: ' . $id_dewan . '.</div>';
+							}
 
-										
-											$stmt->close();
-											$conn->close();
-											?>
-                    <!-- start page title -->
+							$stmt->close();
+							$conn->close();
+							?>
+							
+							
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box">
@@ -136,7 +132,6 @@ include 'controller/get_dewan.php';
                             </div>
                         </div>
                     </div>
-                    <!-- end page title -->
 
 
                     <div class="row">
@@ -208,14 +203,13 @@ include 'controller/get_dewan.php';
 										<div class="row mb-3">
 											<label class="col-3 col-form-label">Kemudahan</label>
 											<div class="col-9">
-												<div class="row">
+												<div class="row g-2">
 													<?php
 													$servername = "localhost";
 													$username = "root";
 													$password = "";
 													$dbname = "tempahan_penginapan";
 
-													// Create connection
 													$conn = new mysqli($servername, $username, $password, $dbname);
 
 													if ($conn->connect_error) {
@@ -224,10 +218,8 @@ include 'controller/get_dewan.php';
 
 													$conn->set_charset("utf8");
 
-													// Fetch the selected kemudahan for the current dewan (assuming the current dewan id is passed via the URL)
-													$id_dewan = $_GET['id_dewan']; // Get the dewan id from URL
+													$id_dewan = $_GET['id_dewan'];
 
-													// Query to fetch the selected kemudahan for the current dewan
 													$selected_kemudahan_query = "
 														SELECT id_kemudahan 
 														FROM dewan_kemudahan 
@@ -235,7 +227,6 @@ include 'controller/get_dewan.php';
 													";
 													$selected_kemudahan_result = $conn->query($selected_kemudahan_query);
 
-													// Store the selected kemudahan ids in an array
 													$selected_kemudahan = [];
 													if ($selected_kemudahan_result->num_rows > 0) {
 														while ($row = $selected_kemudahan_result->fetch_assoc()) {
@@ -243,7 +234,6 @@ include 'controller/get_dewan.php';
 														}
 													}
 
-													// Fetch all kemudahan
 													$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
 													$result = $conn->query($query);
 
@@ -253,20 +243,17 @@ include 'controller/get_dewan.php';
 															$nama = $row['nama'];
 															$icon_url = $row['icon_url'];
 
-															// Check if the kemudahan is selected
 															$checked = in_array($id_kemudahan, $selected_kemudahan) ? 'checked' : '';
 
-															echo '<div class="col-4">';
+															echo '<div class="col-md-4">';
 															echo '<div class="form-check">';
 															echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '" ' . $checked . '>';
-															echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
+															echo '<label class="form-check-label d-flex align-items-center" for="kemudahan_' . $id_kemudahan . '">';
 
-															// Display the icon if available
 															if ($icon_url) {
-																echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 5px;">';
+																echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 10px;">';
 															}
 
-															// Display the name of the facility
 															echo $nama;
 															echo '</label>';
 															echo '</div>';
@@ -276,7 +263,6 @@ include 'controller/get_dewan.php';
 														echo '<div class="col-12">No kemudahan available.</div>';
 													}
 
-													// Close connection
 													$conn->close();
 													?>
 												</div>
@@ -291,50 +277,183 @@ include 'controller/get_dewan.php';
 												</select>
                                             </div>
                                         </div>
+										<div class="row mb-3">
+											<label for="fileinputUtama" class="col-3 col-form-label">Muat Naik Gambar (Utama)</label>
+											<div class="col-9">
+												<?php if (!empty($utama_image)): ?>
+													<div class="mb-2">
+														<img src="controller/<?php echo $utama_image; ?>" alt="Gambar Utama" class="img-thumbnail" style="max-width: 150px; height: 150px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-utama" onclick="showImage('controller/<?php echo $utama_image; ?>', 'Gambar Utama')">
+													</div>
+												<?php endif; ?>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="fileinputBanner" class="col-3 col-form-label">Muat Naik Gambar (Banner)</label>
+											<div class="col-9">
+												<?php if (!empty($banner_image)): ?>
+													<div class="mb-2">
+														<img src="controller/<?php echo $banner_image; ?>" alt="Gambar Banner" class="img-thumbnail" style="max-width: 150px; height: 150px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-banner" onclick="showImage('controller/<?php echo $banner_image; ?>', 'Gambar Banner')">
+													</div>
+												<?php endif; ?>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="fileinputTambahan" class="col-3 col-form-label">Muat Naik Gambar (Tambahan)</label>
+											<div class="col-9">
+												<?php if (!empty($tambahan_images) && is_array($tambahan_images)): ?>
+													<div class="mb-2">
+														<?php foreach ($tambahan_images as $tambahan): ?>
+															<div class="d-inline-block text-center me-2">
+																<img src="controller/<?php echo $tambahan; ?>" alt="Gambar Tambahan" class="img-thumbnail" style="max-width: 150px; height: 150px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
+															</div>
+														<?php endforeach; ?>
+													</div>
+												<?php elseif (!empty($tambahan_images)): ?>
+													<div class="mb-2">
+														<img src="controller/<?php echo $tambahan_images; ?>" alt="Gambar Tambahan" class="img-thumbnail" style="max-width: 150px; height: 150px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan_images; ?>', 'Gambar Tambahan')">
+													</div>
+												<?php endif; ?>
+											</div>
+										</div>
+
+										<!-- Modal for Main Image (Utama) -->
+										<div class="modal fade" id="uploadModal-utama" tabindex="-1" aria-hidden="true">
+										  <div class="modal-dialog modal-lg">
+											<div class="modal-content">
+											  <div class="modal-header">
+												<h5 class="modal-title" id="imageModalLabel">
+												  <p class="mt-2">Gambar Utama</p>
+												</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											  </div>
+											  <div class="modal-body text-center">
+												<img id="modalImage-utama" src="controller/<?php echo $utama_image; ?>" alt="Gambar Utama" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;">
+												<p id="imageDescription-utama" class="mt-2"></p>
+
+												<!-- Input untuk memuat naik gambar baru -->
+												<div class="mt-3">
+													<label for="imageUpload-utama" class="form-label">Kemaskini Gambar Utama</label>
+													<input type="file" id="imageUpload-utama" name="imageUpload" class="form-control" accept="image/*">
+												</div>
+											  </div>
+											  <div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+												<button type="button" class="btn btn-primary" onclick="javascript:void(0);">Kemas Kini Gambar</button>
+											  </div>
+											</div>
+										  </div>
+										</div>
+
+										<!-- Modal for Banner Image -->
+										<div class="modal fade" id="uploadModal-banner" tabindex="-1" aria-hidden="true">
+										  <div class="modal-dialog modal-lg">
+											<div class="modal-content">
+											  <div class="modal-header">
+												<h5 class="modal-title" id="imageModalLabel">
+												  <p class="mt-2">Gambar Banner</p>
+												</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											  </div>
+											  <div class="modal-body text-center">
+												<img id="modalImage-banner" src="controller/<?php echo $banner_image; ?>" alt="Gambar Banner" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;">
+												<p id="imageDescription-banner" class="mt-2"></p>
+
+												<!-- Input untuk memuat naik gambar baru -->
+												<div class="mt-3">
+													<label for="imageUpload-banner" class="form-label">Kemaskini Gambar Banner</label>
+													<input type="file" id="imageUpload-banner" name="imageUpload" class="form-control" accept="image/*">
+												</div>
+											  </div>
+											  <div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+												<button type="button" class="btn btn-primary" onclick="javascript:void(0);">Kemas Kini Gambar</button>
+											  </div>
+											</div>
+										  </div>
+										</div>
+
+										<!-- Modal for Additional Images -->
+										<div class="modal fade" id="uploadModal-tambahan" tabindex="-1" aria-hidden="true">
+										  <div class="modal-dialog modal-lg">
+											<div class="modal-content">
+											  <div class="modal-header">
+												<h5 class="modal-title" id="imageModalLabel">
+												  <p class="mt-2">Gambar Tambahan</p>
+												</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											  </div>
+											  <div class="modal-body text-center">
+												<?php if (!empty($tambahan_images) && is_array($tambahan_images)): ?>
+													<div class="mb-2">
+														<?php foreach ($tambahan_images as $tambahan): ?>
+															<div class="d-inline-block text-center me-2">
+																<img src="controller/<?php echo $tambahan; ?>" alt="Gambar Tambahan" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
+															</div>
+														<?php endforeach; ?>
+													</div>
+												<?php elseif (!empty($tambahan_images)): ?>
+													<div class="mb-2">
+														<img src="controller/<?php echo $tambahan_images; ?>" alt="Gambar Tambahan" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan_images; ?>', 'Gambar Tambahan')">
+													</div>
+												<?php endif; ?>
+												<p id="imageDescription-tambahan" class="mt-2"></p>
+
+												<!-- Input untuk memuat naik gambar baru -->
+												<div class="mt-3">
+													<label for="imageUpload-tambahan" class="form-label">Kemaskini Gambar Tambahan</label>
+													<input type="file" id="imageUpload-tambahan" name="imageUpload" class="form-control" accept="image/*">
+												</div>
+											</div>
+											  <div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+												<button type="button" class="btn btn-primary" onclick="javascript:void(0);">Kemas Kini Gambar</button>
+											  </div>
+											</div>
+										  </div>
+										</div>
                                         <div class="justify-content-end row">
                                             <div class="col-9">
                                                 <button type="submit" class="btn btn-info">Kemaskini</button>
                                             </div>
                                         </div>
                                     </form>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!-- end row -->
-
-                </div> <!-- container -->
-
-            </div> <!-- content -->
-
-
+                </div>
+            </div> 
             <?php include 'partials/footer.php'; ?>
-
         </div>
-
         <?php include 'partials/right-sidemenu.php'; ?>
     </div>
-    <!-- END wrapper -->
 
-
-
-
-    <!-- bundle -->
     <script src="assets/js/vendor.min.js"></script>
     <script src="assets/js/app.min.js"></script>
-
-    <!-- third party js -->
     <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
     <script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
     <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
     <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
     <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-    <!-- third party js ends -->
-
-    <!-- demo app -->
     <script src="assets/js/pages/demo.products.js"></script>
-    <!-- end demo js-->
+	
+	<script>
+	function showImage(imageUrl, description) {
+		// Dynamically set image source and description based on clicked image
+		const modalImage = document.getElementById('modalImage-' + description.toLowerCase());
+		const imageDescription = document.getElementById('imageDescription-' + description.toLowerCase());
+
+		modalImage.src = imageUrl;
+		imageDescription.textContent = description;
+
+		// Update image upload name based on the type of image
+		document.getElementById('imageUpload-' + description.toLowerCase()).setAttribute('name', description.toLowerCase());
+	}
+
+	</script>
+
 
 </body>
 
