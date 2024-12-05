@@ -11,60 +11,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bilangan_muatan = (int) $_POST['bilangan_muatan'];
     $status_dewan = mysqli_real_escape_string($conn, $_POST['status_dewan']);
     $penerangan = mysqli_real_escape_string($conn, $_POST['penerangan']);
-    
-    // Image upload handling
-    $gambar = '';
-    if (!empty($_FILES['fileinput']['name'])) {
-        $targetDir = "uploads/";
-        $fileName = basename($_FILES['fileinput']['name']);
-        $targetFilePath = $targetDir . $fileName;
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+    $penerangan_ringkas = mysqli_real_escape_string($conn, $_POST['penerangan_ringkas']);
+    $penerangan_kemudahan = mysqli_real_escape_string($conn, $_POST['penerangan_kemudahan']);
+    $max_capacity = (int) $_POST['max_capacity'];
 
-        // Allow certain file formats
-        $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
-        if (in_array(strtolower($fileType), $allowedTypes)) {
-            // Move uploaded file to server
-            if (move_uploaded_file($_FILES['fileinput']['tmp_name'], $targetFilePath)) {
-                // Assign the file name to the variable to be saved in the database
-                $gambar = $fileName;
-            } else {
-                // Error handling if the image upload fails
-                echo "Error uploading file.";
-                exit;
-            }
-        } else {
-            echo "Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
-            exit;
+    // Fetch the selected kemudahan IDs from the form
+    if (isset($_POST['kemudahan'])) {
+        $selected_kemudahan = $_POST['kemudahan']; // Array of selected kemudahan IDs
+    } else {
+        $selected_kemudahan = [];
+    }
+
+    // Begin transaction to ensure data integrity
+    mysqli_begin_transaction($conn);
+
+    try {
+        // Build the SQL query for updating the dewan table
+        $query = "UPDATE dewan 
+                  SET nama_dewan = '$nama_dewan',
+                      kadar_sewa = $kadar_sewa,
+                      bilangan_muatan = $bilangan_muatan,
+                      penerangan = '$penerangan',
+                      penerangan_ringkas = '$penerangan_ringkas',
+                      penerangan_kemudahan = '$penerangan_kemudahan',
+                      max_capacity = '$max_capacity',
+                      status_dewan = '$status_dewan'
+                  WHERE id_dewan = $id_dewan";
+
+        // Execute the update query for the dewan table
+        if (!mysqli_query($conn, $query)) {
+            throw new Exception('Failed to update dewan table');
         }
-    }
 
-    // Build the SQL query for updating the accommodation
-    $query = "UPDATE dewan 
-              SET nama_dewan = '$nama_dewan',
-                  kadar_sewa = $kadar_sewa,
-                  bilangan_muatan = $bilangan_muatan,
-                  penerangan = '$penerangan',
-                  status_dewan = '$status_dewan'";
+        // Delete existing entries in the dewan_kemudahan table for the current dewan
+        $delete_query = "DELETE FROM dewan_kemudahan WHERE id_dewan = $id_dewan";
+        if (!mysqli_query($conn, $delete_query)) {
+            throw new Exception('Failed to delete existing kemudahan for dewan');
+        }
 
-    // If a new image is uploaded, include it in the query
-    if ($gambar !== '') {
-        $query .= ", gambar = '$gambar'";
-    }
+        // Insert new selected kemudahan into the dewan_kemudahan table
+        foreach ($selected_kemudahan as $kemudahan_id) {
+            $kemudahan_id = (int) $kemudahan_id; // Ensure it's an integer
+            $insert_query = "INSERT INTO dewan_kemudahan (id_dewan, id_kemudahan) VALUES ($id_dewan, $kemudahan_id)";
+            if (!mysqli_query($conn, $insert_query)) {
+                throw new Exception('Failed to insert kemudahan into dewan_kemudahan table');
+            }
+        }
 
-    $query .= " WHERE id_dewan = $id_dewan";
+        // Commit the transaction if all queries are successful
+        mysqli_commit($conn);
 
-    // Execute the query
-    if (mysqli_query($conn, $query)) {
         // Redirect with success message
         header("Location: ../dewan.php");
-    } else {
+        exit;
+    } catch (Exception $e) {
+        // Rollback the transaction if any query fails
+        mysqli_rollback($conn);
+        
         // Redirect with error message
-        header("Location: ../dewan.php");
+        header("Location: ../dewan.php" . $e->getMessage());
+        exit;
     }
 }
 ?>
 
 <?php
+// Display success or error messages if set in the URL
 if (isset($_GET['status'])) {
     $status = $_GET['status'];
     $message = $_GET['message'];
@@ -76,4 +88,3 @@ if (isset($_GET['status'])) {
     }
 }
 ?>
-

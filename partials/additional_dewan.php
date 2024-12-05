@@ -1,7 +1,7 @@
 <section class="section-padding">
     <div class="auto-container">
         <div class="section_heading text-left mb_30 mt_30">
-            <h3 class="section_heading_title_big">Pilihan penginapan lain</h3>
+            <h3 class="section_heading_title_big">Pilihan dewan lain</h3>
         </div>
         <div class="row">
             <?php
@@ -56,7 +56,7 @@
             <?php
                     }
                 } else {
-                    echo '<p class="no-results">Tiada pilihan penginapan lain buat masa ini.</p>';
+                    echo '<p class="no-results">Tiada pilihan dewan lain buat masa ini.</p>';
                 }
             } catch (mysqli_sql_exception $e) {
                 echo "<p>Error: " . htmlspecialchars($e->getMessage()) . "</p>";

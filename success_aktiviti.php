@@ -1,6 +1,6 @@
 <?php 
 include 'database/database.php';
-include 'adminDashboard/controller/get_dewan.php';
+include 'adminDashboard/controller/get_aktiviti.php';
 
 session_start();
 ?>
@@ -15,7 +15,6 @@ session_start();
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
 <link href="assets/css/color.css" rel="stylesheet">
-    <link href="assets/css/preloader.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -39,6 +38,7 @@ session_start();
         </div>
     </div>
     <!-- ***** Preloader End ***** -->
+	
     <div class="page-wrapper">
         
         <?php include 'partials/header.php';?>
@@ -50,12 +50,11 @@ session_start();
 				$row = $result->fetch_assoc();
 
 				// Retrieve data
-				$nama_dewan = htmlspecialchars($row['nama_dewan']);
+				$nama_aktiviti = htmlspecialchars($row['nama_aktiviti']);
 				$gambar_utama = htmlspecialchars($row['gambar_utama']);
 				$gambar_banner = htmlspecialchars($row['gambar_banner']);
 				$gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-				$kadar_sewa = $row['kadar_sewa'];
-				$bilangan_muatan = $row['bilangan_muatan'];
+				$kadar_harga = $row['kadar_harga'];
 				$penerangan = $row['penerangan'];
 				?>
 				<!-- Page Title -->
@@ -67,7 +66,7 @@ session_start();
 						background-position: center;
 					">
 					<div class="auto-container">
-						<h1><?php echo $nama_dewan; ?></h1>
+						<h1><?php echo $nama_aktiviti; ?></h1>
 					</div>
 				</div>
 				
@@ -75,10 +74,10 @@ session_start();
 					<div class="auto-container">
 						<ul class="bredcrumb-list">
 							<li><a href="index.php">Laman Utama</a></li>
-							<li><a href="kemudahanDewan.php">Dewan</a></li>
+							<li><a href="pakejAktiviti.php">Aktiviti</a></li>
 							<li>
-								<a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($_GET["id_dewan"]); ?>">
-									<?php echo htmlspecialchars($nama_dewan); ?>
+								<a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($_GET["id_aktiviti"]); ?>">
+									<?php echo htmlspecialchars($nama_aktiviti); ?>
 								</a>
 							</li>
 							<li>Pengesahan Berjaya</li>
@@ -87,7 +86,7 @@ session_start();
 				</div>
 				<?php
 			} else {
-				echo "<p>No details found for the selected hall.</p>";
+				echo "<p>Tiada butiran ditemui untuk aktiviti yang dipilih.</p>";
 			}
 		?>
 				
@@ -111,10 +110,10 @@ session_start();
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Nama Dewan:</strong>
+                            <strong>Nama Aktiviti:</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo htmlspecialchars($nama_dewan); ?>
+                            <?php echo htmlspecialchars($nama_aktiviti); ?>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -159,10 +158,10 @@ session_start();
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Bilangan Hari</strong>
+                            <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["num_of_night"] ?> Hari
+                            <?php echo $_SESSION["num_of_person"] ?> Hari
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -205,6 +204,7 @@ session_start();
     <script src="assets/js/booking-form.js"></script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
+
 	<script>
 	window.addEventListener("load", function () {
 		setTimeout(function () {
@@ -212,7 +212,6 @@ session_start();
 		}, 1000);
 	});
 	</script>
-
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 
 include 'database/database.php';
-include 'adminDashboard/controller/get_dewan.php';
+include 'adminDashboard/controller/get_aktiviti.php';
 
 session_start();
 ?>
@@ -17,7 +17,6 @@ session_start();
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
     <link href="assets/css/color.css" rel="stylesheet">
-    <link href="assets/css/preloader.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -32,18 +31,19 @@ session_start();
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
+		<!-- ***** Preloader Start ***** -->
+		<div id="js-preloader" class="js-preloader">
+			<div class="preloader-inner">
+				<span class="dot"></span>
+				<div class="dots">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+		<!-- ***** Preloader End ***** -->
+
     <div class="page-wrapper">
 
         <?php include 'partials/header.php'; ?>
@@ -54,9 +54,9 @@ session_start();
             $row = $result->fetch_assoc();
 
             // Retrieve data
-            $nama_dewan = htmlspecialchars($row['nama_dewan']);
+            $nama_aktiviti = htmlspecialchars($row['nama_aktiviti']);
             $gambar_banner = htmlspecialchars($row['gambar_banner']);
-            $kadar_sewa = $row['kadar_sewa'];
+            $kadar_harga = $row['kadar_harga'];
             ?>
 
             <!-- Page Title -->
@@ -67,7 +67,7 @@ session_start();
                         background-position: center;
                     ">
                 <div class="auto-container">
-                    <h1><?php echo $nama_dewan; ?></h1>
+                    <h1><?php echo $nama_aktiviti; ?></h1>
                 </div>
             </div>
 			
@@ -75,9 +75,9 @@ session_start();
 				<div class="auto-container">
 					<ul class="bredcrumb-list">
 						<li><a href="index.php">Laman Utama</a></li>
-						<li><a href="kemudahanDewan.php">Dewan</a></li>
+						<li><a href="pakejAktiviti.php">Aktiviti</a></li>
 						<li><a
-								href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"><?php echo $nama_dewan ?></a>
+								href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"><?php echo $nama_aktiviti ?></a>
 						</li>
 						<li>Pengesahan</li>
 					</ul>
@@ -86,7 +86,7 @@ session_start();
 		
 		<?php
         } else {
-            echo "<p>Tiada butiran ditemui untuk dewan yang dipilih.</p>";
+            echo "<p>Tiada butiran ditemui untuk aktiviti yang dipilih.</p>";
         }
 		?>
 			
@@ -101,10 +101,10 @@ session_start();
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Nama Dewan:</strong>
+                            <strong>Nama Aktiviti:</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo htmlspecialchars($nama_dewan); ?>
+                            <?php echo htmlspecialchars($nama_aktiviti); ?>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -149,10 +149,10 @@ session_start();
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Bilangan Hari</strong>
+                            <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["num_of_night"] ?> Hari
+                            <?php echo $_SESSION["num_of_person"] ?> Peserta
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -165,18 +165,17 @@ session_start();
                     </div>
                 </div>
                 <div class="card-footer">
-					<form action="Controller\3_to_payment_GW.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>" method="POST">
-                        <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
+					<form action="Controller\3_to_payment_GW.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>" method="POST">
+                        <label class="fs-5 my-3" style="text-align: left;" for="payment-method">Pilih cara bayaran:</label>
                             <select class="mb-4" id="payment-method" name="payment_method" required>
-                                <option value="FPX">FPX</option>
-                                <option value="Tunai">Tunai</option>
-                                <option value="LO">LO</option>
-                                <option value="E-Perolehanan">E-perolehanan</option>
-                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="cash">Tunai</option>
+                                <option value="local order">LO</option>
+                                <option value="e-perolehan">e-perolehan</option>
+                                <option value="bank_transfer">Bank Transfer</option>
                             </select>
                         <div class="my-1 text-end">
-                            <button type="submit" name="submit" value="dewan" class="btn-1">Proceed to Payment<span></span></button>
-                            <a href="tempah_dewan.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
+                            <button type="submit" name="submit" value="aktiviti" class="btn-1">Proceed to Payment<span></span></button>
+                            <a href="tempah_aktiviti.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
                         </div>
                     </form>
                 </div>
@@ -208,7 +207,6 @@ session_start();
 		}, 1000);
 	});
 	</script>
-
 </body>
 
 </html>

@@ -2,23 +2,12 @@
 include 'db-connect.php';
 
 $query = "
-    SELECT 
-        d.id_dewan, 
-        d.nama_dewan, 
-        d.kadar_sewa, 
-        d.bilangan_muatan, 
-        d.penerangan, 
-		d.penerangan_ringkas,
-		d.penerangan_kemudahan,
-        d.status_dewan, 
-		d.max_capacity,
-        dp.url_gambar AS gambar_utama
+    SELECT
+        k.id_kemudahan,	
+        k.nama,
+		k.icon_url
     FROM 
-        dewan d
-    LEFT JOIN 
-        dewan_pic dp
-    ON 
-        d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
+        kemudahan k
 ";
 $result = $conn->query($query);
 ?>
@@ -72,16 +61,20 @@ $result = $conn->query($query);
 
                     <!-- Start Content-->
                     <div class="container-fluid">
-                        
-                        <!-- start page title -->
-                        <div class="row">
+					
+						<div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title">Kemudahan Dewan</h4>
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="tetapan.php">Tetapan</a></li>
+                                            <li class="breadcrumb-item active">Kemudahan</li>
+                                        </ol>
+                                    </div>
+                                    <h4 class="page-title">Kemudahan</h4>
                                 </div>
                             </div>
                         </div>
-                        <!-- end page title --> 
 
                         <div class="row">
                             <div class="col-12">
@@ -89,7 +82,7 @@ $result = $conn->query($query);
                                     <div class="card-body">
 										<div class="row mb-2">
                                             <div class="col-sm-5">
-                                                <a href="tambah_dewan.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah Dewan</a>
+                                                <a href="tambah_kemudahan.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah Kemudahan</a>
                                             </div>
                                         </div>
 										
@@ -103,12 +96,8 @@ $result = $conn->query($query);
 																<label class="form-check-label" for="customCheck1">&nbsp;</label>
 															</div>
 														</th>
-														<th class="all">Nama Dewan</th>
-														<th>Kadar Sewa (RM)</th>
-														<th>Bilangan Muatan</th>
-														<th>Penerangan</th>
-														<th>Penerangan Ringkas</th>
-														<th>Status</th>
+														<th class="all">Nama Kemudahan</th>
+														<th>Icon URL</th>
 														<th>Tindakan</th>
 													</tr>
 												</thead>
@@ -118,39 +107,26 @@ $result = $conn->query($query);
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {
 															// Ambil data dari hasil
-															$id_dewan = $row['id_dewan'];
-															$nama_dewan = $row['nama_dewan'];
-															$kadar_sewa = $row['kadar_sewa'];
-															$bilangan_muatan = $row['bilangan_muatan'];
-															$penerangan = $row['penerangan'];
-															$penerangan_ringkas = $row['penerangan_ringkas'];
-															$penerangan_kemudahan = $row['penerangan_kemudahan'];
-															$max_capacity = $row['max_capacity'];
-															$status_dewan = $row['status_dewan'];
-															$gambar_utama = $row['gambar_utama'] ?? '';
+															$id_kemudahan = $row['id_kemudahan'];
+															$nama = $row['nama'];
+															$icon_url = $row['icon_url'];
 															?>
 															<tr>
 																<td>
 																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo htmlspecialchars($id_dewan); ?>">
-																		<label class="form-check-label" for="customCheck<?php echo htmlspecialchars($id_dewan); ?>">&nbsp;</label>
+																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo htmlspecialchars($id_kemudahan); ?>">
+																		<label class="form-check-label" for="customCheck<?php echo htmlspecialchars($id_kemudahan); ?>">&nbsp;</label>
 																	</div>
 																</td>
 																<td>
-																	<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																	<img src="../<?php echo $icon_url; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
 																	<p class="m-0 d-inline-block align-middle font-16">
-																		<span class="text-body"><?php echo $nama_dewan; ?></span>
+																		<span class="text-body"><?php echo $nama; ?></span>
 																	</p>
 																</td>
-																<td><?php echo $kadar_sewa; ?></td>
-																<td><?php echo $bilangan_muatan; ?></td>
-																<td class="limited-text"><?php echo $penerangan; ?></td>
-																<td class="limited-text"><?php echo $penerangan_ringkas; ?></td>
-																<td><?php echo $status_dewan; ?></td>
+																<td><?php echo $icon_url; ?></td>
 																<td class="table-action">
-																	<a href="dewan_details.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
-																	<a href="kemaskini_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
-																	<a href="controller/delete_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" 
+																	<a href="controller/delete_kemudahan.php?id_kemudahan=<?php echo isset($id_kemudahan) ? $id_kemudahan : '0'; ?>" 
 																	   class="action-icon" 
 																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
 																	   <i class="mdi mdi-delete"  style="color: red;"></i>

@@ -2,32 +2,35 @@
 include_once "tempahan.php";
 include_once __DIR__ . '/../database/DBConnec.php';
 
-class DewanReservation extends Reservation
+class AktivitiReservation extends Reservation
 {
-    private $id_dewan;
+    private $id_aktiviti;
 
+    /**
+     * Constructor to initialize AktivitiReservation object.
+     */
     public function __construct(
         $id, 
-        $booking_number, 
+        $bookingNumber, 
         $cust_name, 
         $phone_number, 
         $email, 
-        $num_of_Pax, 
+		$num_of_person,
         $reservationDate, 
         $checkInDate, 
         $checkOutDate, 
         $total_price, 
 		$payment_method,
-        $id_dewan
+        $id_aktiviti
     ) {
-		parent::__construct($id, $booking_number, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
-        $this->id_dewan = $id_dewan;
+        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_person, $reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
+        $this->id_aktiviti = $id_aktiviti;
     }
 
-    // Getter for Dewan ID
-    public function getDewanId()
+    // Getter for Aktiviti ID
+    public function getAktivitiId()
     {
-        return $this->id_dewan;
+        return $this->id_aktiviti;
     }
 
     // Setter for Customer Name
@@ -57,28 +60,41 @@ class DewanReservation extends Reservation
     public function insertReservation()
     {
         $conn = DBConnection::getConnection();
+
         $sql = "INSERT INTO tempahan (
-            nombor_tempahan, 
-            nama_penuh, 
-            numbor_fon, 
-            email, 
-            bilangan_pax,
-            tarikh_tempahan, 
-            tarikh_daftar_masuk, 
-            tarikh_daftar_keluar, 
-            harga_keseluruhan, 
-            cara_bayar, 
-            id_dewan
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssssi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->id_dewan);
+			nombor_tempahan, 
+			nama_penuh, 
+			numbor_fon, 
+			bilangan_pax,
+			email, 
+			tarikh_tempahan, 
+			tarikh_daftar_masuk, 
+			tarikh_daftar_keluar, 
+			harga_keseluruhan, 
+			id_aktiviti
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($sql);     
+        $stmt->bind_param(
+            "ssssssssi", 
+            $this->bookingNumber, 
+            $this->cust_name, 
+            $this->phone_number, 
+            $this->email, 
+			$this->num_of_person,
+            $this->reservationDate, 
+            $this->checkInDate, 
+            $this->checkOutDate, 
+            $this->total_price, 
+            $this->id_aktiviti
+        );
 
         if (!$stmt->execute()) {
             $stmt->close();
             throw new Exception("Failed to insert reservation: " . $stmt->error);
         }
 
-        $reservationId = $conn->insert_id;
+        $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
         $stmt->close();
 
         return $reservationId;
@@ -87,15 +103,15 @@ class DewanReservation extends Reservation
 function generateBookingNumber($conn) {
     $yearMonthDay = date("ymd");
     $unique = false;
-    $booking_number = "";
+    $bookingNumber = "";
 
     while (!$unique) {
         $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-        $booking_number = "DEWAN-" . $yearMonthDay . "-" . $randomDigits;
+        $bookingNumber = "AKTIVITI-" . $yearMonthDay . "-" . $randomDigits;
 
         $query = "SELECT COUNT(*) FROM tempahan WHERE nombor_tempahan = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("s", $booking_number);
+        $stmt->bind_param("s", $bookingNumber);
         $stmt->execute();
         $stmt->bind_result($count);
         $stmt->fetch();
@@ -107,87 +123,71 @@ function generateBookingNumber($conn) {
         $stmt->close();
     }
 
-    return $booking_number;
+    return $bookingNumber;
 }
 
-function getKadarSewa($id_dewan) {
+function getKadarHarga($id_aktiviti) {
     $conn = new mysqli('localhost', 'root', '', 'tempahan_penginapan');
     if ($conn->connect_error) {
         die("Koneksi gagal: " . $conn->connect_error);
     }
 
-    $query = "SELECT kadar_sewa FROM dewan WHERE id_dewan = ?";
+    $query = "SELECT kadar_harga FROM aktiviti WHERE id_aktiviti = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id_dewan);
+    $stmt->bind_param("i", $id_aktiviti);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['kadar_sewa'];
+        return $row['kadar_harga'];
     } else {
         return null;
     }
 }
 
-function getStatusDewan($id_dewan) {
+function getStatusAktiviti($id_aktiviti) {
     $conn = DBConnection::getConnection();
 
-    $query = "SELECT status_dewan FROM dewan WHERE id_dewan = ?";
+    $query = "SELECT status_aktiviti FROM aktiviti WHERE id_aktiviti = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id_dewan);
+    $stmt->bind_param("i", $id_aktiviti);
     $stmt->execute();
     $result = $stmt->get_result(); 
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        return $row['status_dewan'];
+        return $row['status_aktiviti'];
     } else {
         return null; 
     }
 }
 
 
-function countRoomAvailable($id_dewan, $start_date, $end_date) {
-    $conn = DBConnection::getConnection(); // Database connection
+function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
+    $conn = DBConnection::getConnection(); // Sambungan pangkalan data
 
     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
     $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
 
-    // Step 1: Get max_available_room for the room
-    $roomQuery = "SELECT max_capacity FROM dewan WHERE id_dewan = ?";
-    $roomStmt = $conn->prepare($roomQuery);
-    $roomStmt->bind_param("i", $id_dewan);
-    $roomStmt->execute();
-    $roomResult = $roomStmt->get_result();
-    if ($roomResult->num_rows > 0) {
-        $roomData = $roomResult->fetch_assoc();
-        $maxAvailable = $roomData['max_capacity'];
-    } else {
-        return 0; // Jika tidak ada data dewan
-    }
-
-    // Step 2: Count the number of rooms occupied in the given date range
+    // Kueri untuk mengira tempahan dalam julat tarikh yang diberikan
     $countQuery = "
         SELECT COUNT(*) AS occupied_count 
         FROM tempahan 
-        WHERE id_dewan = ? 
+        WHERE id_aktiviti = ? 
         AND tarikh_daftar_masuk <= ? 
         AND tarikh_daftar_keluar >= ?
     ";
+
     $countStmt = $conn->prepare($countQuery);
-    $countStmt->bind_param("iss", $id_dewan, $formattedCheckOutDate, $formattedCheckInDate);
+    $countStmt->bind_param("iss", $id_aktiviti, $formattedCheckOutDate, $formattedCheckInDate);
     $countStmt->execute();
     $countResult = $countStmt->get_result();
-    $occupiedData = $countResult->fetch_assoc();
+	$occupiedData = $countResult->fetch_assoc();
     $occupiedCount = $occupiedData['occupied_count'];
+        return $occupiedCount;
+    } 
 
-    // Step 3: Calculate available rooms
-    $availableRooms = $maxAvailable - $occupiedCount;
-
-    // Ensure we don't return a negative number if overbooked
-    return max(0, $availableRooms);
-}
 ?>

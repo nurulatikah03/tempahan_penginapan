@@ -69,17 +69,36 @@
 							</div>
 						</div>
 						<!-- end page title -->
-						
+						<?php
+						// Sambungan ke database
+						include '../database/database.php';
+
+						// Query untuk mendapatkan jumlah kemudahan
+						$query = "SELECT COUNT(*) AS total_kemudahan FROM kemudahan";
+						$result = $conn->query($query);
+
+						// Paparkan jumlah kemudahan
+						if ($result->num_rows > 0) {
+							$row = $result->fetch_assoc();
+							$total_kemudahan = $row['total_kemudahan'];
+						} else {
+							$total_kemudahan = 0;
+						}
+
+						// Tutup sambungan
+						$conn->close();
+						?>
+
 						<div class="row">
                             <div class="col-sm-3">
 								<div class="card widget-flat">
 									<div class="card-body card-hover">
-										<a href="#" class="text-decoration-none">
+										<a href="kemudahan.php" class="text-decoration-none">
 											<div class="float-end">
 												<i class="uil uil-list-ui-alt widget-icon"></i>
 											</div>
-											<h5 class="text-muted fw-normal mt-0" title="Kategori">Kategori</h5>
-											<h3 class="mt-3 mb-3">36</h3>
+											<h5 class="text-muted fw-normal mt-0" title="Kemudahan">Kemudahan</h5>
+											<h3 class="mt-3 mb-3"><?php echo $total_kemudahan; ?></h3>
 										</a>
 									</div>
 								</div>

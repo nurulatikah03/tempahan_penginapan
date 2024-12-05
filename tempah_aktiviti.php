@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'database/database.php';
-include 'adminDashboard/controller/get_dewan.php';
+include 'adminDashboard/controller/get_aktiviti.php';
 
 
 ?>
@@ -37,7 +37,7 @@ include 'adminDashboard/controller/get_dewan.php';
 </head>
 
 <body>
-
+	
 	<!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="preloader-inner">
@@ -50,7 +50,7 @@ include 'adminDashboard/controller/get_dewan.php';
         </div>
     </div>
     <!-- ***** Preloader End ***** -->
-
+	
     <div class="page-wrapper">
         <?php include 'partials/header.php'; ?>
 
@@ -61,12 +61,11 @@ include 'adminDashboard/controller/get_dewan.php';
             $row = $result->fetch_assoc();
 
             // Retrieve data
-            $nama_dewan = htmlspecialchars($row['nama_dewan']);
+            $nama_aktiviti = htmlspecialchars($row['nama_aktiviti']);
             $gambar_utama = htmlspecialchars($row['gambar_utama']);
             $gambar_banner = htmlspecialchars($row['gambar_banner']);
             $gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-            $kadar_sewa = $row['kadar_sewa'];
-            $bilangan_muatan = $row['bilangan_muatan'];
+            $kadar_harga = $row['kadar_harga'];
             $penerangan = $row['penerangan'];
             ?>
 
@@ -78,7 +77,7 @@ include 'adminDashboard/controller/get_dewan.php';
                         background-position: center;
                     ">
                 <div class="auto-container">
-                    <h1><?php echo $nama_dewan; ?></h1>
+                    <h1><?php echo $nama_aktiviti; ?></h1>
                 </div>
             </div>
 
@@ -86,18 +85,18 @@ include 'adminDashboard/controller/get_dewan.php';
                 <div class="auto-container">
                     <ul class="bredcrumb-list">
                         <li><a href="index.php">Laman Utama</a></li>
-                        <li><a href="kemudahanDewan.php">Dewan</a></li>
-                        <li><?php echo htmlspecialchars($nama_dewan); ?></li>
+                        <li><a href="pakejAktiviti.php">Aktiviti</a></li>
+                        <li><?php echo htmlspecialchars($nama_aktiviti); ?></li>
                     </ul>
                 </div>
             </div>
             <?php
         } else {
-            echo "<p>Tiada butiran ditemui untuk dewan yang dipilih.</p>";
+            echo "<p>Tiada butiran ditemui untuk aktiviti yang dipilih.</p>";
         }
 
-        // Ambil id_dewan (contoh)
-        $row['id_dewan'] = isset($_GET['id_dewan']) ? htmlspecialchars($_GET['id_dewan']) : 0;
+        // Ambil id_aktiviti (contoh)
+        $row['id_aktiviti'] = isset($_GET['id_aktiviti']) ? htmlspecialchars($_GET['id_aktiviti']) : 0;
 
         ?>
 
@@ -111,17 +110,16 @@ include 'adminDashboard/controller/get_dewan.php';
                             </u>
                             <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
-							<p><strong>Bilangan Hari:</strong> <?php echo $_SESSION['num_of_night']; ?></p>
+							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['num_of_person']); ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
-                            <a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>"
-                                class="btn-1">Ubah
-                                Tarikh<span></span></a>
+                            <a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"
+                                class="btn-1">Ubah Tarikh<span></span></a>
                         </div>
                     </div>
                     <div class="col-lg-8 pe-lg-35">
                         <div class="single-post">
                             <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                            <form action="Controller/2_reservation.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>"
+                            <form action="Controller/2_reservation.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"
                                 method="POST">
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Nama Penuh: </p>
@@ -156,8 +154,8 @@ include 'adminDashboard/controller/get_dewan.php';
                                     </div>
                                 </div>
                                 <input type="hidden" name="total_price" value="<?php echo $_SESSION['total_price']; ?>">
-								<input type="hidden" name="num_of_night" value="<?php echo $_SESSION['num_of_night']; ?>">
-								<input type="hidden" name="process" value ="dewan">
+								<input type="hidden" name="num_of_person" value="<?php echo $_SESSION['num_of_person']; ?>">
+								<input type="hidden" name="process" value ="aktiviti">
 								
 								<div class="form-group mb-0 text-end">
 									<button type="submit" class="btn-1">Teruskan ke Pembayaran<span></span></button>
@@ -169,7 +167,7 @@ include 'adminDashboard/controller/get_dewan.php';
                 </div>
         </section>
 
-        <?php include 'partials/additional_dewan.php'; ?>
+        <?php include 'partials/additional_aktiviti.php'; ?>
         <?php include 'partials/footer.php'; ?>
 
     </div>
@@ -197,7 +195,7 @@ include 'adminDashboard/controller/get_dewan.php';
 		}, 1000);
 	});
 	</script>
-
+	
 
 </body>
 
