@@ -103,11 +103,11 @@ $result = $conn->query($query);
 																<label class="form-check-label" for="customCheck1">&nbsp;</label>
 															</div>
 														</th>
-														<th class="all"></th>
-														<th>Nama Dewan</th>
+														<th class="all">Nama Dewan</th>
 														<th>Kadar Sewa (RM)</th>
 														<th>Bilangan Muatan</th>
 														<th>Penerangan</th>
+														<th>Penerangan Ringkas</th>
 														<th>Status</th>
 														<th>Tindakan</th>
 													</tr>
