@@ -36,11 +36,34 @@ include 'controller/get_dewan.php';
 			max-height: 90vh; /* Supaya gambar tidak melebihi ketinggian skrin */
 		}
 		
-		.uniform-image {
-			width: 150px; /* Tetapkan lebar */
-			height: 150px; /* Tetapkan tinggi */
-			object-fit: cover; /* Potong imej agar sesuai dalam ruang */
+		.hover-effect {
+			transition: transform 0.3s ease, opacity 0.3s ease;
+			cursor: pointer;
 		}
+
+		.hover-effect:hover {
+			transform: scale(1.05); /* Zoom in pada hover */
+			opacity: 0.8; /* Sedikit transparan */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+		}
+
+		/* Ukuran seragam untuk gambar banner dan tambahan */
+		.uniform-image {
+			width: 200px; /* Ukuran seragam */
+			height: 200px; /* Ukuran seragam */
+			object-fit: cover; /* Pastikan gambar tidak terdistorsi */
+			border-radius: 5px; /* Tambahkan sedikit rounding jika diperlukan */
+		}
+
+
+		/* Ukuran gambar banner */
+		.img-thumbnail {
+			max-width: 150px; /* Lebarkan gambar banner */
+			height: auto;
+			object-fit: cover;
+		}
+
+
 
 		</style>
     </head>
@@ -146,23 +169,34 @@ include 'controller/get_dewan.php';
                                     <div class="card-body">
                                         <div class="row">
 											<div class="col-lg-5">
+												<!-- Gambar Utama -->
 												<?php if ($utama_image): ?>
 													<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $utama_image; ?>', 'Gambar Utama')">
-														<img src="controller/<?php echo $utama_image; ?>" class="img-fluid" style="max-width: 500px;" alt="Gambar Utama" />
+														<img src="controller/<?php echo $utama_image; ?>" 
+															 class="img-fluid hover-effect" 
+															 style="max-width: 500px;" 
+															 alt="Gambar Utama" />
 													</a>
 												<?php endif; ?>
 
+												<!-- Gambar Banner dan Tambahan -->
 												<div class="d-lg-flex d-none justify-content-center">
+													<!-- Gambar Banner -->
 													<?php if ($banner_image): ?>
 														<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $banner_image; ?>', 'Gambar Banner')">
-															<img src="controller/<?php echo $banner_image; ?>" class="img-fluid img-thumbnail p-2 uniform-image" alt="Gambar Banner" />
+															<img src="controller/<?php echo $banner_image; ?>" 
+																 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
+																 alt="Gambar Banner" />
 														</a>
 													<?php endif; ?>
 
+													<!-- Gambar Tambahan -->
 													<?php if (!empty($tambahan_images)): ?>
 														<?php foreach ($tambahan_images as $tambahan): ?>
 															<a href="javascript:void(0);" class="ms-2" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
-																<img src="controller/<?php echo $tambahan; ?>" class="img-fluid img-thumbnail p-2 uniform-image" alt="Gambar Tambahan" />
+																<img src="controller/<?php echo $tambahan; ?>" 
+																	 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
+																	 alt="Gambar Tambahan" />
 															</a>
 														<?php endforeach; ?>
 													<?php else: ?>
