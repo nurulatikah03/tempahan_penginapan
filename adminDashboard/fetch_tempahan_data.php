@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
                             </td>
                         </tr>
-                        // view ALERT
+                        <!-- view ALERT -->
                         <div class="modal fade modal-backdrop-view" id="viewModal<?php echo $bookingNumber; ?>" tabindex="-1"
                             aria-labelledby="viewModalLabel<?php echo $bookingNumber; ?>" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -299,7 +299,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
                                         <div class="text-center">
                                             <button type="button" class="btn btn-secondary rounded-button"
                                                 data-bs-dismiss="modal">Tutup</button>
-                                            <button type="button" class="btn btn-primary rounded-button">Lihat Resit</button>
+                                                <a href="../assets/PDF/PDF_kahwin.php?viewInvoice=<?php echo $bookingNumber; ?>" 
+                                                target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
                                         </div>
                                     </div>
                                 </div>
