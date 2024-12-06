@@ -190,4 +190,4 @@ function countRoomAvailable($id_dewan, $start_date, $end_date) {
     // Ensure we don't return a negative number if overbooked
     return max(0, $availableRooms);
 }
-?>
+
