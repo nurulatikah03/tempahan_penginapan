@@ -66,22 +66,23 @@ class AktivitiReservation extends Reservation
 			nama_penuh, 
 			numbor_fon, 
 			bilangan_pax,
-			email, 
+			email,
 			tarikh_tempahan, 
 			tarikh_daftar_masuk, 
 			tarikh_daftar_keluar, 
 			harga_keseluruhan, 
 			id_aktiviti
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         
         $stmt = $conn->prepare($sql);     
         $stmt->bind_param(
-            "ssssssssi", 
+            "sssssssssi",
             $this->bookingNumber, 
             $this->cust_name, 
             $this->phone_number, 
-            $this->email, 
 			$this->num_of_person,
+            $this->email, 
             $this->reservationDate, 
             $this->checkInDate, 
             $this->checkOutDate, 

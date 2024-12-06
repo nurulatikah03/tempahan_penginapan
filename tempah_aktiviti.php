@@ -110,7 +110,7 @@ include 'adminDashboard/controller/get_aktiviti.php';
                             </u>
                             <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
-							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['num_of_person']); ?></p>
+							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['total_person']); ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
                             <a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"
                                 class="btn-1">Ubah Tarikh<span></span></a>

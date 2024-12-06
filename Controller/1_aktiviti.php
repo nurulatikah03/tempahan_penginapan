@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $_SESSION['checkInDate'] = isset($_POST['checkInDate']) ? htmlspecialchars($_POST['checkInDate']) : '';
     $_SESSION['checkOutDate'] = isset($_POST['checkOutDate']) ? htmlspecialchars($_POST['checkOutDate']) : '';
+	$_SESSION['total_person'] = isset($_POST['num_of_person']) ? htmlspecialchars($_POST['num_of_person']) : '';
 
     if (!empty($_SESSION['checkInDate']) && !empty($_SESSION['checkOutDate'])) {
         $check_in_date = DateTime::createFromFormat('d/m/Y', $_SESSION['checkInDate']);
@@ -39,10 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($check_in_date && $check_out_date) {
             $interval = $check_in_date->diff($check_out_date);
             $num_of_person = $interval->days;
+			$total_person=$_POST['num_of_person'];
 
             if ($num_of_person > 0) {
                 $price_per_person = $kadar_harga;
-                $total_price = $num_of_person * $price_per_person;
+                $total_price = $num_of_person * $price_per_person * $total_person ;
 
                 // Store results in session variables
                 $_SESSION['num_of_person'] = $num_of_person;

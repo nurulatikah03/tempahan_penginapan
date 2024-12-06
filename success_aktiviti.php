@@ -161,7 +161,7 @@ session_start();
                             <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["num_of_person"] ?> Hari
+                            <?php echo $_SESSION["total_person"] ?> orang
                         </div>
                     </div>
                     <div class="row mb-3">

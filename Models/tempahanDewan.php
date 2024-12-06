@@ -6,9 +6,11 @@ class DewanReservation extends Reservation
 {
     private $id_dewan;
 
+    /**
+     * Constructor to initialize DewanReservation object.
+     */
     public function __construct(
-        $id, 
-        $booking_number, 
+         $booking_number, 
         $cust_name, 
         $phone_number, 
         $email, 
@@ -20,7 +22,7 @@ class DewanReservation extends Reservation
 		$payment_method,
         $id_dewan
     ) {
-		parent::__construct($id, $booking_number, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
+        		parent::__construct($id_dewan, $booking_number, $cust_name, $phone_number, $email, $num_of_Pax ,$reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->id_dewan = $id_dewan;
     }
 
@@ -57,7 +59,8 @@ class DewanReservation extends Reservation
     public function insertReservation()
     {
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO tempahan (
+
+         $sql = "INSERT INTO tempahan (
             nombor_tempahan, 
             nama_penuh, 
             numbor_fon, 
@@ -70,15 +73,16 @@ class DewanReservation extends Reservation
             cara_bayar, 
             id_dewan
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssssssi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->id_dewan);
-
+		
+		 $stmt = $conn->prepare($sql);
+		$stmt->bind_param("ssssssssssi", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->checkOutDate, $this->total_price, $this->payment_method, $this->id_dewan);
+		
         if (!$stmt->execute()) {
             $stmt->close();
             throw new Exception("Failed to insert reservation: " . $stmt->error);
         }
 
-        $reservationId = $conn->insert_id;
+        $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
         $stmt->close();
 
         return $reservationId;
@@ -87,12 +91,12 @@ class DewanReservation extends Reservation
 function generateBookingNumber($conn) {
     $yearMonthDay = date("ymd");
     $unique = false;
-    $booking_number = "";
+     $booking_number = "";
 
     while (!$unique) {
         $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-        $booking_number = "DEWAN-" . $yearMonthDay . "-" . $randomDigits;
-
+		$booking_number = "DEWAN-" . $yearMonthDay . "-" . $randomDigits;
+		
         $query = "SELECT COUNT(*) FROM tempahan WHERE nombor_tempahan = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $booking_number);
