@@ -77,18 +77,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		// Create the reservation object and insert it into the database
 		$tempahan = new DewanReservation(
-		
+			null,
 			$booking_number,
 			$_SESSION['cust_name'],
 			$_SESSION['phone_number'],
 			$_SESSION['form-email'],
-			0,
+            0,
 			$tarikh_tempahan,
 			$tarikhMasukSQL,
 			$tarikhKeluarSQL,
-			$_POST['payment_method'],
 			$_SESSION['total_price'],
-			$id_dewan // Gunakan id_dewan langsung dari URL
+			$_POST['payment_method'],
+			$id_dewan 
 		);
 		$tempahan->insertReservation();
 
@@ -97,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		header("Location: $redirectUrl");
 		exit();
-		
 	}	elseif ($_POST['submit'] == 'aktiviti') {
 		include_once '../Models/tempahanAktiviti.php';
 		include_once __DIR__ . '/../database/DBConnec.php';
