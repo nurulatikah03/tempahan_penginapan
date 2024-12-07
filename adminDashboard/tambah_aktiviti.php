@@ -24,6 +24,14 @@
 		.end-bar .rightbar-title {
 			background-color: #254222;
 		}
+		
+		.form-check {
+			margin-bottom: 10px; /* Adjust this value for the desired space */
+		}
+
+		.col-4 {
+			padding-right: 15px; /* Optional: Add padding for more space */
+		}
 		</style>
     </head>
 
@@ -78,7 +86,7 @@
 											<div class="row mb-3">
 												<label for="kemudahan" class="col-3 col-form-label">Kemudahan</label>
 												<div class="col-9">
-													<textarea class="form-control" id="kemudahan" name="kemudahan" placeholder="Masukkan Kemudahan yang disediakan" rows="2" required></textarea>
+													<textarea class="form-control" id="kemudahanDes" name="kemudahanDes" placeholder="Masukkan Kemudahan yang disediakan" rows="2" required></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
@@ -87,6 +95,61 @@
 													<textarea class="form-control" id="penerangan" name="penerangan" placeholder="Masukkan Penerangan" rows="4" required></textarea>
 												</div>
 											</div>
+											<div class="row mb-3">
+												<label class="col-3 col-form-label">Kemudahan</label>
+												<div class="col-9">
+													<div class="row g-2">
+														<?php
+														$servername = "localhost";
+														$username = "root";
+														$password = ""; 
+														$dbname = "tempahan_penginapan"; 
+
+														$conn = new mysqli($servername, $username, $password, $dbname);
+
+														if ($conn->connect_error) {
+															die("Connection failed: " . $conn->connect_error);
+														}
+
+														$conn->set_charset("utf8");
+
+														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
+														$result = $conn->query($query);
+
+														if ($result->num_rows > 0) {
+															while ($row = $result->fetch_assoc()) {
+																$id_kemudahan = $row['id_kemudahan'];
+																$nama = $row['nama'];
+																$icon_url = $row['icon_url'];
+
+																echo '<div class="col-md-4">';
+																echo '<div class="form-check">';
+																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
+																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
+																
+																// Check if the icon_url is provided
+																if ($icon_url) {
+																	echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 5px;">';
+																}
+																
+																// Display the name of the facility
+																echo $nama;
+																echo '</label>';
+																echo '</div>';
+																echo '</div>';
+															}
+														} else {
+															echo '<div class="col-12">Tiada kemudahan disediakan.</div>';
+														}
+
+														// Close connection
+														$conn->close();
+														?>
+													</div>
+												</div>
+											</div>
+											
+											
 											<div class="row mb-3">
 												<label for="status_aktiviti" class="col-3 col-form-label">Status</label>
 												<div class="col-9">
@@ -98,9 +161,21 @@
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
+												<label for="fileinputUtama" class="col-3 col-form-label">Muat Naik Gambar (Utama)</label>
 												<div class="col-9">
-													<input type="file" id="fileinput" name="fileinput" class="form-control" accept="image/*" required>
+													<input type="file" id="fileinputUtama" name="fileinputUtama" class="form-control" accept="image/*" required>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="fileinputBanner" class="col-3 col-form-label">Muat Naik Gambar (Banner)</label>
+												<div class="col-9">
+													<input type="file" id="fileinputBanner" name="fileinputBanner" class="form-control" accept="image/*" required>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="fileinputTambahan" class="col-3 col-form-label">Muat Naik Gambar (Tambahan)</label>
+												<div class="col-9">
+													<input type="file" id="fileinputTambahan" name="fileinputTambahan[]" class="form-control" accept="image/*" multiple>
 												</div>
 											</div>
 											<div class="justify-content-end row">
