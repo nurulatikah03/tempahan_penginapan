@@ -15,6 +15,7 @@ session_start();
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -38,7 +39,6 @@ session_start();
         </div>
     </div>
     <!-- ***** Preloader End ***** -->
-	
     <div class="page-wrapper">
         
         <?php include 'partials/header.php';?>
@@ -74,7 +74,7 @@ session_start();
 					<div class="auto-container">
 						<ul class="bredcrumb-list">
 							<li><a href="index.php">Laman Utama</a></li>
-							<li><a href="pakejAktiviti.php">Aktiviti</a></li>
+							<li><a href="kemudahanAktiviti.php">Aktiviti</a></li>
 							<li>
 								<a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($_GET["id_aktiviti"]); ?>">
 									<?php echo htmlspecialchars($nama_aktiviti); ?>
@@ -97,7 +97,13 @@ session_start();
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>Butiran Tempahan Anda</h4>
-                    <a href="#" class="btn" style="background-color: white; border :solid; border-radius :50px; ">View invoice<span></span></a>
+                    <?php
+					if (isset($_SESSION['booking_number'])) {
+						echo '<a href="assets/PDF/PDF_aktiviti.php?booking_number=' . htmlspecialchars($_SESSION['booking_number']) . '" target="_blank" class="btn" style="background-color: white; border: solid; border-radius: 50px;">View invoice<span></span></a>';
+					} else {
+						echo "ID tempahan tidak tersedia.";
+					}
+					?>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -161,7 +167,7 @@ session_start();
                             <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["total_person"] ?> orang
+                            <?php echo $_SESSION["total_person"] ?> Hari
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -175,7 +181,8 @@ session_start();
                 </div>
             </div>
             <div style="margin-top: 25px; margin-bottom: 50px;">
-                <h3>An email was sent to <span style="color: green;"><?php echo $_SESSION["form-email"]?></span> for the invoice</h3>
+                <h3 class="text-start">Satu email akan dihantar ke email <span class="text-success"><?php echo $_SESSION["form-email"] ?></span> untuk butiran invoice</h3>
+                <h4 class="mt-5">Terima kasih kerana berurusan dengan kami!</h4>
             </div>
             <div class="text-left" style="margin-bottom: 25px;">
                 <a href="index.php" class="btn-1">Kembali ke Laman Utama<span></span></a>
@@ -204,7 +211,6 @@ session_start();
     <script src="assets/js/booking-form.js"></script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
-
 	<script>
 	window.addEventListener("load", function () {
 		setTimeout(function () {
@@ -212,6 +218,7 @@ session_start();
 		}, 1000);
 	});
 	</script>
+
 
 </body>
 </html>
