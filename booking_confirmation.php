@@ -22,6 +22,7 @@ if (!isset($_SESSION['room_id'])) {
 <link href="assets/css/responsive.css" rel="stylesheet">
 <!-- Color File -->
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +40,20 @@ if (!isset($_SESSION['room_id'])) {
 </head>
 
 <body>
+
+<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
 <div class="page-wrapper">
 
@@ -59,15 +74,7 @@ if (!isset($_SESSION['room_id'])) {
     </div>
 
     <?php
-        include_once 'Models/tempahan.php';
-
-        //Check availability
-        $availableRooms = countRoomAvailable($_SESSION['room_id'],$_SESSION['checkInDate'], $_SESSION['checkOutDate']);
-        if ($availableRooms <= 0) {
-            $_SESSION['err'] = "Maaf, tiada penginapan ini pada hari yang diminta.";
-            echo "<script>window.history.back();</script>";
-            exit;
-        } else {
+        include_once 'Models/tempahanBilik.php';
 
         $num_of_night = calcNumOfNight($_SESSION['checkInDate'],$_SESSION['checkOutDate']);
         $room_num = $_SESSION['roomsNum'];
@@ -80,7 +87,7 @@ if (!isset($_SESSION['room_id'])) {
             <div class="col-lg-4">
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
-                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($availableRooms); ?></p>
+                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
                             <p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
                             <p><strong>Bilangan Hari:</strong> <?php echo $num_of_night; ?></p>
                             <?php
@@ -131,6 +138,7 @@ if (!isset($_SESSION['room_id'])) {
                             </div>
                             <input type="hidden" name="price" value ="<?php echo $price ?>">
                             <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
+                            <input type="hidden" name="process" value ="penginapan">
                             
                             <div class="form-group mb-0 text-end">
                                 <button type="submit" class="btn-1" >Bayar<span></span></button>
@@ -150,7 +158,6 @@ if (!isset($_SESSION['room_id'])) {
 
     
     <?php 
-    }
     
     include 'partials/additional_room.php';
     include 'partials/footer.php';
@@ -174,6 +181,13 @@ if (!isset($_SESSION['room_id'])) {
 <script src="assets/js/booking-form.js"></script>
 <script src="assets/js/odometer.min.js"></script>
 <script src="assets/js/script.js"></script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 </body>

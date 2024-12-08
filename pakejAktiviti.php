@@ -1,24 +1,26 @@
-<?php include'db-connect.php'; ?>
-
 <!DOCTYPE html>
 <html lang="en">
+<?php include 'db-connect.php'; ?>
+
 <head>
-	<meta charset="utf-8">
-	<title>eTempahan INSKET</title>
-	<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
-	<link href="assets/css/bootstrap.css" rel="stylesheet">
-	<link href="assets/css/style.css" rel="stylesheet">
-	<link href="assets/css/responsive.css" rel="stylesheet">
-	<link href="assets/css/color.css" rel="stylesheet">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="assets/images/lktnIcon.png" type="image/x-icon" >
-	<link rel="icon" href="assets/images/lktnIcon.png" type="image/x-icon">
-	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta charset="utf-8">
+    <title>eTempahan INSKET</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/responsive.css" rel="stylesheet">
+	<link href="assets/css/preloader.css" rel="stylesheet">
+    <link href="assets/css/color.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link 
+		href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" 
+		rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
+
 <style>
 .footer-1-middle {
     position: relative;
@@ -61,15 +63,15 @@ body {
 
 
 .btn-1 span {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-radius: 50%;
-	background-color: #fff;
-	transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-	transform: translate(-50%, -50%);
-	z-i
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+    transform: translate(-50%, -50%);
+    z-index: -1; /* Betulkan */
 }
 
 .btn-1:hover {
@@ -135,82 +137,118 @@ body {
     margin: 10px 0; /* Add margin between list items */
 }
 
+.page-title {
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 </style>
 
 <body>
 
-<div class="page-wrapper">
-
-    <div class="loader-wrap">
-		<div class="spinner"></div>
-	</div>
-
-    
-	<?php include'partials/header.php'; ?>
-
-    <div class="page-title" style="background-image: url(assets/images/background/pakejj.jpg);">
-        <div class="auto-container">
-            <h1>Pakej yang disediakan oleh INSKET</h1>
+	<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+	
+	<div class="page-wrapper">
+		<div class="page-title" style="background-image: url(assets/images/background/pakejj.jpg);">
+			<?php 
+			include'partials/header.php'; 
+			include("database/DBConnec.php");
+			?>
+		
+		<div class="auto-container">
+            <h1>Pakej Aktiviti yang disediakan oleh INSKET</h1>
         </div>
     </div>
     <div class="bredcrumb-wrap">
         <div class="auto-container">
             <ul class="bredcrumb-list">
                 <li><a href="index.php">Laman Utama</a></li>
-                <li>Aktiviti</li>
+                <li>Pakej Aktiviti</li>
             </ul>
         </div>
     </div>
 
-    <?php
-	$counter = 1;
+    <!-- Activity -->
+    <section class="section-padding" style="padding-top: 10px;">
+        <div class="auto-container">
+            <div class="section_heading text-center mb_30 mt_30">
+                <span class="section_heading_title_small">TAWARAN ISTIMEWA</span>
+                <h2 class="section_heading_title_big">Pilihan Aktiviti</h2>
+            </div>
+			<div class="row">
+                <?php
+					$counter = 1;
+					
+					$sql = "
+						SELECT 
+							a.id_aktiviti, 
+							a.nama_aktiviti, 
+							a.kadar_harga, 
+							a.penerangan, 
+							a.status_aktiviti, 
+							ap.url_gambar AS gambar_utama
+						FROM 
+							aktiviti a
+						LEFT JOIN 
+							aktiviti_pic ap ON a.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'Utama'
+					";
+										
+					$result = $conn->query($sql);
 
-	$sql = "SELECT id_aktiviti, nama_aktiviti, kadar_harga, kemudahan, penerangan, gambar FROM aktiviti";
-	$result = $conn->query($sql);
-
-	if ($result->num_rows > 0) {
-		?>
-		<section class="section-padding">
-			<div class="auto-container">
-				<div class="row">
-					<?php
-					while($row = $result->fetch_assoc()) {
-						$animation_delay = 0.2 * $counter;
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							$animation_delay = 0.2 * $counter;
 						?>
 						<div class="col-lg-6 col-md-6">
-							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>s" data-wow-duration=".8s">
+							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo htmlspecialchars($animation_delay); ?>s" data-wow-duration=".8s">
 								<div class="room-1-image hvr-img-zoom-1">
-									<img src="adminDashboard/controller/uploads/<?php echo $row['gambar']; ?>" 
-										 alt="<?php echo $row['nama_aktiviti']; ?>" 
-										 style="width: 100%; height: 250px; object-fit: cover;">
-								</div>
+										
+									<?php if (!empty($row['gambar_utama'])): ?>
+										<img src="adminDashboard/controller/<?php echo htmlspecialchars($row['gambar_utama']); ?>"  
+											 alt="<?php echo htmlspecialchars($row['nama_aktiviti']); ?>" 
+											 style="width: 100%; height: 250px; object-fit: cover;">
+									<?php else: ?>
+										<img src="default-image.jpg" alt="Default Image" style="width: 100%; height: 250px; object-fit: cover;">
+									<?php endif; ?>
+
+									</div>
 								<div class="room-1-content">
-									<p class="room-1-meta-info">Kadar Harga <span class="theme-color">RM<?php echo number_format($row['kadar_harga'], 2); ?></span>/seorang</p>
-									<h4 class="room-1-title mb_20">
-										<a href="aktivitiDetail.php?id_aktiviti=<?php echo $row['id_aktiviti']; ?>"><?php echo strtoupper($row['nama_aktiviti']); ?></a>
-									</h4>
-									<p class="room-1-text mb_30"><?php echo $row['penerangan']; ?></p>
-									<div class="link-btn">
-										<a href="aktivitiDetail.php?id_aktiviti=<?php echo $row['id_aktiviti']; ?>" class="btn-1 btn-alt">Tempah Sekarang <span></span></a>
+										<p class="room-1-meta-info">Kadar Sewa <span class="theme-color">RM<?php echo number_format($row['kadar_harga'], 2); ?></span>/seorang/sehari</p>
+										<h4 class="room-1-title mb_20">
+											<a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"><?php echo strtoupper(htmlspecialchars($row['nama_aktiviti'])); ?></a>
+										</h4>
+										<p class="room-1-text mb_30"><?php echo htmlspecialchars($row['penerangan']); ?></p>
+										<div class="link-btn">
+											<a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>" class="btn-1 btn-alt">Lihat Butiran <span></span></a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<?php
-						$counter++;
+							<?php
+							$counter++; // Increment the counter for the next iteration
+						}
+					} else {
+						echo "<p>Tiada aktiviti disediakan.</p>";
 					}
+
+					$conn->close();
 					?>
 				</div>
-			</div>
-		</section>
-		<?php
-	} else {
-		echo "<p>Tiada penginapan yang tersedia.</p>";
-	}
-
-	$conn->close();
-	?>
-	
+            </div>
+        </section>
 	<?php include 'partials/footer.php';?>
 	
 </div>
@@ -243,19 +281,12 @@ body {
 <script src="assets/js/booking-form.js"></script>
 <script src="assets/js/odometer.min.js"></script>
 <script src="assets/js/script.js"></script>
-
-
+<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

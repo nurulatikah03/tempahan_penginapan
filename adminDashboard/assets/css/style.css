@@ -243,3 +243,8 @@ body[data-leftbar-theme=dark] {
 html {
 	margin-right: calc(-1 * (100vw - 100%));
 }
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}

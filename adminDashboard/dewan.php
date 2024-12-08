@@ -1,8 +1,25 @@
 <?php
-include 'db-connect.php';
+include '../database/database.php';
 
-// Fetch data from the database
-$query = "SELECT nama_dewan, kadar_sewa, bilangan_muatan, penerangan, status_dewan, id_dewan, gambar FROM dewan"; // Adjust table and column names as necessary
+$query = "
+    SELECT 
+        d.id_dewan, 
+        d.nama_dewan, 
+        d.kadar_sewa, 
+        d.bilangan_muatan, 
+        d.penerangan, 
+		d.penerangan_ringkas,
+		d.penerangan_kemudahan,
+        d.status_dewan, 
+		d.max_capacity,
+        dp.url_gambar AS gambar_utama
+    FROM 
+        dewan d
+    LEFT JOIN 
+        dewan_pic dp
+    ON 
+        d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
+";
 $result = $conn->query($query);
 ?>
 
@@ -11,7 +28,7 @@ $result = $conn->query($query);
     
 	<head>
         <meta charset="utf-8" />
-		<title>INSKET Booking</title>
+		<title>eTempahan INSKET</title>
 		<link rel="icon" type="image/x-icon" href="assets/images/logo/logo2.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/favicon.ico">
@@ -72,7 +89,7 @@ $result = $conn->query($query);
                                     <div class="card-body">
 										<div class="row mb-2">
                                             <div class="col-sm-5">
-                                                <a href="tambah_dewan.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah</a>
+                                                <a href="tambah_dewan.php" class="btn btn-danger mb-2"><i class="mdi mdi-plus-circle me-2"></i> Tambah Dewan</a>
                                             </div>
                                         </div>
 										
@@ -86,11 +103,11 @@ $result = $conn->query($query);
 																<label class="form-check-label" for="customCheck1">&nbsp;</label>
 															</div>
 														</th>
-														<th class="all"></th>
-														<th>Nama Dewan</th>
+														<th class="all">Nama Dewan</th>
 														<th>Kadar Sewa (RM)</th>
 														<th>Bilangan Muatan</th>
 														<th>Penerangan</th>
+														<th>Penerangan Ringkas</th>
 														<th>Status</th>
 														<th>Tindakan</th>
 													</tr>
@@ -100,25 +117,27 @@ $result = $conn->query($query);
 													// Check if there are results and display them
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {
+															// Ambil data dari hasil
+															$id_dewan = $row['id_dewan'];
 															$nama_dewan = $row['nama_dewan'];
 															$kadar_sewa = $row['kadar_sewa'];
 															$bilangan_muatan = $row['bilangan_muatan'];
 															$penerangan = $row['penerangan'];
+															$penerangan_ringkas = $row['penerangan_ringkas'];
+															$penerangan_kemudahan = $row['penerangan_kemudahan'];
+															$max_capacity = $row['max_capacity'];
 															$status_dewan = $row['status_dewan'];
-															$gambar = $row['gambar'];
-															$id_dewan = $row['id_dewan'];
+															$gambar_utama = $row['gambar_utama'] ?? '';
 															?>
 															<tr>
 																<td>
 																	<div class="form-check">
-																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo $id_dewan; ?>">
-																		<label class="form-check-label" for="customCheck<?php echo $id_dewan; ?>">&nbsp;</label>
+																		<input type="checkbox" class="form-check-input" id="customCheck<?php echo htmlspecialchars($id_dewan); ?>">
+																		<label class="form-check-label" for="customCheck<?php echo htmlspecialchars($id_dewan); ?>">&nbsp;</label>
 																	</div>
 																</td>
 																<td>
-																	<img src="controller/uploads/<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
-																</td>
-																<td>
+																	<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
 																	<p class="m-0 d-inline-block align-middle font-16">
 																		<span class="text-body"><?php echo $nama_dewan; ?></span>
 																	</p>
@@ -126,14 +145,15 @@ $result = $conn->query($query);
 																<td><?php echo $kadar_sewa; ?></td>
 																<td><?php echo $bilangan_muatan; ?></td>
 																<td class="limited-text"><?php echo $penerangan; ?></td>
+																<td class="limited-text"><?php echo $penerangan_ringkas; ?></td>
 																<td><?php echo $status_dewan; ?></td>
 																<td class="table-action">
-																	<a href="dewan_details.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-eye"></i></a>
-																	<a href="kemaskini_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline"></i></a>
+																	<a href="dewan_details.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
+																	<a href="kemaskini_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
 																	<a href="controller/delete_dewan.php?id_dewan=<?php echo isset($id_dewan) ? $id_dewan : '0'; ?>" 
 																	   class="action-icon" 
 																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	   <i class="mdi mdi-delete"></i>
+																	   <i class="mdi mdi-delete"  style="color: red;"></i>
 																	</a>
 																</td>
 															</tr>

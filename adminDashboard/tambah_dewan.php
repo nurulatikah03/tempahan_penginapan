@@ -3,8 +3,8 @@
     
 	<head>
         <meta charset="utf-8" />
-		<title>INSKET Booking</title>
-		<link rel="icon" type="image/x-icon" href="assets/images/logo/logo2.png">
+		<title>eTempahan INSKET</title>
+		<link rel="icon" type="image/x-icon" href="assets/images/logoLKTN.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/favicon.ico">
         <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
@@ -24,6 +24,14 @@
 		.end-bar .rightbar-title {
 			background-color: #254222;
 		}
+		
+		.form-check {
+    margin-bottom: 10px; /* Adjust this value for the desired space */
+}
+
+.col-4 {
+    padding-right: 15px; /* Optional: Add padding for more space */
+}
 		</style>
     </head>
 
@@ -51,7 +59,7 @@
                                             <li class="breadcrumb-item active">Tambah</li>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Tambah Dewan</h4>
+                                    <h4 class="page-title">Tambah Kemudahan Dewan</h4>
                                 </div>
                             </div>
                         </div>
@@ -88,19 +96,91 @@
 												</div>
 											</div>
 											<div class="row mb-3">
+												<label for="penerangan_ringkas" class="col-3 col-form-label">Penerangan Ringkas</label>
+												<div class="col-9">
+													<textarea class="form-control" id="penerangan_ringkas" name="penerangan_ringkas" placeholder="Masukkan Penerangan Ringkas" rows="3" required></textarea>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="penerangan_kemudahan" class="col-3 col-form-label">Penerangan Kemudahan</label>
+												<div class="col-9">
+													<textarea class="form-control" id="penerangan_kemudahan" name="penerangan_kemudahan" placeholder="Masukkan Penerangan Kemudahan" rows="3" required></textarea>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label class="col-3 col-form-label">Kemudahan</label>
+												<div class="col-9">
+													<div class="row g-2">
+														<?php
+														include '../database/database.php';
+
+														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
+														$result = $conn->query($query);
+
+														if ($result->num_rows > 0) {
+															while ($row = $result->fetch_assoc()) {
+																$id_kemudahan = $row['id_kemudahan'];
+																$nama = $row['nama'];
+																$icon_url = $row['icon_url'];
+
+																echo '<div class="col-md-4">';
+																echo '<div class="form-check">';
+																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
+																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
+																
+																// Check if the icon_url is provided
+																if ($icon_url) {
+																	echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 5px;">';
+																}
+																
+																// Display the name of the facility
+																echo $nama;
+																echo '</label>';
+																echo '</div>';
+																echo '</div>';
+															}
+														} else {
+															echo '<div class="col-12">No kemudahan available.</div>';
+														}
+
+														// Close connection
+														$conn->close();
+														?>
+													</div>
+												</div>
+											</div>
+											<div class="row mb-3">
 												<label for="status_dewan" class="col-3 col-form-label">Status</label>
 												<div class="col-9">
 													<select class="form-control" id="status_dewan" name="status_dewan" required>
 														<option value="">Pilih Status</option>
 														<option value="tersedia">Tersedia</option>
-														<option value="tidak_tersedia">Tidak Tersedia</option>
+														<option value="tidak tersedia">Tidak Tersedia</option>
 													</select>
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
+												<label for="max_capacity" class="col-3 col-form-label">Kapasiti Dewan</label>
 												<div class="col-9">
-													<input type="file" id="fileinput" name="fileinput" class="form-control" accept="image/*" required>
+													<input type="number" class="form-control" id="max_capacity" name="max_capacity" placeholder="Bilangan Kapasiti Dewan" min="1" required>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="fileinputUtama" class="col-3 col-form-label">Muat Naik Gambar (Utama)</label>
+												<div class="col-9">
+													<input type="file" id="fileinputUtama" name="fileinputUtama" class="form-control" accept="image/*" required>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="fileinputBanner" class="col-3 col-form-label">Muat Naik Gambar (Banner)</label>
+												<div class="col-9">
+													<input type="file" id="fileinputBanner" name="fileinputBanner" class="form-control" accept="image/*" required>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<label for="fileinputTambahan" class="col-3 col-form-label">Muat Naik Gambar (Tambahan)</label>
+												<div class="col-9">
+													<input type="file" id="fileinputTambahan" name="fileinputTambahan[]" class="form-control" accept="image/*" multiple>
 												</div>
 											</div>
 											<div class="justify-content-end row">

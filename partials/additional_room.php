@@ -1,6 +1,6 @@
 <!-- Related room -->
  
-<?php include 'database/database.php';?>
+<?php include_once 'database/DBConnec.php';?>
 <section class="section-padding">
         <div class="auto-container">
             <div class="section_heading text-left mb_30 mt_30">
@@ -9,6 +9,7 @@
             <div class="row">
                 <?php
                 try{
+                    $conn = DBConnection::getConnection();
                     $selected_room_id = isset($_SESSION['room_id']) ? (int)$_SESSION['room_id'] : 0;
                     $stmt = "SELECT * FROM bilik r LEFT JOIN bilik_pic ri ON r.id_bilik = ri.id_bilik WHERE jenis_gambar = 'main';";
                     $result = $conn->query($stmt);
@@ -29,13 +30,13 @@
 
                         <div class="col-lg-4 col-md-6">
                             <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
-                                <div class="room-1-image hvr-img-zoom-1">
+                                <div class="room-1-image hvr-img-zoom-1" style="height: 200px; width:auto">
                                     <img src="<?php echo htmlspecialchars($main_img); ?>" alt="">
                                 </div>
                                 <div class="room-1-content">
                                     <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($price); ?></span>/malam</p>
                                     <h4 class="room-1-title mb_20">
-                                        <a href="room-details_<?php echo htmlspecialchars($room_id); ?>.php">
+                                        <a href="room_details.php?room_id=<?php echo htmlspecialchars($room_id); ?>.php">
                                             <?php echo htmlspecialchars($room_name); ?>
                                         </a>
                                     </h4>

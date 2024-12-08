@@ -1,8 +1,3 @@
-<?php
-include_once '../Models\tempahan.php';
-$lisTempahan = RoomReservation::getAllReservation();
-session_start();
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +15,9 @@ session_start();
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
+        .form-control-display {
+            background-color: #edf7f0;
+        }
     </style>
 </head>
 
@@ -56,108 +54,16 @@ session_start();
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-start gap-2">
+                                        <button type="button" class="btn btn-primary" data-action="penginapan">Penginapan</button>
+                                        <button type="button" class="btn btn-primary" data-action="kahwin">Kahwin</button>
+                                        <button type="button" class="btn btn-primary" data-action="aktiviti">Aktiviti</button>
+                                        <button type="button" class="btn btn-primary" data-action="dewan">Dewan</button>
+                                    </div>
+                                </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-centered w-100 dt-responsive nowrap" id="products-datatable">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th class="all" style="width: 20px;">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                            <label class="form-check-label" for="customCheck1">&nbsp;</label>
-                                                        </div>
-                                                    </th>
-                                                    <th class="all">Tarikh tempahan</th>
-                                                    <th>Nama</th>
-                                                    <th>Nombor fon</th>
-                                                    <th>Email</th>
-                                                    <th>Check in</th>
-                                                    <th>Check out</th>
-                                                    <th>Tindakan</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (!empty($lisTempahan)) {
-                                                    foreach ($lisTempahan as $tempahan) {
-                                                        $tempahan_id = $tempahan->getId();
-                                                        $reservationDateTime = new DateTime($tempahan->getReservationDate());
-                                                        $reservationDate = $reservationDateTime->format('d/m/Y');
-                                                        $reservationTime = $reservationDateTime->format('h:i A');
-                                                        $custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
-                                                ?>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" id="customCheck<?php echo $tempahan_id; ?>">
-                                                                    <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <p class="m-0 d-inline-block align-middle font-16">
-                                                                    <span class="text-body"><?php echo $reservationDate . ' @' . $reservationTime; ?></span>
-                                                                </p>
-                                                            </td>
-                                                            <td><?php echo $custName; ?></td>
-                                                            <td><?php echo $tempahan->getPhoneNumber(); ?></td>
-                                                            <td><?php echo $tempahan->getEmail(); ?></td>
-                                                            <td><?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?></td>
-                                                            <td><?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?></td>
-                                                            <td class="table-action">
-                                                                <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
-                                                                <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon" title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
-
-                                                                <!--start delete modal-->
-                                                                <a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $tempahan_id; ?>"><i class="mdi mdi-delete" style="color: red;"></i></a>
-
-                                                                <!-- DELETE ALERT -->
-                                                                <div class="modal fade modal-backdrop-del" id="deleteModal<?php echo $tempahan_id; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $tempahan_id; ?>" aria-hidden="true">
-                                                                    <div class="modal-dialog ">
-                                                                        <div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-                                                                            <div class="modal-body">
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
-                                                                                <div class="text-center p-4">
-                                                                                    <img src="assets/icon-svg/alert.svg" alt="Alert Icon" class="mb-3" style="height: 100px">
-                                                                                </div>
-                                                                                <div class="text-center">
-                                                                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Padam <?php echo $tempahan->getBookingNumber(); ?></h1>
-
-                                                                                    <p class="pt-3"> Tindakan tidak boleh undur semula. </p>
-                                                                                </div>
-                                                                                <div class="text-center">
-                                                                                    <form method="post" action="controller/delete_tempahan.php">
-                                                                                        <input type="hidden" name="nombor_tempahan" value="<?php echo $tempahan->getBookingNumber(); ?>">
-                                                                                        <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
-                                                                                        <button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <a href="javascript:void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
-                                                            </td>
-                                                        </tr>
-
-                                                <?php }
-                                                } ?>
-                                                <?php if (empty($lisTempahan)) { ?>
-                                                    <tr>
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input" id="customCheck<?php echo $tempahan_id; ?>">
-                                                                <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
-                                                            </div>
-                                                        </td>
-                                                        <td colspan="8" class="text-center"><strong>Tiada tempahan</strong></td>
-                                                    </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        </table>
-                                        <?php
-                                        if (isset($_SESSION['status']) && $_SESSION['status'] == 'success') {
-                                            echo '<div class="alert alert-success" role="alert">Tempahan berjaya dipadamkan.</div>';
-                                            unset($_SESSION['status']);
-                                        }
-                                        ?>
+                                    <div class="table-responsive" id="data-display">
                                     </div>
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
@@ -191,7 +97,40 @@ session_start();
     <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
     <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
     <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            fetchData("penginapan");
 
+            $(document).on("click", "button[data-action]", function() {
+                const action = $(this).data("action");
+                fetchData(action);
+            });
+
+            function fetchData(action) {
+                $.ajax({
+                    url: "fetch_tempahan_data.php",
+                    type: "POST",
+                    data: {
+                        action: action
+                    },
+                    success: function(response) {
+                        $("#data-display").html(response);
+
+                        // Initialize DataTables after the content is loaded
+                        $("#products-datatable").DataTable({
+                            responsive: true,
+                            lengthChange: true,
+                            autoWidth: false,
+                        });
+                    },
+                    error: function() {
+                        $("#data-display").html("<p class='text-danger'>Error fetching data.</p>");
+                    },
+                });
+            }
+
+        });
+    </script>
     <!-- third party js ends -->
 
     <!-- demo app -->

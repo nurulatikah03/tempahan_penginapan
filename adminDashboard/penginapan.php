@@ -1,6 +1,7 @@
 <?php
+session_start();
 include_once '../Models\room.php';
-include_once '../Models\tempahan.php';
+include_once '../Models\tempahanBilik.php';
 
 // Fetch data from the database
 $roomList = Room::getAllRooms();
@@ -102,7 +103,7 @@ $roomList = Room::getAllRooms();
 														$kadar_sewa = $room->getPrice();
 														$maxCapacity = $room->getMaxCapacity();
 														$date = date('d/m/Y');
-														$availablity = countRoomAvailable($roomId, $date, $date);
+														$availablity = countRoomAvailable($roomId, $date, $date, 0);
 														$penerangan = $room->getLongDesc();
 														$gambar = $room->getImgMain();
 														$penginapan_id = $room->getId();
@@ -115,7 +116,7 @@ $roomList = Room::getAllRooms();
 																</div>
 															</td>
 															<td>
-																<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																<img src="../<?php echo $gambar; ?>" alt="contact-img" class="rounded me-3" width="78" height="48" />
 																<p class="m-0 d-inline-block align-middle font-16">
 																	<span class="text-body"><?php echo $nama_bilik; ?></span>
 																</p>
@@ -124,7 +125,7 @@ $roomList = Room::getAllRooms();
 															<td class="text-center"><?php echo ucfirst($jenis_bilik); ?></td>
 															<td class="text-center"><?php echo $capacity . ' Orang'; ?></td>
 															<td class="limited-text"><?php echo $penerangan; ?></td>
-															<td class="text-center"><?php echo $availablity . " / " . $maxCapacity ?></td>
+															<td class="text-center"><?php echo $availablity['available_rooms'] . " / " . $maxCapacity ?></td>
 															<td class="table-action">
 
 																<!-- Button trigger modal -->
@@ -142,7 +143,7 @@ $roomList = Room::getAllRooms();
 																				<!-- Add the content you want to display in the modal here -->
 																				<div class="text-center mb-3">
 																					<h3>Image main</h4>
-																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="auto" />
+																						<img src="../<?php echo $gambar; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-responsive" />
 																				</div>
 																				<div class="row">
 																					<h4 class="text-center">Additional images</h4>
@@ -176,7 +177,7 @@ $roomList = Room::getAllRooms();
 																				<p style="max-height: auto; overflow: hidden; white-space: normal;"><strong>Penerangan Pendek:</strong> <?php echo htmlspecialchars($room->getShortDesc()); ?></p>
 
 																				<p><strong>Bilangan penginapan:</strong> <?php echo $room->getMaxCapacity() ?></p>
-																				<p><strong>Ketersediaan (Hari ini):</strong> <?php echo $availablity . " / " . $maxCapacity ?></p>
+																				<p><strong>Ketersediaan (Hari ini):</strong> <?php echo $availablity['available_rooms'] . " / " . $maxCapacity ?></p>
 
 																				<p><strong>Penerangan Kemudahan:</strong> <?php echo $room->getAmenDesc() ?></p>
 
@@ -228,10 +229,14 @@ $roomList = Room::getAllRooms();
 
 																					<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
 																				</div>
-																				<div class="text-center">
-																					<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
-																					<button type="button" class="btn btn-danger rounded-button">Ya, Padam</button>
-																				</div>
+																				<form action="controller\kemaskiniPenginapan_process.php" method="post">
+																					<input type="hidden" name="process" value="deleteRoom">
+																					<input type="hidden" name="room_id" value="<?php echo $penginapan_id; ?>">
+																					<div class="text-center">
+																						<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+																						<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
+																					</div>
+																				</form>
 																			</div>
 																		</div>
 																	</div>
@@ -245,16 +250,19 @@ $roomList = Room::getAllRooms();
 												}
 												?>
 											</tbody>
-
-
 										</table>
+										<?php
+										if (isset($_SESSION['status'])) {
+											echo '<div class="alert alert-success" role="alert">' . $_SESSION['status'] . '</div>';
+											unset($_SESSION['status']);
+										}
+										?>
 									</div>
 								</div> <!-- end card-body-->
 							</div> <!-- end card-->
 						</div> <!-- end col -->
 					</div>
 					<!-- end row -->
-
 				</div> <!-- container -->
 
 			</div> <!-- content -->
@@ -279,7 +287,8 @@ $roomList = Room::getAllRooms();
 	<script src="assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
+	<script>
+	</script>
 	<!-- third party js ends -->
 
 	<!-- demo app -->

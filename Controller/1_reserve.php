@@ -1,14 +1,25 @@
 <?php
 session_start();
+include_once '../Models/tempahanBilik.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../pakejPenginapan.php");
     exit();
 }
 
-$_SESSION['checkInDate'] = $_POST['check_in'];
-$_SESSION['checkOutDate'] = $_POST['check_out'];
-$_SESSION['roomsNum'] = $_POST['rooms'];
-$_SESSION['adultsNum'] = $_POST['adults'];
-$_SESSION['childrenNum'] = $_POST['children'];
-header("Location: ../booking_confirmation.php");
+if ($_POST['process'] == 'penginapan') {
+    //Check availability
+    $availableRooms = countRoomAvailable($_SESSION['room_id'], $_POST['check_in'], $_POST['check_out'], $_POST['rooms']);
+    if (!$availableRooms['available']) {
+        $_SESSION['err'] = $availableRooms['message'];
+        echo "<script>window.history.back();</script>";
+        exit;
+    }
+    $_SESSION['checkInDate'] = $_POST['check_in'];
+    $_SESSION['checkOutDate'] = $_POST['check_out'];
+    $_SESSION['roomsNum'] = $_POST['rooms'];
+    $_SESSION['adultsNum'] = $_POST['adults'];
+    $_SESSION['childrenNum'] = $_POST['children'];
+    header("Location: ../booking_confirmation.php");
+    exit();
+}

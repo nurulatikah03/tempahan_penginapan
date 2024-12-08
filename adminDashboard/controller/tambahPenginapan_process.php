@@ -1,65 +1,97 @@
 <?php
-include '../db-connect.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    include_once '../../Models/room.php';
 
-// Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$jenis_bilik = $_POST['jenis_bilik'] ?? '';
-	$jumlah_bilik = $_POST['jumlah_bilik'] ?? 0;
-	$kadar_sewa = $_POST['kadar_sewa'] ?? 0.00;
-	$bilanganPenyewa = $_POST['bilanganPenyewa'] ?? 0;
-	$penerangan = $_POST['penerangan'] ?? '';
-	$statusBilik = $_POST['statusBilik'] ?? '';
-
-	// Validate statusBilik (must be 'tersedia' or 'tidak tersedia')
-	$validStatus = ['tersedia', 'tidak_tersedia'];
-	if (!in_array($statusBilik, $validStatus)) {
-		echo "Status bilik tidak sah. Pilih 'tersedia' atau 'tidak tersedia'.";
-		exit; // Stop execution if the status is invalid
-	}
-
-    // Handle file upload
-    if (isset($_FILES['fileinput']) && $_FILES['fileinput']['error'] == UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['fileinput']['tmp_name'];
-        $fileName = $_FILES['fileinput']['name'];
-        $fileSize = $_FILES['fileinput']['size'];
-        $fileType = $_FILES['fileinput']['type'];
-
-        // Specify the directory where you want to save the uploaded file
-        $uploadFileDir = 'uploads/';
-        $dest_path = $uploadFileDir . $fileName;
-
-        // Check if the upload directory exists, if not create it
-        if (!is_dir($uploadFileDir)) {
-            mkdir($uploadFileDir, 0777, true);
+    // Sanitize and collect the input data
+    $nama_bilik = htmlspecialchars($_POST['nama_bilik']);
+    $jenis_bilik = htmlspecialchars($_POST['jenis_bilik']);
+    $bilangan_penyewa = intval($_POST['bilanganPenyewa']);
+    $jumlah_bilik = intval($_POST['jumlah_bilik']);
+    $kadar_sewa = floatval($_POST['kadar_sewa']);
+    $penerangan_panjang = htmlspecialchars($_POST['penerangan_panjang']);
+    $penerangan_pendek = htmlspecialchars($_POST['penerangan_pendek']);
+    $penerangan_kemudahan = htmlspecialchars($_POST['penerangan_kemudahan']);
+    $kemudahan = isset($_POST['kemudahan']) ? $_POST['kemudahan'] : [];
+    $roomId = Room::addNewRoom(
+        $nama_bilik, 
+        $bilangan_penyewa, 
+        $jenis_bilik, 
+        $kadar_sewa, 
+        $penerangan_kemudahan, 
+        $penerangan_pendek, 
+        $penerangan_panjang, 
+        $jumlah_bilik, 
+        $kemudahan
+    );
+    // Handle file uploads
+    $uploadedFiles = [];
+    if (isset($_FILES['fileinput_utama']) && $_FILES['fileinput_utama']['error'] === UPLOAD_ERR_OK) {
+        $uploadedFiles['Gambar Utama'] = $_FILES['fileinput_utama']['name'];
+    }
+    if (isset($_FILES['fileinput_banner']) && $_FILES['fileinput_banner']['error'] === UPLOAD_ERR_OK) {
+        $uploadedFiles['Gambar Banner'] = $_FILES['fileinput_banner']['name'];
+    }
+    if (isset($_FILES['fileinput_tambahan']) && !empty($_FILES['fileinput_tambahan']['name'][0])) {
+        foreach ($_FILES['fileinput_tambahan']['name'] as $key => $value) {
+            if ($_FILES['fileinput_tambahan']['error'][$key] === UPLOAD_ERR_OK) {
+                $uploadedFiles['Gambar Tambahan'][] = $value;
+            }
         }
+    }
+    // Define the upload directory
+    $uploadDirUtama = '../../assets/images/resource/';
+    $uploadDirBanner = '../../assets/images/background/';
+    $uploadDirTambahan = '../../assets/images/resource/';
 
-        // Move the uploaded file to the specified directory
-        if (move_uploaded_file($fileTmpPath, $dest_path)) {
-            echo "Fail berjaya dimuat naik.<br>";
+    // Upload Gambar Utama
+    if (isset($uploadedFiles['Gambar Utama'])) {
+        $targetFile = $uploadDirUtama . basename($_FILES['fileinput_utama']['name']);
+        if (move_uploaded_file($_FILES['fileinput_utama']['tmp_name'], $targetFile)) {
+            echo "Gambar Utama berjaya dimuat naik.<br>";
+			header("Location: ../penginapan.php");
+            $urlToAddrUtama = 'assets/images/resource/' . basename($_FILES['fileinput_utama']['name']);
+            Room::addImage($roomId, $urlToAddrUtama, 'main');
         } else {
-            echo "Terdapat ralat mengalihkan fail yang dimuat naik.<br>";
+			$_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar utama.";
+            echo "Ralat semasa memuat naik Gambar Utama.<br>";
         }
-    } else {
-        echo "Ralat muat naik fail: " . $_FILES['fileinput']['error'] . "<br>";
     }
 
-    // Prepare SQL statement to prevent SQL injection$stmt = 
-	$stmt = $conn->prepare("INSERT INTO penginapan (jenis_bilik, jumlah_bilik, kadar_sewa, bilanganPenyewa, penerangan, statusBilik, gambar) VALUES (?, ?, ?, ?, ?, ?, ?)");
-	$stmt->bind_param("sidssss", $jenis_bilik, $jumlah_bilik, $kadar_sewa, $bilanganPenyewa, $penerangan, $statusBilik, $fileName);
-	
-    // Execute the statement
-    if ($stmt->execute()) {
-        header("Location: ../penginapan.php");
-		
-    } else {
-        echo "Error: " . $stmt->error;
+    // Upload Gambar Banner
+    if (isset($uploadedFiles['Gambar Banner'])) {
+        $targetFile = $uploadDirBanner . basename($_FILES['fileinput_banner']['name']);
+        if (move_uploaded_file($_FILES['fileinput_banner']['tmp_name'], $targetFile)) {
+            $urlToAddBanner = 'assets/images/background/' . basename($_FILES['fileinput_banner']['name']);
+            Room::addImage($roomId, $urlToAddBanner, 'banner');
+            echo "Gambar Banner berjaya dimuat naik.<br>";
+			header("Location: ../penginapan.php");
+        } else {
+			$_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar banner.";
+            echo "Ralat semasa memuat naik Gambar Banner.<br>";
+        }
     }
 
-    // Close the statement and connection
-    $stmt->close();
-    $conn->close();
+    // Upload Gambar tambahan
+    if (isset($_FILES['fileinput_tambahan'])) {
+        $fileCount = count($_FILES['fileinput_tambahan']['name']);
+        
+        for ($i = 0; $i < $fileCount; $i++) {
+            if ($_FILES['fileinput_tambahan']['error'][$i] === UPLOAD_ERR_OK) {
+                $targetFile = $uploadDirTambahan . basename($_FILES['fileinput_tambahan']['name'][$i]);
+                
+                if (move_uploaded_file($_FILES['fileinput_tambahan']['tmp_name'][$i], $targetFile)) {
+                    $urlToAddrTambahan = 'assets/images/resource/' . basename($_FILES['fileinput_tambahan']['name'][$i]);
+                    Room::addImage($roomId, $urlToAddrTambahan, 'add');
+                    echo "Gambar Tambahan " . ($i + 1) . " berjaya dimuat naik.<br>";
+					header("Location: ../penginapan.php");
+                } else {
+					$_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar tambahan.";
+                    echo "Ralat semasa memuat naik Gambar Tambahan " . ($i + 1) . ".<br>";
+                }
+            }
+        }
+    }
+
 } else {
     echo "Kaedah permintaan tidak sah.";
 }
-
-?>

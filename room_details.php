@@ -13,6 +13,7 @@
 
 <!-- Color File -->
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +33,20 @@
 </head>
 
 <body>
+
+<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
 <div class="page-wrapper">
 
@@ -153,7 +168,7 @@
                                     <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
                                     <input placeholder="21 Sep, 2022" type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="" />
                                 </div>
-                                <?php if ($room_details->getType() == 'room'): ?>
+                                <?php if (!strcasecmp($room_details->getType(), 'homestay') == 0): ?>
 
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">BILIK:</p>
@@ -192,7 +207,8 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <button type="submit" name="submit" class="btn-1">Tempah Sekarang<span></span></button>
-                                </div>
+                                    <input type="hidden" name="process" value="penginapan">
+                                    </div>
                             </form>
                             <?php
                             if (isset($_SESSION['err'])) {
@@ -275,6 +291,13 @@ dots.forEach((dot, index) => {
 
 updateSlider();
 </script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 
