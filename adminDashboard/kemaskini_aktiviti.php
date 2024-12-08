@@ -77,7 +77,7 @@ include 'controller/get_aktiviti.php';
 									aktiviti.kemudahan, 
 									aktiviti.penerangan, 
 									aktiviti.status_aktiviti, 
-									aktiviti.url_gambar,
+									aktiviti_pic.url_gambar,
 									aktiviti_pic.jenis_gambar
 								FROM aktiviti
 							LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti

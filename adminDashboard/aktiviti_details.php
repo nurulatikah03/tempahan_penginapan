@@ -68,7 +68,7 @@ include 'controller/get_aktiviti.php';
 		</style>
     </head>
 
-    <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+    <body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
         <!-- Begin page -->
         <div class="wrapper">
 		
@@ -98,7 +98,7 @@ include 'controller/get_aktiviti.php';
 									aktiviti.kemudahan, 
 									aktiviti.penerangan, 
 									aktiviti.status_aktiviti, 
-									aktiviti.url_gambar,
+									aktiviti_pic.url_gambar,
 									aktiviti_pic.jenis_gambar
 								FROM aktiviti
 								LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti
