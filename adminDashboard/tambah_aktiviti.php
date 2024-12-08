@@ -86,7 +86,7 @@
 											<div class="row mb-3">
 												<label for="kemudahan" class="col-3 col-form-label">Kemudahan</label>
 												<div class="col-9">
-													<textarea class="form-control" id="kemudahanDes" name="kemudahanDes" placeholder="Masukkan Kemudahan yang disediakan" rows="2" required></textarea>
+													<textarea class="form-control" id="kemudahan" name="kemudahan" placeholder="Masukkan Kemudahan yang disediakan" rows="2" required></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
@@ -124,7 +124,7 @@
 
 																echo '<div class="col-md-4">';
 																echo '<div class="form-check">';
-																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
+																echo '<input class="form-check-input" type="checkbox" name="kemudahanAktiviti[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
 																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
 																
 																// Check if the icon_url is provided

@@ -5,7 +5,7 @@ include '../db-connect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_aktiviti = $_POST['nama_aktiviti'] ?? '';
     $kadar_harga = $_POST['kadar_harga'] ?? 0.00;
-    $kemudahan = $_POST['kemudahanDes'] ?? 0;
+    $kemudahan = $_POST['kemudahan'] ?? '';
     $penerangan = $_POST['penerangan'] ?? '';
     $status_aktiviti= $_POST['status_aktiviti'] ?? '';
 
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Get selected kemudahan
-    $selected_kemudahan = isset($_POST['kemudahanDes']) ? $_POST['kemudahanDes'] : [];
+    $selected_kemudahan = isset($_POST['kemudahanAktiviti']) ? $_POST['kemudahanAktiviti'] : [];
 
     // File upload directories
     $uploadFileDirUtama = 'assets/images/resource/';
@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Insert into aktiviti table
     $stmt = $conn->prepare("INSERT INTO aktiviti (nama_aktiviti, kadar_harga, kemudahan, penerangan, status_aktiviti) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sisss", $nama_aktiviti, $kadar_harga, $kemudahan, $penerangan, $status_aktiviti,);
+    $stmt->bind_param("sisss", $nama_aktiviti, $kadar_harga, $kemudahan, $penerangan, $status_aktiviti);
 
 
 
