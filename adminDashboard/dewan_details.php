@@ -1,5 +1,5 @@
 <?php
-include 'db-connect.php';
+include '../database/database.php';
 include 'controller/get_dewan.php';
 
 ?>
@@ -68,7 +68,7 @@ include 'controller/get_dewan.php';
 		</style>
     </head>
 
-    <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+    <body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
         <!-- Begin page -->
         <div class="wrapper">
 		
@@ -146,7 +146,6 @@ include 'controller/get_dewan.php';
 								}
 
 								$stmt->close();
-								$conn->close();
 						?>
                         
                         <div class="row">
@@ -264,19 +263,6 @@ include 'controller/get_dewan.php';
 														<h6 class="font-14">Kemudahan</h6>
 														<div class="row">
 															<?php
-															$servername = "localhost";
-															$username = "root";
-															$password = "";
-															$dbname = "tempahan_penginapan";
-
-															$conn = new mysqli($servername, $username, $password, $dbname);
-
-															if ($conn->connect_error) {
-																die("Connection failed: " . $conn->connect_error);
-															}
-
-															$conn->set_charset("utf8");
-
 															if (isset($_GET['id_dewan'])) {
 																$id_dewan = $_GET['id_dewan'];
 															} else {

@@ -1,5 +1,5 @@
 <?php
-include 'db-connect.php';
+include '../database/database.php';
 include 'controller/get_dewan.php';
 
 ?>
@@ -124,7 +124,6 @@ include 'controller/get_dewan.php';
 							}
 
 							$stmt->close();
-							$conn->close();
 							?>
 							
 							
@@ -370,19 +369,6 @@ include 'controller/get_dewan.php';
 											<div class="col-9">
 												<div class="row g-2">
 													<?php
-													$servername = "localhost";
-													$username = "root";
-													$password = "";
-													$dbname = "tempahan_penginapan";
-
-													$conn = new mysqli($servername, $username, $password, $dbname);
-
-													if ($conn->connect_error) {
-														die("Connection failed: " . $conn->connect_error);
-													}
-
-													$conn->set_charset("utf8");
-
 													$id_dewan = $_GET['id_dewan'];
 
 													$selected_kemudahan_query = "

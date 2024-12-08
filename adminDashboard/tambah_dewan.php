@@ -112,18 +112,7 @@
 												<div class="col-9">
 													<div class="row g-2">
 														<?php
-														$servername = "localhost";
-														$username = "root";
-														$password = ""; 
-														$dbname = "tempahan_penginapan"; 
-
-														$conn = new mysqli($servername, $username, $password, $dbname);
-
-														if ($conn->connect_error) {
-															die("Connection failed: " . $conn->connect_error);
-														}
-
-														$conn->set_charset("utf8");
+														include '../database/database.php';
 
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
 														$result = $conn->query($query);
