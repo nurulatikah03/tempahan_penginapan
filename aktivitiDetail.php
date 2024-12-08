@@ -128,18 +128,17 @@ session_start();
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
+	<div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
     </div>
-    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
