@@ -115,12 +115,20 @@
                     },
                     success: function(response) {
                         $("#data-display").html(response);
+
+                        // Initialize DataTables after the content is loaded
+                        $("#products-datatable").DataTable({
+                            responsive: true,
+                            lengthChange: true,
+                            autoWidth: false,
+                        });
                     },
                     error: function() {
                         $("#data-display").html("<p class='text-danger'>Error fetching data.</p>");
                     },
                 });
             }
+
         });
     </script>
     <!-- third party js ends -->

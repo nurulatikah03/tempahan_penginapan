@@ -114,7 +114,7 @@
 															</td>
 															<td>
 																<p class="m-0 d-inline-block align-middle font-16">
-																	<span class="text-body"><?php echo $pekej->getNamaDewanKahwin() ?></span>
+																	<span class="text-body"><?php echo $pekej->getNamaDewan() ?></span>
 																</p>
 															</td>
 															<td><?php echo $pekej->getHargaPekej() ?></td>
