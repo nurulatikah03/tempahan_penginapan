@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2024 at 07:53 AM
+-- Generation Time: Dec 08, 2024 at 05:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,7 +53,7 @@ CREATE TABLE `aktiviti` (
   `id_aktiviti` int(11) NOT NULL,
   `nama_aktiviti` varchar(50) NOT NULL,
   `kadar_harga` decimal(10,2) NOT NULL,
-  `kemudahan` varchar(500) NOT NULL,
+  `penerangan_kemudahan` varchar(500) NOT NULL,
   `penerangan` varchar(550) NOT NULL,
   `status_aktiviti` enum('Tersedia','Tidak Tersedia') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -62,9 +62,9 @@ CREATE TABLE `aktiviti` (
 -- Dumping data for table `aktiviti`
 --
 
-INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `kemudahan`, `penerangan`, `status_aktiviti`) VALUES
-(6, 'Pakej Kem Pelajar', 55.00, 'Array', 'Kem pelajar adalah program intensif yang bertujuan untuk mengembangkan potensi pelajar melalui aktiviti yang menyeronokkan, mencabar, dan bermakna. Kem ini biasanya diadakan di lokasi yang jauh dari persekitaran sekolah biasa, seperti kawasan semula jadi, pusat latihan, atau resort, dengan tujuan memberikan suasana baru yang merangsang pembelajaran dan perkembangan diri. ', 'Tersedia'),
-(7, 'Pakej Teambuilding', 99.00, 'Array', 'Pakej teambuilding ini sesuai untuk syarikat, institusi pendidikan, atau organisasi yang ingin mengeratkan hubungan antara ahli pasukan dalam suasana yang santai dan produktif.', 'Tersedia');
+INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `penerangan_kemudahan`, `penerangan`, `status_aktiviti`) VALUES
+(22, 'Pakej Teambuilding', 99.00, 'Kemudahan dalam pakej teambuilding biasanya dirancang untuk memberikan pengalaman yang menyeluruh, menyeronokkan, dan bermakna kepada peserta.', 'Pakej teambuilding adalah program atau perkhidmatan yang dirancang untuk meningkatkan kerjasama, komunikasi, dan hubungan antara ahli kumpulan, organisasi, atau pasukan. Aktiviti teambuilding sering kali melibatkan pelbagai aktiviti interaktif, permainan, dan latihan yang bertujuan untuk memperkukuhkan semangat kerja berpasukan dan menggalakkan pencapaian matlamat bersama.', 'Tersedia'),
+(23, 'Pakej Kem Pelajar', 55.00, 'Kemudahan dalam pakej kem pelajar biasanya merangkumi beberapa elemen yang bertujuan untuk memberikan pengalaman pembelajaran yang bermakna serta menyeronokkan. Kemudahan-kemudahan ini direka untuk memastikan para pelajar dapat menikmati pengalaman yang seimbang antara pembelajaran, rekreasi, dan pembangunan diri dalam suasana yang selamat dan kondusif.', 'Kem pelajar adalah program intensif yang bertujuan untuk mengembangkan potensi pelajar melalui aktiviti yang menyeronokkan, mencabar, dan bermakna. Kem ini biasanya diadakan di lokasi yang jauh dari persekitaran sekolah biasa, seperti kawasan semula jadi, pusat latihan, atau resort, dengan tujuan memberikan suasana baru yang merangsang pembelajaran dan perkembangan diri.', 'Tersedia');
 
 -- --------------------------------------------------------
 
@@ -83,12 +83,12 @@ CREATE TABLE `aktiviti_kemudahan` (
 --
 
 INSERT INTO `aktiviti_kemudahan` (`id_aktiviti_kemudahan`, `id_aktiviti`, `id_kemudahan`) VALUES
-(9, 6, 1),
-(10, 6, 4),
-(11, 6, 7),
-(12, 7, 1),
-(13, 7, 4),
-(14, 7, 7);
+(42, 23, 1),
+(43, 23, 4),
+(44, 23, 7),
+(45, 22, 1),
+(46, 22, 4),
+(47, 22, 7);
 
 -- --------------------------------------------------------
 
@@ -108,12 +108,12 @@ CREATE TABLE `aktiviti_pic` (
 --
 
 INSERT INTO `aktiviti_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_aktiviti`) VALUES
-(19, 'Utama', 'assets/images/resource/1733359466_IMG_20200301_190033_077.jpg', 6),
-(20, 'Banner', 'assets/images/background/1733359466_67402092_2105156906262002_7439572943736143872_o-1024x768.jpg', 6),
-(21, 'Tambahan', 'assets/images/resource/1733359466_58381892_321142655236802_8450294592342851584_o.jpg', 6),
-(22, 'Utama', 'assets/images/resource/1733365750_GAMBAR-2.jpg', 7),
-(23, 'Banner', 'assets/images/background/1733365750_teamBuilding2.jpg', 7),
-(24, 'Tambahan', 'assets/images/resource/1733365750_pexels-denniz-futalan-339724-3453047.jpg', 7);
+(67, 'Utama', 'assets/images/resource/1733629649_teamBuilding1.jpg', 22),
+(68, 'Banner', 'assets/images/background/1733629649_teamBuilding2.jpg', 22),
+(69, 'Tambahan', 'assets/images/resource/1733629649_0_teamBuilding3.jpg', 22),
+(70, 'Utama', 'assets/images/resource/1733629957_kemPelajar1.jpg', 23),
+(71, 'Banner', 'assets/images/background/1733629957_kemPelajar2.jpg', 23),
+(72, 'Tambahan', 'assets/images/resource/1733629957_0_kemPelajar3.jpg', 23);
 
 -- --------------------------------------------------------
 
@@ -249,7 +249,12 @@ INSERT INTO `dewan_kemudahan` (`id_dewan_kemudahan`, `id_dewan`, `id_kemudahan`)
 (70, 18, 7),
 (71, 17, 1),
 (72, 17, 5),
-(73, 17, 7);
+(73, 17, 7),
+(77, 19, 1),
+(78, 19, 5),
+(79, 19, 8),
+(82, 20, 1),
+(83, 20, 4);
 
 -- --------------------------------------------------------
 
@@ -277,7 +282,15 @@ INSERT INTO `dewan_pic` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_dewan`) 
 (84, 'Tambahan', 'assets/images/resource/1733330259_0_lovepik-conference-hall-picture_500680046.jpg', 17),
 (85, 'Utama', 'assets/images/resource/1733330320_dewanKuliah.png', 18),
 (86, 'Banner', 'assets/images/background/1733330320_Dewan_Kuliah_5_6_7_8_9_.jpg', 18),
-(87, 'Tambahan', 'assets/images/resource/1733330320_0_Dewan_Kuliah_1.jpg', 18);
+(87, 'Tambahan', 'assets/images/resource/1733330320_0_Dewan_Kuliah_1.jpg', 18),
+(88, 'Utama', 'assets/images/resource/1733616806_teamBuilding2.jpg', 19),
+(89, 'Banner', 'assets/images/background/1733616806_teamBuilding3.jpg', 19),
+(90, 'Tambahan', 'assets/images/resource/1733616806_0_kemPelajar3.jpg', 19),
+(91, 'Tambahan', 'assets/images/resource/1733616806_1_teamBuilding1.jpg', 19),
+(92, 'Utama', 'assets/images/resource/1733616923_kemPelajar3.jpg', 20),
+(93, 'Banner', 'assets/images/background/1733616923_teamBuilding2.jpg', 20),
+(94, 'Tambahan', 'assets/images/resource/1733616923_0_kemPelajar2.jpg', 20),
+(95, 'Tambahan', 'assets/images/resource/1733616923_1_kemPelajar1.jpg', 20);
 
 -- --------------------------------------------------------
 
@@ -381,7 +394,20 @@ INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_
 (110, 'ROOM-241205-364', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-05 10:21:49', '2024-12-05', '2024-12-06', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
 (111, 'ROOM-241205-669', 'NIK', '0189042908', 'nik92@gmail.com', 1, '2024-12-05 10:22:52', '2024-12-31', '2025-01-01', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
 (112, 'DEWAN-241205-079', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 10:32:50', '2025-02-28', '2025-03-01', 500, 'Tunai', NULL, NULL, 16, NULL, NULL),
-(113, 'AKTIVITI-241205-439', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', NULL, '2024-12-05 11:51:32', '2024-12-05', '2024-12-06', 55, 'FPX', NULL, NULL, NULL, NULL, 6);
+(114, 'ROOM-241206-636', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:33:23', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(115, 'ROOM-241206-552', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:48:29', '2025-01-10', '2025-01-11', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(116, 'ROOM-241206-501', 'errerrrrrrrrr', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:48:52', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(117, 'ROOM-241206-896', 'errerrrrrrrrr', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:49:11', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(118, 'ROOM-241206-309', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 17:07:51', '2024-12-19', '2024-12-20', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(119, 'DEWAN-241206-168', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 17:48:21', '2024-12-13', '2024-12-14', 0, '', NULL, NULL, 16, NULL, NULL),
+(120, 'DEWAN-241206-620', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 17:50:35', '2025-01-08', '2025-01-10', 0, '', NULL, NULL, 16, NULL, NULL),
+(125, 'DEWAN-241206-742', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 22:17:36', '2025-01-23', '2025-01-24', 0, '', NULL, NULL, 16, NULL, NULL),
+(126, 'DEWAN-241206-153', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 22:27:03', '2025-01-25', '2025-01-26', 0, '', NULL, NULL, 16, NULL, NULL),
+(127, 'DEWAN-241207-432', 'NIK NADIA', '0129879212', 'niknadia@gmail.com', 0, '2024-12-07 14:42:45', '2025-03-19', '2025-03-20', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
+(129, 'DEWAN-241207-915', 'NIKKKK', '0189042908', 'niktasya92@gmail.com', 0, '2024-12-07 15:49:48', '2025-01-09', '2025-01-10', 350, 'FPX', NULL, NULL, 17, NULL, NULL),
+(133, 'DEWAN-241208-140', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-08 08:16:04', '2025-01-09', '2025-01-10', 4, 'FPX', NULL, NULL, 20, NULL, NULL),
+(134, 'DEWAN-241208-633', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-08 08:16:10', '2025-01-09', '2025-01-10', 4, 'Tunai', NULL, NULL, 20, NULL, NULL),
+(141, 'AKTIVITI-241208-988', 'NIK NADIA', '0189042908', 'niknadia@gmail.com', NULL, '2024-12-08 11:55:02', '2024-12-08', '2024-12-09', 4950, 'FPX', NULL, NULL, NULL, NULL, 22);
 
 -- --------------------------------------------------------
 
@@ -508,19 +534,19 @@ ALTER TABLE `add_on_perkahwinan`
 -- AUTO_INCREMENT for table `aktiviti`
 --
 ALTER TABLE `aktiviti`
-  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `aktiviti_kemudahan`
 --
 ALTER TABLE `aktiviti_kemudahan`
-  MODIFY `id_aktiviti_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_aktiviti_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `aktiviti_pic`
 --
 ALTER TABLE `aktiviti_pic`
-  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `bilik`
@@ -544,19 +570,19 @@ ALTER TABLE `bilik_pic`
 -- AUTO_INCREMENT for table `dewan`
 --
 ALTER TABLE `dewan`
-  MODIFY `id_dewan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_dewan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `dewan_kemudahan`
 --
 ALTER TABLE `dewan_kemudahan`
-  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `dewan_pic`
 --
 ALTER TABLE `dewan_pic`
-  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id_gambar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `kemudahan`
@@ -574,7 +600,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
