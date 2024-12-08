@@ -95,6 +95,7 @@ if ($result->num_rows > 0) {
                     <th width="20%"><strong>Bil</strong></th>
                     <th><strong>Nama Aktiviti</strong></th>
                     <th><strong>Harga Semalaman</strong></th>
+					<th><strong>Bilangan Peserta</strong></th>
                     <th><strong>Bilangan Malam</strong></th>
                     <th><strong>Jumlah Harga</strong></th>
                 </tr>
@@ -104,6 +105,7 @@ if ($result->num_rows > 0) {
 					<td width="20%">1</td>
                     <td>' . htmlspecialchars($row['nama_aktiviti']) . '</td>
                     <td>RM ' . number_format($row['kadar_harga'], 2) . '</td>
+					<td> '. $_SESSION["total_person"] . '</td>
                     <td>' . $bilangan_hari . '</td>
                     <td>RM ' . number_format($row['harga_keseluruhan'], 2) . '</td>
                 </tr>
