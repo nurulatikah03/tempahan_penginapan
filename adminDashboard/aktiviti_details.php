@@ -95,7 +95,7 @@ include 'controller/get_aktiviti.php';
 									aktiviti.id_aktiviti, 
 									aktiviti.nama_aktiviti, 
 									aktiviti.kadar_harga, 
-									aktiviti.kemudahan, 
+									aktiviti.penerangan_kemudahan, 
 									aktiviti.penerangan, 
 									aktiviti.status_aktiviti, 
 									aktiviti_pic.url_gambar,
@@ -120,7 +120,7 @@ include 'controller/get_aktiviti.php';
 									$id_aktiviti = $row['id_aktiviti'];
 									$nama_aktiviti = $row['nama_aktiviti'];
 									$kadar_harga = $row['kadar_harga'];
-									$kemudahan = $row['kemudahan'];
+									$penerangan_kemudahan = $row['penerangan_kemudahan'];
 									$penerangan = $row['penerangan'];
 									$status_aktiviti = $row['status_aktiviti'];
 									$url_gambar = $row['url_gambar'];
@@ -223,8 +223,8 @@ include 'controller/get_aktiviti.php';
                                                     </div>
                                         
                                                     <div class="mt-4">
-                                                        <h6 class="font-14">Kemudahan</h6>
-                                                        <p><?php echo $kemudahan; ?></p>
+                                                        <h6 class="font-14">Penerangan Kemudahan</h6>
+                                                        <p><?php echo $penerangan_kemudahan; ?></p>
                                                     </div>
 													
                                                     <div class="mt-4">

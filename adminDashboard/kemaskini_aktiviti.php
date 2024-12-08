@@ -1,5 +1,5 @@
 <?php
-include 'db-connect.php';
+include '../database/database.php';
 include 'controller/get_aktiviti.php';
 
 ?>
@@ -46,7 +46,7 @@ include 'controller/get_aktiviti.php';
     </style>
 </head>
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
     data-rightbar-onstart="true">
     <!-- Begin page -->
     <div class="wrapper">
@@ -74,7 +74,7 @@ include 'controller/get_aktiviti.php';
 									aktiviti.id_aktiviti, 
 									aktiviti.nama_aktiviti, 
 									aktiviti.kadar_harga, 
-									aktiviti.kemudahan, 
+									aktiviti.penerangan_kemudahan, 
 									aktiviti.penerangan, 
 									aktiviti.status_aktiviti, 
 									aktiviti_pic.url_gambar,
@@ -98,7 +98,7 @@ include 'controller/get_aktiviti.php';
 									$id_aktiviti = $row['id_aktiviti'];
 									$nama_aktiviti = $row['nama_aktiviti'];
 									$kadar_harga = $row['kadar_harga'];
-									$kemudahan = $row['kemudahan'];
+									$penerangan_kemudahan = $row['penerangan_kemudahan'];
 									$penerangan = $row['penerangan'];
 									$status_aktiviti = $row['status_aktiviti'];
 									$url_gambar = $row['url_gambar'];
@@ -118,7 +118,6 @@ include 'controller/get_aktiviti.php';
 							}
 
 							$stmt->close();
-							$conn->close();
 							?>
 							
 							
@@ -322,38 +321,24 @@ include 'controller/get_aktiviti.php';
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="kemudahan" class="col-3 col-form-label">Kemudahan</label>
-                                            <div class="col-9">
-                                                <textarea class="form-control" id="kemudahan" name="kemudahan"
-                                                    rows="3" required><?php echo $kemudahan; ?></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
                                             <label for="penerangan" class="col-3 col-form-label">Penerangan</label>
                                             <div class="col-9">
                                                 <textarea class="form-control" id="penerangan" name="penerangan"
                                                     rows="4" required><?php echo $penerangan; ?></textarea>
                                             </div>
                                         </div>
-                                        
+                                        <div class="row mb-3">
+                                            <label for="penerangan_kemudahan" class="col-3 col-form-label">Penerangan Kemudahan</label>
+                                            <div class="col-9">
+                                                <textarea class="form-control" id="penerangan_kemudahan" name="penerangan_kemudahan"
+                                                    rows="3" required><?php echo $penerangan_kemudahan; ?></textarea>
+                                            </div>
+                                        </div>
 										<div class="row mb-3">
 											<label class="col-3 col-form-label">Kemudahan</label>
 											<div class="col-9">
 												<div class="row g-2">
 													<?php
-													$servername = "localhost";
-													$username = "root";
-													$password = "";
-													$dbname = "tempahan_penginapan";
-
-													$conn = new mysqli($servername, $username, $password, $dbname);
-
-													if ($conn->connect_error) {
-														die("Connection failed: " . $conn->connect_error);
-													}
-
-													$conn->set_charset("utf8");
-
 													$id_aktiviti = $_GET['id_aktiviti'];
 
 													$selected_kemudahan_query = "

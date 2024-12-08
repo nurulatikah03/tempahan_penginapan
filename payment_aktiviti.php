@@ -134,7 +134,7 @@ session_start();
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Tarkkh Masuk:</strong>
+                            <strong>Tarikh Masuk:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["checkInDate"] ?>
@@ -169,11 +169,11 @@ session_start();
 					<form action="Controller\3_to_payment_GW.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>" method="POST">
                         <label class="fs-5 my-3" style="text-align: left;" for="payment-method">Pilih cara bayaran:</label>
                             <select class="mb-4" id="payment-method" name="payment_method" required>
-                                <option value="FPX">FPX</option>
-                                <option value="Tunai">Tunai</option>
-                                <option value="LO">LO</option>
-                                <option value="E-Perolehanan">E-perolehanan</option>
-                                <option value="Bank Transfer">Bank Transfer</option>
+								<option value="FPX">FPX</option>
+                                <option value="cash">Tunai</option>
+                                <option value="local order">LO</option>
+                                <option value="e-perolehan">e-perolehan</option>
+                                <option value="bank_transfer">Bank Transfer</option>
                             </select>
                         <div class="my-1 text-end">
                             <button type="submit" name="submit" value="aktiviti" class="btn-1">Proceed to Payment<span></span></button>

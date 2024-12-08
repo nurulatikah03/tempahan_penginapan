@@ -6,7 +6,7 @@ $query = "
         a.id_aktiviti, 
         a.nama_aktiviti, 
         a.kadar_harga, 
-        a.kemudahan,
+        a.penerangan_kemudahan,
         a.penerangan, 
         a.status_aktiviti, 
         ap.url_gambar AS gambar_utama
@@ -103,7 +103,7 @@ $result = $conn->query($query);
 														<th class="all"></th>
 														<th>Nama Aktiviti</th>
 														<th>Kadar Sewa (RM)</th>
-														<th>Kemudahan</th>
+														<th>Penerangan Kemudahan</th>
 														<th>Penerangan</th>
 														<th>Status</th>
 														<th>Tindakan</th>
@@ -118,7 +118,7 @@ $result = $conn->query($query);
 															$id_aktiviti = $row['id_aktiviti'];
 															$nama_aktiviti = $row['nama_aktiviti'];
 															$kadar_harga = $row['kadar_harga'];
-															$kemudahan = $row['kemudahan'];
+															$penerangan_kemudahan = $row['penerangan_kemudahan'];
 															$penerangan = $row['penerangan'];
 															$status_aktiviti = $row['status_aktiviti'];
 															$gambar_utama = $row['gambar_utama'] ?? '';
@@ -140,7 +140,7 @@ $result = $conn->query($query);
 																	</p>
 																</td>
 																<td><?php echo $kadar_harga; ?></td>
-																<td class="limited-text"><?php echo $kemudahan; ?></td>
+																<td class="limited-text"><?php echo $penerangan_kemudahan; ?></td>
 																<td class="limited-text"><?php echo $penerangan; ?></td>
 																<td><?php echo $status_aktiviti; ?></td>
 																<td class="table-action">

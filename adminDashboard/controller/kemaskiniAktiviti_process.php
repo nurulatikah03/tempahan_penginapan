@@ -1,5 +1,5 @@
 <?php
-include '../db-connect.php';
+include '../../database/database.php';
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -8,9 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_aktiviti = mysqli_real_escape_string($conn, $_POST['id_aktiviti']);
     $nama_aktiviti = mysqli_real_escape_string($conn, $_POST['nama_aktiviti']);
     $kadar_harga = (float) $_POST['kadar_harga'];
-	$kemudahan = mysqli_real_escape_string($conn, $_POST['kemudahan']);
+    $penerangan_kemudahan = mysqli_real_escape_string($conn, $_POST['penerangan_kemudahan']);
     $penerangan = mysqli_real_escape_string($conn, $_POST['penerangan']);
     $status_aktiviti = mysqli_real_escape_string($conn, $_POST['status_aktiviti']);
+    
     // Fetch the selected kemudahan IDs from the form
     if (isset($_POST['kemudahan'])) {
         $selected_kemudahan = $_POST['kemudahan']; // Array of selected kemudahan IDs
@@ -26,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "UPDATE aktiviti 
                   SET nama_aktiviti = '$nama_aktiviti',
                       kadar_harga = $kadar_harga,
-                      kemudahan = $kemudahan,
+                      penerangan_kemudahan = '$penerangan_kemudahan', 
                       penerangan = '$penerangan',
-                      status_aktiviti = '$status_aktiviti',
-                  WHERE id_aktiviti = $id_aktiviti";
+                      status_aktiviti = '$status_aktiviti'
+                  WHERE id_aktiviti = $id_aktiviti"; // Removed the trailing comma
 
         // Execute the update query for the aktiviti table
         if (!mysqli_query($conn, $query)) {
@@ -55,14 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_commit($conn);
 
         // Redirect with success message
-        header("Location: ../aktiviti.php");
+        header("Location: ../aktiviti.php?status=success&message=Update%20successful");
         exit;
     } catch (Exception $e) {
         // Rollback the transaction if any query fails
         mysqli_rollback($conn);
         
         // Redirect with error message
-        header("Location: ../aktiviti.php" . $e->getMessage());
+        header("Location: ../aktiviti.php?status=error&message=" . urlencode($e->getMessage()));
         exit;
     }
 }

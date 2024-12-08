@@ -58,48 +58,49 @@ class AktivitiReservation extends Reservation
      * @throws Exception if the insertion fails.
      */
     public function insertReservation()
-    {
-        $conn = DBConnection::getConnection();
+{
+    $conn = DBConnection::getConnection();
 
-        $sql = "INSERT INTO tempahan (
-			nombor_tempahan, 
-			nama_penuh, 
-			numbor_fon, 
-			bilangan_pax,
-			email,
-			tarikh_tempahan, 
-			tarikh_daftar_masuk, 
-			tarikh_daftar_keluar, 
-			harga_keseluruhan, 
-			id_aktiviti
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO tempahan (
+        nombor_tempahan, 
+        nama_penuh, 
+        numbor_fon, 
+        bilangan_pax,
+        email,
+        tarikh_tempahan, 
+        tarikh_daftar_masuk, 
+        tarikh_daftar_keluar, 
+        harga_keseluruhan,
+        cara_bayar,            
+        id_aktiviti
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        
-        $stmt = $conn->prepare($sql);     
-        $stmt->bind_param(
-            "sssssssssi",
-            $this->bookingNumber, 
-            $this->cust_name, 
-            $this->phone_number, 
-			$this->num_of_person,
-            $this->email, 
-            $this->reservationDate, 
-            $this->checkInDate, 
-            $this->checkOutDate, 
-            $this->total_price, 
-            $this->id_aktiviti
-        );
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(
+        "ssssssssssi",
+        $this->bookingNumber, 
+        $this->cust_name, 
+        $this->phone_number, 
+        $this->num_of_person,
+        $this->email, 
+        $this->reservationDate, 
+        $this->checkInDate, 
+        $this->checkOutDate, 
+        $this->total_price, 
+        $this->payment_method,
+        $this->id_aktiviti
+    );
 
-        if (!$stmt->execute()) {
-            $stmt->close();
-            throw new Exception("Failed to insert reservation: " . $stmt->error);
-        }
-
-        $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
+    if (!$stmt->execute()) {
         $stmt->close();
-
-        return $reservationId;
+        throw new Exception("Failed to insert reservation: " . $stmt->error);
     }
+
+    $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
+    $stmt->close();
+
+    return $reservationId;
+}
 }
 function generateBookingNumber($conn) {
     $yearMonthDay = date("ymd");

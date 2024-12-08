@@ -1,11 +1,11 @@
 <?php
-include '../db-connect.php';
+include '../../database/database.php';
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_aktiviti = $_POST['nama_aktiviti'] ?? '';
     $kadar_harga = $_POST['kadar_harga'] ?? 0.00;
-    $kemudahan = $_POST['kemudahan'] ?? '';
+    $penerangan_kemudahan = $_POST['penerangan_kemudahan'] ?? '';
     $penerangan = $_POST['penerangan'] ?? '';
     $status_aktiviti= $_POST['status_aktiviti'] ?? '';
 
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Get selected kemudahan
-    $selected_kemudahan = isset($_POST['kemudahanAktiviti']) ? $_POST['kemudahanAktiviti'] : [];
+    $selected_kemudahan = isset($_POST['kemudahan']) ? $_POST['kemudahan'] : [];
 
     // File upload directories
     $uploadFileDirUtama = 'assets/images/resource/';
@@ -77,8 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$fileTambahan = handleMultipleFileUpload('fileinputTambahan', $uploadFileDirTambahan);
 
     // Insert into aktiviti table
-    $stmt = $conn->prepare("INSERT INTO aktiviti (nama_aktiviti, kadar_harga, kemudahan, penerangan, status_aktiviti) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sisss", $nama_aktiviti, $kadar_harga, $kemudahan, $penerangan, $status_aktiviti);
+    $stmt = $conn->prepare("INSERT INTO aktiviti (nama_aktiviti, kadar_harga, penerangan_kemudahan, penerangan, status_aktiviti) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sisss", $nama_aktiviti, $kadar_harga, $penerangan_kemudahan, $penerangan, $status_aktiviti);
 
 
 

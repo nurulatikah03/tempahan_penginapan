@@ -7,7 +7,7 @@ if (isset($_GET['id_aktiviti'])) {
             a.id_aktiviti, 
             a.nama_aktiviti, 
             a.kadar_harga, 
-			a.kemudahan,  
+			a.penerangan_kemudahan,  
             a.penerangan, 
             a.status_aktiviti, 
             COALESCE(utama.url_gambar, '') AS gambar_utama,

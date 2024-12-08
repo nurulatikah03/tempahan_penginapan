@@ -17,7 +17,6 @@ session_start();
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
-	<link href="assets/css/preloader.css" rel="stylesheet">
     <link href="assets/css/color.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -284,7 +283,7 @@ session_start();
 					</div>
 					
 							<h3 class="fs_40 mb_30">Kemudahan</h3>
-							<p class="mb_20"><?php echo htmlspecialchars($row['kemudahan']); ?></p>
+							<p class="mb_20"><?php echo htmlspecialchars($row['penerangan_kemudahan']); ?></p>
 
 							<div class="row">
 							<?php
