@@ -1,4 +1,7 @@
 <?php
+include_once __DIR__ . '/../database/DBConnec.php';
+
+
 class Reservation
 {
     protected $id;

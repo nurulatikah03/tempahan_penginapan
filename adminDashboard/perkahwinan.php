@@ -39,7 +39,7 @@
 	</style>
 </head>
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
 	<!-- Begin page -->
 	<div class="wrapper">
 
@@ -126,7 +126,7 @@
 																<a href="#" class="action-icon" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $pekej->getIdPekej(); ?>"><i class="mdi mdi-delete" style="color: red;"></i></a>
 															</td>
 														</tr>
-														<!-- Modal -->
+														<!-- Delete Modal -->
 														<div class="modal fade modal-backdrop-del" id="deleteModal<?php echo $pekej->getIdPekej(); ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $pekej->getIdPekej(); ?>" aria-hidden="true">
 															<div class="modal-dialog">
 																<div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">

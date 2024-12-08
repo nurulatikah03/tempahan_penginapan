@@ -1,7 +1,8 @@
 <?php
 include_once __DIR__ . '/../database/DBConnec.php';
 
-class Dewan {
+class Dewan
+{
 
     protected $id_dewan;
     protected $nama_dewan;
@@ -15,7 +16,8 @@ class Dewan {
     protected $gambarAdd;
 
     // Constructor
-    public function __construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd) {
+    public function __construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd)
+    {
         $this->id_dewan = $id_dewan;
         $this->nama_dewan = $nama_dewan;
         $this->kadar_sewa = $kadar_sewa;
@@ -29,52 +31,72 @@ class Dewan {
     }
 
     // Getter methods
-    public function getIdDewan() {
+    public function getIdDewan()
+    {
         return $this->id_dewan;
     }
 
-    public function getNamaDewan() {
+    public function getNamaDewan()
+    {
         return $this->nama_dewan;
     }
 
-    public function getKadarSewa() {
+    public function getKadarSewa()
+    {
         return $this->kadar_sewa;
     }
 
-    public function getBilanganMuatan() {
+    public function getBilanganMuatan()
+    {
         return $this->bilangan_muatan;
     }
 
-    public function getPenerangan() {
+    public function getPenerangan()
+    {
         return $this->penerangan;
     }
 
-    public function getPeneranganKemudahan() {
+    public function getPeneranganKemudahan()
+    {
         return $this->peneranganKemudahan;
     }
 
-    public function getStatusDewan() {
+    public function getStatusDewan()
+    {
         return $this->status_dewan;
     }
 
-    public function getGambarMain() {
+    public function getGambarMain()
+    {
         return $this->gambarMain;
     }
 
-    public function getGambarBanner() {
+    public function getGambarBanner()
+    {
         return $this->gambarBanner;
     }
 
-    public function getGambarAdd() {
+    public function getGambarAdd()
+    {
         return $this->gambarAdd;
     }
+
     // Static method to get all Dewans from the database
-    public static function getAllDewan() 
+    public static function getAllDewan()
     {
         $conn = DBConnection::getConnection();
-        $sql = "SELECT d.*, dp.url_gambar, dp.jenis_gambar 
-                FROM dewan d 
-                LEFT JOIN dewan_pic dp ON d.id_dewan = dp.id_dewan";
+        $sql = "SELECT  d.*, 
+                        dp.url_gambar, 
+                        dp.jenis_gambar
+                FROM 
+                        dewan d
+                LEFT JOIN 
+                        dewan_pic dp 
+                ON 
+                        d.id_dewan = dp.id_dewan
+                GROUP BY 
+                        d.nama_dewan
+                    ";
         $result = $conn->query($sql);
 
         $dewans = [];
@@ -108,7 +130,7 @@ class Dewan {
         return $dewans;
     }
 
-    public static function getDewanById($id) 
+    public static function getDewanById($id)
     {
         $conn = DBConnection::getConnection();
         $sql = "SELECT d.*, dp.url_gambar, dp.jenis_gambar 

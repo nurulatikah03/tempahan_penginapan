@@ -1,6 +1,5 @@
 <?php
 include_once "tempahan.php";
-include_once __DIR__ . '/../database/DBConnec.php';
 
 class RoomReservation extends Reservation
 {
