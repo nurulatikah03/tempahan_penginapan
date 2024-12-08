@@ -262,7 +262,7 @@ session_start();
 									</div>
 									<div class="form-group">
 										<p class="hotel-booking-form-1-label">BILANGAN PESERTA:</p>
-										<input type="number" min=1 placeholder="Masukkan jumlah peserta" name="num_of_person" id="nd_booking_archive_form_participants_count" value="" />
+										<input type="number" min=1 placeholder="Masukkan jumlah peserta" name="num_of_person" id="nd_booking_archive_form_participants_count" value="" required />
 									</div>
 									<div class="form-group mb-3">
 										<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
