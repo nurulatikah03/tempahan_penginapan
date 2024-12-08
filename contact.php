@@ -27,7 +27,7 @@ session_start();
 </head>
 <body>
 
-<!-- ***** Preloader Start ***** -->
+	<!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
 		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
 		  <span class="visually-hidden">Loading...</span>

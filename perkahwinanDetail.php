@@ -13,6 +13,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/responsive.css" rel="stylesheet">
     <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -156,6 +157,20 @@ include_once 'Models/pekejPerkahwinan.php' ?>
 </style>
 
 <body>
+
+	<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
@@ -398,6 +413,13 @@ include_once 'Models/pekejPerkahwinan.php' ?>
             });
         });
     </script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 </body>

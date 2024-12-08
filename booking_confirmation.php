@@ -22,6 +22,7 @@ if (!isset($_SESSION['room_id'])) {
 <link href="assets/css/responsive.css" rel="stylesheet">
 <!-- Color File -->
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +40,20 @@ if (!isset($_SESSION['room_id'])) {
 </head>
 
 <body>
+
+<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
 <div class="page-wrapper">
 
@@ -166,6 +181,13 @@ if (!isset($_SESSION['room_id'])) {
 <script src="assets/js/booking-form.js"></script>
 <script src="assets/js/odometer.min.js"></script>
 <script src="assets/js/script.js"></script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 </body>

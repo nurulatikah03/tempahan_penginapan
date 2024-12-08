@@ -13,6 +13,7 @@
 
 <!-- Color File -->
 <link href="assets/css/color.css" rel="stylesheet">
+    <link href="assets/css/preloader.css" rel="stylesheet">
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +33,20 @@
 </head>
 
 <body>
+
+<!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+		  <span class="visually-hidden">Loading...</span>
+		</div>
+    </div>
+    <!-- ***** Preloader End ***** -->
 
 <div class="page-wrapper">
 
@@ -276,6 +291,13 @@ dots.forEach((dot, index) => {
 
 updateSlider();
 </script>
+	<script>
+	window.addEventListener("load", function () {
+		setTimeout(function () {
+			document.querySelector(".js-preloader").classList.add("loaded");
+		}, 1000);
+	});
+	</script>
 
 
 
