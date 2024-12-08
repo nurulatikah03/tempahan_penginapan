@@ -129,6 +129,10 @@ $html = '
             <td><strong>Harga total</strong></td>
             <td align="right"><strong>RM' . number_format($grandTotal, 2) . '</strong></td>
         </tr>
+        <tr>
+            <td><strong>Cara Pembayaran</strong></td>
+            <td align="right">' . $booking->getPaymentMethod() . '</td>
+        </tr>
     </table>
     <p>If you have any questions regarding this invoice, please contact us at admin@lktn.gov.my.</p>
 ';

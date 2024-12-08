@@ -177,7 +177,7 @@ $roomList = Room::getAllRooms();
 																				<p style="max-height: auto; overflow: hidden; white-space: normal;"><strong>Penerangan Pendek:</strong> <?php echo htmlspecialchars($room->getShortDesc()); ?></p>
 
 																				<p><strong>Bilangan penginapan:</strong> <?php echo $room->getMaxCapacity() ?></p>
-																				<p><strong>Ketersediaan (Hari ini):</strong> <?php echo $availablity . " / " . $maxCapacity ?></p>
+																				<p><strong>Ketersediaan (Hari ini):</strong> <?php echo $availablity['available_rooms'] . " / " . $maxCapacity ?></p>
 
 																				<p><strong>Penerangan Kemudahan:</strong> <?php echo $room->getAmenDesc() ?></p>
 

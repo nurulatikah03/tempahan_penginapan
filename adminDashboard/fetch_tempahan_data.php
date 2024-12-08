@@ -200,6 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 						$reservationTime = $reservationDateTime->format('h:i A');
 						$custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
 						$PekejName = PekejPerkahwinan::getPackageNameById($tempahan->getWeddingId());
+						$addons = $tempahan->getAddOnsByReservationId($tempahan_id);
 				?>
 						<tr>
 							<td>

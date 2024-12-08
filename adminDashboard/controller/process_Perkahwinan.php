@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if the file is empty
         if (empty($gambar_pekej)) {
             $gambar_pekej = $URL_gambar_lama;
-            PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_panjang, $penerangan_pendek, $id_dewan, $URL_gambar_lama);
+            PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_pendek, $penerangan_panjang, $id_dewan, $URL_gambar_lama);
             $_SESSION['success'] = "Pekej Perkahwinan telah berjaya dikemaskini.";
             header("Location: ../perkahwinan.php");
             exit;
