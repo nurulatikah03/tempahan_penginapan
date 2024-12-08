@@ -1,6 +1,6 @@
 <?php
 
-include '../db-connect.php';
+include '../../database/database.php';
 
 $id_dewan = mysqli_real_escape_string($conn, $_GET['id_dewan']);
 $sql = "DELETE FROM dewan WHERE id_dewan = ?";
