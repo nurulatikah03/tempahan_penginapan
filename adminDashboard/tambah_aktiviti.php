@@ -7,6 +7,9 @@
 		<link rel="icon" type="image/x-icon" href="assets/images/logo/logo2.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="assets/images/favicon.ico">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/responsive.css" rel="stylesheet">
+		<link href="assets/css/preloader.css" rel="stylesheet">
         <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/vendor/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -82,13 +85,7 @@
 												<div class="col-9">
 													<input type="number" class="form-control" id="kadar_harga" name="kadar_harga" placeholder="Kadar Harga" min="1" required>
 												</div>
-											</div>
-											<div class="row mb-3">
-												<label for="kemudahan" class="col-3 col-form-label">Kemudahan</label>
-												<div class="col-9">
-													<textarea class="form-control" id="kemudahan" name="kemudahan" placeholder="Masukkan Kemudahan yang disediakan" rows="2" required></textarea>
-												</div>
-											</div>
+											</div>											
 											<div class="row mb-3">
 												<label for="penerangan" class="col-3 col-form-label">Penerangan</label>
 												<div class="col-9">
@@ -96,23 +93,17 @@
 												</div>
 											</div>
 											<div class="row mb-3">
+												<label for="penerangan_kemudahan" class="col-3 col-form-label">Penerangan Kemudahan</label>
+												<div class="col-9">
+													<textarea class="form-control" id="penerangan_kemudahan" name="penerangan_kemudahan" placeholder="Masukkan Penerangan Kemudahan yang disediakan" rows="2" required></textarea>
+												</div>
+											</div>
+											<div class="row mb-3">
 												<label class="col-3 col-form-label">Kemudahan</label>
 												<div class="col-9">
 													<div class="row g-2">
 														<?php
-														$servername = "localhost";
-														$username = "root";
-														$password = ""; 
-														$dbname = "tempahan_penginapan"; 
-
-														$conn = new mysqli($servername, $username, $password, $dbname);
-
-														if ($conn->connect_error) {
-															die("Connection failed: " . $conn->connect_error);
-														}
-
-														$conn->set_charset("utf8");
-
+														include '../database/database.php';
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
 														$result = $conn->query($query);
 
@@ -124,7 +115,7 @@
 
 																echo '<div class="col-md-4">';
 																echo '<div class="form-check">';
-																echo '<input class="form-check-input" type="checkbox" name="kemudahanAktiviti[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
+																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
 																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
 																
 																// Check if the icon_url is provided
