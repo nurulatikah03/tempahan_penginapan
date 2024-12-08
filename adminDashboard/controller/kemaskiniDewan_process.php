@@ -57,21 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 throw new Exception('Failed to insert kemudahan into dewan_kemudahan table');
             }
         }
-
         // Commit the transaction if all queries are successful
         mysqli_commit($conn);
 
-        // Redirect with success message
-        header("Location: ../dewan.php");
-        exit;
+		// **Set session and redirect here**
+		$_SESSION['statusKemaskini'] = 'Dewan berjaya dikemaskini.';
+		header("Location: ../dewan.php");
+		exit;
     } catch (Exception $e) {
-        // Rollback the transaction if any query fails
-        mysqli_rollback($conn);
-        
-        // Redirect with error message
-        header("Location: ../dewan.php" . $e->getMessage());
-        exit;
-    }
+		mysqli_rollback($conn);
+		$_SESSION['statusKemaskini'] = 'Ralat semasa mengemaskini dewan: ' . $e->getMessage();
+		header("Location: ../dewan.php");
+		exit;
+	}
 }
 ?>
 
