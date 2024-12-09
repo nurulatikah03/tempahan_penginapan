@@ -703,7 +703,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 													<div class="mb-3">
 														<label class="form-label">Tarikh dan masa tempahan</label>
 														<input type="text" class="form-control"
-															value="<?php echo date('d/m/Y H:i', strtotime($tarikh_tempahan)); ?>" readonly
+															value="<?php echo date('d/m/Y', strtotime($tarikh_tempahan)) . ' @ ' . date('H:i', strtotime($tarikh_tempahan)); ?>" readonly
 															style="background-color: white;">
 													</div>
 													<div class="mb-3">
@@ -736,8 +736,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 											<div class="text-center">
 												<button type="button" class="btn btn-secondary rounded-button"
 													data-bs-dismiss="modal">Tutup</button>
-												<button type="button" class="btn btn-primary rounded-button">Lihat Resit</button>
-
+												<a href="../assets/PDF/PDF_dewan.php?booking_number=<?php echo htmlspecialchars($nombor_tempahan); ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
 											</div>
 										</div>
 									</div>
