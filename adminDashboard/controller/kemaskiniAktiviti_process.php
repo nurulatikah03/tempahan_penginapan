@@ -1,5 +1,6 @@
 <?php
 include '../../database/database.php';
+session_start();
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -25,17 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // Build the SQL query for updating the aktiviti table
         $query = "UPDATE aktiviti 
-                  SET nama_aktiviti = '$nama_aktiviti',
-                      kadar_harga = $kadar_harga,
-                      penerangan_kemudahan = '$penerangan_kemudahan', 
-                      penerangan = '$penerangan',
-                      status_aktiviti = '$status_aktiviti'
-                  WHERE id_aktiviti = $id_aktiviti"; // Removed the trailing comma
+          SET nama_aktiviti = ?, kadar_harga = ?, penerangan_kemudahan = ?, penerangan = ?, status_aktiviti = ? 
+          WHERE id_aktiviti = ?";
 
-        // Execute the update query for the aktiviti table
-        if (!mysqli_query($conn, $query)) {
-            throw new Exception('Gagal mengemas kini jadual aktiviti');
-        }
+		$stmt = mysqli_prepare($conn, $query);
+		mysqli_stmt_bind_param($stmt, 'sdssss', $nama_aktiviti, $kadar_harga, $penerangan_kemudahan, $penerangan, $status_aktiviti, $id_aktiviti);
+		if (!mysqli_stmt_execute($stmt)) {
+			throw new Exception('Gagal mengemas kini jadual aktiviti');
+		}
 
         // Delete existing entries in the aktiviti_kemudahan table for the current aktiviti
         $delete_query = "DELETE FROM aktiviti_kemudahan WHERE id_aktiviti = $id_aktiviti";

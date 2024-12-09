@@ -1,5 +1,6 @@
 <?php
 include '../../database/database.php';
+session_start();
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
