@@ -46,7 +46,8 @@ session_start();
         <?php include 'partials/header.php';?>
 
         	<?php
-			$result = DBConnection::getConnection()->query($sql);
+			$conn = DBConnection::getConnection();
+			$result = $conn->query($sql);
 
 			if ($result->num_rows > 0) {
 				$row = $result->fetch_assoc();

@@ -21,7 +21,8 @@ $query = "
     ON 
         d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
 ";
-$result = DBConnection::getConnection()->query($query);
+$conn = DBConnection::getConnection();
+$result = $conn->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -206,7 +207,7 @@ $result = DBConnection::getConnection()->query($query);
 
 										<?php
 										// Close the database connection
-										DBConnection::getConnection()->close();
+										$conn->close();
 										?>
 
                                     </div> <!-- end card-body-->

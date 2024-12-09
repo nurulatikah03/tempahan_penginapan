@@ -2,6 +2,7 @@
 include '../database/DBConnec.php';
 include 'controller/get_dewan.php';
 
+$conn = DBConnection::getConnection();
 ?>
 
 <!DOCTYPE html>
@@ -108,7 +109,7 @@ include 'controller/get_dewan.php';
 								WHERE dewan.id_dewan = ?
 							"; 
 
-							$stmt = DBConnection::getConnection()->prepare($query);
+							$stmt = $conn->prepare($query);
 							$stmt->bind_param("i", $id_dewan);
 							$stmt->execute();
 							$result = $stmt->get_result();
@@ -277,7 +278,7 @@ include 'controller/get_dewan.php';
 																WHERE dk.id_dewan = '$id_dewan'
 															";
 
-															$result = DBConnection::getConnection()->query($query);
+															$result = $conn->query($query);
 
 															if ($result->num_rows > 0) {
 																while ($row = $result->fetch_assoc()) {
@@ -297,7 +298,7 @@ include 'controller/get_dewan.php';
 																echo '<div class="col-12">Tiada kemudahan tersedia untuk dewan ini.</div>';
 															}
 
-															DBConnection::getConnection()->close();
+															$conn->close();
 															?>
 														</div>
 													</div>

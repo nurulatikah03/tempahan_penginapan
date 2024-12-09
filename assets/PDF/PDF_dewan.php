@@ -26,8 +26,8 @@ $query = "SELECT
           FROM tempahan t
           JOIN dewan d ON t.id_dewan = d.id_dewan
           WHERE t.nombor_tempahan = ?";
-
-$stmt = DBConnection::getConnection()->prepare($query);
+$conn = DBConnection::getConnection();
+$stmt = $conn->prepare($query);
 $stmt->bind_param("s", $nombor_tempahan);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -147,5 +147,5 @@ $pdf->writeHTML($html, true, false, false, false, '');
 
 // Tutup koneksi
 $stmt->close();
-DBConnection::getConnection()->close();
+$conn->close();
 ?>

@@ -85,8 +85,8 @@
 						LEFT JOIN 
 							dewan_pic dp ON d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'
 					";
-
-					$result = DBConnection::getConnection()->query($sql);
+					$conn = DBConnection::getConnection();
+					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
 						while ($row = $result->fetch_assoc()) {
@@ -121,7 +121,7 @@
 						echo "<p>No dewan available.</p>";
 					}
 
-					DBConnection::getConnection()->close();
+					$conn->close();
 					?>
 				</div>
             </div>

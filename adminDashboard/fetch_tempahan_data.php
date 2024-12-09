@@ -377,11 +377,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 			WHERE 
 				t.id_aktiviti IS NOT NULL
 		";
-
-        $result = DBConnection::getConnection()->query($query);
+		$conn = DBConnection::getConnection();
+        $result = $conn->query($query);
 
         if (!$result) {
-            die("Query gagal: " . DBConnection::getConnection()->error);
+            die("Query gagal: " . $conn->error);
         }
         ?>
 		<div class="table-responsive">
@@ -581,11 +581,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 			AND 
 				t.id_perkahwinan IS NULL
 		";
-
-        $result = DBConnection::getConnection()->query($query);
+		$conn = DBConnection::getConnection();
+        $result = $conn->query($query);
 
         if (!$result) {
-            die("Query gagal: " . DBConnection::getConnection()->error);
+            die("Query gagal: " . $conn->error);
         }
         ?>
 		<div class="table-responsive">

@@ -116,7 +116,8 @@
 														include '../database/DBConnec.php';
 
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
-														$result = DBConnection::getConnection()->query($query);
+														$conn = DBConnection::getConnection();
+														$result = $conn->query($query);
 
 														if ($result->num_rows > 0) {
 															while ($row = $result->fetch_assoc()) {
@@ -145,7 +146,7 @@
 														}
 
 														// Close connection
-														DBConnection::getConnection()->close();
+														$conn->close();
 														?>
 													</div>
 												</div>

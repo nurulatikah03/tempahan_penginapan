@@ -147,7 +147,8 @@ session_start();
 
         <?php include 'partials/header.php'; ?>
 		<?php
-		$result = DBConnection::getConnection()->query($sql);
+		$conn = DBConnection::getConnection();
+		$result = $conn ->query($sql);
 
 		if ($result->num_rows > 0) {
 			$row = $result->fetch_assoc();
@@ -298,7 +299,7 @@ session_start();
 						";
 
 						// Prepare and execute the query
-						if ($stmt = DBConnection::getConnection()->prepare($query)) {
+						if ($stmt = $conn->prepare($query)) {
 							$stmt->bind_param("i", $id_dewan); // Bind the id_dewan parameter
 							$stmt->execute();
 							$result = $stmt->get_result();
