@@ -3,20 +3,20 @@
                 <!-- LOGO -->
                 <a href="index.php" class="logo text-center logo-light">
                     <span class="logo-lg">
-                        <img src="assets/images/logo/logo1.png" alt="" height="45">
+                        <img src="../assets/images/logoTempahan.png" alt="" height="45">
                     </span>
                     <span class="logo-sm">
-                        <img src="assets/images/logo/logo2.png" alt="" height="45">
+                        <img src="../assets/images/logoLKTN.png" alt="" height="45">
                     </span>
                 </a>
 
                 <!-- LOGO -->
                 <a href="index.php" class="logo text-center logo-dark">
                     <span class="logo-lg">
-                        <img src="assets/images/logo/logo1.png" alt="" height="45">
+                        <img src="../assets/images/logoTempahan.png" alt="" height="45">
                     </span>
                     <span class="logo-sm">
-                        <img src="assets/images/logo/logo2.png" alt="" height="45">
+                        <img src="../assets/images/logoLKTN.png" alt="" height="45">
                     </span>
                 </a>
     
