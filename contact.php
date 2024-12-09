@@ -24,6 +24,21 @@ session_start();
 <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<style>
+.contact-info-1 {
+    display: flex;
+    flex-direction: column; /* Change to column for vertical alignment */
+    align-items: center; /* Center the items horizontally */
+    list-style: none; /* Remove default list styling */
+    padding: 0; /* Remove default padding */
+}
+
+.contact-info-1 li {
+    text-align: center; /* Center text within each list item */
+    margin: 10px 0; /* Add margin between list items */
+}
+</style>
 </head>
 <body>
 

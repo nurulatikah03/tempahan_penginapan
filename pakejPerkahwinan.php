@@ -171,11 +171,6 @@
 
 	<div class="page-wrapper">
 
-		<div class="loader-wrap">
-			<div class="spinner"></div>
-		</div>
-
-
 		<?php include 'partials/header.php';
 		include_once 'Models/pekejPerkahwinan.php' ?>
 

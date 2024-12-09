@@ -12,7 +12,7 @@ ul.navigation li a.active {
                     <div class="logo-box">
 						<a href="index.php">
 							<span class="logo-lg d-flex align-items-center justify-content-center">
-								<div class="logo" style="width:200px;"><a href="index.php"><img src="assets/images/logo1.png" alt="logo"></a></div>
+								<div class="logo" style="width:180px;"><a href="index.php"><img src="assets/images/logoTempahan.png" alt="logo"></a></div>
 							</span>
 						</a>
 					</div>
@@ -63,7 +63,7 @@ ul.navigation li a.active {
 								<i class="fas fa-phone" style="font-size: 20px; color: white;"></i>
 							</button>
 						</li>	                    
-                        <div class="header-link-btn"><a href="adminDashboard/" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
+                        <div class="header-link-btn"><a href="index.php" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
                     </div>                      
                 </div>
             </div>
@@ -74,7 +74,7 @@ ul.navigation li a.active {
                     <div class="inner-container d-flex align-items-center justify-content-between">
                         <!--Logo-->
                         <div class="logo-box">
-                            <div class="logo" style="width:200px;"><a href="index.php"><img src="assets/images/logo1.png" alt="logo"></a></div>
+                            <div class="logo" style="width:180px;"><a href="index.php"><img src="assets/images/logoTempahan.png" alt="logo"></a></div>
                         </div>
                         <div class="middle-column">
                             <!--Nav Box-->
