@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 include 'controller/get_dewan.php';
 
 ?>
@@ -108,7 +108,7 @@ include 'controller/get_dewan.php';
 								WHERE dewan.id_dewan = ?
 							"; 
 
-							$stmt = $conn->prepare($query);
+							$stmt = DBConnection::getConnection()->prepare($query);
 							$stmt->bind_param("i", $id_dewan);
 							$stmt->execute();
 							$result = $stmt->get_result();
@@ -277,7 +277,7 @@ include 'controller/get_dewan.php';
 																WHERE dk.id_dewan = '$id_dewan'
 															";
 
-															$result = $conn->query($query);
+															$result = DBConnection::getConnection()->query($query);
 
 															if ($result->num_rows > 0) {
 																while ($row = $result->fetch_assoc()) {
@@ -297,7 +297,7 @@ include 'controller/get_dewan.php';
 																echo '<div class="col-12">Tiada kemudahan tersedia untuk dewan ini.</div>';
 															}
 
-															$conn->close();
+															DBConnection::getConnection()->close();
 															?>
 														</div>
 													</div>

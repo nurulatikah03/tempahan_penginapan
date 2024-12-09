@@ -351,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 		
         <?php
     } elseif ($action === 'aktiviti') {
-        include 'db-connect.php';
+		include '../database/DBConnec.php';
 		
 		$query = "
 			SELECT 
@@ -378,10 +378,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 				t.id_aktiviti IS NOT NULL
 		";
 
-        $result = $conn->query($query);
+        $result = DBConnection::getConnection()->query($query);
 
         if (!$result) {
-            die("Query gagal: " . $conn->error);
+            die("Query gagal: " . DBConnection::getConnection()->error);
         }
         ?>
 		<div class="table-responsive">
@@ -552,7 +552,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         <?php
     } elseif ($action === 'dewan') {
-        include 'db-connect.php';
+        
+		include '../database/DBConnec.php';
 
         $query = "
 			SELECT 
@@ -581,10 +582,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 				t.id_perkahwinan IS NULL
 		";
 
-        $result = $conn->query($query);
+        $result = DBConnection::getConnection()->query($query);
 
         if (!$result) {
-            die("Query gagal: " . $conn->error);
+            die("Query gagal: " . DBConnection::getConnection()->error);
         }
         ?>
 		<div class="table-responsive">

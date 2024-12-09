@@ -1,7 +1,7 @@
 <?php
 require_once('..\inc\TCPDF\tcpdf.php');
 session_start();
-include '../../database/database.php';
+include '../../database/DBConnec.php';
 
 // Ambil nombor tempahan dari URL
 $nombor_tempahan = filter_input(INPUT_GET, 'booking_number', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -27,7 +27,7 @@ $query = "SELECT
           JOIN dewan d ON t.id_dewan = d.id_dewan
           WHERE t.nombor_tempahan = ?";
 
-$stmt = $conn->prepare($query);
+$stmt = DBConnection::getConnection()->prepare($query);
 $stmt->bind_param("s", $nombor_tempahan);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -147,5 +147,5 @@ $pdf->writeHTML($html, true, false, false, false, '');
 
 // Tutup koneksi
 $stmt->close();
-$conn->close();
+DBConnection::getConnection()->close();
 ?>

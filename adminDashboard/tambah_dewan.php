@@ -112,10 +112,11 @@
 												<div class="col-9">
 													<div class="row g-2">
 														<?php
-														include '../database/database.php';
+														
+														include '../database/DBConnec.php';
 
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
-														$result = $conn->query($query);
+														$result = DBConnection::getConnection()->query($query);
 
 														if ($result->num_rows > 0) {
 															while ($row = $result->fetch_assoc()) {
@@ -144,7 +145,7 @@
 														}
 
 														// Close connection
-														$conn->close();
+														DBConnection::getConnection()->close();
 														?>
 													</div>
 												</div>

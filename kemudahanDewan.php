@@ -44,7 +44,7 @@
         <div class="page-title" style="background-image: url(assets/images/dewan-1.png);">
             <?php
             include 'partials/header.php';
-            include("database/database.php");
+            include("database/DBConnec.php");
             ?>
             <div class="auto-container">
                 <h1>Kemudahan Dewan</h1>
@@ -86,7 +86,7 @@
 							dewan_pic dp ON d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'
 					";
 
-					$result = $conn->query($sql);
+					$result = DBConnection::getConnection()->query($sql);
 
 					if ($result->num_rows > 0) {
 						while ($row = $result->fetch_assoc()) {
@@ -121,7 +121,7 @@
 						echo "<p>No dewan available.</p>";
 					}
 
-					$conn->close();
+					DBConnection::getConnection()->close();
 					?>
 				</div>
             </div>

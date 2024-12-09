@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'database/database.php';
+include 'database/DBConnec.php';
 include 'adminDashboard/controller/get_dewan.php';
 
 
@@ -56,7 +56,7 @@ include 'adminDashboard/controller/get_dewan.php';
         <?php include 'partials/header.php'; ?>
 
         <?php
-        $result = $conn->query($sql);
+        $result = DBConnection::getConnection()->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();

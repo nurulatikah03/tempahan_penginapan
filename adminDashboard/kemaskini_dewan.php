@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 include 'controller/get_dewan.php';
 
 ?>
@@ -86,7 +86,7 @@ include 'controller/get_dewan.php';
 							LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
 							WHERE dewan.id_dewan = ?";
 							
-							$stmt = $conn->prepare($query);
+							$stmt = DBConnection::getConnection()->prepare($query);
 							$stmt->bind_param("i", $id_dewan);
 							$stmt->execute();
 							$result = $stmt->get_result();
@@ -376,7 +376,7 @@ include 'controller/get_dewan.php';
 														FROM dewan_kemudahan 
 														WHERE id_dewan = '$id_dewan'
 													";
-													$selected_kemudahan_result = $conn->query($selected_kemudahan_query);
+													$selected_kemudahan_result = DBConnection::getConnection()->query($selected_kemudahan_query);
 
 													$selected_kemudahan = [];
 													if ($selected_kemudahan_result->num_rows > 0) {
@@ -386,7 +386,7 @@ include 'controller/get_dewan.php';
 													}
 
 													$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
-													$result = $conn->query($query);
+													$result = DBConnection::getConnection()->query($query);
 
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {
@@ -414,7 +414,7 @@ include 'controller/get_dewan.php';
 														echo '<div class="col-12">No kemudahan available.</div>';
 													}
 
-													$conn->close();
+													DBConnection::getConnection()->close();
 													?>
 												</div>
 											</div>

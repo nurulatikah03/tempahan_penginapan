@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 
 session_start();
 $query = "
@@ -21,7 +21,7 @@ $query = "
     ON 
         d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
 ";
-$result = $conn->query($query);
+$result = DBConnection::getConnection()->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -206,7 +206,7 @@ $result = $conn->query($query);
 
 										<?php
 										// Close the database connection
-										$conn->close();
+										DBConnection::getConnection()->close();
 										?>
 
                                     </div> <!-- end card-body-->
