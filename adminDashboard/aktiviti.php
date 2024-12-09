@@ -1,6 +1,7 @@
 <?php
-include 'db-connect.php';
+include '../database/database.php';
 
+session_start();
 $query = "
     SELECT 
         a.id_aktiviti, 
@@ -146,11 +147,36 @@ $result = $conn->query($query);
 																<td class="table-action">
 																	<a href="aktiviti_details.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
 																	<a href="kemaskini_aktiviti.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" class="action-icon"><i class="mdi mdi-square-edit-outline" style="color: #d9d76a;"></i></a>
-																	<a href="controller/delete_aktiviti.php?id_aktiviti=<?php echo isset($id_aktiviti) ? $id_aktiviti : '0'; ?>" 
-																	   class="action-icon" 
-																	   onclick="return confirm('Adakah anda pasti mahu memadamnya?');">
-																	   <i class="mdi mdi-delete" style="color: red;"></i>
+																	 <a href="#" class="action-icon"  data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $id_aktiviti; ?>">
+																	 
+																		<i class="mdi mdi-delete" style="color: red;"></i>
 																	</a>
+																	
+																	<!-- DELETE ALERT -->
+																	<div class="modal fade modal-backdrop-del" id="deleteModal<?php echo $id_aktiviti; ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?php echo $id_aktiviti; ?>" aria-hidden="true">
+																		<div class="modal-dialog">
+																			<div class="modal-content" style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+																				<div class="modal-body">
+																					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; right: 25px; top: 25px;"></button>
+																					<div class="text-center p-4">
+																						<img src="assets/icon-svg/alert.svg" alt="Alert Icon" class="mb-3" style="height: 100px">
+																					</div>
+																					<div class="text-center">
+																						<h1 class="modal-title fs-5" id="deleteModalLabel">Padam <?php echo htmlspecialchars($nama_aktiviti); ?></h1>
+																						<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
+																					</div>
+																					<form action="controller/delete_aktiviti.php" method="post">
+																						<input type="hidden" name="process" value="deleteAktiviti">
+																						<input type="hidden" name="id_aktiviti" value="<?php echo $id_aktiviti; ?>">
+																						<div class="text-center">
+																							<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
+																							<button type="submit" class="btn btn-danger rounded-button">Ya, Padam</button>
+																						</div>
+																					</form>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
 																</td>
 															</tr>
 															<?php
@@ -161,6 +187,18 @@ $result = $conn->query($query);
 													?>
 												</tbody>
 											</table>
+										<?php
+										if (isset($_SESSION['statusDelete'])) {
+											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusDelete']) . '</div>';
+											unset($_SESSION['statusDelete']); // Hapus mesej selepas dipaparkan
+										} elseif (isset($_SESSION['statusTambah'])) {
+											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusTambah']) . '</div>';
+											unset($_SESSION['statusTambah']); // Hapus mesej selepas dipaparkan
+										} elseif (isset($_SESSION['statusKemaskini'])) {
+											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusKemaskini']) . '</div>';
+											unset($_SESSION['statusKemaskini']); // Hapus mesej selepas dipaparkan
+										}
+										?>
 										</div>
 
 										<?php
@@ -209,3 +247,4 @@ $result = $conn->query($query);
 
     </body>
 </html>
+
