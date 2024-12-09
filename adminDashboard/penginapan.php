@@ -185,18 +185,28 @@ $roomList = Room::getAllRooms();
 																				<?php
 																				$amenities = $room->getAminitiesList();
 																				if (!empty($amenities)) {
-																					foreach ($amenities as $row) {
-																						echo '<div class="col-md-4 col-sm-6 mb_45">';
+																					$columnsPerRow = 3;
+																					$totalAmenities = count($amenities);
+
+																					echo '<div class="row">';
+																					foreach ($amenities as $index => $row) {
+																						echo '<div class="col-md-4 col-sm-6 col-6 mb_45">';
 																						echo '<div class="d-flex align-items-center">';
 																						echo '<img src="../' . $row['icon_url'] . '" alt="' . $row['name'] . ' icon" class="theme-color" style="width: 30px; height: 30px; margin-right: 25px;">';
 																						echo '<p class="fw_medium mb_0">' . $row['name'] . '</p>';
 																						echo '</div>';
 																						echo '</div>';
+
+																						if (($index + 1) % $columnsPerRow == 0 && $index + 1 < $totalAmenities) {
+																							echo '</div><div class="row">';
+																						}
 																					}
+																					echo '</div>';
 																				} else {
-																					echo "<p class='text-danger' >Tiada kemudahan disediakan</p>";
+																					echo "<p class='text-danger'>Tiada kemudahan disediakan</p>";
 																				}
 																				?>
+
 																			</div>
 																			<div class="modal-footer">
 
