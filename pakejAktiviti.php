@@ -205,6 +205,8 @@ body {
 						LEFT JOIN 
 							aktiviti_pic ap ON a.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'Utama'
 					";
+					
+					$conn = DBConnection::getConnection();
 										
 					$result = $conn->query($sql);
 

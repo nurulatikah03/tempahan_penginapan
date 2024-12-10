@@ -1,6 +1,6 @@
 <?php
 
-include 'database/database.php';
+include 'database/DBConnec.php';
 include 'adminDashboard/controller/get_aktiviti.php';
 
 session_start();
@@ -145,7 +145,8 @@ session_start();
 
         <?php include 'partials/header.php'; ?>
 		<?php
-		$result = $conn->query($sql);
+		$conn = DBConnection::getConnection();
+		$result = $conn ->query($sql);
 
 		if ($result->num_rows > 0) {
 			$row = $result->fetch_assoc();
