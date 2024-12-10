@@ -2,6 +2,7 @@
 include_once '../../Models/room.php';
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
+    //update metadata
     if ($_POST['process'] == 'UpdateMetaData') {
         $roomId = $_POST['penginapan_id'];
         $name = $_POST['nama_penginapan'];
@@ -17,12 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $_SESSION['status'] = 'Kemaskini maklumat berjaya.';
         header("Location: ../penginapan.php");
         exit;
+
+        //update image main or banner
     } else if ($_POST['process'] == 'UpdateImageMainAndBanner') {
         $URLgambarLama = $_POST['URLgambarLama'];
         $imgType = $_POST['imgType'];
         $roomID = $_POST['roomId'];
         $pathInfo = pathinfo($URLgambarLama);
         $filepath = $pathInfo['dirname'];
+        $oldFilename = "../../" . $URLgambarLama; // Full path to the old image
         $filename = $_FILES['file']['name'];
         $newFilename = $filepath . '/' . $filename;
 
@@ -34,30 +38,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
             // Allow certain file formats
             $allowedTypes = array('jpg', 'jpeg', 'png', 'gif');
             if (in_array(strtolower($fileType), $allowedTypes)) {
-                // Move uploaded file to server
+
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFilePath)) {
-                    // Assign the file name to the variable to be saved in the database
+
+                    if (file_exists($oldFilename)) {
+                        unlink($oldFilename);
+                    }
                     Room::updateImageByType($roomID, $newFilename, $imgType);
                     $_SESSION['status'] = 'Kemaskini gambar Berjaya';
                     header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomID);
-                } else {
-                    // Error handling if the image upload fails
-                    echo "Error uploading file.";
-                    exit;
                 }
             } else {
-                echo "Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
+                // Error handling if the image upload fails
+                echo "Error uploading file.";
                 exit;
             }
         } else {
-            echo "No file selected.";
+            echo "Sorry, only JPG, JPEG, PNG, & GIF files are allowed.";
             exit;
         }
     } elseif ($_POST['process'] == 'DeleteImage') {
         $roomId = $_POST['roomId'];
         $URLGambar = $_POST['URLgambar'];
         $imgType = $_POST['imgType'];
+
+        $filePath = "../../" . $URLGambar;
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+
         Room::delImgAddByURL($roomId, $imgType, $URLGambar);
+
         $_SESSION['status'] = 'Padam gambar berjaya.';
         header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
         exit;
@@ -162,25 +174,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
 
             $imgType = $_POST['imgType'];
             $roomId = $_POST['roomId'];
-            // Loop through each uploaded file
+
             foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
                 $file_name = $_FILES['images']['name'][$key];
                 $file_size = $_FILES['images']['size'][$key];
                 $file_type = $_FILES['images']['type'][$key];
                 $file_tmp = $_FILES['images']['tmp_name'][$key];
-                // Define the upload directory
-                $upload_dir = '../assets/images/resource/';
 
-                // Check if the upload directory exists, if not, create it
+                $upload_dir = '../../assets/images/resource/';
+
+
                 if (!is_dir($upload_dir)) {
                     mkdir($upload_dir, 0777, true);
                 }
 
-                // Define the path to save the uploaded file
                 $file_path = $upload_dir . basename($file_name);
                 $urlToAdd = 'assets/images/resource/' . basename($file_name);
 
-                // Move the uploaded file to the upload directory
                 if (move_uploaded_file($file_tmp, $file_path)) {
                     echo "<p><strong>Uploaded to:</strong> " . htmlspecialchars($file_path) . "</p>";
                     Room::addImage($roomId, $urlToAdd, $imgType);
