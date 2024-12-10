@@ -10,20 +10,20 @@ class AktivitiReservation extends Reservation
      * Constructor to initialize AktivitiReservation object.
      */
     public function __construct(
-        $id, 
-        $bookingNumber, 
-        $cust_name, 
-        $phone_number, 
-        $email, 
-		$num_of_person,
-        $reservationDate, 
-        $checkInDate, 
-        $checkOutDate, 
-        $total_price, 
-		$payment_method,
+        $id,
+        $bookingNumber,
+        $cust_name,
+        $phone_number,
+        $email,
+        $num_of_Pax,
+        $reservationDate,
+        $checkInDate,
+        $checkOutDate,
+        $total_price,
+        $payment_method,
         $id_aktiviti
     ) {
-        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_person, $reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
+        parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax, $reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->id_aktiviti = $id_aktiviti;
     }
 
@@ -58,10 +58,10 @@ class AktivitiReservation extends Reservation
      * @throws Exception if the insertion fails.
      */
     public function insertReservation()
-{
-    $conn = DBConnection::getConnection();
+    {
+        $conn = DBConnection::getConnection();
 
-    $sql = "INSERT INTO tempahan (
+        $sql = "INSERT INTO tempahan (
         nombor_tempahan, 
         nama_penuh, 
         numbor_fon, 
@@ -75,34 +75,35 @@ class AktivitiReservation extends Reservation
         id_aktiviti
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param(
-        "ssssssssssi",
-        $this->bookingNumber, 
-        $this->cust_name, 
-        $this->phone_number, 
-        $this->num_of_person,
-        $this->email, 
-        $this->reservationDate, 
-        $this->checkInDate, 
-        $this->checkOutDate, 
-        $this->total_price, 
-        $this->payment_method,
-        $this->id_aktiviti
-    );
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param(
+            "ssssssssssi",
+            $this->bookingNumber,
+            $this->cust_name,
+            $this->phone_number,
+            $this->num_of_Pax,
+            $this->email,
+            $this->reservationDate,
+            $this->checkInDate,
+            $this->checkOutDate,
+            $this->total_price,
+            $this->payment_method,
+            $this->id_aktiviti
+        );
 
-    if (!$stmt->execute()) {
+        if (!$stmt->execute()) {
+            $stmt->close();
+            throw new Exception("Failed to insert reservation: " . $stmt->error);
+        }
+
+        $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
         $stmt->close();
-        throw new Exception("Failed to insert reservation: " . $stmt->error);
+
+        return $reservationId;
     }
-
-    $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
-    $stmt->close();
-
-    return $reservationId;
 }
-}
-function generateBookingNumber($conn) {
+function generateBookingNumber($conn)
+{
     $yearMonthDay = date("ymd");
     $unique = false;
     $bookingNumber = "";
@@ -129,7 +130,8 @@ function generateBookingNumber($conn) {
     return $bookingNumber;
 }
 
-function getKadarHarga($id_aktiviti) {
+function getKadarHarga($id_aktiviti)
+{
     $conn = new mysqli('localhost', 'root', '', 'tempahan_penginapan');
     if ($conn->connect_error) {
         die("Koneksi gagal: " . $conn->connect_error);
@@ -149,25 +151,27 @@ function getKadarHarga($id_aktiviti) {
     }
 }
 
-function getStatusAktiviti($id_aktiviti) {
+function getStatusAktiviti($id_aktiviti)
+{
     $conn = DBConnection::getConnection();
 
     $query = "SELECT status_aktiviti FROM aktiviti WHERE id_aktiviti = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id_aktiviti);
     $stmt->execute();
-    $result = $stmt->get_result(); 
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         return $row['status_aktiviti'];
     } else {
-        return null; 
+        return null;
     }
 }
 
 
-function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
+function countRoomAvailable($id_aktiviti, $start_date, $end_date)
+{
     $conn = DBConnection::getConnection(); // Sambungan pangkalan data
 
     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
@@ -188,9 +192,7 @@ function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
     $countStmt->bind_param("iss", $id_aktiviti, $formattedCheckOutDate, $formattedCheckInDate);
     $countStmt->execute();
     $countResult = $countStmt->get_result();
-	$occupiedData = $countResult->fetch_assoc();
+    $occupiedData = $countResult->fetch_assoc();
     $occupiedCount = $occupiedData['occupied_count'];
-        return $occupiedCount;
-    } 
-
-?>
+    return $occupiedCount;
+}
