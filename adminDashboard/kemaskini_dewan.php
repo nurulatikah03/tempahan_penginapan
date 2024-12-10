@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 include 'controller/get_dewan.php';
 
 ?>
@@ -85,7 +85,7 @@ include 'controller/get_dewan.php';
 							FROM dewan
 							LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
 							WHERE dewan.id_dewan = ?";
-							
+							$conn = DBConnection::getConnection();
 							$stmt = $conn->prepare($query);
 							$stmt->bind_param("i", $id_dewan);
 							$stmt->execute();
@@ -386,7 +386,7 @@ include 'controller/get_dewan.php';
 													}
 
 													$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
-													$result = $conn->query($query);
+													$result =$conn->query($query);
 
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {

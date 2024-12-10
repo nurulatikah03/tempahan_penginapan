@@ -44,7 +44,7 @@
         <div class="page-title" style="background-image: url(assets/images/dewan-1.png);">
             <?php
             include 'partials/header.php';
-            include("database/database.php");
+            include("database/DBConnec.php");
             ?>
             <div class="auto-container">
                 <h1>Kemudahan Dewan</h1>
@@ -85,7 +85,7 @@
 						LEFT JOIN 
 							dewan_pic dp ON d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'
 					";
-
+					$conn = DBConnection::getConnection();
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {

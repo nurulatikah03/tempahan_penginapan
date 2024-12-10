@@ -111,10 +111,7 @@ function generateBookingNumber($conn) {
 }
 
 function getKadarSewa($id_dewan) {
-    $conn = new mysqli('localhost', 'root', '', 'tempahan_penginapan');
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
+    $conn = DBConnection::getConnection();
 
     $query = "SELECT kadar_sewa FROM dewan WHERE id_dewan = ?";
     $stmt = $conn->prepare($query);

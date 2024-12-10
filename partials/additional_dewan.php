@@ -13,7 +13,7 @@
                 } else {
                     $selected_id_dewan = 0;
                 }
-
+				$conn = DBConnection::getConnection();
                 $stmt = $conn->prepare("SELECT r.*, dp.url_gambar AS gambar_utama
                                         FROM dewan r 
                                         LEFT JOIN dewan_pic dp ON r.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'

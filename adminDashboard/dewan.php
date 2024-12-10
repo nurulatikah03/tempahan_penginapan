@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 
 session_start();
 $query = "
@@ -21,6 +21,7 @@ $query = "
     ON 
         d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
 ";
+$conn = DBConnection::getConnection();
 $result = $conn->query($query);
 ?>
 

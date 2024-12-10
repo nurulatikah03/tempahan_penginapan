@@ -351,7 +351,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 		
         <?php
     } elseif ($action === 'aktiviti') {
-        include 'db-connect.php';
+		include '../database/DBConnec.php';
 		
 		$query = "
 			SELECT 
@@ -377,7 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 			WHERE 
 				t.id_aktiviti IS NOT NULL
 		";
-
+		$conn = DBConnection::getConnection();
         $result = $conn->query($query);
 
         if (!$result) {
@@ -552,7 +552,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 
         <?php
     } elseif ($action === 'dewan') {
-        include 'db-connect.php';
+        
+		include '../database/DBConnec.php';
 
         $query = "
 			SELECT 
@@ -580,7 +581,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
 			AND 
 				t.id_perkahwinan IS NULL
 		";
-
+		$conn = DBConnection::getConnection();
         $result = $conn->query($query);
 
         if (!$result) {
