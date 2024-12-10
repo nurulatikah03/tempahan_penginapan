@@ -18,6 +18,7 @@
         .form-control-display {
             background-color: #edf7f0;
         }
+
     </style>
 </head>
 
@@ -56,7 +57,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="d-flex justify-content-start gap-2">
-                                        <button type="button" class="btn btn-primary" data-action="penginapan">Penginapan</button>
+                                        <button type="button" class="btn btn-primary active" data-action="penginapan">Penginapan</button>
                                         <button type="button" class="btn btn-primary" data-action="kahwin">Kahwin</button>
                                         <button type="button" class="btn btn-primary" data-action="aktiviti">Aktiviti</button>
                                         <button type="button" class="btn btn-primary" data-action="dewan">Dewan</button>
@@ -129,6 +130,12 @@
                 });
             }
 
+        });
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
     </script>
     <!-- third party js ends -->

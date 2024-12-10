@@ -41,8 +41,6 @@ if (!isset($_SESSION['id_perkahwinan'])) {
 
 <body>
 
-<div class="page-wrapper">
-
 	<!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
 		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
@@ -56,6 +54,10 @@ if (!isset($_SESSION['id_perkahwinan'])) {
 		</div>
     </div>
     <!-- ***** Preloader End ***** -->
+
+<div class="page-wrapper">
+
+	
 
     <div class="page-title" style="background-image: url(<?php echo $_SESSION['gambar_pekej']; ?>);">
     <?php include 'partials/header.php';?>

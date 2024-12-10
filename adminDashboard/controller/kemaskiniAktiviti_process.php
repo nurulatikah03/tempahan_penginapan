@@ -1,5 +1,6 @@
 <?php
 include '../../database/database.php';
+session_start();
 
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -25,22 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // Build the SQL query for updating the aktiviti table
         $query = "UPDATE aktiviti 
-                  SET nama_aktiviti = '$nama_aktiviti',
-                      kadar_harga = $kadar_harga,
-                      penerangan_kemudahan = '$penerangan_kemudahan', 
-                      penerangan = '$penerangan',
-                      status_aktiviti = '$status_aktiviti'
-                  WHERE id_aktiviti = $id_aktiviti"; // Removed the trailing comma
+          SET nama_aktiviti = ?, kadar_harga = ?, penerangan_kemudahan = ?, penerangan = ?, status_aktiviti = ? 
+          WHERE id_aktiviti = ?";
 
-        // Execute the update query for the aktiviti table
-        if (!mysqli_query($conn, $query)) {
-            throw new Exception('Failed to update aktiviti table');
-        }
+		$stmt = mysqli_prepare($conn, $query);
+		mysqli_stmt_bind_param($stmt, 'sdssss', $nama_aktiviti, $kadar_harga, $penerangan_kemudahan, $penerangan, $status_aktiviti, $id_aktiviti);
+		if (!mysqli_stmt_execute($stmt)) {
+			throw new Exception('Gagal mengemas kini jadual aktiviti');
+		}
 
         // Delete existing entries in the aktiviti_kemudahan table for the current aktiviti
         $delete_query = "DELETE FROM aktiviti_kemudahan WHERE id_aktiviti = $id_aktiviti";
         if (!mysqli_query($conn, $delete_query)) {
-            throw new Exception('Failed to delete existing kemudahan for aktiviti');
+            throw new Exception('Gagal memadam kemudahan sedia ada untuk aktiviti');
         }
 
         // Insert new selected kemudahan into the aktiviti_kemudahan table
@@ -48,25 +46,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $kemudahan_id = (int) $kemudahan_id; // Ensure it's an integer
             $insert_query = "INSERT INTO aktiviti_kemudahan (id_aktiviti, id_kemudahan) VALUES ($id_aktiviti, $kemudahan_id)";
             if (!mysqli_query($conn, $insert_query)) {
-                throw new Exception('Failed to insert kemudahan into aktiviti_kemudahan table');
+                throw new Exception('Gagal memasukkan kemudahan ke dalam jadual aktiviti_kemudahan');
             }
         }
 
         // Commit the transaction if all queries are successful
         mysqli_commit($conn);
-
-        // Redirect with success message
-        header("Location: ../aktiviti.php?status=success&message=Update%20successful");
-        exit;
-    } catch (Exception $e) {
-        // Rollback the transaction if any query fails
-        mysqli_rollback($conn);
-        
-        // Redirect with error message
-        header("Location: ../aktiviti.php?status=error&message=" . urlencode($e->getMessage()));
-        exit;
-    }
+		
+			// **Set session and redirect here**
+			$_SESSION['statusKemaskini'] = 'Aktiviti berjaya dikemaskini';
+			header("Location: ../aktiviti.php");
+			exit;
+	} catch (Exception $e){
+		mysqli_rollback($conn);
+		$_SESSION['statusKemaskini'] = 'Ralat semasa mengemaskini aktiviti: ' .$e->getMessage();
+		header("Location: ../aktiviti.php");
+		exit;
+	}
+		
 }
+		    
 ?>
 
 <?php

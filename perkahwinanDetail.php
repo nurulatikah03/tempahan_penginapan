@@ -174,10 +174,6 @@ include_once 'Models/pekejPerkahwinan.php' ?>
 
     <div class="page-wrapper">
 
-        <div class="loader-wrap">
-            <div class="spinner"></div>
-        </div>
-
 
         <?php include 'partials/header.php';
         $package = PekejPerkahwinan::getPekejPerkahwinanById($_GET['id_perkahwinan']) ?>

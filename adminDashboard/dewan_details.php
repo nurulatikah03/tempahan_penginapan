@@ -1,7 +1,8 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 include 'controller/get_dewan.php';
 
+$conn = DBConnection::getConnection();
 ?>
 
 <!DOCTYPE html>

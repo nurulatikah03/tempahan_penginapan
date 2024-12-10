@@ -433,7 +433,7 @@ try {
 		</div>
 
 		<?php for ($i = 0; $i < count($imgList); $i++): ?>
-			<div class="modal fade modal-backdrop-del" id="deleteConfirmModal<?php echo $i; ?>" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+			<div class="modal fade modal-backdrop-del" id="deleteConfirmModal<?php echo $i; ?>" tabindex="-1" aria-labelledby="deleteConfirmModalLabel">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-body">

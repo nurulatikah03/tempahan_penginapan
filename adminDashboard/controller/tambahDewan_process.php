@@ -1,5 +1,6 @@
 <?php
 include '../../database/database.php';
+session_start();
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -86,6 +87,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         // Get the last inserted id_dewan
         $id_dewan = $stmt->insert_id;
+		$_SESSION['statusTambah'] = 'Dewan berjaya ditambah.';
+        
 
         // Insert images into dewan_pic table
         $picStmt = $conn->prepare("INSERT INTO dewan_pic (jenis_gambar, url_gambar, id_dewan) VALUES (?, ?, ?)");

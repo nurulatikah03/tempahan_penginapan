@@ -19,7 +19,7 @@ $roomName = $room->getName();
 $roomType = $room->getType();
 $numOfPax = $booking->getNumOfPax();
 $roomRate = $room->getPrice();
-$numNights = calcNumOfNight($checkInDate,$checkOutDate);
+$numNights = calcNumOfNight($checkInDate, $checkOutDate);
 $totalAmount = $roomRate * $numNights * $numOfPax;
 $taxRate = 0.06; // tax
 $roomRate = $roomRate * (1 - $taxRate);
@@ -55,9 +55,16 @@ $pdf->SetFont('helvetica', '', 12);
 //$pdf->Write(0, 'Room Booking Invoice', '', 0, '', true, 0, false, false, 0);
 //$pdf->Ln(5);
 
+//$iconPath = '..\images\logoLKTN.png';
+
+// Add icon to the header
+// $pdf->Image($iconPath, 15, 10, 15, 15, '', '', 'T', false, 300, '', false, false, 1, false, false, false);
+
+
 // Customer details
 $html = '
-    <h2>Invoice tempahan penginapan</h2>
+    <h2>Invoice Tempahan Penginapan</h2>
+
     <table cellpadding="5">
         <tr>
             <td><strong>Nama penyewa:</strong> ' . $customerName . '</td>
@@ -144,8 +151,7 @@ $pdf->writeHTML($html, true, false, false, false, '');
 
 if (isset($_GET['viewInvoice'])) {
     $pdf->Output('room_booking_invoice.pdf', 'I');
-}else {
+} else {
     //$pdfContent = $pdf->Output('', 'S');
     echo 'send pdf as string';
 }
-?>
