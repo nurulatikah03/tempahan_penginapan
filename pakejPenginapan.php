@@ -75,25 +75,16 @@
                 </div>
                 <div class="row">
                     <?php
-                    $conn = DBConnection::getConnection();
-                    $stmt = "SELECT b.id_bilik, b.nama_bilik, b.harga_semalaman, b.huraian_pendek,g.url_gambar FROM bilik b LEFT JOIN bilik_pic g ON b.id_bilik = g.id_bilik WHERE jenis_gambar = 'main';";
-                    try {
-                        $result = $conn->query($stmt);
-                        if (!$result) {
-                            throw new Exception($conn->error);
-                        }
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
+                    include_once 'Models/room.php';
+                    $rooms = Room::getAllRooms();
                     $delay = 0.8;
-                    if ($result->num_rows > 0) {
-                        while ($room = $result->fetch_assoc()) {
-
-                            $room_name = $room['nama_bilik'];
-                            $short_description = $room['huraian_pendek'];
-                            $price = $room['harga_semalaman'];
-                            $main_img = $room['url_gambar'];
-                            $room_id = $room['id_bilik'];
+                    if (!empty($rooms)) {
+                        foreach ($rooms as $room) {
+                            $room_id = $room->getId();
+                            $room_name = $room->getName();
+                            $price = $room->getPrice();
+                            $short_description = $room->getShortDesc();
+                            $main_img = $room->getImgMain();
                     ?>
                             <div class="col-lg-4 col-md-6">
                                 <div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $delay;?>s" data-wow-duration="1.2s">

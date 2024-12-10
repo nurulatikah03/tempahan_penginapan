@@ -77,10 +77,9 @@
 
         ?>
 
-            <div class="page-title" style="background-image: url(<?php echo $room_details->getImgBanner() ?>);">
-                <div class="auto-container">
-                    <h1><?php echo $room_details->getName() ?></h1>
-                </div>
+        <div class="page-title" style="background-image: url(<?php echo $room_details->getImgBanner() ?>); background-size: cover; background-position: center;">
+            <div class="auto-container">
+                <h1><?php echo $room_details->getName() ?></h1>
             </div>
             <div class="bredcrumb-wrap">
                 <div class="auto-container">

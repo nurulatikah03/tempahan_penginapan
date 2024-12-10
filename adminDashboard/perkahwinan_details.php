@@ -65,7 +65,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-5 d-flex justify-content-center align-items-center" style="height: 400px;">
-                                              <img src="../<?php echo $pekej->getGambarPekej(); ?>" class="img-fluid" style="max-width: 100%; max-height: 100%;" alt="Product-img" />
+                                              <img src="../<?php echo $pekej->getGambarMainKahwin(); ?>" class="img-fluid" style="max-width: 100%; max-height: 100%;" alt="Product-img" />
 
                                         </div> <!-- end col -->
                                         <div class="col-lg-7">

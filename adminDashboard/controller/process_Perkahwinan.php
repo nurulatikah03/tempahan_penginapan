@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar.";
                 echo "Terdapat ralat semasa memuat naik gambar";
+                header("Location: ../perkahwinan.php");
             }
         }
     } elseif ($_POST['process'] == 'delete_pekej') {
@@ -103,15 +104,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../perkahwinan.php");
             exit;
         } else {
-            $target_dir = 'assets/images/resource/';
+            $target_dir = '../../assets/images/resource/';
+            $toDel = $target_dir . basename($URL_gambar_lama);
             $target_dir_database = dirname($URL_gambar_lama) . '/' . basename($gambar_pekej);
             $target_file = $target_dir . basename($gambar_pekej);
 
             if (move_uploaded_file($gambar_pekej_temp, $target_file)) {
-                if (file_exists($URL_gambar_lama)) {
-                    unlink($URL_gambar_lama);
+                if (file_exists($toDel)) {
+                    unlink($toDel);
                 }
-                PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_panjang, $penerangan_pendek, $id_dewan, $target_file);
+                PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_panjang, $penerangan_pendek, $id_dewan, $target_dir_database);
                 $_SESSION['success'] = "Pekej Perkahwinan telah berjaya dikemaskini.";
                 header("Location: ../perkahwinan.php");
                 exit;

@@ -189,7 +189,7 @@ session_start(); ?>
             exit();
         } ?>
 
-        <div class="page-title" style="background-image: url(<?php echo $package->getGambarPekej(); ?>);">
+        <div class="page-title" style="background-image: url(<?php echo str_replace(' ', '%20', $package->getGambarBannerKahwin()); ?>);">
             <div class="auto-container">
                 <h1><?php echo $package->getNamaDewan(); ?></h1>
             </div>
@@ -199,7 +199,7 @@ session_start(); ?>
                 <ul class="bredcrumb-list">
                     <li><a href="index.php">Laman Utama</a></li>
                     <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
-                    <li><?php $package->getNamaPekej() ?></li>
+                    <li><?php echo $package->getNamaPekej() ?></li>
                 </ul>
             </div>
         </div>
@@ -213,7 +213,7 @@ session_start(); ?>
                             <h2 class="mb_40"><?php echo $package->getNamaPekej(); ?></h2>
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPendek(); ?></p>
 
-                            <div class="mb_60"><img src="<?php echo $package->getGambarPekej(); ?>" style="height: 400px; width:800px" alt=""></div>
+                            <div class="mb_60"><img src="<?php echo $package->getGambarMainKahwin(); ?>" style="height: 400px; width:800px" alt=""></div>
 
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPenuh(); ?></p>
 
@@ -306,7 +306,7 @@ session_start(); ?>
                                         <input type="hidden" name="nama_dewan" value="<?php echo $package->getNamaDewan(); ?>">
                                         <input type="hidden" name="id_dewan" value="<?php echo $package->getIdDewan(); ?>">
                                         <input type="hidden" name="nama_pekej" value="<?php echo $package->getNamaPekej(); ?>">
-                                        <input type="hidden" name="gambar_pekej" value="<?php echo $package->getGambarPekej(); ?>">
+                                        <input type="hidden" name="gambar_pekej" value="<?php echo $package->getGambarMainKahwin(); ?>">
                                         <input type="hidden" name="peocess" value="kahwin">
                                         <button type="submit" name="Submit" class="btn-1">Buat Tempahan<span></span></button>
                                     </div>

@@ -1,10 +1,5 @@
 <?php
 session_start();
-include_once '../Models\room.php';
-include_once '../Models\tempahanBilik.php';
-
-// Fetch data from the database
-$roomList = Room::getAllRooms();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +22,6 @@ $roomList = Room::getAllRooms();
 	<style>
 	</style>
 </head>
-
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
 	<!-- Begin page -->
@@ -93,6 +87,11 @@ $roomList = Room::getAllRooms();
 											</thead>
 											<tbody>
 												<?php
+												include_once '../Models\room.php';
+												include_once '../Models\tempahanBilik.php';
+
+												// Fetch data from the database
+												$roomList = Room::getAllRooms();
 												// Check if there are results and display them
 												if (!empty($roomList)) {
 													foreach ($roomList as $room) {
@@ -297,8 +296,7 @@ $roomList = Room::getAllRooms();
 	<script src="assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-	<script>
-	</script>
+
 	<!-- third party js ends -->
 
 	<!-- demo app -->
