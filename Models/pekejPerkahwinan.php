@@ -102,34 +102,63 @@ FROM
     public static function getPekejPerkahwinanById($id)
     {
         $conn = DBConnection::getConnection();
-        $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $dewan = Dewan::getDewanById($row['id_dewan']);
-        $package = new PekejPerkahwinan(
-            $row['id_dewan'],
-            $dewan->getNamaDewan(),
-            $dewan->getKadarSewa(),
-            $dewan->getBilanganMuatan(),
-            $dewan->getPenerangan(),
-            $dewan->getPeneranganKemudahan(),
-            $dewan->getStatusDewan(),
-            $dewan->getGambarMain(),
-            $dewan->getGambarBanner(),
-            $dewan->getGambarAdd(),
-            $row['id_perkahwinan'],
-            $row['nama_pekej_kahwin'],
-            $row['harga_pekej'],
-            $row['huraian_pendek'],
-            $row['huraian'],
-            $row['gambar_pekej']
-        );
-        $stmt->close();
-        return $package;
+
+        try {
+            $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
+            $stmt = $conn->prepare($sql);
+
+            if (!$stmt) {
+                throw new Exception("Failed to prepare statement: " . $conn->error);
+            }
+
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if (!$result) {
+                throw new Exception("Query execution failed: " . $stmt->error);
+            }
+
+            $row = $result->fetch_assoc();
+
+            if (!$row) {
+                throw new Exception("No record found for id_perkahwinan: " . $id);
+            }
+
+            $dewan = Dewan::getDewanById($row['id_dewan']);
+
+            if (!$dewan) {
+                throw new Exception("Failed to retrieve Dewan details for id_dewan: " . $row['id_dewan']);
+            }
+
+            $package = new PekejPerkahwinan(
+                $row['id_dewan'],
+                $dewan->getNamaDewan(),
+                $dewan->getKadarSewa(),
+                $dewan->getBilanganMuatan(),
+                $dewan->getPenerangan(),
+                $dewan->getPeneranganKemudahan(),
+                $dewan->getStatusDewan(),
+                $dewan->getGambarMain(),
+                $dewan->getGambarBanner(),
+                $dewan->getGambarAdd(),
+                $row['id_perkahwinan'],
+                $row['nama_pekej_kahwin'],
+                $row['harga_pekej'],
+                $row['huraian_pendek'],
+                $row['huraian'],
+                $row['gambar_pekej']
+            );
+
+            $stmt->close();
+            return $package;
+        } catch (Exception $e) {
+            error_log($e->getMessage()); 
+            return null; 
+        }
     }
+
 
     public static function getPackageNameById($id)
     {
@@ -228,7 +257,8 @@ FROM
     }
 }
 
-function checkAvailabilityWed($id, $date){
+function checkAvailabilityWed($id, $date)
+{
     $conn = DBConnection::getConnection();
     $sql = "SELECT * FROM tempahan WHERE id_perkahwinan = ? AND tarikh_tempahan = ?";
     $stmt = $conn->prepare($sql);

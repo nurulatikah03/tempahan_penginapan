@@ -133,43 +133,63 @@ class Dewan
     public static function getDewanById($id)
     {
         $conn = DBConnection::getConnection();
-        $sql = "SELECT d.*, dp.url_gambar, dp.jenis_gambar 
+
+        try {
+            $sql = "SELECT d.*, dp.url_gambar, dp.jenis_gambar 
                 FROM dewan d 
                 LEFT JOIN dewan_pic dp ON d.id_dewan = dp.id_dewan 
                 WHERE d.id_dewan = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+            $stmt = $conn->prepare($sql);
 
-        $gambarMain = null;
-        $gambarBanner = null;
-        $gambarAdd = null;
+            if (!$stmt) {
+                throw new Exception("Failed to prepare statement: " . $conn->error);
+            }
 
-        if ($row['jenis_gambar'] == 'Utama') {
-            $gambarMain = $row['url_gambar'];
-        } elseif ($row['jenis_gambar'] == 'Banner') {
-            $gambarBanner = $row['url_gambar'];
-        } elseif ($row['jenis_gambar'] == 'Tambahan') {
-            $gambarAdd = $row['url_gambar'];
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if (!$result) {
+                throw new Exception("Query execution failed: " . $stmt->error);
+            }
+
+            $row = $result->fetch_assoc();
+
+            if (!$row) {
+                throw new Exception("No record found for id_dewan: " . $id);
+            }
+
+            $gambarMain = null;
+            $gambarBanner = null;
+            $gambarAdd = null;
+
+            if ($row['jenis_gambar'] === 'Utama') {
+                $gambarMain = $row['url_gambar'];
+            } elseif ($row['jenis_gambar'] === 'Banner') {
+                $gambarBanner = $row['url_gambar'];
+            } elseif ($row['jenis_gambar'] === 'Tambahan') {
+                $gambarAdd = $row['url_gambar'];
+            }
+
+            $dewan = new Dewan(
+                $row['id_dewan'],
+                $row['nama_dewan'],
+                $row['kadar_sewa'],
+                $row['bilangan_muatan'],
+                $row['penerangan'],
+                $row['penerangan_kemudahan'],
+                $row['status_dewan'],
+                $gambarMain,
+                $gambarBanner,
+                $gambarAdd
+            );
+
+            $stmt->close();
+            return $dewan;
+        } catch (Exception $e) {
+            error_log($e->getMessage()); 
+            return null; 
         }
-
-        $dewan = new Dewan(
-            $row['id_dewan'],
-            $row['nama_dewan'],
-            $row['kadar_sewa'],
-            $row['bilangan_muatan'],
-            $row['penerangan'],
-            $row['penerangan_kemudahan'],
-            $row['status_dewan'],
-            $gambarMain,
-            $gambarBanner,
-            $gambarAdd
-        );
-
-        $stmt->close();
-
-        return $dewan;
     }
 }

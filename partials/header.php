@@ -63,7 +63,7 @@ ul.navigation li a.active {
 								<i class="fas fa-phone" style="font-size: 20px; color: white;"></i>
 							</button>
 						</li>	                    
-                        <div class="header-link-btn"><a href="index.php" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
+                        <div class="header-link-btn"><a href="index.php" class="btn-1 btn-small btn-alt">Tempah Sekarang<span></span></a></div>
                     </div>                      
                 </div>
             </div>
@@ -93,7 +93,7 @@ ul.navigation li a.active {
 									<i class="fas fa-phone" style="font-size: 20px; color: white;"></i>
 								</button>
 							</li>	                        
-                            <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Book Your Stay <span></span></a></div>
+                            <div class="header-link-btn"><a href="javascript:void(0);" class="btn-1 btn-small btn-alt">Tempah Sekarang<span></span></a></div>
                         </div>
                     </div>
                 </div>

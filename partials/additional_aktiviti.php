@@ -14,47 +14,43 @@
                     $selected_id_aktiviti = 0;
                 }
 
-                $stmt = $conn->prepare("SELECT r.*, ap.url_gambar AS gambar_utama
-                                        FROM aktiviti r 
-                                        LEFT JOIN aktiviti_pic ap ON r.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'Utama'
-                                        WHERE r.id_aktiviti != ?");
-                $stmt->bind_param("i", $selected_id_aktiviti);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                $allAktiviti = Aktiviti::getAllAktiviti();
 
-                if ($result->num_rows > 0) {
+                if (!empty($allAktiviti)) {
                     $delay = 0.2;
-                    while ($aktiviti = $result->fetch_assoc()) {
-                        $id_aktiviti = htmlspecialchars($aktiviti['id_aktiviti']);
-                        $nama_aktiviti = htmlspecialchars($aktiviti['nama_aktiviti']);
-                        $kadar_harga = htmlspecialchars($aktiviti['kadar_harga']);
-                        $penerangan = htmlspecialchars($aktiviti['penerangan']);
-                        $main_img = !empty($aktiviti['gambar_utama']) ? htmlspecialchars($aktiviti['gambar_utama']) : 'default-image.jpg';
-                        $animation_delay = $delay . 's';
+                    foreach ($allAktiviti as $aktiviti) {
+                        if ($aktiviti->getId() != $selected_id_aktiviti) {
+                        $id_aktiviti = $aktiviti->getId();
+                        $nama_aktiviti = $aktiviti->getNamaAktiviti();
+                        $kadar_harga = $aktiviti->getKadarHarga();
+                        $penerangan = $aktiviti->getPenerangan();
+                        $main_img = !empty($aktiviti->getGambarUtama()) ? $aktiviti->getGambarUtama() : 'default-image.jpg';
                         $delay += 0.2;
+                        $animation_delay = $delay . 's';
             ?>
-            <div class="col-lg-4 col-md-6">
-                <div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>" data-wow-duration="1.2s">
-                    <div class="room-1-image hvr-img-zoom-1">
-                        <img src="adminDashboard/controller/<?php echo $main_img; ?>" alt="<?php echo $nama_aktiviti; ?>" style="width: 100%; height: 250px; object-fit: cover;">
-                    </div>
-                    <div class="room-1-content">
-                        <p class="room-1-meta-info">Kadar Harga <span class="theme-color">RM<?php echo $kadar_harga; ?></span>/hari</p>
-                        <h4 class="room-1-title mb_20">
-                            <a href="aktivitiDetail.php?id_aktiviti=<?php echo $id_aktiviti; ?>">
-                                <?php echo $nama_aktiviti; ?>
-                            </a>
-                        </h4>
-                        <p class="room-1-text mb_30"><?php echo $penerangan; ?></p>
-                        <div class="link-btn">
-                            <a href="aktivitiDetail.php?id_aktiviti=<?php echo $id_aktiviti; ?>" class="btn-1 btn-alt">Lihat Butiran <span></span></a>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $animation_delay; ?>" data-wow-duration="1.2s">
+                                <div class="room-1-image hvr-img-zoom-1">
+                                    <img src="adminDashboard/controller/<?php echo $main_img; ?>" alt="<?php echo $nama_aktiviti; ?>" style="width: 100%; height: 250px; object-fit: cover;">
+                                </div>
+                                <div class="room-1-content">
+                                    <p class="room-1-meta-info">Kadar Harga <span class="theme-color">RM<?php echo $kadar_harga; ?></span>/hari</p>
+                                    <h4 class="room-1-title mb_20">
+                                        <a href="aktivitiDetail.php?id_aktiviti=<?php echo $id_aktiviti; ?>">
+                                            <?php echo $nama_aktiviti; ?>
+                                        </a>
+                                    </h4>
+                                    <p class="room-1-text mb_30" style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"><?php echo $penerangan; ?></p>
+                                    <div class="link-btn">
+                                        <a href="aktivitiDetail.php?id_aktiviti=<?php echo $id_aktiviti; ?>" class="btn-1 btn-alt">Lihat Butiran <span></span></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
             <?php
                     }
-                } else {
+                }
+            } else {
                     echo '<p class="no-results">Tiada pilihan aktiviti lain buat masa ini.</p>';
                 }
             } catch (mysqli_sql_exception $e) {
