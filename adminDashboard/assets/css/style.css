@@ -248,3 +248,7 @@ html {
     max-width: 100%;
     height: auto;
 }
+
+tr:hover {
+	background-color: #f2f2f2;
+}

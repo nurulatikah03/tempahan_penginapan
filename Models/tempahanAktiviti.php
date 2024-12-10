@@ -1,5 +1,5 @@
 <?php
-include_once "tempahan.php";
+include_once 'tempahan.php';
 
 
 class AktivitiReservation extends Reservation
@@ -106,6 +106,7 @@ function generateBookingNumber($conn) {
     $yearMonthDay = date("ymd");
     $unique = false;
     $bookingNumber = "";
+    $count = 0;
 
     while (!$unique) {
         $randomDigits = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
