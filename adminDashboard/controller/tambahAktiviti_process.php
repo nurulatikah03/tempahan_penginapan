@@ -1,5 +1,6 @@
 <?php
 include '../../database/DBConnec.php';
+$conn = DBConnection::getConnection();
 session_start();
 
 // Check if the form was submitted
@@ -78,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$fileTambahan = handleMultipleFileUpload('fileinputTambahan', $uploadFileDirTambahan);
 
     // Insert into aktiviti table
+	
     $stmt = $conn->prepare("INSERT INTO aktiviti (nama_aktiviti, kadar_harga, penerangan_kemudahan, penerangan, status_aktiviti) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sisss", $nama_aktiviti, $kadar_harga, $penerangan_kemudahan, $penerangan, $status_aktiviti);
 
