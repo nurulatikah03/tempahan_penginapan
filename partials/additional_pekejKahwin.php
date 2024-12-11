@@ -18,7 +18,7 @@ include_once 'Models/pekejPerkahwinan.php'; ?>
                         <div class="room-1-block wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.2s">
 
                             <div class="room-1-image hvr-img-zoom-1" style="height: 200px; width:auto">
-                                <img src="<?php echo htmlspecialchars($pack->getGambarPekej()); ?>" alt="">
+                                <img src="<?php echo htmlspecialchars($pack->getGambarMainKahwin()); ?>" alt="">
                             </div>
                             <div class="room-1-content">
                                 <p class="room-1-meta-info">Bermula dari <span class="theme-color">RM<?php echo htmlspecialchars($pack->getHargaPekej()); ?></span>/malam</p>
