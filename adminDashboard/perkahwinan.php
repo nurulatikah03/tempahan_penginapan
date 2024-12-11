@@ -105,7 +105,7 @@
 																</div>
 															</td>
 															<td>
-																<img src="../<?php echo $pekej->getGambarPekej() ?>" alt="gambar pekej" title="gambar pekej" class="rounded me-3" height="48px" />
+																<img src="../<?php echo $pekej->getGambarMainKahwin() ?>" alt="gambar pekej" title="gambar pekej" class="rounded me-3" height="48px" />
 															</td>
 															<td>
 																<p class="m-0 d-inline-block align-middle font-16">
@@ -143,7 +143,7 @@
 																		<form action="controller/process_Perkahwinan.php" method="post">
 																			<input type="hidden" name="process" value="delete_pekej">
 																			<input type="hidden" name="id_pekej" value="<?php echo $pekej->getIdPekej(); ?>">
-																			<input type="hidden" name="gambar_url" value="<?php echo $pekej->getGambarPekej(); ?>">
+																			<input type="hidden" name="gambar_url" value="<?php echo $pekej->getGambarMainKahwin(); ?>">
 																			<div class="text-center">
 																				<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
 																				<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
