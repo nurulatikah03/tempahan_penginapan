@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../../database/database.php';
-
+include '../../database/DBConnec.php';
+$conn = DBConnection::getConnection();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process']) && $_POST['process'] === 'deleteAktiviti') {
     $id_aktiviti = isset($_POST['id_aktiviti']) ? intval($_POST['id_aktiviti']) : 0;
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process']) && $_POST[
 
             
             while ($row = $result->fetch_assoc()) {
-                $file_path = '' . $row['url_gambar'];  /
+                $file_path = '' . $row['url_gambar'];  
                 if (file_exists($file_path)) {
                     unlink($file_path);  
                 }
