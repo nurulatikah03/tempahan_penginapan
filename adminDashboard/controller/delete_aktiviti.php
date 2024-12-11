@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../../database/database.php';
-
+include '../../database/DBConnec.php';
+$conn = DBConnection::getConnection();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process']) && $_POST['process'] === 'deleteAktiviti') {
     $id_aktiviti = isset($_POST['id_aktiviti']) ? intval($_POST['id_aktiviti']) : 0;
 
