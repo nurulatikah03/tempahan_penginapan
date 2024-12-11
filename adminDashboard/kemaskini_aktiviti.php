@@ -41,12 +41,19 @@ include 'controller/get_aktiviti.php';
 			opacity: 0.8; /* Sedikit transparan */
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
 		}
-
 		
+		.img-tambahan {
+			max-width: 300px;
+			height: 250px; 
+			object-fit: cover;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			margin: 10px; 
+		}
     </style>
 </head>
 
-<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid"
     data-rightbar-onstart="true">
     <!-- Begin page -->
     <div class="wrapper">
@@ -82,6 +89,7 @@ include 'controller/get_aktiviti.php';
 								FROM aktiviti
 							LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti
 							WHERE aktiviti.id_aktiviti = ?";
+							
 							
 							$conn = DBConnection::getConnection();
 							$stmt = $conn->prepare($query);
@@ -202,102 +210,114 @@ include 'controller/get_aktiviti.php';
 													</div>
 												</div>
 											</div>
-										</div>
-										<!-- Modal for Main Image (Utama) -->
-										<div class="modal fade" id="uploadModal-utama" tabindex="-1" aria-hidden="true">
-										  <div class="modal-dialog modal-lg">
-											<div class="modal-content">
-											  <div class="modal-header">
-												<h5 class="modal-title" id="imageModalLabel">
-												  <p class="mt-2">Gambar Utama</p>
-												</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-											  </div>
-											  <div class="modal-body text-center">
-												<img id="modalImage-utama" src="controller/<?php echo $utama_image; ?>" alt="Gambar Utama" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;">
-												<p id="imageDescription-utama" class="mt-2"></p>
+											
+											<!-- Modal for uploading the image -->
+											<div class="modal fade" id="uploadModal-utama" tabindex="-1" aria-hidden="true">
+											  <div class="modal-dialog modal-lg">
+												<div class="modal-content">
+												  <div class="modal-header">
+													<h5 class="modal-title" id="imageModalLabel">
+													  <p class="mt-2">Gambar Utama</p>
+													</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												  </div>
+												  <div class="modal-body text-center">
+													<img id="modalImage-utama" src="controller/<?php echo $utama_image; ?>" alt="Gambar Utama" class="img-fluid" style="max-width: auto; height: auto; object-fit: full;">
+													<p id="imageDescription-utama" class="mt-2"></p>
 
-												<!-- Input untuk memuat naik gambar baru -->
-												<div class="mt-3">
-													<label for="imageUpload-utama" class="form-label">Kemaskini Gambar Utama</label>
-													<input type="file" id="imageUpload-utama" name="imageUpload" class="form-control" accept="image/*">
-												</div>
-											  </div>
-											  <div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-												<button type="button" class="btn btn-primary" onclick="updateImage('utama')">Kemas Kini Gambar</button>
-											  </div>
-											</div>
-										  </div>
-										</div>
-
-										<!-- Modal for Banner Image -->
-										<div class="modal fade" id="uploadModal-banner" tabindex="-1" aria-hidden="true">
-										  <div class="modal-dialog modal-lg">
-											<div class="modal-content">
-											  <div class="modal-header">
-												<h5 class="modal-title" id="imageModalLabel">
-												  <p class="mt-2">Gambar Banner</p>
-												</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-											  </div>
-											  <div class="modal-body text-center">
-												<img id="modalImage-banner" src="controller/<?php echo $banner_image; ?>" alt="Gambar Banner" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;">
-												<p id="imageDescription-banner" class="mt-2"></p>
-
-												<!-- Input untuk memuat naik gambar baru -->
-												<div class="mt-3">
-													<label for="imageUpload-banner" class="form-label">Kemaskini Gambar Banner</label>
-													<input type="file" id="imageUpload-banner" name="imageUpload" class="form-control" accept="image/*">
-												</div>
-											  </div>
-											  <div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-												<button type="button" class="btn btn-primary" onclick="updateImage('banner')">Kemas Kini Gambar</button>
-											  </div>
-											</div>
-										  </div>
-										</div>
-
-										<!-- Modal for Additional Images -->
-										<div class="modal fade" id="uploadModal-tambahan" tabindex="-1" aria-hidden="true">
-										  <div class="modal-dialog modal-lg">
-											<div class="modal-content">
-											  <div class="modal-header">
-												<h5 class="modal-title" id="imageModalLabel">
-												  <p class="mt-2">Gambar Tambahan</p>
-												</h5>
-												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-											  </div>
-											  <div class="modal-body text-center">
-												<?php if (!empty($tambahan_images) && is_array($tambahan_images)): ?>
-													<div class="mb-2">
-														<?php foreach ($tambahan_images as $tambahan): ?>
-															<div class="d-inline-block text-center me-2">
-																<img src="controller/<?php echo $tambahan; ?>" alt="Gambar Tambahan" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
-															</div>
-														<?php endforeach; ?>
+													<!-- Input untuk memuat naik gambar baru -->
+													<div class="mt-3">
+													  <label for="imageUpload-utama" class="form-label">Kemaskini Gambar Utama</label>
+													  <input type="file" id="imageUpload-utama" name="imageUpload" class="form-control" accept="image/*">
 													</div>
-												<?php elseif (!empty($tambahan_images)): ?>
-													<div class="mb-2">
-														<img src="controller/<?php echo $tambahan_images; ?>" alt="Gambar Tambahan" class="img-fluid" style="max-width: 300px; height: 250px; object-fit: cover;" data-bs-toggle="modal" data-bs-target="#uploadModal-tambahan" onclick="showImage('controller/<?php echo $tambahan_images; ?>', 'Gambar Tambahan')">
-													</div>
-												<?php endif; ?>
-												<p id="imageDescription-tambahan" class="mt-2"></p>
-
-												<!-- Input untuk memuat naik gambar baru -->
-												<div class="mt-3">
-													<label for="imageUpload-tambahan" class="form-label">Kemaskini Gambar Tambahan</label>
-													<input type="file" id="imageUpload-tambahan" name="imageUpload" class="form-control" accept="image/*">
+												  </div>
+												  <div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+													<button type="button" class="btn btn-primary" onclick="updateImage('utama')">Kemas Kini Gambar</button>
+												  </div>
 												</div>
-											</div>
-											  <div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-												<button type="button" class="btn btn-primary" onclick="updateImage('tambahan')">Kemas Kini Gambar</button>
 											  </div>
 											</div>
-										  </div>
+
+											<!-- Modal for Banner Image -->
+											<div class="modal fade" id="uploadModal-banner" tabindex="-1" aria-hidden="true">
+											  <div class="modal-dialog modal-lg">
+												<div class="modal-content">
+												  <div class="modal-header">
+													<h5 class="modal-title" id="imageModalLabel">
+													  <p class="mt-2">Gambar Banner</p>
+													</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												  </div>
+												  <div class="modal-body text-center">
+													<img id="modalImage-banner" src="controller/<?php echo $banner_image; ?>" alt="Gambar Banner" class="img-fluid" style="max-width: auto; height: auto; object-fit: full;">
+													<p id="imageDescription-banner" class="mt-2"></p>
+
+													<!-- Input untuk memuat naik gambar baru -->
+													<div class="mt-3">
+														<label for="imageUpload-banner" class="form-label">Kemaskini Gambar Banner</label>
+														<input type="file" id="imageUpload-banner" name="imageUpload" class="form-control" accept="image/*">
+													</div>
+												  </div>
+												  <div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+													<button type="button" class="btn btn-primary" onclick="updateImage('banner')">Kemas Kini Gambar</button>
+												  </div>
+												</div>
+											  </div>
+											</div>
+
+											<!-- Modal for Additional Images -->
+											<div class="modal fade" id="uploadModal-tambahan" tabindex="-1" aria-hidden="true">
+											  <div class="modal-dialog modal-lg">
+												<div class="modal-content">
+												  <div class="modal-header">
+													<h5 class="modal-title" id="imageModalLabel">
+													  <p class="mt-2">Gambar Tambahan</p>
+													</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												  </div>
+												  <div class="modal-body text-center">
+													<?php if (!empty($tambahan_images) && is_array($tambahan_images)): ?>
+														<div class="mb-2">
+															<?php foreach ($tambahan_images as $tambahan): ?>
+																<div class="d-inline-block text-center me-2">
+																	<img src="controller/<?php echo $tambahan; ?>" 
+																		 alt="Gambar Tambahan" 
+																		 class="img-tambahan" 
+																		 data-bs-toggle="modal" 
+																		 data-bs-target="#uploadModal-tambahan" 
+																		 onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
+																</div>
+															<?php endforeach; ?>
+														</div>
+													<?php elseif (!empty($tambahan_images)): ?>
+														<div class="mb-2">
+															<img src="controller/<?php echo $tambahan_images; ?>" 
+																 alt="Gambar Tambahan" 
+																 class="img-tambahan" 
+																 data-bs-toggle="modal" 
+																 data-bs-target="#uploadModal-tambahan" 
+																 onclick="showImage('controller/<?php echo $tambahan_images; ?>', 'Gambar Tambahan')">
+														</div>
+													<?php endif; ?>
+													<p id="imageDescription-tambahan" class="mt-2"></p>
+
+													<!-- Input untuk memuat naik gambar baru -->
+													<div class="mt-3">
+														<label for="imageUpload-tambahan" class="form-label">Kemaskini Gambar Tambahan</label>
+														<input type="file" id="imageUpload-tambahan" name="imageUpload" class="form-control" accept="image/*" multiple>
+													</div>
+												</div>
+												  <div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+													<button type="button" class="btn btn-primary" onclick="updateImage('tambahan')">Kemas Kini Gambar</button>
+												  </div>
+												</div>
+											  </div>
+											</div>
 										</div>
+										
 										
                                         <div class="row mb-3 mt-5">
                                             <label for="id_aktiviti" class="col-3 col-form-label">ID Aktiviti</label>
@@ -437,34 +457,49 @@ include 'controller/get_aktiviti.php';
 		// Update image upload name based on the type of image
 		document.getElementById('imageUpload-' + description.toLowerCase()).setAttribute('name', description.toLowerCase());
 	}
-
+	</script>
+	
+	<script>
 	function updateImage(imageType) {
-		const imageUpload = document.getElementById('imageUpload-' + imageType).files[0];
-		const modalImage = document.getElementById('modalImage-' + imageType);
+		const fileInput = document.getElementById(`imageUpload-${imageType}`);
+		const imageFile = fileInput.files[0];
 
-		if (imageUpload) {
-			const formData = new FormData();
-			formData.append('imageUpload', imageUpload);
+		if (!imageFile) {
+			alert('Sila pilih gambar terlebih dahulu.');
+			return;
+		}
 
-			// Example AJAX request to update the image
-			fetch('controller/update-image.php', {
-				method: 'POST',
-				body: formData
-			})
-			.then(response => response.json())
+		const formData = new FormData();
+		formData.append('imageUpload', imageFile);
+		formData.append('image_type', imageType);
+
+		const idAktiviti = <?php echo $_GET['id_aktiviti']; ?>;
+
+		fetch(`controller/imageUpdated.php?id_aktiviti=${idAktiviti}`, {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => response.text())
 			.then(data => {
-				if (data.success) {
-					modalImage.src = data.imageSrc; // Update image modal
-					alert('Gambar berjaya dikemas kini');
+				if (data.trim() === "success") {
+					alert("Gambar telah dikemaskini!");
+					const modalId = `uploadModal-${imageType}`;
+					const modal = document.getElementById(modalId);
+					const modalInstance = bootstrap.Modal.getInstance(modal); // Bootstrap modal instance
+					modalInstance.hide(); // Close the modal
+					setTimeout(() => {
+						location.reload(); // Refresh the page
+					}, 500);
 				} else {
-					alert('Gagal mengemas kini gambar');
+					alert(data); // Display error message
 				}
 			})
-			.catch(error => alert('Error: ' + error));
-		}
+			.catch(error => {
+				console.error('Error:', error);
+				alert('There was an error updating the image.');
+			});
 	}
 	</script>
-
 
 </body>
 

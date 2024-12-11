@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'db-connect.php'; ?>
+<?php  
+
+include 'database/DBConnec.php';
+include 'adminDashboard/controller/get_aktiviti.php';
+
+?>
 
 <head>
     <meta charset="utf-8">
