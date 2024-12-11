@@ -28,7 +28,7 @@
 	</style>
 </head>
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
 	<!-- Begin page -->
 	<div class="wrapper">
 
@@ -115,7 +115,7 @@
 											<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
 											<div class="col-9">
 												<!-- Display the currently uploaded image if it exists -->
-												<?php $gambar = $pekej->getGambarPekej();
+												<?php $gambar = $pekej->getGambarMainKahwin();
 												if (!empty($gambar)): ?>
 													<div class="mb-2">
 														<img src="../<?php echo $gambar; ?>" alt="Gambar Sedia Ada" class="img-thumbnail" style="max-width: 150px;">
