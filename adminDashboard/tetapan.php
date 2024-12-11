@@ -45,7 +45,6 @@
     </head>
 
     <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
-        <!-- Begin page -->
 		
         <div class="wrapper">
             
@@ -53,14 +52,11 @@
 
             <div class="content-page">
                 <div class="content">
-                    <!-- Topbar Start -->
                     
 					<?php include 'partials/topbar.php'; ?>
 					
-					<!-- Start Content-->
                     <div class="container-fluid">
 
-						<!-- start page title -->
 						<div class="row">
 							<div class="col-12">
 								<div class="page-title-box">
@@ -68,12 +64,10 @@
 								</div>
 							</div>
 						</div>
-						<!-- end page title -->
 						<?php
-						// Sambungan ke database
-						include '../database/database.php';
+						include '../database/DBConnec.php';
 
-						// Query untuk mendapatkan jumlah kemudahan
+						$conn = DBConnection::getConnection();
 						$query = "SELECT COUNT(*) AS total_kemudahan FROM kemudahan";
 						$result = $conn->query($query);
 

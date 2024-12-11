@@ -1,5 +1,5 @@
 <?php
-include 'db-connect.php';
+include '../database/DBConnec.php';
 
 $query = "
     SELECT
@@ -9,6 +9,7 @@ $query = "
     FROM 
         kemudahan k
 ";
+$conn = DBConnection::getConnection();
 $result = $conn->query($query);
 ?>
 
@@ -103,10 +104,8 @@ $result = $conn->query($query);
 												</thead>
 												<tbody>
 													<?php
-													// Check if there are results and display them
 													if ($result->num_rows > 0) {
 														while ($row = $result->fetch_assoc()) {
-															// Ambil data dari hasil
 															$id_kemudahan = $row['id_kemudahan'];
 															$nama = $row['nama'];
 															$icon_url = $row['icon_url'];
@@ -144,7 +143,6 @@ $result = $conn->query($query);
 										</div>
 
 										<?php
-										// Close the database connection
 										$conn->close();
 										?>
 
@@ -169,23 +167,15 @@ $result = $conn->query($query);
 
 		
 
-
-        <!-- bundle -->
         <script src="assets/js/vendor.min.js"></script>
         <script src="assets/js/app.min.js"></script>
-
-        <!-- third party js -->
         <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
         <script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
         <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
         <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
         <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-        <!-- third party js ends -->
-
-        <!-- demo app -->
         <script src="assets/js/pages/demo.products.js"></script>
-        <!-- end demo js-->
+
 
     </body>
 </html>
