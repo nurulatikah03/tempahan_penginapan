@@ -1,5 +1,6 @@
 <?php
-include '../../database/database.php';
+include '../../database/DBConnec.php';
+$conn = DBConnection::getConnection();
 session_start();
 
 // Check if the form was submitted
@@ -87,3 +88,4 @@ if (isset($_GET['status'])) {
     }
 }
 ?>
+
