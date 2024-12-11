@@ -1,5 +1,5 @@
 <?php
-include '../database/database.php';
+include '../database/DBConnec.php';
 include 'controller/get_aktiviti.php';
 
 ?>
@@ -83,6 +83,7 @@ include 'controller/get_aktiviti.php';
 							LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti
 							WHERE aktiviti.id_aktiviti = ?";
 							
+							$conn = DBConnection::getConnection();
 							$stmt = $conn->prepare($query);
 							$stmt->bind_param("i", $id_aktiviti);
 							$stmt->execute();

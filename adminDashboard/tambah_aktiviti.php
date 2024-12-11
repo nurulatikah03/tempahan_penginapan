@@ -38,7 +38,7 @@
 		</style>
     </head>
 
-    <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+    <body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
         <!-- Begin page -->
         <div class="wrapper">
 		
@@ -103,8 +103,9 @@
 												<div class="col-9">
 													<div class="row g-2">
 														<?php
-														include '../database/database.php';
+														include '../database/DBConnec.php';
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
+														$conn = DBConnection::getConnection();
 														$result = $conn->query($query);
 
 														if ($result->num_rows > 0) {

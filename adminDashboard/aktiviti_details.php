@@ -1,6 +1,8 @@
 <?php
-include 'db-connect.php';
+include '../database/DBConnec.php';
 include 'controller/get_aktiviti.php';
+
+$conn = DBConnection::getConnection();
 
 ?>
 
@@ -292,7 +294,10 @@ include 'controller/get_aktiviti.php';
 															}
 
 															$conn->close();
+															
+													
 															?>
+															
 														</div>
 													</div>
                                                 </form>

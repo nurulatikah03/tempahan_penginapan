@@ -1,5 +1,5 @@
 <?php 
-include 'database/database.php';
+include 'database/DBConnec.php';
 include 'adminDashboard/controller/get_dewan.php';
 
 session_start();
