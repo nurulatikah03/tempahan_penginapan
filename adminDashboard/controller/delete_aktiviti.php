@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process']) && $_POST[
 
             
             while ($row = $result->fetch_assoc()) {
-                $file_path = '' . $row['url_gambar'];  /
+                $file_path = '' . $row['url_gambar'];  
                 if (file_exists($file_path)) {
                     unlink($file_path);  
                 }
