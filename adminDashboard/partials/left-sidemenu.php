@@ -45,7 +45,7 @@
                             <a href="tempahan.php">Test all</a>
                         </li>
                         <li>
-                            <a href="#">Dewan</a>
+                            <a href="tempahanDewan.php">Dewan</a>
                         </li>
                         <li>
                             <a href="tempahanPenginapan.php">Penginapan</a>
