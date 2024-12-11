@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -30,12 +30,11 @@
         <div class="content-page">
             <div class="content">
 
-                <?php include 'partials/topbar.php';
-                include_once '../Models\room.php';
-                include_once '../Models\tempahanBilik.php';
-
-                // Fetch data from the database
-                $lisTempahan = RoomReservation::getAllReservation(); ?>
+                <?php
+                include 'partials/topbar.php';
+                include_once '../Models/tempahanPerkahwinan.php';
+                include_once '../Models/pekejPerkahwinan.php';
+                $lisTempahanKawin = WeddingReservation::getAllReservations(); ?>
 
                 <!-- Start Content-->
                 <div class="container-fluid">
@@ -50,7 +49,7 @@
                                         <li class="breadcrumb-item active">Tempahan</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Tempahan penginapan</h4>
+                                <h4 class="page-title">Tempahan Perkahwinan</h4>
                             </div>
                         </div>
                     </div>
@@ -74,24 +73,23 @@
                                                     <th class="all">Nombor Tempahan</th>
                                                     <th>Nama</th>
                                                     <th>Nombor fon</th>
-                                                    <th>Email</th>
-                                                    <th>Tarikh Masuk</th>
+                                                    <th>Bilangan Pax</th>
+                                                    <th>Tarikh Kenduri</th>
                                                     <th>Tarikh Tempah</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                // Check if there are results and display them
-                                                if (!empty($lisTempahan)) {
-                                                    foreach ($lisTempahan as $tempahan) {
+                                                <?php if (!empty($lisTempahanKawin)) {
+                                                    foreach ($lisTempahanKawin as $tempahan) {
                                                         $tempahan_id = $tempahan->getId();
                                                         $bookingNumber = $tempahan->getBookingNumber();
                                                         $reservationDateTime = new DateTime($tempahan->getReservationDate());
                                                         $reservationDate = $reservationDateTime->format('d/m/Y');
                                                         $reservationTime = $reservationDateTime->format('h:i A');
                                                         $custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
-                                                        $roomName = Room::getRoomNameById($tempahan->getRoomId());
+                                                        $PekejName = PekejPerkahwinan::getPackageNameById($tempahan->getWeddingId());
+                                                        $addons = $tempahan->getAddOnsByReservationId($tempahan_id);
                                                 ?>
                                                         <tr>
                                                             <td>
@@ -107,13 +105,18 @@
                                                             </td>
                                                             <td><?php echo $custName; ?></td>
                                                             <td><?php echo $tempahan->getPhoneNumber(); ?></td>
-                                                            <td><?php echo $tempahan->getEmail(); ?></td>
+                                                            <td><?php echo $tempahan->getNumOfPax(); ?></td>
                                                             <td><?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?></td>
                                                             <td><?php echo $reservationDate . ' @ ' . $reservationTime; ?></td>
                                                             <td class="table-action">
-                                                                <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal" data-bs-target="#viewModal<?php echo $bookingNumber; ?>"> <i class="mdi mdi-eye" style="color: #3299d1;"></i></a>
-                                                                <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon" title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg" alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
-                                                                <a href="mailto:<?php echo $tempahan->getEmail() ?>" class="action-icon" target="_blank"><img src="assets\icon-svg\gmail.svg" class="theme-color" style="width: 20px; height: 20px;"></a>
+                                                                <a href="javascript:void(0);" class="action-icon" data-bs-toggle="modal"
+                                                                    data-bs-target="#viewModal<?php echo $bookingNumber; ?>"> <i class="mdi mdi-eye"
+                                                                        style="color: #3299d1;"></i></a>
+                                                                <a href="https://wa.me/6<?php echo $tempahan->getPhoneNumber() ?>" class="action-icon"
+                                                                    title="Chat with <?php echo $custName ?>" target="_blank"><img src="assets\icon-svg\whatsapp.svg"
+                                                                        alt="whatsapp" class="theme-color" style="width: 20px; height: 20px;"></a>
+                                                                <a href="mailto:<?php echo $tempahan->getEmail() ?>" class="action-icon" target="_blank"><img
+                                                                        src="assets\icon-svg\gmail.svg" class="theme-color" style="width: 20px; height: 20px;"></a>
 
                                                             </td>
                                                         </tr>
@@ -148,17 +151,6 @@
                                                                                         value="<?php echo $tempahan->getPhoneNumber(); ?>" readonly
                                                                                         style="background-color: white;">
                                                                                 </div>
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label">Email</label>
-                                                                                    <input type="text" class="form-control" value="<?php echo $tempahan->getEmail(); ?>"
-                                                                                        readonly style="background-color: white;">
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label">Cara pembayaran</label>
-                                                                                    <input type="text" class="form-control"
-                                                                                        value="<?php echo $tempahan->getPaymentMethod(); ?>" readonly
-                                                                                        style="background-color: white;">
-                                                                                </div>
                                                                             </div>
                                                                             <div class="col-md-6 ps-2 pe-5">
                                                                                 <div class="mb-3">
@@ -168,47 +160,78 @@
                                                                                         style="background-color: white;">
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label class="form-label">Check In</label>
+                                                                                    <label class="form-label">Tarikh Kenduri</label>
                                                                                     <input type="text" class="form-control"
                                                                                         value="<?php echo formatDateFromSQL($tempahan->getCheckInDate()); ?>" readonly
                                                                                         style="background-color: white;">
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label class="form-label">Check Out</label>
-                                                                                    <input type="text" class="form-control"
-                                                                                        value="<?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?>" readonly
-                                                                                        style="background-color: white;">
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label">Name Bilik</label>
-                                                                                    <input type="text" class="form-control" value="<?php echo $roomName; ?>" readonly
-                                                                                        style="background-color: white;">
-                                                                                </div>
-                                                                                <div class="mb-3">
-                                                                                    <label class="form-label">Bilangan Bilik</label>
+                                                                                    <label class="form-label">Bilangan PAX</label>
                                                                                     <input type="text" class="form-control"
                                                                                         value="<?php echo $tempahan->getNumOfPax(); ?>" readonly
                                                                                         style="background-color: white;">
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="row">
+                                                                                <!-- Left side with email and payment method -->
+                                                                                <div class="col-md-6 pe-2 ps-5">
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label">Email</label>
+                                                                                        <input type="text" class="form-control" value="<?php echo htmlspecialchars($tempahan->getEmail()); ?>" readonly style="background-color: white;">
+                                                                                    </div>
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label">Cara pembayaran</label>
+                                                                                        <input type="text" class="form-control" value="<?php echo htmlspecialchars($tempahan->getPaymentMethod()); ?>" readonly style="background-color: white;">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Right side with add-ons -->
+                                                                                <div class="col-md-6 ps-2">
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label">Add-ons</label>
+                                                                                        <?php if (!empty($addons)) { ?>
+                                                                                            <ul class="list-group list-group-flush ps-4">
+                                                                                                <?php foreach ($addons as $addon) { ?>
+                                                                                                    <li class="form-label">
+                                                                                                        <strong><?php echo htmlspecialchars($addon['name']); ?></strong>
+                                                                                                        - RM<?php echo number_format($addon['price'], 2); ?>
+                                                                                                        x <?php echo htmlspecialchars($addon['quantity']); ?>
+                                                                                                    </li>
+                                                                                                <?php } ?>
+                                                                                            </ul>
+                                                                                        <?php } else { ?>
+                                                                                            <p>Tiada add on dipilih.</p>
+                                                                                        <?php } ?>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
                                                                         </div>
                                                                         <div class="text-center">
                                                                             <h1 class="modal-title fs-5" id="viewModalLabel">Hubungi penempah</h1>
                                                                         </div>
                                                                         <div class="text-center">
-                                                                            <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
-                                                                            <a href="../assets/PDF/PDF_kahwin.php?viewInvoice=<?php echo $bookingNumber; ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
+                                                                            <button type="button" class="btn btn-secondary rounded-button"
+                                                                                data-bs-dismiss="modal">Tutup</button>
+                                                                            <a href="../assets/PDF/PDF_kahwin.php?viewInvoice=<?php echo $bookingNumber; ?>"
+                                                                                target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                <?php
-                                                    }
-                                                } else {
-                                                    echo "<tr><td colspan='8'>Tiada data untuk dipaparkan.</td></tr>";
-                                                }
-                                                ?>
+                                                <?php }
+                                                }  if (empty($lisTempahanKawin)) { ?>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input" id="customCheck<?php echo $tempahan_id; ?>">
+                                                                <label class="form-check-label" for="customCheck<?php echo $tempahan_id; ?>">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        <td colspan="8" class="text-center"><strong>Tiada tempahan perkahwinan</strong></td>
+                                                    </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>

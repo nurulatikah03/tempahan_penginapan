@@ -1,6 +1,5 @@
 <?php
-session_start();
-include_once 'Models/pekejPerkahwinan.php' ?>
+session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -158,8 +157,8 @@ include_once 'Models/pekejPerkahwinan.php' ?>
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
+    <!-- ***** Preloader Start ***** -->
+    <!-- <div id="js-preloader" class="js-preloader">
 		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
 		  <span class="visually-hidden">Loading...</span>
 		</div>
@@ -169,16 +168,28 @@ include_once 'Models/pekejPerkahwinan.php' ?>
 		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
 		  <span class="visually-hidden">Loading...</span>
 		</div>
-    </div>
+    </div> -->
     <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
-
         <?php include 'partials/header.php';
-        $package = PekejPerkahwinan::getPekejPerkahwinanById($_GET['id_perkahwinan']) ?>
+        include_once 'Models/pekejPerkahwinan.php';
+        $package = PekejPerkahwinan::getPekejPerkahwinanById($_GET['id_perkahwinan']);
+        if (empty($package)) {?>
+        
+        <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
+			<div class="auto-container">
+				<h1>Pakej Perkahwinan 'Raikan Cinta'</h1>
+			</div>
+		</div>
+        <?php
+            include 'partials/404 barang tak jumpa.php';
+            include 'partials/footer.php'; 
+            exit();
+        } ?>
 
-        <div class="page-title" style="background-image: url(<?php echo $package->getGambarPekej(); ?>);">
+        <div class="page-title" style="background-image: url(<?php echo str_replace(' ', '%20', $package->getGambarBannerKahwin()); ?>);">
             <div class="auto-container">
                 <h1><?php echo $package->getNamaDewan(); ?></h1>
             </div>
@@ -188,7 +199,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                 <ul class="bredcrumb-list">
                     <li><a href="index.php">Laman Utama</a></li>
                     <li><a href="pakejPerkahwinan.php">Pakej Perkahwinan</a></li>
-                    <li><?php $package->getNamaPekej() ?></li>
+                    <li><?php echo $package->getNamaPekej() ?></li>
                 </ul>
             </div>
         </div>
@@ -202,7 +213,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                             <h2 class="mb_40"><?php echo $package->getNamaPekej(); ?></h2>
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPendek(); ?></p>
 
-                            <div class="mb_60"><img src="<?php echo $package->getGambarPekej(); ?>" style="height: 400px; width:800px" alt=""></div>
+                            <div class="mb_60"><img src="<?php echo $package->getGambarMainKahwin(); ?>" style="height: 400px; width:800px" alt=""></div>
 
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPenuh(); ?></p>
 
@@ -274,7 +285,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                                             </div>
                                             <?php if (strcasecmp($addOn['add_on_nama'], 'Ruang porch') == 0) { ?>
                                                 <input type="hidden" id="quantity_input_<?php echo $addOn['add_on_id']; ?>" name="quantity_<?php echo $addOn['add_on_nama']; ?>" value="1">
-                                                
+
                                             <?php } else { ?>
                                                 <div id="quantity_<?php echo $addOn['add_on_id']; ?>" style="display: none; margin-left: 20px;">
                                                     <label for="quantity_input_<?php echo $addOn['add_on_id']; ?>">Quantity:</label>
@@ -295,7 +306,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                                         <input type="hidden" name="nama_dewan" value="<?php echo $package->getNamaDewan(); ?>">
                                         <input type="hidden" name="id_dewan" value="<?php echo $package->getIdDewan(); ?>">
                                         <input type="hidden" name="nama_pekej" value="<?php echo $package->getNamaPekej(); ?>">
-                                        <input type="hidden" name="gambar_pekej" value="<?php echo $package->getGambarPekej(); ?>">
+                                        <input type="hidden" name="gambar_pekej" value="<?php echo $package->getGambarMainKahwin(); ?>">
                                         <input type="hidden" name="peocess" value="kahwin">
                                         <button type="submit" name="Submit" class="btn-1">Buat Tempahan<span></span></button>
                                     </div>
@@ -316,7 +327,7 @@ include_once 'Models/pekejPerkahwinan.php' ?>
                 </div>
             </div>
         </section>
-        <?php 
+        <?php
         include 'partials\additional_pekejKahwin.php';
         include 'partials/footer.php'; ?>
 
@@ -409,13 +420,13 @@ include_once 'Models/pekejPerkahwinan.php' ?>
             });
         });
     </script>
-	<script>
-	window.addEventListener("load", function () {
-		setTimeout(function () {
-			document.querySelector(".js-preloader").classList.add("loaded");
-		}, 1000);
-	});
-	</script>
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                document.querySelector(".js-preloader").classList.add("loaded");
+            }, 1000);
+        });
+    </script>
 
 
 </body>

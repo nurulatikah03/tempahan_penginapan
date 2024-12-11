@@ -200,7 +200,7 @@
 						<div class="col-lg-6 col-md-6">
 							<div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $wowDelay; ?>s" data-wow-duration=".8s">
 								<div class="room-1-image hvr-img-zoom-1">
-									<img src="<?php echo $pekej->getGambarPekej(); ?>" alt="<?php echo $pekej->getNamaPekej(); ?>" style="width: 100%; height: 300px; object-fit: cover;">
+									<img src="<?php echo $pekej->getGambarMainKahwin(); ?>" alt="<?php echo $pekej->getNamaPekej(); ?>" style="width: 100%; height: 300px; object-fit: cover;">
 								</div>
 								<div class="room-1-content">
 									<p class="room-1-meta-info">Kadar Harga <span class="theme-color">RM<?php echo $pekej->getHargaPekej(); ?></span>/hari</p>

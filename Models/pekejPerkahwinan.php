@@ -1,5 +1,5 @@
 <?php
-include_once "dewan.php";
+include_once 'dewan.php';
 include_once __DIR__ . '/../database/DBConnec.php';
 
 
@@ -10,17 +10,39 @@ class PekejPerkahwinan extends Dewan
     private $harga_pekej;
     private $penerangan_pendek;
     private $penerangan_penuh;
-    private $gambar_pekej;
+    private $gambarMainKahwin;
+    private $gambarBannerKahwin;
+    private $gambarAddKahwin;
 
-    public function __construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd, $id_pekej, $nama_pekej, $harga_pekej, $penerangan_pendek, $penerangan_penuh, $gambar_pekej)
-    {
+    public function __construct(
+    $id_dewan, 
+    $nama_dewan, 
+    $kadar_sewa, 
+    $bilangan_muatan, 
+    $penerangan, 
+    $peneranganKemudahan, 
+    $status_dewan, 
+    $gambarMain, 
+    $gambarBanner, 
+    $gambarAdd, 
+    $id_pekej, 
+    $nama_pekej, 
+    $harga_pekej, 
+    $penerangan_pendek, 
+    $penerangan_penuh, 
+    $gambarMainKahwin, 
+    $gambarBannerKahwin, 
+    $gambarAddKahwin
+    ) {
         parent::__construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd);
         $this->id_pekej = $id_pekej;
         $this->nama_pekej = $nama_pekej;
         $this->harga_pekej = $harga_pekej;
         $this->penerangan_pendek = $penerangan_pendek;
         $this->penerangan_penuh = $penerangan_penuh;
-        $this->gambar_pekej = $gambar_pekej;
+        $this->gambarMainKahwin = $gambarMainKahwin;
+        $this->gambarBannerKahwin = $gambarBannerKahwin;
+        $this->gambarAddKahwin = $gambarAddKahwin;
     }
 
     public function getIdPekej()
@@ -48,24 +70,29 @@ class PekejPerkahwinan extends Dewan
         return $this->penerangan_penuh;
     }
 
-    public function getGambarPekej()
+    public function getGambarMainKahwin()
     {
-        return $this->gambar_pekej;
+        return $this->gambarMainKahwin;
+    }
+
+    public function getGambarBannerKahwin()
+    {
+        return $this->gambarBannerKahwin;
+    }
+
+    public function getGambarAddKahwin()
+    {
+        return $this->gambarAddKahwin;
     }
 
     public static function getAllPekejPerkahwinan()
     {
         $conn = DBConnection::getConnection();
         $sql = "SELECT
-    id_perkahwinan,
-    nama_pekej_kahwin,
-    harga_pekej,
-    huraian,
-    huraian_pendek,
-    gambar_pekej,
-    id_dewan
-FROM
-    perkahwinan;";
+                    id_perkahwinan,
+                    id_dewan
+                FROM
+                    perkahwinan;";
 
         $result = $conn->query($sql);
         $packages = [];
@@ -73,7 +100,7 @@ FROM
         if ($result) {
             while ($row = $result->fetch_assoc()) {
                 $dewan = Dewan::getDewanById($row['id_dewan']);
-
+                $pekej = PekejPerkahwinan::getPekejPerkahwinanById($row['id_perkahwinan']);
                 $package = new PekejPerkahwinan(
                     $row['id_dewan'],
                     $dewan->getNamaDewan(),
@@ -86,11 +113,13 @@ FROM
                     $dewan->getGambarBanner(),
                     $dewan->getGambarAdd(),
                     $row['id_perkahwinan'],
-                    $row['nama_pekej_kahwin'],
-                    $row['harga_pekej'],
-                    $row['huraian_pendek'],
-                    $row['huraian'],
-                    $row['gambar_pekej']
+                    $pekej->getNamaPekej(),
+                    $pekej->getHargaPekej(),
+                    $pekej->getPeneranganPendek(),
+                    $pekej->getPeneranganPenuh(),
+                    $pekej->getGambarMainKahwin(),
+                    $pekej->getGambarBannerKahwin(),
+                    $pekej->getGambarAddKahwin()
                 );
                 array_push($packages, $package);
             }
@@ -102,6 +131,11 @@ FROM
     public static function getPekejPerkahwinanById($id)
     {
         $conn = DBConnection::getConnection();
+
+        $imgMain = PekejPerkahwinan::getPerkahwinanImageByType($id, 'main');
+        $imgBanner = PekejPerkahwinan::getPerkahwinanImageByType($id, 'banner');
+        $imgList = PekejPerkahwinan::getPerkahwinanImageByType($id, 'add');
+
         $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
@@ -125,11 +159,14 @@ FROM
             $row['harga_pekej'],
             $row['huraian_pendek'],
             $row['huraian'],
-            $row['gambar_pekej']
+            $imgMain,
+            $imgBanner,
+            $imgList
         );
         $stmt->close();
         return $package;
     }
+
 
     public static function getPackageNameById($id)
     {
@@ -143,6 +180,33 @@ FROM
         $stmt->close();
         return $row['nama_pekej_kahwin'];
     }
+
+    public static function getPerkahwinanImageByType($id_perkahwinan, $type)
+    {
+        $conn = DBConnection::getConnection();
+
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT url_gambar FROM url_gambar WHERE id_perkahwinan = ? AND jenis_gambar = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $id_perkahwinan, $type);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $images = [];
+        while ($row = $result->fetch_assoc()) {
+            $images[] = $row['url_gambar'];
+        }
+
+        $stmt->close();
+
+        // Return a single URL if only one image is expected, otherwise return the list
+        return ($type === 'main' || $type === 'banner') ? ($images[0] ?? null) : $images;
+    }
+
 
     public static function getAllAddOn()
     {
@@ -228,7 +292,8 @@ FROM
     }
 }
 
-function checkAvailabilityWed($id, $date){
+function checkAvailabilityWed($id, $date)
+{
     $conn = DBConnection::getConnection();
     $sql = "SELECT * FROM tempahan WHERE id_perkahwinan = ? AND tarikh_tempahan = ?";
     $stmt = $conn->prepare($sql);

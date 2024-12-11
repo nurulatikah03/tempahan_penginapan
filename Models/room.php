@@ -176,7 +176,7 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT url_gambar FROM bilik_pic WHERE id_bilik = ? AND jenis_gambar = ?";
+        $sql = "SELECT url_gambar FROM url_gambar WHERE id_bilik = ? AND jenis_gambar = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("is", $room_id, $type);
         $stmt->execute();

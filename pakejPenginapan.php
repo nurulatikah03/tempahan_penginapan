@@ -32,22 +32,22 @@
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
+    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <!-- ***** Preloader End ***** -->
-	
+
     <div class="page-wrapper">
-	
+
         <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
             <?php
             include 'partials/header.php';
@@ -75,28 +75,19 @@
                 </div>
                 <div class="row">
                     <?php
-                    $conn = DBConnection::getConnection();
-                    $stmt = "SELECT b.id_bilik, b.nama_bilik, b.harga_semalaman, b.huraian_pendek,g.url_gambar FROM bilik b LEFT JOIN bilik_pic g ON b.id_bilik = g.id_bilik WHERE jenis_gambar = 'main';";
-                    try {
-                        $result = $conn->query($stmt);
-                        if (!$result) {
-                            throw new Exception($conn->error);
-                        }
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
+                    include_once 'Models/room.php';
+                    $rooms = Room::getAllRooms();
                     $delay = 0.8;
-                    if ($result->num_rows > 0) {
-                        while ($room = $result->fetch_assoc()) {
-
-                            $room_name = $room['nama_bilik'];
-                            $short_description = $room['huraian_pendek'];
-                            $price = $room['harga_semalaman'];
-                            $main_img = $room['url_gambar'];
-                            $room_id = $room['id_bilik'];
+                    if (!empty($rooms)) {
+                        foreach ($rooms as $room) {
+                            $room_id = $room->getId();
+                            $room_name = $room->getName();
+                            $price = $room->getPrice();
+                            $short_description = $room->getShortDesc();
+                            $main_img = $room->getImgMain();
                     ?>
                             <div class="col-lg-4 col-md-6">
-                                <div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $delay;?>s" data-wow-duration="1.2s">
+                                <div class="room-1-block wow fadeInUp" data-wow-delay="<?php echo $delay; ?>s" data-wow-duration="1.2s">
                                     <div class="room-1-image hvr-img-zoom-1">
                                         <img src="<?php echo htmlspecialchars($main_img); ?>" style="height: 200px; width:425px">
                                     </div>
@@ -115,7 +106,7 @@
                                 </div>
                             </div>
                     <?php
-                    $delay += 0.2;
+                            $delay += 0.2;
                         }
                     } else {
                         // If no rooms are found
@@ -147,13 +138,13 @@
     <script src="assets/js/booking-form.js"></script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
-	<script>
-	window.addEventListener("load", function () {
-		setTimeout(function () {
-			document.querySelector(".js-preloader").classList.add("loaded");
-		}, 1000);
-	});
-	</script>
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(function() {
+                document.querySelector(".js-preloader").classList.add("loaded");
+            }, 1000);
+        });
+    </script>
 
 
 </body>
