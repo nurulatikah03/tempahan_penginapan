@@ -170,7 +170,6 @@ body {
 		<div class="page-title" style="background-image: url(assets/images/background/pakejj.jpg);">
 			<?php 
 			include'partials/header.php'; 
-			include("database/DBConnec.php");
 			?>
 		
 		<div class="auto-container">
