@@ -150,7 +150,7 @@ session_start();
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
-                            <strong>Tarkkh Masuk:</strong>
+                            <strong>Tarikh Masuk:</strong>
                         </div>
                         <div class="col-sm-8">
                             <?php echo $_SESSION["checkInDate"] ?>
@@ -169,7 +169,7 @@ session_start();
                             <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["total_person"] ?> Hari
+                            <?php echo $_SESSION["total_person"] ?> P
                         </div>
                     </div>
                     <div class="row mb-3">
