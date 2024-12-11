@@ -130,12 +130,10 @@
 																echo '<input class="form-check-input" type="checkbox" name="kemudahan[]" value="' . $id_kemudahan . '" id="kemudahan_' . $id_kemudahan . '">';
 																echo '<label class="form-check-label" for="kemudahan_' . $id_kemudahan . '">';
 																
-																// Check if the icon_url is provided
 																if ($icon_url) {
 																	echo '<img src="../' . $icon_url . '" alt="' . $nama . '" style="height: 25px; margin-right: 5px;">';
 																}
 																
-																// Display the name of the facility
 																echo $nama;
 																echo '</label>';
 																echo '</div>';
@@ -145,7 +143,6 @@
 															echo '<div class="col-12">No kemudahan available.</div>';
 														}
 
-														// Close connection
 														$conn->close();
 														?>
 													</div>
@@ -191,44 +188,27 @@
 												</div>
 											</div>
 										</form>
-                                    </div> <!-- end card-body-->
-                                </div> <!-- end card-->
-                            </div> <!-- end col -->
+                                    </div> 
+                                </div>
+                            </div> 
                         </div>
-                        <!-- end row -->   
-						
-                    </div> <!-- container -->
-
-                </div> <!-- content -->
-
-                
+                    </div>
+                </div> 
                 <?php include 'partials/footer.php'; ?>
 
             </div>
-
             <?php include 'partials/right-sidemenu.php'; ?>
         </div>
-        <!-- END wrapper -->
 
 		
-
-
-        <!-- bundle -->
         <script src="assets/js/vendor.min.js"></script>
         <script src="assets/js/app.min.js"></script>
-
-        <!-- third party js -->
         <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
         <script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
         <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
         <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
         <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-        <!-- third party js ends -->
-
-        <!-- demo app -->
         <script src="assets/js/pages/demo.products.js"></script>
-        <!-- end demo js-->
 
     </body>
 </html>

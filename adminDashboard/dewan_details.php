@@ -169,7 +169,6 @@ $conn = DBConnection::getConnection();
                                     <div class="card-body">
                                         <div class="row">
 											<div class="col-lg-5">
-												<!-- Gambar Utama -->
 												<?php if ($utama_image): ?>
 													<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $utama_image; ?>', 'Gambar Utama')">
 														<img src="controller/<?php echo $utama_image; ?>" 
@@ -179,9 +178,7 @@ $conn = DBConnection::getConnection();
 													</a>
 												<?php endif; ?>
 
-												<!-- Gambar Banner dan Tambahan -->
 												<div class="d-lg-flex d-none justify-content-center">
-													<!-- Gambar Banner -->
 													<?php if ($banner_image): ?>
 														<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $banner_image; ?>', 'Gambar Banner')">
 															<img src="controller/<?php echo $banner_image; ?>" 
@@ -190,7 +187,6 @@ $conn = DBConnection::getConnection();
 														</a>
 													<?php endif; ?>
 
-													<!-- Gambar Tambahan -->
 													<?php if (!empty($tambahan_images)): ?>
 														<?php foreach ($tambahan_images as $tambahan): ?>
 															<a href="javascript:void(0);" class="ms-2" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
@@ -205,7 +201,6 @@ $conn = DBConnection::getConnection();
 												</div>
 											</div>
 
-											<!-- Modal untuk Memperbesar Gambar -->
 											<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
 												<div class="modal-dialog modal-dialog-centered">
 													<div class="modal-content">
@@ -323,7 +318,7 @@ $conn = DBConnection::getConnection();
         <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
         <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
         <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-        <script src="assets/js/pages/demo.products.js"></script><!-- Bootstrap CSS -->
+        <script src="assets/js/pages/demo.products.js"></script>
 
 		<script>
 		function showImage(imageUrl, jenisGambar) {

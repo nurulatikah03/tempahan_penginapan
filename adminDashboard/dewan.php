@@ -44,7 +44,6 @@ $result = $conn->query($query);
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
-	<!-- Begin page -->
 	<div class="wrapper">
 
 		<?php include 'partials/left-sidemenu.php'; ?>
@@ -54,10 +53,8 @@ $result = $conn->query($query);
 
 				<?php include 'partials/topbar.php'; ?>
 
-				<!-- Start Content-->
 				<div class="container-fluid">
 
-					<!-- start page title -->
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box">
@@ -65,7 +62,6 @@ $result = $conn->query($query);
 							</div>
 						</div>
 					</div>
-					<!-- end page title -->
 
 					<div class="row">
 						<div class="col-12">
@@ -98,10 +94,8 @@ $result = $conn->query($query);
 											</thead>
 											<tbody>
 												<?php
-												// Check if there are results and display them
 												if ($result->num_rows > 0) {
 													while ($row = $result->fetch_assoc()) {
-														// Ambil data dari hasil
 														$id_dewan = $row['id_dewan'];
 														$nama_dewan = $row['nama_dewan'];
 														$kadar_sewa = $row['kadar_sewa'];
@@ -176,31 +170,27 @@ $result = $conn->query($query);
 										<?php
 										if (isset($_SESSION['statusDelete'])) {
 											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusDelete']) . '</div>';
-											unset($_SESSION['statusDelete']); // Hapus mesej selepas dipaparkan
+											unset($_SESSION['statusDelete']); 
 										} elseif (isset($_SESSION['statusTambah'])) {
 											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusTambah']) . '</div>';
-											unset($_SESSION['statusTambah']); // Hapus mesej selepas dipaparkan
+											unset($_SESSION['statusTambah']);
 										} elseif (isset($_SESSION['statusKemaskini'])) {
 											echo '<div class="alert alert-success" role="alert">' . htmlspecialchars($_SESSION['statusKemaskini']) . '</div>';
-											unset($_SESSION['statusKemaskini']); // Hapus mesej selepas dipaparkan
+											unset($_SESSION['statusKemaskini']);
 										}
 										?>
 									</div>
 
 									<?php
-									// Close the database connection
 									$conn->close();
 									?>
 
-								</div> <!-- end card-body-->
-							</div> <!-- end card-->
-						</div> <!-- end col -->
+								</div>
+							</div>
+						</div> 
 					</div>
-					<!-- end row -->
-
-				</div> <!-- container -->
-
-			</div> <!-- content -->
+				</div> 
+			</div>
 
 
 			<?php include 'partials/footer.php'; ?>
@@ -209,27 +199,15 @@ $result = $conn->query($query);
 
 		<?php include 'partials/right-sidemenu.php'; ?>
 	</div>
-	<!-- END wrapper -->
-
-
-
-
-	<!-- bundle -->
+	
 	<script src="assets/js/vendor.min.js"></script>
 	<script src="assets/js/app.min.js"></script>
-
-	<!-- third party js -->
 	<script src="assets/js/vendor/jquery.dataTables.min.js"></script>
 	<script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
 	<script src="assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-
-	<!-- third party js ends -->
-
-	<!-- demo app -->
 	<script src="assets/js/pages/demo.products.js"></script>
-	<!-- end demo js-->
 
 </body>
 

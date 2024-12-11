@@ -173,12 +173,9 @@
 																						style="background-color: white;">
 																				</div>
 																				<?php
-																				// Gunakan DateTime dan date_diff untuk mengira bilangan hari
 																				$datetime1 = new DateTime($tarikh_daftar_masuk);
 																				$datetime2 = new DateTime($tarikh_daftar_keluar);
 																				$interval = $datetime1->diff($datetime2);
-
-																				// Dapatkan bilangan hari
 																				$bilangan_hari = $interval->days;
 																				?>
 																				<div class="mb-3">
@@ -256,43 +253,30 @@
 											</tbody>
 										</table>
                                     </div>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col -->
+                                </div> 
+                            </div> 
+                        </div> 
                     </div>
-                    <!-- end row -->
-
-                </div> <!-- container -->
-
-            </div> <!-- content -->
-
-
+                    
+                </div> 
+            </div> 
             <?php include 'partials/footer.php'; ?>
 
         </div>
 
         <?php include 'partials/right-sidemenu.php'; ?>
     </div>
-    <!-- END wrapper -->
 
 
 
-
-    <!-- bundle -->
     <script src="assets/js/vendor.min.js"></script>
     <script src="assets/js/app.min.js"></script>
-
-    <!-- third party js -->
     <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
     <script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
     <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
     <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
     <script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
-    <!-- third party js ends -->
-
-    <!-- demo app -->
     <script src="assets/js/pages/demo.products.js"></script>
-    <!-- end demo js-->
 
 </body>
 

@@ -477,14 +477,12 @@ include 'controller/get_dewan.php';
 	
 	<script>
 	function showImage(imageUrl, description) {
-		// Dynamically set image source and description based on clicked image
 		const modalImage = document.getElementById('modalImage-' + description.toLowerCase());
 		const imageDescription = document.getElementById('imageDescription-' + description.toLowerCase());
 
 		modalImage.src = imageUrl;
 		imageDescription.textContent = description;
 
-		// Update image upload name based on the type of image
 		document.getElementById('imageUpload-' + description.toLowerCase()).setAttribute('name', description.toLowerCase());
 	}
 	</script>
@@ -515,13 +513,13 @@ include 'controller/get_dewan.php';
 					alert("Gambar telah dikemaskini!");
 					const modalId = `uploadModal-${imageType}`;
 					const modal = document.getElementById(modalId);
-					const modalInstance = bootstrap.Modal.getInstance(modal); // Bootstrap modal instance
-					modalInstance.hide(); // Close the modal
+					const modalInstance = bootstrap.Modal.getInstance(modal); 
+					modalInstance.hide();
 					setTimeout(() => {
-						location.reload(); // Refresh the page
+						location.reload();
 					}, 500);
 				} else {
-					alert(data); // Display error message
+					alert(data);
 				}
 			})
 			.catch(error => {
