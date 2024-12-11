@@ -51,7 +51,7 @@
                             <a href="tempahanPenginapan.php">Penginapan</a>
                         </li>
                         <li>
-                            <a href="#">Aktiviti</a>
+                            <a href="tempahanAktiviti.php">Aktiviti</a>
                         </li>
                         <li>
                             <a href="tempahanKahwin.php">Perkahwinan</a>

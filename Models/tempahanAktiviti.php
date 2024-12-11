@@ -130,7 +130,7 @@ function generateBookingNumber($conn) {
 }
 
 function getKadarHarga($id_aktiviti) {
-    $conn = new mysqli('localhost', 'root', '', 'tempahan_penginapan');
+     $conn = DBConnection::getConnection();
     if ($conn->connect_error) {
         die("Koneksi gagal: " . $conn->connect_error);
     }

@@ -142,7 +142,6 @@ $conn = DBConnection::getConnection();
 								}
 
 								$stmt->close();
-								$conn->close();
 						?>
                         
                         <div class="row">
@@ -246,19 +245,6 @@ $conn = DBConnection::getConnection();
 														<h6 class="font-14">Kemudahan</h6>
 														<div class="row">
 															<?php
-															$servername = "localhost";
-															$username = "root";
-															$password = "";
-															$dbname = "tempahan_penginapan";
-
-															$conn = new mysqli($servername, $username, $password, $dbname);
-
-															if ($conn->connect_error) {
-																die("Connection failed: " . $conn->connect_error);
-															}
-
-															$conn->set_charset("utf8");
-
 															if (isset($_GET['id_aktiviti'])) {
 																$id_aktiviti = $_GET['id_aktiviti'];
 															} else {
@@ -272,6 +258,7 @@ $conn = DBConnection::getConnection();
 																JOIN aktiviti_kemudahan ak ON k.id_kemudahan = ak.id_kemudahan
 																WHERE ak.id_aktiviti = '$id_aktiviti'
 															";
+															$conn = DBConnection::getConnection();
 
 															$result = $conn->query($query);
 

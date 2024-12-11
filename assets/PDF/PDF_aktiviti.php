@@ -43,10 +43,13 @@ if ($result->num_rows > 0) {
     $interval = $datetime1->diff($datetime2);
     $bilangan_hari = $interval->days;
 	
-	$taxRate = 0.06;
-	$grandTotal = htmlspecialchars($row['harga_keseluruhan']);
-	$taxAmount = $grandTotal * $taxRate;
-	$totalAmount = $grandTotal + $taxAmount;
+    // Check if "total_person" is set in the session, default to 0 if not set
+    $total_person = isset($_SESSION["total_person"]) ? $_SESSION["total_person"] : 0;
+
+    $taxRate = 0.06;
+    $grandTotal = htmlspecialchars($row['harga_keseluruhan']);
+    $taxAmount = $grandTotal * $taxRate;
+    $totalAmount = $grandTotal + $taxAmount;
 
     // Buat dokumen PDF baru
     $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -74,18 +77,18 @@ if ($result->num_rows > 0) {
         <table cellpadding="5">
             <tr>
                 <td><strong>Nama Penyewa:</strong> ' . htmlspecialchars($row['nama_penuh']) . '</td>
-				<td><strong>Nombor Tempahan:</strong> ' . htmlspecialchars($row['nombor_tempahan']) . '</td>
+                <td><strong>Nombor Tempahan:</strong> ' . htmlspecialchars($row['nombor_tempahan']) . '</td>
             </tr>
             <tr>
                 <td><strong>Email:</strong> ' . htmlspecialchars($row['email']) . '</td>
-				<td><strong>Nombot Tel:</strong> ' . htmlspecialchars($row['numbor_fon']) . '</td>
+                <td><strong>Nombor Tel:</strong> ' . htmlspecialchars($row['numbor_fon']) . '</td>
             </tr>
             <tr>
                 <td><strong>Tarikh Tempahan:</strong> ' . htmlspecialchars($row['tarikh_tempahan']) . '</td>
             </tr>
             <tr>
                 <td><strong>Tarikh Masuk:</strong> ' . htmlspecialchars($row['tarikh_daftar_masuk']) . '</td>
-				<td><strong>Tarikh Keluar:</strong> ' . htmlspecialchars($row['tarikh_daftar_keluar']) . '</td>
+                <td><strong>Tarikh Keluar:</strong> ' . htmlspecialchars($row['tarikh_daftar_keluar']) . '</td>
             </tr>
         </table>
         <br/>
@@ -96,17 +99,17 @@ if ($result->num_rows > 0) {
                     <th width="20%"><strong>Bil</strong></th>
                     <th><strong>Nama Aktiviti</strong></th>
                     <th><strong>Harga Semalaman</strong></th>
-					<th><strong>Bilangan Peserta</strong></th>
+                    <th><strong>Bilangan Peserta</strong></th>
                     <th><strong>Bilangan Malam</strong></th>
                     <th><strong>Jumlah Harga</strong></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-					<td width="20%">1</td>
+                    <td width="20%">1</td>
                     <td>' . htmlspecialchars($row['nama_aktiviti']) . '</td>
                     <td>RM ' . number_format($row['kadar_harga'], 2) . '</td>
-					<td> '. $_SESSION["total_person"] . '</td>
+                    <td>' . $total_person . '</td>
                     <td>' . $bilangan_hari . '</td>
                     <td>RM ' . number_format($row['harga_keseluruhan'], 2) . '</td>
                 </tr>
@@ -115,32 +118,30 @@ if ($result->num_rows > 0) {
 
     // Tambah HTML ke PDF
     $pdf->writeHTML($html, true, false, true, false, '');
-	
-	// Summary
-$pdf->Ln(5);
-$html = '
-    <h3>Ringkasan</h3>
-    <table cellpadding="5">
-        <tr>
-            <td><strong>Jumlah harga aktiviti</strong></td>
-            <td align="right">RM' .number_format($row['harga_keseluruhan'], 2) . '</td>
-        </tr>
-        <tr>
-			
-            <td><strong>Tax (' . ($taxRate * 100) . '%)</strong></td>
-            <td align="right">RM' . number_format($taxAmount, 2) . '</td>
-        </tr>
-        <tr>
-            <td><strong>Harga total</strong></td>
-            <td align="right"><strong>RM' . number_format($totalAmount, 2) . '</strong></td>
-        </tr>
-    </table>
-    <p>If you have any questions regarding this invoice, please contact us at admin@lktn.gov.my.</p>
-';
+    
+    // Ringkasan
+    $pdf->Ln(5);
+    $html = '
+        <h3>Ringkasan</h3>
+        <table cellpadding="5">
+            <tr>
+                <td><strong>Jumlah harga aktiviti</strong></td>
+                <td align="right">RM ' . number_format($row['harga_keseluruhan'], 2) . '</td>
+            </tr>
+            <tr>
+                <td><strong>Tax (' . ($taxRate * 100) . '%)</strong></td>
+                <td align="right">RM ' . number_format($taxAmount, 2) . '</td>
+            </tr>
+            <tr>
+                <td><strong>Harga total</strong></td>
+                <td align="right"><strong>RM ' . number_format($totalAmount, 2) . '</strong></td>
+            </tr>
+        </table>
+        <p>If you have any questions regarding this invoice, please contact us at admin@lktn.gov.my.</p>
+    ';
 
-// Output summary
-$pdf->writeHTML($html, true, false, false, false, '');
-
+    // Output summary
+    $pdf->writeHTML($html, true, false, false, false, '');
 
     // Output PDF ke browser
     $pdf->Output('invoice_' . $nombor_tempahan . '.pdf', 'I');

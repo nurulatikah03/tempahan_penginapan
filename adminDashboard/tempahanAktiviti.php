@@ -47,18 +47,16 @@
 						t.harga_keseluruhan,
 						t.cara_bayar,
 						t.reference_id,
-						d.id_dewan,
-						d.nama_dewan
+						a.id_aktiviti,
+						a.nama_aktiviti
 					FROM 
 						tempahan t
 					LEFT JOIN 
-						dewan d
+						aktiviti a
 					ON 
-						t.id_dewan = d.id_dewan
+						t.id_aktiviti = a.id_aktiviti
 					WHERE 
-						t.id_dewan IS NOT NULL
-					AND 
-						t.id_perkahwinan IS NULL
+						t.id_aktiviti IS NOT NULL		
 				";
 				$conn = DBConnection::getConnection();
 				$result = $conn->query($query);
@@ -81,7 +79,7 @@
                                         <li class="breadcrumb-item active">Tempahan</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Tempahan Kemudahan Dewan</h4>
+                                <h4 class="page-title">Tempahan Kemudahan Aktiviti</h4>
                             </div>
                         </div>
                     </div>
@@ -98,7 +96,7 @@
 												<tr>
 													<th style="width: 20px;">
 														<div class="form-check">
-                                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+															<input type="checkbox" class="form-check-input" id="customCheck1">
                                                             <label class="form-check-label" for="customCheck1">&nbsp;</label>
 														</div>
 													</th>
@@ -124,7 +122,7 @@
 														$tarikh_daftar_keluar = $row['tarikh_daftar_keluar'];
 														$cara_bayar = $row['cara_bayar'];
 														$tarikh_tempahan = $row['tarikh_tempahan'];
-														$nama_dewan = $row['nama_dewan'];
+														$nama_aktiviti = $row['nama_aktiviti'];
 														$harga_keseluruhan = $row['harga_keseluruhan'];
 														?>
 														<tr>
@@ -221,8 +219,8 @@
 																						style="background-color: white;">
 																				</div>
 																				<div class="mb-3">
-																					<label class="form-label">Nama Dewan</label>
-																					<input type="text" class="form-control" value="<?php echo $nama_dewan; ?>" readonly
+																					<label class="form-label">Nama Aktiviti</label>
+																					<input type="text" class="form-control" value="<?php echo $nama_aktiviti; ?>" readonly
 																						style="background-color: white;">
 																				</div>
 																				<div class="mb-3">
@@ -238,7 +236,7 @@
 																		<div class="text-center">
 																			<button type="button" class="btn btn-secondary rounded-button"
 																				data-bs-dismiss="modal">Tutup</button>
-																			<a href="../assets/PDF/PDF_dewan.php?booking_number=<?php echo htmlspecialchars($nombor_tempahan); ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
+																			<a href="../assets/PDF/PDF_aktiviti.php?booking_number=<?php echo htmlspecialchars($nombor_tempahan); ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
 																		</div>
 																	</div>
 																</div>
