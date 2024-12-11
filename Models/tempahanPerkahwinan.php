@@ -1,5 +1,5 @@
 <?php
-include_once "tempahan.php";
+require_once "tempahan.php";
 
 
 class WeddingReservation extends Reservation

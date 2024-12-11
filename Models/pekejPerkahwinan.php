@@ -1,6 +1,6 @@
 <?php
-include_once 'dewan.php';
-include_once __DIR__ . '/../database/DBConnec.php';
+require_once 'dewan.php';
+require_once __DIR__ . '/../database/DBConnec.php';
 
 
 class PekejPerkahwinan extends Dewan
@@ -183,29 +183,38 @@ class PekejPerkahwinan extends Dewan
 
     public static function getPerkahwinanImageByType($id_perkahwinan, $type)
     {
-        $conn = DBConnection::getConnection();
-
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        try {
+            $conn = DBConnection::getConnection();
+    
+            if ($conn->connect_error) {
+                throw new Exception("Connection failed: " . $conn->connect_error);
+            }
+    
+            $sql = "SELECT url_gambar FROM url_gambar WHERE id_perkahwinan = ? AND jenis_gambar = ?";
+            $stmt = $conn->prepare($sql);
+    
+            if (!$stmt) {
+                throw new Exception("Failed to prepare statement: " . $conn->error);
+            }
+    
+            $stmt->bind_param("is", $id_perkahwinan, $type);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            $images = [];
+            while ($row = $result->fetch_assoc()) {
+                $images[] = $row['url_gambar'];
+            }
+    
+            $stmt->close();
+    
+            return ($type === 'main' || $type === 'banner') ? ($images[0] ?? null) : $images;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return null; 
         }
-
-        $sql = "SELECT url_gambar FROM url_gambar WHERE id_perkahwinan = ? AND jenis_gambar = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $id_perkahwinan, $type);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $images = [];
-        while ($row = $result->fetch_assoc()) {
-            $images[] = $row['url_gambar'];
-        }
-
-        $stmt->close();
-
-        // Return a single URL if only one image is expected, otherwise return the list
-        return ($type === 'main' || $type === 'banner') ? ($images[0] ?? null) : $images;
     }
+    
 
 
     public static function getAllAddOn()
@@ -248,12 +257,24 @@ class PekejPerkahwinan extends Dewan
     }
 
     //add package
-    public static function addPekejPerkahwinan($idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej)
+    public static function addPekejPerkahwinan($idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarMainKahwin)
     {
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO perkahwinan (id_dewan, nama_pekej_kahwin, harga_pekej, huraian_pendek, huraian, gambar_pekej) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO perkahwinan (id_dewan, nama_pekej_kahwin, harga_pekej, huraian_pendek, huraian) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isdsss", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej);
+        $stmt->bind_param("isdss", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh);
+        $stmt->execute();
+        $stmt->close();
+        PekejPerkahwinan::addImages($conn->insert_id, 'main', $gambarMainKahwin);
+    }
+
+    //add images
+    public static function addImages($id, $type, $url)
+    {
+        $conn = DBConnection::getConnection();
+        $sql = "INSERT INTO url_gambar (id_perkahwinan, jenis_gambar, url_gambar) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $id, $type, $url);
         $stmt->execute();
         $stmt->close();
     }

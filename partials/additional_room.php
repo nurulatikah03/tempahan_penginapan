@@ -1,6 +1,5 @@
 <!-- Related room -->
  
-<?php include_once 'database/DBConnec.php';?>
 <section class="section-padding">
         <div class="auto-container">
             <div class="section_heading text-left mb_30 mt_30">
@@ -9,23 +8,21 @@
             <div class="row">
                 <?php
                 try{
-                    $conn = DBConnection::getConnection();
                     $selected_room_id = isset($_SESSION['room_id']) ? (int)$_SESSION['room_id'] : 0;
-                    $stmt = "SELECT * FROM bilik r LEFT JOIN bilik_pic ri ON r.id_bilik = ri.id_bilik WHERE jenis_gambar = 'main';";
-                    $result = $conn->query($stmt);
+                    $rooms = Room::getAllRooms();
 
-                    if ($result->num_rows > 0) {
-                        while ($room = $result->fetch_assoc()) {
-                            $room_id = $room['id_bilik'];
+                    if (!empty($rooms)) {
+                        foreach ($rooms as $room) {
+                            $room_id = $room->getId();
                             
                             if ($room_id == $selected_room_id) {
                                 continue; 
                             }
 
-                            $room_name = $room['nama_bilik'];
-                            $short_description = $room['huraian_pendek'];
-                            $price = $room['harga_semalaman'];
-                            $main_img = $room['url_gambar']; 
+                            $room_name = $room->getName();
+                            $short_description = $room->getShortDesc();
+                            $price = $room->getPrice();
+                            $main_img = $room->getImgMain(); 
                     ?>
 
                         <div class="col-lg-4 col-md-6">
@@ -57,8 +54,6 @@
                     echo "Error: " . $e->getMessage();
                 }
                     ?>
-                
-                
             </div>
         </div>
     </section>

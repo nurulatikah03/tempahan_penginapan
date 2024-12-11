@@ -10,18 +10,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $kadar_harga = $_POST['kadar_harga'];
         $penerangan_pendek = $_POST['penerangan_pendek'];
         $penerangan_panjang = $_POST['penerangan_panjang'];
-        $gambar_pekej = $_FILES['fileinput']['name'];
-        $gambar_pekej_temp = $_FILES['fileinput']['tmp_name'];
+        $gambar_pekej_main = $_FILES['fileinput']['name'];
+        $gambar_pekej_main_temp = $_FILES['fileinput']['tmp_name'];
 
         if ($kadar_harga < 1) {
             $_SESSION['error'] = "Kadar harga tidak boleh kurang daripada 1.";
             echo "<script>window.history.back();</script>";
         } else {
             $target_dir = '../../assets/images/resource/';
-            $target_dir_database = 'assets/images/resource/' . basename($gambar_pekej);
-            $target_file = $target_dir . basename($gambar_pekej);
+            $target_dir_database = 'assets/images/resource/' . basename($gambar_pekej_main);
+            $target_file = $target_dir . basename($gambar_pekej_main);
 
-            if (move_uploaded_file($gambar_pekej_temp, $target_file)) {
+            if (move_uploaded_file($gambar_pekej_main_temp, $target_file)) {
                 PekejPerkahwinan::addPekejPerkahwinan($id_dewan, $nama_pekej, $kadar_harga, $penerangan_pendek, $penerangan_panjang, $target_dir_database);
                 $_SESSION['success'] = "Pekej Perkahwinan telah berjaya ditambah.";
                 header("Location: ../perkahwinan.php");

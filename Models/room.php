@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../database/DBConnec.php';
+require_once __DIR__ . '/../database/DBConnec.php';
 
 
 class Room
@@ -189,7 +189,6 @@ class Room
 
         $stmt->close();
 
-        // Return a single URL if only one image is expected, otherwise return the list
         return ($type === 'main' || $type === 'banner') ? ($images[0] ?? null) : $images;
     }
 
@@ -273,7 +272,7 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "DELETE FROM bilik_pic WHERE id_bilik = ? AND jenis_gambar = ? AND url_gambar = ?";
+        $sql = "DELETE FROM url_gambar WHERE id_bilik = ? AND jenis_gambar = ? AND url_gambar = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iss", $roomID, $imgType, $imgURL);
         $stmt->execute();
@@ -289,12 +288,16 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "DELETE FROM bilik_pic WHERE id_bilik = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $roomId);
-        $stmt->execute();
-
-        $stmt->close();
+        try {
+            $sql = "DELETE FROM url_gambar WHERE id_bilik = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $roomId);
+            $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error deleting images for room ID $roomId: " . $e->getMessage());
+        } finally {
+            $stmt->close();
+        }
     }
 
     public static function delAmenByRoomId($roomId)
@@ -342,7 +345,7 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "INSERT INTO bilik_pic (id_bilik, url_gambar, jenis_gambar) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO url_gambar (id_bilik, url_gambar, jenis_gambar) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("iss", $roomId, $imgURL, $imgType);
         $stmt->execute();
@@ -450,7 +453,7 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND url_gambar = ? AND jenis_gambar = ?";
+        $sql = "UPDATE url_gambar SET url_gambar = ? WHERE id_bilik = ? AND url_gambar = ? AND jenis_gambar = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("siss", $newUrl, $roomId, $oldUrl, $imgType);
         $stmt->execute();
@@ -466,11 +469,15 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "UPDATE bilik_pic SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sis", $imgURL, $roomId, $imgType);
-        $stmt->execute();
-
-        $stmt->close();
+        try {
+            $sql = "UPDATE url_gambar SET url_gambar = ? WHERE id_bilik = ? AND jenis_gambar = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sis", $imgURL, $roomId, $imgType);
+            $stmt->execute();
+        } catch (Exception $e) {
+            error_log("Error updating image for room ID $roomId: " . $e->getMessage());
+        } finally {
+            $stmt->close();
+        }
     }
 }

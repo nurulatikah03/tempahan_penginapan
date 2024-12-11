@@ -82,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (move_uploaded_file($_FILES['fileinput_tambahan']['tmp_name'][$i], $targetFile)) {
                     $urlToAddrTambahan = 'assets/images/resource/' . basename($_FILES['fileinput_tambahan']['name'][$i]);
                     Room::addImage($roomId, $urlToAddrTambahan, 'add');
-                    echo "Gambar Tambahan " . ($i + 1) . " berjaya dimuat naik.<br>";
 					header("Location: ../penginapan.php");
                 } else {
 					$_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar tambahan.";

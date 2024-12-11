@@ -1,5 +1,5 @@
 <?php
-include_once "tempahan.php";
+require_once "tempahan.php";
 
 class RoomReservation extends Reservation
 {
@@ -162,7 +162,7 @@ function countRoomAvailable($room_id, $start_date, $end_date, $num_rooms_request
         return [
             'available' => false,
             'available_rooms' => $availableRooms,
-            'message' => 'Bilik tidah ada atau tidak mencukupi untuk hari yang diminta.'
+            'message' => 'Bilik tidak ada atau tidak mencukupi untuk hari yang diminta.'
         ];
     }
 
