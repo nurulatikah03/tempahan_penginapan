@@ -1,5 +1,5 @@
 <?php
-include '../../database/database.php';
+include '../../database/DBConnec.php';
 session_start();
 
 // Check if the form was submitted
