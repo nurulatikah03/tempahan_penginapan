@@ -167,6 +167,31 @@ class Room
         }
     }
 
+    public static function getAllRoomUnits($roomId)
+    {
+        $conn = DBConnection::getConnection();
+
+        $rooms = [];
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM unit_bilik WHERE id_bilik = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $roomId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rooms[] = $row;
+            }
+        }
+
+        return $rooms;
+    }
+
     public static function getRoomImageByType($room_id, $type)
     {
         $conn = DBConnection::getConnection();
@@ -387,8 +412,27 @@ class Room
         return $roomId;
     }
 
-    //Update a Room
+    public static function addRoomUnit($roomId, $unitName, $aras)
+    {
+        try {
+            $conn = DBConnection::getConnection();
 
+            if ($conn->connect_error) {
+            throw new Exception("Connection failed: " . $conn->connect_error);
+            }
+
+            $sql = "INSERT INTO unit_bilik (id_bilik, nombor_bilik, aras) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("isi", $roomId, $unitName, $aras);
+            $stmt->execute();
+
+            $stmt->close();
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    //Update a Room
     public static function setRoomById($roomId, $name, $capacity, $type, $price, $amenDesc, $shortDesc, $longDesc, $maxCapacity, $aminitiesList)
     {
         $conn = DBConnection::getConnection();

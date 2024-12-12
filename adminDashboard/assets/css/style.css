@@ -249,6 +249,6 @@ html {
     height: auto;
 }
 
-tr:hover {
+table tbody tr:hover {
 	background-color: #f2f2f2;
-}
+  }

@@ -132,14 +132,14 @@ function countRoomAvailable($room_id, $start_date, $end_date, $num_rooms_request
     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
 
-    // Step 1: Get max_available_room for the room
-    $roomQuery = "SELECT max_capacity FROM bilik WHERE id_bilik = ?";
+    // Step 1: Count the rows of rooms in table unit_bilik where the 'status' = 'aktif' and id_bilik = $room_id
+    $roomQuery = "SELECT COUNT(*) AS TotalAvailable FROM unit_bilik WHERE status = 'aktif' AND id_bilik = ?";
     $roomStmt = $conn->prepare($roomQuery);
     $roomStmt->bind_param("i", $room_id);
     $roomStmt->execute();
     $roomResult = $roomStmt->get_result();
     $roomData = $roomResult->fetch_assoc();
-    $maxAvailable = $roomData['max_capacity'];
+    $maxAvailable = $roomData['TotalAvailable'];
 
     // Step 2: Sum the number of rooms taken in the given date range
     $countQuery = "

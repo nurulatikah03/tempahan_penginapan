@@ -283,6 +283,58 @@ try {
 							</form>
 						</div> <!-- end card-body-->
 					</div> <!-- end card-->
+
+					<!-- start edit table Unit -->
+					<div class="card" style="border-radius: 25px;">
+						<div class="card-body">
+							<?php $allRoomUnits = Room::getAllRoomUnits($room->getId()) ?>
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>No</th>
+											<th>Room Number</th>
+											<th>Aras</th>
+											<th>Status</th>
+											<th>Tarikh Aktif Semula</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php $allStatus = array('aktif', 'tak aktif', 'penyelenggaraan'); ?>
+										<?php foreach ($allRoomUnits as $index => $roomUnit): ?>
+											<tr>
+												<td><?php echo $index + 1; ?></td>
+												<td><input type="text" class="form-control" name="nombor_bilik[]" value="<?php echo $roomUnit['nombor_bilik']; ?>" required></td>
+												<td><input type="number" class="form-control" name="aras[]" value="<?php echo $roomUnit['aras']; ?>" required></td>
+												<td>
+													<select class="form-control status-dropdown" name="status[]" id="statusBilik<?php echo $index + 1; ?>" data-index="<?php echo $index + 1; ?>">
+														<?php foreach ($allStatus as $status): ?>
+															<option value="<?php echo $status; ?>" <?php echo ($roomUnit['status'] == $status) ? 'selected' : ''; ?>>
+																<?php echo ucfirst($status); ?>
+															</option>
+														<?php endforeach; ?>
+													</select>
+												</td>
+												<td>
+													<input type="date" class="form-control tarikh-input" name="tarikh_aktif_semula[]" value="<?php echo $roomUnit['tarikh_aktif_semula']; ?>" min="<?php echo date('Y-m-d'); ?>" id="tarikhAktifSemula<?php echo $index + 1; ?>" <?php echo $roomUnit['status'] != 'penyelenggaraan' ? 'disabled' : ''; ?>>
+												</td>
+												<td>
+													<a href="#" class="btn btn-primary btn-sm">Kemaskini</a>
+													<a href="#" class="btn btn-danger btn-sm">Padam</a>
+												</td>
+											</tr>
+										<?php endforeach; ?>
+									</tbody>
+								<?php if (empty($allRoomUnits)): ?>
+									<tr>
+										<td colspan="6" class="text-center">Tiada Data Bilik</td>
+									</tr>
+								<?php endif; ?>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div><!-- container -->
 			</div> <!-- content -->
 		</div><!-- content -->
@@ -628,6 +680,31 @@ try {
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- demo app -->
 	<script src="assets/js/pages/demo.products.js"></script>
+
+
+	<script>
+		// Function to toggle the activation of the date input
+		document.addEventListener('DOMContentLoaded', function() {
+			const statusDropdowns = document.querySelectorAll('.status-dropdown');
+
+			statusDropdowns.forEach(function(dropdown) {
+				dropdown.addEventListener('change', function() {
+					const index = this.getAttribute('data-index');
+					const dateInput = document.getElementById(`tarikhAktifSemula${index}`);
+
+					// Enable the date input if the status is "penyelenggaraan"
+					if (this.value === 'penyelenggaraan') {
+						dateInput.disabled = false;
+					} else {
+						dateInput.disabled = true;
+						dateInput.value = ''; // Clear the value if disabled
+					}
+				});
+			});
+		});
+	</script>
+
+
 	<!-- end demo js-->
 </body>
 

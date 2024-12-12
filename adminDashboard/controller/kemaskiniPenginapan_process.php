@@ -73,12 +73,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $_SESSION['status'] = 'Padam gambar berjaya.';
         header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
         exit;
-    } elseif ($_POST['process'] == 'deleteRoom') {
-        $roomId = $_POST['room_id'];
-        Room::delImgByRoomId($roomId);
-        Room::delAmenByRoomId($roomId);
-        Room::delRoomById($roomId);
-        $_SESSION['status'] = 'Penginapan berjaya dipadam.';
+    } 
+    elseif ($_POST['process'] == 'deleteRoom') {
+        try {
+            $roomId = $_POST['room_id'];
+            Room::delRoomById($roomId);
+            Room::delImgByRoomId($roomId);
+            Room::delAmenByRoomId($roomId);
+            $_SESSION['status'] = 'Penginapan berjaya dipadam.';
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.';
+        }
         header("Location: ../penginapan.php");
         exit;
     } elseif ($_POST['process'] == 'addRoom') {

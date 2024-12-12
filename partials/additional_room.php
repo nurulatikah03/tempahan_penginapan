@@ -11,7 +11,7 @@
                 try{
                     $conn = DBConnection::getConnection();
                     $selected_room_id = isset($_SESSION['room_id']) ? (int)$_SESSION['room_id'] : 0;
-                    $stmt = "SELECT * FROM bilik r LEFT JOIN bilik_pic ri ON r.id_bilik = ri.id_bilik WHERE jenis_gambar = 'main';";
+                    $stmt = "SELECT * FROM bilik r LEFT JOIN url_gambar ri ON r.id_bilik = ri.id_bilik WHERE jenis_gambar = 'main';";
                     $result = $conn->query($stmt);
 
                     if ($result->num_rows > 0) {

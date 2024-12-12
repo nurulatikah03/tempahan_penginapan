@@ -170,7 +170,7 @@ function getStatusAktiviti($id_aktiviti)
 }
 
 
-function countRoomAvailable($id_aktiviti, $start_date, $end_date)
+function countAktivitiAvailability($id_aktiviti, $start_date, $end_date)
 {
     $conn = DBConnection::getConnection(); // Sambungan pangkalan data
 

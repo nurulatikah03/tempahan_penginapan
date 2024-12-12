@@ -25,6 +25,8 @@
     <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -32,6 +34,24 @@
     <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
 
 </head>
+<style>
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .hotel-booking-form-1-label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    input[type="date"] {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+    }
+</style>
 
 <body>
 
@@ -60,11 +80,11 @@
         if (empty($room_details)) {
         ?>
             <div class="page-title" style="background-image: url(assets/images/background/blok_asarama.webp);">
-            <div class="auto-container">
-                <h1>Pakej Penginapan</h1>
+                <div class="auto-container">
+                    <h1>Pakej Penginapan</h1>
+                </div>
             </div>
-        </div>
-            <?php
+        <?php
             include 'partials/404 barang tak jumpa.php';
         } else {
             $_SESSION['room_id'] = $_GET['room_id'];
@@ -77,9 +97,10 @@
 
         ?>
 
-        <div class="page-title" style="background-image: url(<?php echo $room_details->getImgBanner() ?>); background-size: cover; background-position: center;">
-            <div class="auto-container">
-                <h1><?php echo $room_details->getName() ?></h1>
+            <div class="page-title" style="background-image: url(<?php echo $room_details->getImgBanner() ?>); background-size: cover; background-position: center;">
+                <div class="auto-container">
+                    <h1><?php echo $room_details->getName() ?></h1>
+                </div>
             </div>
             <div class="bredcrumb-wrap">
                 <div class="auto-container">
@@ -167,33 +188,55 @@
                         <div class="col-lg-4">
                             <div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
                                 <h4 class="mb_20"><u>Matlumat Tempahan</u></h4>
+
+
+                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+
+                                <script>
+                                    $(function() {
+                                        $('input[name="daterange"]').daterangepicker({
+                                            opens: 'left'
+                                        }, function(start, end, label) {
+                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                        });
+                                    });
+                                </script>
+
                                 <div class="booking-form-3">
+                                    <?php
+                                    $today = date('Y-m-d');
+                                    $tomorrow = date('Y-m-d', strtotime('+1 day'));
+                                    ?>
 
                                     <form class="hotel-booking-form-1-form d-block" action="Controller/1_reserve.php" method="POST">
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-                                            <input placeholder="17 Sep, 2022" type="text" name="check_in" id="nd_booking_archive_form_date_range_from" value="" />
+                                            <input
+                                                type="date"
+                                                name="check_in"
+                                                id="check_in_date"
+                                                value="<?php echo $today; ?>"
+                                                min="<?php echo $today; ?>" />
                                         </div>
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-                                            <input placeholder="21 Sep, 2022" type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="" />
+                                            <input
+                                                type="date"
+                                                name="check_out"
+                                                id="check_out_date"
+                                                value="<?php echo $tomorrow; ?>"
+                                                min="<?php echo $tomorrow; ?>" />
                                         </div>
-                                        <?php if (!strcasecmp($room_details->getType(), 'homestay') == 0): ?>
 
-                                            <div class="form-group">
-                                                <p class="hotel-booking-form-1-label">BILIK:</p>
-                                                <select name="rooms">
-                                                    <option value="1">1 BILIK</option>
-                                                    <option value="2">2 BILIK</option>
-                                                    <option value="3">3 BILIK</option>
-                                                    <option value="4">4 BILIK</option>
-                                                    <option value="5">5 BILIK</option>
-                                                </select>
+
+
+                                        <div class="form-group">
+                                            <p class="hotel-booking-form-1-label">BILIK:</p>
+                                            <div id="room-availability-container">
+                                                <!-- Room options or availability message will be dynamically updated here -->
                                             </div>
+                                        </div>
 
-                                        <?php else: ?>
-                                            <input type="hidden" name="rooms" value="1">
-                                        <?php endif; ?>
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">DEWASA:</p>
                                             <select name="adults">
@@ -277,7 +320,6 @@
                 updateSlider();
             </script>
 
-
         <?php
             include 'partials/additional_room.php';
         }
@@ -307,10 +349,67 @@
                 document.querySelector(".js-preloader").classList.add("loaded");
             }, 1000);
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkInInput = document.getElementById('check_in_date');
+            const checkOutInput = document.getElementById('check_out_date');
+            const roomContainer = document.getElementById('room-availability-container');
+            const roomId = new URLSearchParams(window.location.search).get('room_id'); // Extract room_id from URL
+
+
+            checkInInput.addEventListener('change', function() {
+                const checkInDate = new Date(checkInInput.value);
+                const checkOutDate = new Date(checkOutInput.value);
+
+                if (checkOutDate <= checkInDate) {
+                    const newCheckOutDate = new Date(checkInDate);
+                    newCheckOutDate.setDate(newCheckOutDate.getDate() + 1);
+                    checkOutInput.value = newCheckOutDate.toISOString().split('T')[0];
+                }
+            });
+
+            checkOutInput.addEventListener('change', function() {
+                const checkInDate = new Date(checkInInput.value);
+                const checkOutDate = new Date(checkOutInput.value);
+
+                if (checkOutDate <= checkInDate) {
+                    const newCheckInDate = new Date(checkOutDate);
+                    newCheckInDate.setDate(newCheckInDate.getDate() - 1);
+                    checkInInput.value = newCheckInDate.toISOString().split('T')[0];
+                }
+            });
+
+            async function updateRoomAvailability() {
+                const checkIn = checkInInput.value;
+                const checkOut = checkOutInput.value;
+
+                if (checkIn && checkOut) {
+                    console.log('Fetching availability...'); // Debug log
+                    const response = await fetch('ajax_check_availability.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            room_id: roomId,
+                            check_in: checkIn,
+                            check_out: checkOut
+                        }),
+                    });
+                    const result = await response.text();
+
+                    roomContainer.innerHTML = result; // Update room options or message
+                }
+            }
+
+            // Add event listeners for date inputs
+            checkInInput.addEventListener('change', updateRoomAvailability);
+            checkOutInput.addEventListener('change', updateRoomAvailability);
+        });
     </script>
-
-
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 </body>
 
