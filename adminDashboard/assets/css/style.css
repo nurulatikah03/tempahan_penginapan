@@ -248,3 +248,10 @@ html {
     max-width: 100%;
     height: auto;
 }
+
+.img-size {
+		width: 70px;
+		height: 48px;
+		object-fit: cover;
+		border-radius: 50%;
+	}

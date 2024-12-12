@@ -84,7 +84,7 @@
 												</div>
 											</div>
 											<div class="row mb-3">
-												<label for="bilangan_muatan" class="col-3 col-form-label">Bilangan Muatan</label>
+												<label for="bilangan_muatan" class="col-3 col-form-label">Bilangan Muatan (Orang)</label>
 												<div class="col-9">
 													<input type="number" class="form-control" id="bilangan_muatan" name="bilangan_muatan" placeholder="Bilangan Muatan" min="1" required>
 												</div>

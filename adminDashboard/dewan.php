@@ -40,7 +40,10 @@ $result = $conn->query($query);
 	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<link rel="stylesheet" href="assets/css/style.css">
+	<style>
+	
 
+	</style>
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -115,7 +118,7 @@ $result = $conn->query($query);
 																</div>
 															</td>
 															<td>
-																<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3" height="48" />
+																<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-size" />
 																<p class="m-0 d-inline-block align-middle font-16">
 																	<span class="text-body"><?php echo $nama_dewan; ?></span>
 																</p>
