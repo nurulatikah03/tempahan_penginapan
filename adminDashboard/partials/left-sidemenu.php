@@ -42,9 +42,6 @@
                 <div class="collapse" id="sidebarTempahan">
                     <ul class="side-nav-second-level">
                         <li>
-                            <a href="tempahan.php">Test all</a>
-                        </li>
-                        <li>
                             <a href="tempahanDewan.php">Dewan</a>
                         </li>
                         <li>
