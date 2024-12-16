@@ -1,7 +1,4 @@
 jQuery(document).ready(function () {
-    $("#nd_booking_archive_form_date_range_from, #nd_booking_archive_form_date_range_to").on("change", function () {
-        calculateTotal();
-    });
     jQuery(function ($) {
         // Helper function to calculate the number of days between two dates
         function calculateNumberOfDays(fromDate, toDate) {
@@ -22,10 +19,6 @@ jQuery(document).ready(function () {
             }
         }
 
-        $("#nd_booking_archive_form_date_range_from, #nd_booking_archive_form_date_range_to").on("change", function () {
-            updateNumberOfDays();
-            calculateTotal(); // Directly call calculateTotal to ensure updates
-        });
 
         // Initialize the "from" datepicker
         $("#nd_booking_archive_form_date_range_from").datepicker({
