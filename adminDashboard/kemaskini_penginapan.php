@@ -122,10 +122,10 @@ try {
 						</div>
 					</div>
 					<!-- end page title -->
+					<h2 class="text-center mt-4">Kemaskini Maklumat bilik</h2>
 					<div class="card" style="border-radius: 25px;">
 						<div class="card-body">
 							<div>
-								<h3 class="text-center"><label class="col-3 col-form-label">Gambar Bilik</label></h3>
 								<!-- PICTURE -->
 								<div class="images">
 									<div class="row mb-3">
@@ -202,9 +202,11 @@ try {
 								unset($_SESSION['status']);
 							}
 							?>
-							<br>
-							<hr>
-							<h3 class="text-center"><label class="col-3 col-form-label">Maklumat bilik</label></h3>
+						</div>
+					</div>
+					<h2 class="text-center mt-4">Kemaskini Maklumat bilik</h2>
+					<div class="card" style="border-radius: 25px;">
+						<div class="card-body">
 
 							<!-- Form for updating the room details -->
 							<form class="form-horizontal" method="post" action="controller/kemaskiniPenginapan_process.php">
@@ -277,7 +279,7 @@ try {
 									<div class="col-9">
 										<input type="hidden" name="penginapan_id" value="<?php echo $room->getId(); ?>">
 										<input type="hidden" name="process" value="UpdateMetaData">
-										<button type="submit" name="Submit" class="btn btn-info ">Kemaskini</button>
+										<button type="submit" name="Submit" class="btn btn-info rounded-button m-0">Kemaskini Maklumat Bilik</button>
 									</div>
 								</div>
 							</form>
@@ -285,53 +287,71 @@ try {
 					</div> <!-- end card-->
 
 					<!-- start edit table Unit -->
+					<h2 class="text-center mt-4">Kemaskini Unit Bilik</h2>
 					<div class="card" style="border-radius: 25px;">
 						<div class="card-body">
 							<?php $allRoomUnits = Room::getAllRoomUnits($room->getId()) ?>
 							<div class="table-responsive">
-								<table class="table table-bordered">
-									<thead>
-										<tr>
-											<th>No</th>
-											<th>Room Number</th>
-											<th>Aras</th>
-											<th>Status</th>
-											<th>Tarikh Aktif Semula</th>
-											<th>Actions</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php $allStatus = array('aktif', 'tak aktif', 'penyelenggaraan'); ?>
-										<?php foreach ($allRoomUnits as $index => $roomUnit): ?>
+								<form method="post" action="controller/updateRoomUnit.php">
+									<table class="table table-bordered">
+										<thead>
 											<tr>
-												<td><?php echo $index + 1; ?></td>
-												<td><input type="text" class="form-control" name="nombor_bilik[]" value="<?php echo $roomUnit['nombor_bilik']; ?>" required></td>
-												<td><input type="number" class="form-control" name="aras[]" value="<?php echo $roomUnit['aras']; ?>" required></td>
-												<td>
-													<select class="form-control status-dropdown" name="status[]" id="statusBilik<?php echo $index + 1; ?>" data-index="<?php echo $index + 1; ?>">
-														<?php foreach ($allStatus as $status): ?>
-															<option value="<?php echo $status; ?>" <?php echo ($roomUnit['status'] == $status) ? 'selected' : ''; ?>>
-																<?php echo ucfirst($status); ?>
-															</option>
-														<?php endforeach; ?>
-													</select>
-												</td>
-												<td>
-													<input type="date" class="form-control tarikh-input" name="tarikh_aktif_semula[]" value="<?php echo $roomUnit['tarikh_aktif_semula']; ?>" min="<?php echo date('Y-m-d'); ?>" id="tarikhAktifSemula<?php echo $index + 1; ?>" <?php echo $roomUnit['status'] != 'penyelenggaraan' ? 'disabled' : ''; ?>>
-												</td>
-												<td>
-													<a href="#" class="btn btn-primary btn-sm">Kemaskini</a>
-													<a href="#" class="btn btn-danger btn-sm">Padam</a>
-												</td>
+												<th>No</th>
+												<th>Room Number</th>
+												<th>Aras</th>
+												<th>Status</th>
+												<th>Tarikh Aktif Semula</th>
+												<th class="text-center">Tindakan</th>
 											</tr>
-										<?php endforeach; ?>
-									</tbody>
-								<?php if (empty($allRoomUnits)): ?>
-									<tr>
-										<td colspan="6" class="text-center">Tiada Data Bilik</td>
-									</tr>
-								<?php endif; ?>
-								</table>
+										</thead>
+										<tbody>
+											<?php $allStatus = array('aktif', 'tak aktif', 'penyelenggaraan'); ?>
+											<?php foreach ($allRoomUnits as $index => $roomUnit): ?>
+												<tr>
+													<td><?php echo $index + 1; ?></td>
+													<td><input type="text" class="form-control" name="nombor_bilik[]" value="<?php echo $roomUnit['nombor_bilik']; ?>" required></td>
+													<td><input type="number" class="form-control" name="aras[]" value="<?php echo $roomUnit['aras']; ?>" required></td>
+													<td>
+														<select class="form-control status-dropdown" name="status[]" id="statusBilik<?php echo $index + 1; ?>" data-index="<?php echo $index + 1; ?>">
+															<?php foreach ($allStatus as $status): ?>
+																<option value="<?php echo $status; ?>" <?php echo ($roomUnit['status_bilik'] == $status) ? 'selected' : ''; ?>>
+																	<?php echo ucfirst($status); ?>
+																</option>
+															<?php endforeach; ?>
+														</select>
+													</td>
+													<td>
+														<input
+															type="date"
+															class="form-control tarikh-input"
+															name="tarikh_aktif_semula[]"
+															value="<?php echo !empty($roomUnit['tarikh_aktif_semula']) ? $roomUnit['tarikh_aktif_semula'] : ''; ?>"
+															min="<?php echo date('Y-m-d'); ?>"
+															id="tarikhAktifSemula<?php echo $index + 1; ?>"
+															<?php echo $roomUnit['status_bilik'] != 'penyelenggaraan' ? 'readonly' : ''; ?>>
+													</td>
+													<input type="hidden" name="UB_id[]" value="<?php echo $roomUnit['id_ub']; ?>">
+													<td class="text-center">
+														<form action="controller/updateRoomUnit.php" method="POST">
+															<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
+															<input type="hidden" name="UB_idDel" value="<?php echo $roomUnit['id_ub']; ?>">
+															<button type="submit" name="process" value="delRoom" class="btn btn-danger rounded-button">Padam</button>
+														</form>
+													</td>
+												</tr>
+											<?php endforeach; ?>
+											<?php if (empty($allRoomUnits)): ?>
+												<tr>
+													<td colspan="6" class="text-center">Tiada Data Bilik</td>
+												</tr>
+											<?php endif; ?>
+										</tbody>
+									</table>
+									<div class="text-end">
+										<button type="submit" name="process" value="updateRoomUnit" class="btn btn-info rounded-button m-0">Kemaskini Unit Bilik</button>
+										<button type="button" data-bs-toggle="modal" data-bs-target="#modalTambahBilik" class="btn btn-success rounded-button m-0 ms-3">Tambah unit bilik</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -339,8 +359,83 @@ try {
 			</div> <!-- content -->
 		</div><!-- content -->
 
-		<!-- start edit MODAL -->
+		<!-- Modal  tambah Unit bilik-->
+		<div class="modal fade modal-backdrop-edit" id="modalTambahBilik" tabindex="-1">
+			<div class="modal-dialog modal-lg-custom">
+				<div class="modal-content">
+					<form action="controller/kemaskiniPenginapan_process.php" method="POST">
+						<div class="modal-header">
+							<h5 class="modal-title">Tambah Unit Bilik</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<h4>Jumlah Bilik</h4>
+							<input type="number" class="form-control" id="jumlahBilik" placeholder="Jumlah Bilik" min="1" max="100" required>
+							<table class="table table-bordered mt-3">
+								<thead>
+									<tr>
+										<th>Nombor Unit Bilik</th>
+										<th>Aras</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><input type="text" class="form-control" name="nomborUnitBilikAdd[]" placeholder="Nombor Unit Bilik" required></td>
+										<td><input type="number" step="1" class="form-control" name="arasAdd[]" placeholder="Aras Bilik" required></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
+							<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
+							<input type="hidden" name="process" value="addUnitBilik">
+							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tambah unit bilik</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<script>
+				document.getElementById('jumlahBilik').addEventListener('input', function() {
+					var jumlahBilik = Math.min(this.value, 100);
+					this.value = jumlahBilik;
 
+					var tableBody = document.querySelector('#modalTambahBilik table tbody');
+					tableBody.innerHTML = '';
+
+					for (var i = 0; i < jumlahBilik; i++) {
+						var row = document.createElement('tr');
+
+						var cell1 = document.createElement('td');
+						var input1 = document.createElement('input');
+						input1.type = 'text';
+						input1.className = 'form-control';
+						input1.name = 'nomborUnitBilikAdd[]';
+						input1.placeholder = 'Nombor Unit Bilik';
+						input1.required = true;
+						cell1.appendChild(input1);
+
+						var cell2 = document.createElement('td');
+						var input2 = document.createElement('input');
+						input2.type = 'number';
+						input2.step = '1';
+						input2.className = 'form-control';
+						input2.name = 'arasAdd[]';
+						input2.placeholder = 'Aras Bilik';
+						input2.required = true;
+						cell2.appendChild(input2);
+
+						row.appendChild(cell1);
+						row.appendChild(cell2);
+
+						tableBody.appendChild(row);
+					}
+				});
+			</script>
+
+		</div>
+
+		<!-- start edit MODAL -->
 		<div class="modal fade modal-backdrop-edit" id="uploadModal-1" tabindex="-1">
 			<div class="modal-dialog modal-lg-custom">
 				<div class="modal-content">
@@ -528,6 +623,7 @@ try {
 
 	<!-- bundle -->
 	<script src="assets/js/vendor.min.js"></script>
+	<script src="assets/js/imagesScript.js"></script>
 	<script src="assets/js/app.min.js"></script>
 
 	<!-- third party js -->
@@ -538,172 +634,37 @@ try {
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
 
 	<!-- my js ends -->
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			for (let i = 1; i <= 2; i++) {
-				const dropArea = document.getElementById(`drop-area-${i}`);
-				const fileInput = document.getElementById(`fileElem-${i}`);
-				const newImageMessage = document.getElementById(`new-image-message-${i}`);
-
-				// Add click event listener to open file dialog
-				dropArea.addEventListener('click', () => {
-					fileInput.click();
-				});
-
-				// Prevent default drag behaviors
-				['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-					dropArea.addEventListener(eventName, preventDefaults);
-				});
-
-				// Highlight drop zone when dragging over it
-				['dragenter', 'dragover'].forEach(eventName => {
-					dropArea.addEventListener(eventName, () => {
-						dropArea.classList.add('highlight');
-					});
-				});
-
-				['dragleave', 'drop'].forEach(eventName => {
-					dropArea.addEventListener(eventName, () => {
-						dropArea.classList.remove('highlight');
-					});
-				});
-
-				// Handle dropped files
-				dropArea.addEventListener('drop', function(e) {
-					const dt = e.dataTransfer;
-					const files = dt.files;
-					handleFile(files[0], dropArea, fileInput, newImageMessage);
-				});
-
-				// Handle file selection through input
-				fileInput.addEventListener('change', function() {
-					if (this.files && this.files[0]) {
-						handleFile(this.files[0], dropArea, fileInput, newImageMessage);
-					}
-				});
-			}
-		});
-
-		// Prevent default behaviors for drag-and-drop
-		function preventDefaults(e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
-
-		// Handle file preview
-		function handleFile(file, dropArea, fileInput, newImageMessage) {
-			if (file.type.startsWith('image/')) {
-				const reader = new FileReader();
-
-				reader.onload = function(e) {
-					const imageUrl = e.target.result;
-					dropArea.style.backgroundImage = `url(${imageUrl})`;
-					dropArea.style.backgroundSize = 'cover';
-					dropArea.style.backgroundPosition = 'center';
-					dropArea.textContent = ''; // Clear the text inside the drop area
-
-					// Show the new image message
-					newImageMessage.style.display = 'block';
-				};
-
-				reader.readAsDataURL(file);
-
-				// Update the hidden file input
-				const dataTransfer = new DataTransfer();
-				dataTransfer.items.add(file);
-				fileInput.files = dataTransfer.files;
-			}
-		}
-
-		/**
-		 * Updates the preview box with the selected image.
-		 * @param {HTMLInputElement} input - The file input element.
-		 * @param {number} index - The index of the image slot.
-		 */
-		function previewImage(input, index) {
-			const file = input.files[0];
-			const preview = document.getElementById(`previewAdd-${index}`);
-			preview.innerHTML = ""; // Clear existing content
-
-			if (file) {
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					const img = document.createElement("img");
-					img.src = e.target.result;
-					img.className = "img-fluid";
-					img.style = "height: 100%; width: 100%; object-fit: cover;";
-					preview.appendChild(img);
-				};
-				reader.readAsDataURL(file);
-			}
-		}
-
-		function handleFileSelect(input) {
-			const container = document.getElementById('imagePreviewContainer');
-
-			Array.from(input.files).forEach((file, index) => {
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					const previewBox = document.createElement('div');
-					previewBox.className = 'preview-box position-relative';
-					previewBox.dataset.fileIndex = index;
-					previewBox.innerHTML = `
-										<div class="preview-link" style="border: 2px solid #ccc; border-radius: 25px; height: 250px; width: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-											<img src="${e.target.result}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
-										</div>
-										<button type="button" class="btn delete-btn" onclick="deletePreview(this)">Delete</button>
-									`;
-					container.appendChild(previewBox);
-				};
-				reader.readAsDataURL(file);
-			});
-		}
-
-		function deletePreview(button) {
-			const previewBox = button.closest('.preview-box');
-			const fileIndex = parseInt(previewBox.dataset.fileIndex);
-
-			// Remove preview box from DOM
-			previewBox.remove();
-
-			// Update files array by removing deleted file
-			const input = document.getElementById('fileElemAdd');
-			const dt = new DataTransfer();
-
-			Array.from(input.files)
-				.filter((_, index) => index !== fileIndex)
-				.forEach(file => dt.items.add(file));
-
-			input.files = dt.files;
-		}
-	</script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+	
 	<!-- demo app -->
 	<script src="assets/js/pages/demo.products.js"></script>
 
-
 	<script>
-		// Function to toggle the activation of the date input
 		document.addEventListener('DOMContentLoaded', function() {
+			// Get all status dropdowns
 			const statusDropdowns = document.querySelectorAll('.status-dropdown');
 
 			statusDropdowns.forEach(function(dropdown) {
-				dropdown.addEventListener('change', function() {
-					const index = this.getAttribute('data-index');
-					const dateInput = document.getElementById(`tarikhAktifSemula${index}`);
+				const index = dropdown.dataset.index;
+				const tarikhInput = document.getElementById(`tarikhAktifSemula${index}`);
 
-					// Enable the date input if the status is "penyelenggaraan"
+				dropdown.addEventListener('change', function() {
 					if (this.value === 'penyelenggaraan') {
-						dateInput.disabled = false;
+						tarikhInput.readOnly = false;
+						tarikhInput.required = true;
 					} else {
-						dateInput.disabled = true;
-						dateInput.value = ''; // Clear the value if disabled
+						tarikhInput.readOnly = true;
+						tarikhInput.value = '';
 					}
 				});
+
+				// Initialize the readonly state based on the default value
+				if (dropdown.value !== 'penyelenggaraan') {
+					tarikhInput.readOnly = true;
+				}
 			});
 		});
 	</script>
-
 
 	<!-- end demo js-->
 </body>

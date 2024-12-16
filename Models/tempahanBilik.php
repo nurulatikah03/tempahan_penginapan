@@ -133,7 +133,7 @@ function countRoomAvailable($room_id, $start_date, $end_date, $num_rooms_request
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
 
     // Step 1: Count the rows of rooms in table unit_bilik where the 'status' = 'aktif' and id_bilik = $room_id
-    $roomQuery = "SELECT COUNT(*) AS TotalAvailable FROM unit_bilik WHERE status = 'aktif' AND id_bilik = ?";
+    $roomQuery = "SELECT COUNT(*) AS TotalAvailable FROM unit_bilik WHERE status_bilik = 'aktif' AND id_bilik = ?";
     $roomStmt = $conn->prepare($roomQuery);
     $roomStmt->bind_param("i", $room_id);
     $roomStmt->execute();
@@ -162,7 +162,7 @@ function countRoomAvailable($room_id, $start_date, $end_date, $num_rooms_request
         return [
             'available' => false,
             'available_rooms' => $availableRooms,
-            'message' => 'Bilik tidah ada atau tidak mencukupi untuk hari yang diminta.'
+            'message' => 'Bilik tidak ada atau tidak mencukupi untuk hari yang diminta.'
         ];
     }
 

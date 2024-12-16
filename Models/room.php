@@ -245,7 +245,8 @@ class Room
         return $amenList;
     }
 
-    public static function getAllAminities(){
+    public static function getAllAminities()
+    {
         $conn = DBConnection::getConnection();
 
 
@@ -305,7 +306,7 @@ class Room
 
         $stmt->close();
     }
-    
+
     public static function delImgByRoomId($roomId)
     {
         $conn = DBConnection::getConnection();
@@ -342,8 +343,6 @@ class Room
     {
         $conn = DBConnection::getConnection();
 
-        Room::delImgByRoomId($roomId);
-
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
@@ -355,7 +354,7 @@ class Room
 
         $stmt->close();
     }
-    
+
 
     //Insert a Room
 
@@ -418,7 +417,7 @@ class Room
             $conn = DBConnection::getConnection();
 
             if ($conn->connect_error) {
-            throw new Exception("Connection failed: " . $conn->connect_error);
+                throw new Exception("Connection failed: " . $conn->connect_error);
             }
 
             $sql = "INSERT INTO unit_bilik (id_bilik, nombor_bilik, aras) VALUES (?, ?, ?)";
@@ -487,7 +486,8 @@ class Room
         $stmt->close();
     }
 
-    public static function updateNewImgUrl($roomId, $oldUrl, $newUrl, $imgType){
+    public static function updateNewImgUrl($roomId, $oldUrl, $newUrl, $imgType)
+    {
         $conn = DBConnection::getConnection();
 
         if ($conn->connect_error) {
@@ -517,4 +517,66 @@ class Room
 
         $stmt->close();
     }
+
+    public static function updateRoomUnit($UB_ID, $unitName, $aras, $status, $tarikh_aktif_semula)
+    {
+        try {
+            $conn = DBConnection::getConnection();
+
+            if ($conn->connect_error) {
+                throw new Exception("Connection failed: " . $conn->connect_error);
+            }
+
+            $sql = "UPDATE unit_bilik SET nombor_bilik = ?, aras = ?, status_bilik = ?, tarikh_aktif_semula = ? WHERE id_ub = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("sissi", $unitName, $aras, $status, $tarikh_aktif_semula, $UB_ID);
+            $stmt->execute();
+            $stmt->close();
+
+            if (!empty($tarikh_aktif_semula) && $status === 'penyelenggaraan') {
+                // Create a unique event name based on the room ID
+                $eventName = "set_status_bilik_aktif_" . $UB_ID;
+
+                // Drop the existing event if it already exists
+                $dropEventSql = "DROP EVENT IF EXISTS $eventName";
+                $conn->query($dropEventSql);
+
+                
+                $tarikh_aktif_semula_escaped = $conn->real_escape_string($tarikh_aktif_semula);
+                $UB_ID_escaped = (int)$UB_ID;
+
+                $eventSql = "
+                    CREATE EVENT $eventName
+                    ON SCHEDULE AT '$tarikh_aktif_semula_escaped'
+                    DO
+                    UPDATE unit_bilik
+                    SET status_bilik = 'aktif', tarikh_aktif_semula = NULL
+                    WHERE id_ub = $UB_ID_escaped;
+                ";
+
+                if (!$conn->query($eventSql)) {
+                    throw new Exception("Error creating event: " . $conn->error);
+                }
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
+    public static function delRoomUnitById($UB_ID)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM unit_bilik WHERE id_ub = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $UB_ID);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
 }

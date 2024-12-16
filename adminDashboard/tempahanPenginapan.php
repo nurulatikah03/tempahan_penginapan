@@ -197,7 +197,7 @@
                                                                         </div>
                                                                         <div class="text-center">
                                                                             <button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
-                                                                            <a href="../assets/PDF/PDF_kahwin.php?viewInvoice=<?php echo $bookingNumber; ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
+                                                                            <a href="../assets/PDF/PDF_room.php?viewInvoice=<?php echo $bookingNumber; ?>" target="_blank" class="btn btn-primary rounded-button">Lihat Resit</a>
                                                                         </div>
                                                                     </div>
                                                                 </div>

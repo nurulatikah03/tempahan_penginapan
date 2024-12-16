@@ -8,16 +8,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 if ($_POST['process'] == 'penginapan') {
+
+    $checkInDate = date("d/m/Y", strtotime($_POST['check_in']));
+    $checkOutDate = date("d/m/Y", strtotime($_POST['check_out']));
+    $rooms = ($_POST['rooms'] < 1) ? 1 : $_POST['rooms'];
+
     //Check availability
-    $availableRooms = countRoomAvailable($_SESSION['room_id'], $_POST['check_in'], $_POST['check_out'], $_POST['rooms']);
+    $availableRooms = countRoomAvailable($_SESSION['room_id'], $checkInDate, $checkOutDate, $rooms);
     if (!$availableRooms['available']) {
         $_SESSION['err'] = $availableRooms['message'];
         echo "<script>window.history.back();</script>";
         exit;
     }
-    $_SESSION['checkInDate'] = $_POST['check_in'];
-    $_SESSION['checkOutDate'] = $_POST['check_out'];
-    $_SESSION['roomsNum'] = $_POST['rooms'];
+    $_SESSION['checkInDate'] = $checkInDate;
+    $_SESSION['checkOutDate'] = $checkOutDate;
+
+
+    $_SESSION['roomsNum'] = $rooms;
     $_SESSION['adultsNum'] = $_POST['adults'];
     $_SESSION['childrenNum'] = $_POST['children'];
     header("Location: ../booking_confirmation.php");

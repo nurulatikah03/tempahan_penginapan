@@ -140,7 +140,6 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                                 </div>
                             </div>
                             <input type="hidden" name="price" value ="<?php echo $price ?>">
-                            <input type="hidden" name="num_of_night" value ="<?php echo $num_of_night ?>">
                             <input type="hidden" name="process" value ="kahwin">
                             
                             <div class="form-group mb-0 text-end">

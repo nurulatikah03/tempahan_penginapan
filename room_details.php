@@ -24,9 +24,6 @@
     <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
     <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -189,23 +186,12 @@
                             <div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
                                 <h4 class="mb_20"><u>Matlumat Tempahan</u></h4>
 
-
-                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
-
-                                <script>
-                                    $(function() {
-                                        $('input[name="daterange"]').daterangepicker({
-                                            opens: 'left'
-                                        }, function(start, end, label) {
-                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                                        });
-                                    });
-                                </script>
-
                                 <div class="booking-form-3">
                                     <?php
                                     $today = date('Y-m-d');
                                     $tomorrow = date('Y-m-d', strtotime('+1 day'));
+                                    $todayk = date('d/m/Y');
+                                    $tomorrowk = date('d/m/Y', strtotime('+1 day'));
                                     ?>
 
                                     <form class="hotel-booking-form-1-form d-block" action="Controller/1_reserve.php" method="POST">
@@ -227,14 +213,30 @@
                                                 value="<?php echo $tomorrow; ?>"
                                                 min="<?php echo $tomorrow; ?>" />
                                         </div>
-
-
-
                                         <div class="form-group">
-                                            <p class="hotel-booking-form-1-label">BILIK:</p>
-                                            <div id="room-availability-container">
-                                                <!-- Room options or availability message will be dynamically updated here -->
-                                            </div>
+                                            <?php
+                                            if (!strcasecmp($room_details->getType(), 'homestay') == 0): ?>
+                                                <p class="hotel-booking-form-1-label">BILIK:</p>
+                                                <div id="room-availability-container">
+                                                    <?php
+                                                    require_once 'Models/tempahanBilik.php';
+                                                    $roomAvailability = countRoomAvailable($_GET['room_id'], $todayk, $tomorrowk, 1);
+                                                    $roomCount = $roomAvailability['available_rooms']; ?>
+                                                    <div class="form-group">
+                                                        <?php if ($roomCount > 0): ?>
+                                                            <select name="rooms">
+                                                                <?php for ($i = 1; $i <= $roomCount; $i++): ?>
+                                                                    <option value="<?php echo $i; ?>"><?php echo $i; ?> BILIK</option>
+                                                                <?php endfor; ?>
+                                                            </select>
+                                                        <?php else: ?>
+                                                            <p>Tiada bilik tersedia hari ini.</p>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <input type="hidden" name="rooms" value="1">
+                                                <?php endif; ?>
+                                                </div>
                                         </div>
 
                                         <div class="form-group">
@@ -259,7 +261,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <button type="submit" name="submit" class="btn-1">Tempah Sekarang<span></span></button>
+                                            <button type="submit" name="submit" class="btn-1 mt-4">Tempah Sekarang<span></span></button>
                                             <input type="hidden" name="process" value="penginapan">
                                         </div>
                                     </form>
@@ -368,17 +370,6 @@
                 }
             });
 
-            checkOutInput.addEventListener('change', function() {
-                const checkInDate = new Date(checkInInput.value);
-                const checkOutDate = new Date(checkOutInput.value);
-
-                if (checkOutDate <= checkInDate) {
-                    const newCheckInDate = new Date(checkOutDate);
-                    newCheckInDate.setDate(newCheckInDate.getDate() - 1);
-                    checkInInput.value = newCheckInDate.toISOString().split('T')[0];
-                }
-            });
-
             async function updateRoomAvailability() {
                 const checkIn = checkInInput.value;
                 const checkOut = checkOutInput.value;
@@ -407,9 +398,7 @@
             checkOutInput.addEventListener('change', updateRoomAvailability);
         });
     </script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
 </body>
 

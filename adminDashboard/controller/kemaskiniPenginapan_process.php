@@ -73,17 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $_SESSION['status'] = 'Padam gambar berjaya.';
         header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
         exit;
-    } 
-    elseif ($_POST['process'] == 'deleteRoom') {
+    } elseif ($_POST['process'] == 'deleteRoom') {
+        $roomId = $_POST['room_id'];
         try {
-            $roomId = $_POST['room_id'];
             Room::delRoomById($roomId);
-            Room::delImgByRoomId($roomId);
-            Room::delAmenByRoomId($roomId);
-            $_SESSION['status'] = 'Penginapan berjaya dipadam.';
         } catch (Exception $e) {
             $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.';
+            header("Location: ../penginapan.php");
+            exit;
         }
+        Room::delImgByRoomId($roomId);
+        Room::delAmenByRoomId($roomId);
+        $_SESSION['status'] = 'Penginapan berjaya dipadam.';
         header("Location: ../penginapan.php");
         exit;
     } elseif ($_POST['process'] == 'addRoom') {
@@ -173,6 +174,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $_SESSION['status'] = 'Penginapan berjaya ditambah.';
         header("Location: ../penginapan.php");
         exit;
+
+    } elseif ($_POST['process'] == 'addUnitBilik') {
+        $roomId = $_POST['roomId'];
+        $nomborUnitBilik = $_POST['nomborUnitBilikAdd'];
+        $aras_bilik = $_POST['arasAdd'];
+        foreach ($nomborUnitBilik as $index => $unit) {
+            $aras = $aras_bilik[$index];
+            Room::addRoomUnit($roomId, $unit, $aras);
+        }
+        $_SESSION['status'] = 'Unit bilik berjaya ditambah.';
+        header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
+
     } elseif ($_POST['process'] == 'UpdateImageAdd') {
 
         if (isset($_FILES['images'])) {

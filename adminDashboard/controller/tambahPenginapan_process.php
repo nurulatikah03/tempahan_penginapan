@@ -57,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($uploadedFiles['Gambar Utama'])) {
         $targetFile = $uploadDirUtama . basename($_FILES['fileinput_utama']['name']);
         if (move_uploaded_file($_FILES['fileinput_utama']['tmp_name'], $targetFile)) {
-            echo "Gambar Utama berjaya dimuat naik.<br>";
-            header("Location: ../penginapan.php");
             $urlToAddrUtama = 'assets/images/resource/' . basename($_FILES['fileinput_utama']['name']);
             Room::addImage($roomId, $urlToAddrUtama, 'main');
         } else {
@@ -73,8 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (move_uploaded_file($_FILES['fileinput_banner']['tmp_name'], $targetFile)) {
             $urlToAddBanner = 'assets/images/background/' . basename($_FILES['fileinput_banner']['name']);
             Room::addImage($roomId, $urlToAddBanner, 'banner');
-            echo "Gambar Banner berjaya dimuat naik.<br>";
-            header("Location: ../penginapan.php");
         } else {
             $_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar banner.";
             echo "Ralat semasa memuat naik Gambar Banner.<br>";
@@ -92,7 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (move_uploaded_file($_FILES['fileinput_tambahan']['tmp_name'][$i], $targetFile)) {
                     $urlToAddrTambahan = 'assets/images/resource/' . basename($_FILES['fileinput_tambahan']['name'][$i]);
                     Room::addImage($roomId, $urlToAddrTambahan, 'add');
-                    echo "Gambar Tambahan " . ($i + 1) . " berjaya dimuat naik.<br>";
                     $_SESSION['status'] = 'Penginapan berjaya ditambah.';
                     header("Location: ../penginapan.php");
                 } else {

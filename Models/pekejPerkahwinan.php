@@ -15,24 +15,24 @@ class PekejPerkahwinan extends Dewan
     private $gambarAddKahwin;
 
     public function __construct(
-    $id_dewan, 
-    $nama_dewan, 
-    $kadar_sewa, 
-    $bilangan_muatan, 
-    $penerangan, 
-    $peneranganKemudahan, 
-    $status_dewan, 
-    $gambarMain, 
-    $gambarBanner, 
-    $gambarAdd, 
-    $id_pekej, 
-    $nama_pekej, 
-    $harga_pekej, 
-    $penerangan_pendek, 
-    $penerangan_penuh, 
-    $gambarMainKahwin, 
-    $gambarBannerKahwin, 
-    $gambarAddKahwin
+        $id_dewan,
+        $nama_dewan,
+        $kadar_sewa,
+        $bilangan_muatan,
+        $penerangan,
+        $peneranganKemudahan,
+        $status_dewan,
+        $gambarMain,
+        $gambarBanner,
+        $gambarAdd,
+        $id_pekej,
+        $nama_pekej,
+        $harga_pekej,
+        $penerangan_pendek,
+        $penerangan_penuh,
+        $gambarMainKahwin,
+        $gambarBannerKahwin,
+        $gambarAddKahwin
     ) {
         parent::__construct($id_dewan, $nama_dewan, $kadar_sewa, $bilangan_muatan, $penerangan, $peneranganKemudahan, $status_dewan, $gambarMain, $gambarBanner, $gambarAdd);
         $this->id_pekej = $id_pekej;
@@ -224,14 +224,31 @@ class PekejPerkahwinan extends Dewan
         }
         return $addons;
     }
-
-    //update package
-    public static function updatePekejPerkahwinan($id, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $idDewan, $gambarPekej)
+    //update package images
+    public static function updatePerkahwinanImage($wedId, $oldUrl, $newUrl, $imgType)
     {
         $conn = DBConnection::getConnection();
-        $sql = "UPDATE perkahwinan SET nama_pekej_kahwin = ?, harga_pekej = ?, huraian_pendek = ?, huraian = ?, id_dewan = ?, gambar_pekej = ? WHERE id_perkahwinan = ?";
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "UPDATE url_gambar SET url_gambar = ? WHERE id_bilik = ? AND url_gambar = ? AND jenis_gambar = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sdssisi", $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $idDewan, $gambarPekej, $id);
+        $stmt->bind_param("siss", $newUrl, $wedId, $oldUrl, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+
+    //update package
+    public static function updatePekejPerkahwinan($id, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $idDewan)
+    {
+        $conn = DBConnection::getConnection();
+        $sql = "UPDATE perkahwinan SET id_dewan = ?, nama_pekej_kahwin = ?, harga_pekej = ?, huraian_pendek = ?, huraian = ? WHERE id_perkahwinan = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("isdssi", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $id);
         $stmt->execute();
         $stmt->close();
     }
@@ -247,15 +264,52 @@ class PekejPerkahwinan extends Dewan
         $stmt->close();
     }
 
-    //add package
-    public static function addPekejPerkahwinan($idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej)
+    //update image by type
+    public static function updateImageKahwinByType($idPekej, $imgURL, $imgType)
     {
         $conn = DBConnection::getConnection();
-        $sql = "INSERT INTO perkahwinan (id_dewan, nama_pekej_kahwin, harga_pekej, huraian_pendek, huraian, gambar_pekej) VALUES (?, ?, ?, ?, ?, ?)";
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "UPDATE url_gambar SET url_gambar = ? WHERE id_perkahwinan = ? AND jenis_gambar = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isdsss", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh, $gambarPekej);
+        $stmt->bind_param("sis", $imgURL, $idPekej, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+    //addPerkahwinanImage
+    public static function addPerkahwinanImage($wedId, $url, $imgType)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "INSERT INTO url_gambar (id_perkahwinan, url_gambar, jenis_gambar) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $wedId, $url, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+    }
+
+
+    //add package
+    public static function addPekejPerkahwinan($idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh)
+    {
+        $conn = DBConnection::getConnection();
+        $sql = "INSERT INTO perkahwinan (id_dewan, nama_pekej_kahwin, harga_pekej, huraian_pendek, huraian) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("isdss", $idDewan, $namaPekej, $hargaPekej, $peneranganPendek, $peneranganPenuh);
         $stmt->execute();
         $stmt->close();
+
+        return $conn->insert_id;
     }
 
     //add addon
@@ -288,6 +342,22 @@ class PekejPerkahwinan extends Dewan
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
+    }
+    //del img add
+    public static function delImgKahwinAddByURL($idPekej, $imgType, $imgURL)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM url_gambar WHERE id_perkahwinan = ? AND jenis_gambar = ? AND url_gambar = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iss", $idPekej, $imgType, $imgURL);
+        $stmt->execute();
+
         $stmt->close();
     }
 }
