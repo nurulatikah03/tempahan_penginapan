@@ -87,6 +87,7 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
                             <p><strong>Nama Dewan:</strong> <?php echo htmlspecialchars($_SESSION['nama_dewan']); ?></p>
                             <p><strong>Tarikh Kenduri:</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri']); ?></p>
+                            <p><strong>Tarikh Akhir Kenduri :</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri_end']); ?></p>
                             <p><strong>Bilangan Pax:</strong> <?php echo htmlspecialchars($_SESSION['kapasiti']); ?></p>
                             <?php
                             if (isset($_SESSION['addons']) && is_array($_SESSION['addons']) && count($_SESSION['addons']) > 0) {

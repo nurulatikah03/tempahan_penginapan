@@ -261,7 +261,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group mb-3">
-                                            <button type="submit" name="submit" class="btn-1 mt-4">Tempah Sekarang<span></span></button>
+                                            <button type="submit" name="submit" class="btn-1 mt-3">Tempah Sekarang<span></span></button>
                                             <input type="hidden" name="process" value="penginapan">
                                         </div>
                                     </form>

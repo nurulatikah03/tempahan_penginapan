@@ -153,22 +153,72 @@ session_start(); ?>
         margin: 10px 0;
         /* Add margin between list items */
     }
+
+    .toggle-switch {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Add spacing between toggle and label text */
+        cursor: pointer;
+        padding: 5px 0;
+        /* Reduce padding to prevent overflow */
+        min-height: 34px;
+        user-select: none;
+    }
+
+    .toggle-switch input {
+        display: none;
+    }
+
+    .slider {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+        background-color: #ccc;
+        border-radius: 12px;
+        transition: .4s;
+        flex-shrink: 0;
+        /* Prevent shrinking of the slider */
+    }
+
+    .slider:before {
+        content: "";
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: white;
+        border-radius: 50%;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #254222;
+    }
+
+    input:checked+.slider:before {
+        transform: translate(26px, -50%);
+    }
 </style>
 
 <body>
 
     <!-- ***** Preloader Start ***** -->
-    <!-- <div id="js-preloader" class="js-preloader">
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-    </div> -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
@@ -176,16 +226,16 @@ session_start(); ?>
         <?php include 'partials/header.php';
         include_once 'Models/pekejPerkahwinan.php';
         $package = PekejPerkahwinan::getPekejPerkahwinanById($_GET['id_perkahwinan']);
-        if (empty($package)) {?>
-        
-        <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
-			<div class="auto-container">
-				<h1>Pakej Perkahwinan 'Raikan Cinta'</h1>
-			</div>
-		</div>
+        if (empty($package)) { ?>
+
+            <div class="page-title" style="background-image: url(assets/images/background/pakejPerkahwinan.jpg);">
+                <div class="auto-container">
+                    <h1>Pakej Perkahwinan 'Raikan Cinta'</h1>
+                </div>
+            </div>
         <?php
             include 'partials/404 barang tak jumpa.php';
-            include 'partials/footer.php'; 
+            include 'partials/footer.php';
             exit();
         } ?>
 
@@ -240,14 +290,14 @@ session_start(); ?>
                                 4 km dari Bandar Pasir Puteh, 5 km dari Air Terjun Jeram Pasu dan
                                 18 km dari Pantai Bisikan Bayu Semerak.</p>
                             <div class="map">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127014.51455619531!2d102.29971025820315!3d5.826894799999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31b693953c6dbc1d%3A0xf55bd15d13ab4fc1!2sInstitut%20Latihan%20Lembaga%20Kenaf%20Dan%20Tembakau%20Negara!5e0!3m2!1sen!2smy!4v1728453452821!5m2!1sen!2smy"
+                                <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127014.51455619531!2d102.29971025820315!3d5.826894799999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31b693953c6dbc1d%3A0xf55bd15d13ab4fc1!2sInstitut%20Latihan%20Lembaga%20Kenaf%20Dan%20Tembakau%20Negara!5e0!3m2!1sen!2smy!4v1728453452821!5m2!1sen!2smy"
                                     width="600"
                                     height="450"
                                     frameborder="0"
                                     style="border:0; width: 100%"
                                     allowfullscreen=""
                                     aria-hidden="false" tabindex="0">
-                                </iframe>
+                                </iframe> -->
                             </div>
 
                         </div>
@@ -260,11 +310,26 @@ session_start(); ?>
 
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">Tarikh Kenduri:</p>
-                                        <input placeholder="17 Sep, 2022" class="" type="text" name="tarikh_kenduri" id="nd_booking_archive_form_date_range_from" value="" />
+                                        <input type="text" id="nd_booking_archive_form_date_range_from" value="" />
+                                        <input type="text" name="tarikh_kenduri" id="date_from" />
                                     </div>
-                                    <!-- hidden -->
-                                    <div class="form-group" style="display: none;">
-                                        <input placeholder="N/A" type="text" name="tarikh_kenduri_x" id="nd_booking_archive_form_date_range_to" value="" />
+
+                                    <div class="form-group">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" id="multiDayToggle">
+                                            <span class="slider"></span>
+                                            <span class="label-text">Kenduri lebih dari satu hari</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">hingga</p>
+                                        <input type="text" id="nd_booking_archive_form_date_range_to" value="" />
+                                        <input type="text" name="tarikh_kenduri_end" id="date_to" />
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">Jumlah Hari:</p>
+                                        <input type="text" id="numberOfDays" readonly />
                                     </div>
 
                                     <div class="form-group">
@@ -358,9 +423,84 @@ session_start(); ?>
     <script src="assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="assets/js/parallax-scroll.js"></script>
     <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="assets/js/booking-form.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery(function($) {
+                // Helper function to calculate the number of days between two dates
+                function calculateNumberOfDays(fromDate, toDate) {
+                    const timeDiff = toDate - fromDate;
+                    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+                }
+
+                // Function to update the number of days input field
+                function updateNumberOfDays() {
+                    const fromDate = $("#nd_booking_archive_form_date_range_from").datepicker("getDate");
+                    const toDate = $("#nd_booking_archive_form_date_range_to").datepicker("getDate");
+
+                    if (fromDate && toDate) {
+                        const days = calculateNumberOfDays(fromDate, toDate);
+                        $("#numberOfDays").val(days).trigger("change"); // Ensure change event is triggered
+                    } else {
+                        $("#numberOfDays").val("").trigger("change"); // Clear and trigger change event
+                    }
+                }
+
+
+                // Initialize the "from" datepicker
+                $("#nd_booking_archive_form_date_range_from").datepicker({
+                    defaultDate: "+0",
+                    minDate: 0,
+                    dateFormat: "dd/mm/yy",
+                    onSelect: function(selectedDate) {
+                        const selectedDateObj = $(this).datepicker("getDate");
+
+                        // Calculate the next day for the "to" datepicker
+                        const nextDay = new Date(selectedDateObj);
+                        nextDay.setDate(nextDay.getDate() + 1);
+
+                        // Update the "to" datepicker's minDate and set its value
+                        $("#nd_booking_archive_form_date_range_to").datepicker("option", "minDate", nextDay);
+                        $("#nd_booking_archive_form_date_range_to").datepicker("setDate", nextDay);
+
+                        // Update hidden fields and the number of days
+                        $("#date_from").val($.datepicker.formatDate("dd/mm/yy", selectedDateObj));
+                        $("#date_to").val($.datepicker.formatDate("dd/mm/yy", nextDay));
+                        updateNumberOfDays();
+                    }
+                });
+
+                // Initialize the "to" datepicker
+                $("#nd_booking_archive_form_date_range_to").datepicker({
+                    defaultDate: "+1",
+                    minDate: "+1d",
+                    dateFormat: "dd/mm/yy",
+                    onSelect: function(selectedDate) {
+                        const selectedDateObj = $(this).datepicker("getDate");
+
+                        // Update the hidden field for "date_to" and the number of days
+                        $("#date_to").val($.datepicker.formatDate("dd/mm/yy", selectedDateObj));
+                        updateNumberOfDays();
+                    }
+                });
+
+                // Set default dates on page load
+                const today = new Date();
+                const tomorrow = new Date();
+                tomorrow.setDate(today.getDate() + 1);
+
+                $("#nd_booking_archive_form_date_range_from").datepicker("setDate", today);
+                $("#nd_booking_archive_form_date_range_to").datepicker("setDate", tomorrow);
+
+                // Initialize hidden fields and the number of days
+                $("#date_from").val($.datepicker.formatDate("dd/mm/yy", today));
+                $("#date_to").val($.datepicker.formatDate("dd/mm/yy", tomorrow));
+                updateNumberOfDays();
+            });
+        });
+    </script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
+
     <script>
         function toggleQuantityInput(checkbox, id) {
             var quantityDiv = document.getElementById('quantity_' + id);
@@ -372,8 +512,12 @@ session_start(); ?>
         }
 
         function calculateTotal() {
-            // Start with package base price
-            let total = <?php echo $package->getHargaPekej(); ?>;
+            let numberOfDaysElement = document.getElementById('numberOfDays');
+            let days = 1;
+            if (numberOfDaysElement) {
+                days = parseInt(numberOfDaysElement.value) || 1;
+            }
+            let total = <?php echo $package->getHargaPekej(); ?> * days;
             const addons = <?php echo json_encode($allAddOn); ?>;
 
             addons.forEach(addon => {
@@ -389,9 +533,7 @@ session_start(); ?>
                 }
             });
 
-            // Update total display with 2 decimal places
             document.getElementById('totalAmount').textContent = `RM${total.toFixed(2)}`;
-            // Update the hidden input field to match the total
             document.getElementById('total_price').value = total.toFixed(2);
 
         }
@@ -411,15 +553,68 @@ session_start(); ?>
             calculateTotal();
         }
 
-        // Add event listeners for quantity inputs
+        function toggleSecondDate() {
+            var secondDateField = document.getElementById('nd_booking_archive_form_date_range_to');
+            var secondDateLabel = secondDateField.previousElementSibling;
+
+            if (document.getElementById('multiDayToggle').checked) {
+                secondDateField.style.display = 'block';
+                secondDateLabel.style.display = 'block';
+            } else {
+                secondDateField.style.display = 'none';
+                secondDateLabel.style.display = 'none';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const quantityInputs = document.querySelectorAll('input[type="number"][id^="quantity_input_"]');
+            const tarikhKenduriInput = document.getElementById('nd_booking_archive_form_date_range_from');
+            const tarikhKenduriEndInput = document.getElementById('nd_booking_archive_form_date_range_to');
+            const multiDayToggle = document.getElementById('multiDayToggle');
+
+            const numberOfDaysInput = document.getElementById('numberOfDays');
+            if (numberOfDaysInput) {
+                numberOfDaysInput.addEventListener('change', calculateTotal);
+            }
+
+            function updateSelectedTarikh() {
+                const startDateParts = tarikhKenduriInput.value.split('/');
+                if (startDateParts.length !== 3) return;
+
+                const startDate = new Date(startDateParts[2], startDateParts[1] - 1, startDateParts[0]);
+
+                const endDate = new Date(startDate);
+                endDate.setDate(startDate.getDate() + 1);
+
+                const endDay = String(endDate.getDate()).padStart(2, '0');
+                const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
+                const endYear = endDate.getFullYear();
+
+                if (!multiDayToggle.checked) {
+                    tarikhKenduriEndInput.value = `${endDay}/${endMonth}/${endYear}`;
+                    tarikhKenduriEndInput.readOnly = true;
+                } else {
+                    tarikhKenduriEndInput.readOnly = false;
+                }
+            }
+
+            tarikhKenduriInput.addEventListener('change', updateSelectedTarikh);
+            multiDayToggle.addEventListener('change', function() {
+                updateSelectedTarikh();
+                toggleSecondDate();
+            });
+
+            updateSelectedTarikh();
             quantityInputs.forEach(input => {
                 input.addEventListener('change', calculateTotal);
                 input.addEventListener('input', calculateTotal);
             });
+
+            document.getElementById('nd_booking_archive_form_date_range_to').style.display = 'none';
+            document.getElementById('nd_booking_archive_form_date_range_to').previousElementSibling.style.display = 'none';
         });
     </script>
+
     <script>
         window.addEventListener("load", function() {
             setTimeout(function() {
@@ -427,8 +622,6 @@ session_start(); ?>
             }, 1000);
         });
     </script>
-
-
 </body>
 
 </html>

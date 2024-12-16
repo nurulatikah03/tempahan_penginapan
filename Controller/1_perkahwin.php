@@ -66,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['id_perkahwinan'] = $_POST['id_perkahwinan'];
         $_SESSION['nama_pekej'] = $_POST['nama_pekej'];
         $_SESSION['tarikh_kenduri'] = $_POST['tarikh_kenduri'];
+        $_SESSION['tarikh_kenduri_end'] = $_POST['tarikh_kenduri_end'];
         $_SESSION['addons'] = $addons;
         $_SESSION['kapasiti'] = $_POST['kapasiti'];
         $_SESSION['nama_dewan'] = $_POST['nama_dewan'];
