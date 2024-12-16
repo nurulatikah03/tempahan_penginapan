@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $_SESSION['checkInDate'] = isset($_POST['checkInDate']) ? htmlspecialchars($_POST['checkInDate']) : '';
     $_SESSION['checkOutDate'] = isset($_POST['checkOutDate']) ? htmlspecialchars($_POST['checkOutDate']) : '';
-	$_SESSION['total_person'] = isset($_POST['total_person']) ? htmlspecialchars($_POST['total_person']) : '';
+	$_SESSION['total_person'] = isset($_POST['num_of_person']) ? htmlspecialchars($_POST['num_of_person']) : '';
 
     if (!empty($_SESSION['checkInDate']) && !empty($_SESSION['checkOutDate'])) {
         $check_in_date = DateTime::createFromFormat('d/m/Y', $_SESSION['checkInDate']);

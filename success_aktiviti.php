@@ -169,7 +169,7 @@ session_start();
                             <strong>Bilangan Peserta</strong>
                         </div>
                         <div class="col-sm-8">
-                            <?php echo $_SESSION["total_person"] ?> P
+                            <?php echo $_SESSION["total_person"] ?> Orang
                         </div>
                     </div>
                     <div class="row mb-3">
