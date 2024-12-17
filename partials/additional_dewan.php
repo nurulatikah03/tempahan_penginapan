@@ -16,7 +16,7 @@
 				$conn = DBConnection::getConnection();
                 $stmt = $conn->prepare("SELECT r.*, dp.url_gambar AS gambar_utama
                                         FROM dewan r 
-                                        LEFT JOIN dewan_pic dp ON r.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'
+                                        LEFT JOIN url_gambar dp ON r.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'main'
                                         WHERE r.id_dewan != ?");
                 $stmt->bind_param("i", $selected_id_dewan);
                 $stmt->execute();

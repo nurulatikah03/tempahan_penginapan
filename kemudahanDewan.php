@@ -79,11 +79,11 @@
 							d.bilangan_muatan, 
 							d.penerangan_ringkas, 
 							d.status_dewan, 
-							dp.url_gambar AS gambar_utama
+							ug.url_gambar AS gambar_utama
 						FROM 
 							dewan d
 						LEFT JOIN 
-							dewan_pic dp ON d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama'
+							url_gambar ug ON d.id_dewan = ug.id_dewan AND ug.jenis_gambar = 'main'
 					";
 					$conn = DBConnection::getConnection();
 					$result = $conn->query($sql);

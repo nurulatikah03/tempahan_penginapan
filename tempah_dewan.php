@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'database/DBConnec.php';
-include 'adminDashboard/controller/get_dewan.php';
 
 
 ?>
@@ -38,43 +37,90 @@ include 'adminDashboard/controller/get_dewan.php';
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
+    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <!-- ***** Preloader End ***** -->
+
 
     <div class="page-wrapper">
         <?php include 'partials/header.php'; ?>
 
         <?php
-		$conn = DBConnection::getConnection();
-        $result = $conn->query($sql);
+        $conn = DBConnection::getConnection();
+
+        if (isset($_GET['id_dewan'])) {
+            $id_dewan = $_GET['id_dewan'];
+        } else {
+            echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+            exit;
+        }
+
+        $query = "
+			SELECT 
+				dewan.id_dewan, 
+				dewan.nama_dewan, 
+				dewan.kadar_sewa, 
+				dewan.bilangan_muatan, 
+				dewan.penerangan, 
+				dewan.penerangan_ringkas, 
+				dewan.penerangan_kemudahan, 
+				dewan.status_dewan, 
+				dewan.max_capacity, 
+				url_gambar.url_gambar,
+				url_gambar.jenis_gambar
+			FROM dewan
+				LEFT JOIN url_gambar ON dewan.id_dewan = url_gambar.id_dewan
+				WHERE dewan.id_dewan = ?
+				";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_dewan);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+            echo '<div class="row">';
+            $utama_image = '';
+            $banner_image = '';
+            $tambahan_images = [];
 
-            // Retrieve data
-            $nama_dewan = htmlspecialchars($row['nama_dewan']);
-            $gambar_utama = htmlspecialchars($row['gambar_utama']);
-            $gambar_banner = htmlspecialchars($row['gambar_banner']);
-            $gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-            $kadar_sewa = $row['kadar_sewa'];
-            $bilangan_muatan = $row['bilangan_muatan'];
-            $penerangan = $row['penerangan'];
+            while ($row = $result->fetch_assoc()) {
+                $id_dewan = $row['id_dewan'];
+                $nama_dewan = $row['nama_dewan'];
+                $kadar_sewa = $row['kadar_sewa'];
+                $bilangan_muatan = $row['bilangan_muatan'];
+                $penerangan = $row['penerangan'];
+                $penerangan_ringkas = $row['penerangan_ringkas'];
+                $penerangan_kemudahan = $row['penerangan_kemudahan'];
+                $max_capacity = $row['max_capacity'];
+                $status_dewan = $row['status_dewan'];
+                $url_gambar = $row['url_gambar'];
+                $jenis_gambar = $row['jenis_gambar'];
+
+                if ($jenis_gambar == 'main') {
+                    $utama_image = $url_gambar;
+                } elseif ($jenis_gambar == 'banner') {
+                    $banner_image = $url_gambar;
+                } elseif ($jenis_gambar == 'add') {
+                    $tambahan_images[] = $url_gambar;
+                }
+            }
+            echo '</div>';
             ?>
 
             <!-- Page Title -->
             <div class="page-title" style="
-                        background-image: url('adminDashboard/controller/<?php echo $gambar_banner; ?>');
+                        background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
                         background-repeat: no-repeat;
                         background-size: cover;
                         background-position: center;
@@ -95,12 +141,8 @@ include 'adminDashboard/controller/get_dewan.php';
             </div>
             <?php
         } else {
-            echo "<p>Tiada butiran ditemui untuk dewan yang dipilih.</p>";
+            echo "<p>No details found for the selected hall.</p>";
         }
-
-        // Ambil id_dewan (contoh)
-        $row['id_dewan'] = isset($_GET['id_dewan']) ? htmlspecialchars($_GET['id_dewan']) : 0;
-
         ?>
 
         <section class="section-padding">
@@ -115,7 +157,7 @@ include 'adminDashboard/controller/get_dewan.php';
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
 							<p><strong>Bilangan Hari:</strong> <?php echo $_SESSION['num_of_night']; ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
-                            <a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>"
+                            <a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
                                 class="btn-1">Ubah
                                 Tarikh<span></span></a>
                         </div>
@@ -123,7 +165,7 @@ include 'adminDashboard/controller/get_dewan.php';
                     <div class="col-lg-8 pe-lg-35">
                         <div class="single-post">
                             <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                            <form action="Controller/2_reservation.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>"
+                            <form action="Controller/2_reservation.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
                                 method="POST">
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Nama Penuh: </p>

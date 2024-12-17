@@ -131,10 +131,10 @@ $conn = DBConnection::getConnection();
 									dewan.penerangan_kemudahan, 
 									dewan.status_dewan, 
 									dewan.max_capacity, 
-									dewan_pic.url_gambar,
-									dewan_pic.jenis_gambar
+									url_gambar.url_gambar,
+									url_gambar.jenis_gambar
 								FROM dewan
-								LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
+								LEFT JOIN url_gambar ON dewan.id_dewan = url_gambar.id_dewan
 								WHERE dewan.id_dewan = ?
 							"; 
 
@@ -162,11 +162,11 @@ $conn = DBConnection::getConnection();
 									$url_gambar = $row['url_gambar'];
 									$jenis_gambar = $row['jenis_gambar'];
 
-									if ($jenis_gambar == 'Utama') {
+									if ($jenis_gambar == 'main') {
 										$utama_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Banner') {
+									} elseif ($jenis_gambar == 'banner') {
 										$banner_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Tambahan') {
+									} elseif ($jenis_gambar == 'add') {
 										$tambahan_images[] = $url_gambar;
 										}
 								}

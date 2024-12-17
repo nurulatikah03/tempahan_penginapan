@@ -1,7 +1,6 @@
 <?php
 
 include 'database/DBConnec.php';
-include 'adminDashboard/controller/get_dewan.php';
 
 session_start();
 
@@ -62,273 +61,347 @@ session_start();
         padding: 40px;
     }
 
-		.carousel-control-prev {
-			left: 10px; /* Positioned to the left */
-		}
+    .carousel-control-prev {
+        left: 10px;
+        /* Positioned to the left */
+    }
 
-		.carousel-control-next {
-			right: 10px; /* Positioned to the right */
-		}
+    .carousel-control-next {
+        right: 10px;
+        /* Positioned to the right */
+    }
 
-		.carousel-control-prev, .carousel-control-next {
-			position: absolute;
-			background-color: rgba(0, 0, 0, 1); /* Darker background (higher alpha value) */
-			border-radius: 5px; /* Slightly rounded corners */
-			padding: 8px;  
-			top: 80%; /* Position near the bottom */
-			z-index: 10;
-			width: 70px; /* Width of the button */
-			height: 70px; /* Height of the button */
-			box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-		}
+    .carousel-control-prev,
+    .carousel-control-next {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 1);
+        /* Darker background (higher alpha value) */
+        border-radius: 5px;
+        /* Slightly rounded corners */
+        padding: 8px;
+        top: 80%;
+        /* Position near the bottom */
+        z-index: 10;
+        width: 70px;
+        /* Width of the button */
+        height: 70px;
+        /* Height of the button */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    }
 
-		.carousel-control-prev {
-			left: 10px;
-		}
+    .carousel-control-prev {
+        left: 10px;
+    }
 
-		.carousel-control-next {
-			right: 10px;
-		}
+    .carousel-control-next {
+        right: 10px;
+    }
 
-		.carousel-control-prev-icon,
-		.carousel-control-next-icon {
-			font-size: 30px;
-			color: white;
-		}
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        font-size: 30px;
+        color: white;
+    }
 
 
-		.carousel-control-prev:hover, .carousel-control-next:hover {
-			background-color: rgba(0, 0, 0, 0.5);
-		}
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 
-		/* Style the pagination dots */
-		.carousel-indicators button {
-			background-color: rgba(255, 255, 255, 0.6);
-			border-radius: 50%;
-			width: 15px;
-			height: 15px;
-			border: none;
-			transition: all 0.3s ease;
-		}
+    /* Style the pagination dots */
+    .carousel-indicators button {
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        border: none;
+        transition: all 0.3s ease;
+    }
 
-		.carousel-indicators .active {
-			background-color: #007bff;
-			transform: scale(1.2);
-		}
+    .carousel-indicators .active {
+        background-color: #007bff;
+        transform: scale(1.2);
+    }
 
-		.carousel-indicators button:hover {
-			background-color: #007bff;
-			transform: scale(1.2);
-		}
+    .carousel-indicators button:hover {
+        background-color: #007bff;
+        transform: scale(1.2);
+    }
 
-		.carousel-indicators {
-			bottom: 10px;
-		}
-		
+    .carousel-indicators {
+        bottom: 10px;
+    }
 </style>
 
 <body>
 
-	<!-- ***** Preloader Start ***** -->
+    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
         <?php include 'partials/header.php'; ?>
-		<?php
-		$conn = DBConnection::getConnection();
-		$result = $conn ->query($sql);
+        <?php
+        $conn = DBConnection::getConnection();
 
-		if ($result->num_rows > 0) {
-			$row = $result->fetch_assoc();
+        if (isset($_GET['id_dewan'])) {
+            $id_dewan = $_GET['id_dewan'];
+        } else {
+            echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+            exit;
+        }
 
-			// Retrieve data
-			$nama_dewan = htmlspecialchars($row['nama_dewan']);
-			$gambar_utama = htmlspecialchars($row['gambar_utama']);
-			$gambar_banner = htmlspecialchars($row['gambar_banner']);
-			$gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-			$kadar_sewa = $row['kadar_sewa'];
-			$bilangan_muatan = $row['bilangan_muatan'];
-			$penerangan = $row['penerangan'];
-			?>
-			<!-- Page Title -->
-			<div class="page-title" 
-				 style="
-					background-image: url('adminDashboard/controller/<?php echo $gambar_banner; ?>');
-					background-repeat: no-repeat;
-					background-size: cover;
-					background-position: center;
-				">
-				<div class="auto-container">
-					<h1><?php echo $nama_dewan; ?></h1>
-				</div>
-			</div>
+        $query = "
+			SELECT 
+				dewan.id_dewan, 
+				dewan.nama_dewan, 
+				dewan.kadar_sewa, 
+				dewan.bilangan_muatan, 
+				dewan.penerangan, 
+				dewan.penerangan_ringkas, 
+				dewan.penerangan_kemudahan, 
+				dewan.status_dewan, 
+				dewan.max_capacity, 
+				url_gambar.url_gambar,
+				url_gambar.jenis_gambar
+			FROM dewan
+				LEFT JOIN url_gambar ON dewan.id_dewan = url_gambar.id_dewan
+				WHERE dewan.id_dewan = ?
+				";
 
-			<!-- Breadcrumb -->
-			<div class="bredcrumb-wrap">
-				<div class="auto-container">
-					<ul class="bredcrumb-list">
-						<li><a href="index.php">Laman Utama</a></li>
-						<li><a href="kemudahanDewan.php">Dewan</a></li>
-						<li><?php echo $nama_dewan; ?></li>
-					</ul>
-				</div>
-			</div>
-			<?php
-		} else {
-			echo "<p>No details found for the selected hall.</p>";
-		}
-	?>
-	
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_dewan);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo '<div class="row">';
+            $utama_image = '';
+            $banner_image = '';
+            $tambahan_images = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $id_dewan = $row['id_dewan'];
+                $nama_dewan = $row['nama_dewan'];
+                $kadar_sewa = $row['kadar_sewa'];
+                $bilangan_muatan = $row['bilangan_muatan'];
+                $penerangan = $row['penerangan'];
+                $penerangan_ringkas = $row['penerangan_ringkas'];
+                $penerangan_kemudahan = $row['penerangan_kemudahan'];
+                $max_capacity = $row['max_capacity'];
+                $status_dewan = $row['status_dewan'];
+                $url_gambar = $row['url_gambar'];
+                $jenis_gambar = $row['jenis_gambar'];
+
+                if ($jenis_gambar == 'main') {
+                    $utama_image = $url_gambar;
+                } elseif ($jenis_gambar == 'banner') {
+                    $banner_image = $url_gambar;
+                } elseif ($jenis_gambar == 'add') {
+                    $tambahan_images[] = $url_gambar;
+                }
+            }
+            echo '</div>';
+            ?>
+            <!-- Page Title -->
+            <div class="page-title" style="
+                    background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    background-position: center;
+                ">
+                <div class="auto-container">
+                    <h1><?php echo $nama_dewan; ?></h1>
+                </div>
+            </div>
+
+            <!-- Breadcrumb -->
+            <div class="bredcrumb-wrap">
+                <div class="auto-container">
+                    <ul class="bredcrumb-list">
+                        <li><a href="index.php">Laman Utama</a></li>
+                        <li><a href="kemudahanDewan.php">Dewan</a></li>
+                        <li><?php echo $nama_dewan; ?></li>
+                    </ul>
+                </div>
+            </div>
+            <?php
+        } else {
+            echo "<p>No details found for the selected hall.</p>";
+        }
+        ?>
+
         <section class="section-padding">
             <div class="auto-container">
                 <div class="row">
                     <div class="col-lg-8 pe-lg-35">
-						<div class="single-post">
-							<h2 class="mb_10"><?php echo $nama_dewan; ?></h2>
-								<span class="section_heading_title_small" style="font-size: 25px;" >Kadar Sewa
-									RM<?php echo htmlspecialchars(number_format($kadar_sewa, 2)); ?>/hari</span>
-								<p class="mb_20 mt_20"><strong>Bilangan muatan</strong>: <?php echo htmlspecialchars($bilangan_muatan); ?> Orang</p>
+                        <div class="single-post">
+                            <h2 class="mb_10"><?php echo $nama_dewan; ?></h2>
+                            <span class="section_heading_title_small" style="font-size: 25px;">Kadar Sewa
+                                RM<?php echo htmlspecialchars(number_format($kadar_sewa, 2)); ?>/hari</span>
+                            <p class="mb_20 mt_20"><strong>Bilangan muatan</strong>:
+                                <?php echo htmlspecialchars($bilangan_muatan); ?> Orang</p>
 
-								<p class="mb_20"><?php echo htmlspecialchars($penerangan); ?></p>
+                            <p class="mb_20"><?php echo htmlspecialchars($penerangan); ?></p>
 
-								<div id="imageCarousel" class="carousel slide mb_60" data-bs-ride="carousel">
-									<div class="carousel-inner">
-										<!-- Gambar Utama -->
-										<div class="carousel-item active">
-											<img src="adminDashboard/controller/<?php echo $gambar_utama; ?>" 
-												 alt="Gambar Utama" 
-												 class="d-block w-100" 
-												 style="height: 450px; object-fit: cover;">
-										</div>
-										<!-- Gambar Banner -->
-										<div class="carousel-item">
-											<img src="adminDashboard/controller/<?php echo $gambar_banner; ?>" 
-												 alt="Gambar Banner" 
-												 class="d-block w-100" 
-												 style="height: 450px; object-fit: cover;">
-										</div>
-										<!-- Gambar Tambahan -->
-										<?php if (!empty($gambar_tambahan)) { ?>
-											<div class="carousel-item">
-												<img src="adminDashboard/controller/<?php echo $gambar_tambahan; ?>" 
-													 alt="Gambar Tambahan" 
-													 class="d-block w-100" 
-													 style="height: 450px; object-fit: cover;">
-											</div>
-										<?php } ?>
-									</div>
+                            <div id="imageCarousel" class="carousel slide mb_60" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    <!-- Gambar Utama (Main Image) -->
+                                    <?php if (!empty($utama_image)) { ?>
+                                        <div class="carousel-item active">
+                                            <img src="adminDashboard/controller/<?php echo $utama_image; ?>"
+                                                alt="Gambar Utama" class="d-block w-100"
+                                                style="height: 450px; object-fit: cover;">
+                                        </div>
+                                    <?php } ?>
 
-									<!-- Carousel Indicators (Pagination Dots) -->
-									<div class="carousel-indicators">
-										<button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-										<button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-										<?php if (!empty($gambar_tambahan)) { ?>
-											<button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-										<?php } ?>
-									</div>
+                                    <!-- Loop through the tambahan images (Additional Images) -->
+                                    <?php
+                                    if (!empty($tambahan_images)) {
+                                        foreach ($tambahan_images as $index => $image) {
+                                            ?>
+                                            <div class="carousel-item">
+                                                <img src="adminDashboard/controller/<?php echo $image; ?>"
+                                                    alt="Gambar Tambahan <?php echo $index + 1; ?>" class="d-block w-100"
+                                                    style="height: 450px; object-fit: cover;">
+                                            </div>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
 
-									<!-- Carousel Controls -->
-									<button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Previous</span>
-									</button>
-									<button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-										<span class="carousel-control-next-icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Next</span>
-									</button>
-								</div>
-						</div>
-					</div>
-					
+                                <!-- Carousel Indicators (Pagination Dots) -->
+                                <div class="carousel-indicators">
+                                    <!-- Indicator for the Main Image -->
+                                    <?php if (!empty($utama_image)) { ?>
+                                        <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0"
+                                            class="active" aria-label="Slide 1"></button>
+                                    <?php } ?>
+
+                                    <!-- Indicators for the Additional Images -->
+                                    <?php
+                                    if (!empty($tambahan_images)) {
+                                        foreach ($tambahan_images as $index => $image) {
+                                            $active_class = ($index == 0 && empty($utama_image)) ? 'active' : ''; // Set first image as active
+                                            ?>
+                                            <button type="button" data-bs-target="#imageCarousel"
+                                                data-bs-slide-to="<?php echo $index + 1; ?>"
+                                                class="<?php echo $active_class; ?>"
+                                                aria-label="Slide <?php echo $index + 1; ?>"></button>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+
+                                <!-- Carousel Controls -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-lg-4">
-						<div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
-							<h4 class="mb_20"><u>Maklumat Tempahan</u></h4>
-							<div class="booking-form-3">
-								
-								<form class="hotel-booking-form-1-form d-block" action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($row['id_dewan']); ?>" method="POST">
-									<div class="form-group">
-										<p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-										<input type="text" placeholder="dd/mm/yyyy" name="checkInDate" id="nd_booking_archive_form_date_range_from" value="" />
-									</div>
-									<div class="form-group">
-										<p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-										<input type="text" placeholder="dd/mm/yyyy" name="checkOutDate" id="nd_booking_archive_form_date_range_to" value="" />
-									</div>
-									<div class="form-group mb-3">
-										<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
-										<input type="hidden" name="process" value="dewan">
-									</div>
-								</form>
-                            <?php
-								if (isset($_SESSION['err01'])) {
-									echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err01'] . '</div>';
-									unset($_SESSION['err01']);
-								} elseif (isset($_SESSION['err02'])) {  // Use 'elseif' instead of 'else' to check for 'err02'
-									echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err02'] . '</div>';
-									unset($_SESSION['err02']);
-								}
-							?>
-							</div>
-						</div>
-					</div>
-					
-					<h3 class="fs_40 mb_30">Kemudahan</h3>
-					<p class="mb_20"><?php echo htmlspecialchars($row['penerangan_kemudahan']); ?></p>
+                        <div class="widget mb_40 gray-bg p_40" style="border: #254222 solid 2px;">
+                            <h4 class="mb_20"><u>Maklumat Tempahan</u></h4>
+                            <div class="booking-form-3">
 
-					<div class="row">
-					<?php
-					$id_dewan = $row['id_dewan'];
+                                <form class="hotel-booking-form-1-form d-block"
+                                    action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
+                                    method="POST">
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
+                                        <input type="text" placeholder="dd/mm/yyyy" name="checkInDate"
+                                            id="nd_booking_archive_form_date_range_from" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
+                                        <input type="text" placeholder="dd/mm/yyyy" name="checkOutDate"
+                                            id="nd_booking_archive_form_date_range_to" value="" />
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <button type="submit" class="btn-1">Buat Tempahan<span></span></button>
+                                        <input type="hidden" name="process" value="dewan">
+                                    </div>
+                                </form>
+                                <?php
+                                if (isset($_SESSION['err01'])) {
+                                    echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err01'] . '</div>';
+                                    unset($_SESSION['err01']);
+                                } elseif (isset($_SESSION['err02'])) {  // Use 'elseif' instead of 'else' to check for 'err02'
+                                    echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err02'] . '</div>';
+                                    unset($_SESSION['err02']);
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
 
-						$query = "
+                    <h3 class="fs_40 mb_30">Kemudahan</h3>
+                    <p class="mb_20"><?php echo htmlspecialchars($penerangan_kemudahan); ?></p>
+
+                    <div class="row">
+                        <?php
+
+                        $query = "
 							SELECT k.nama, k.icon_url
 							FROM kemudahan k
 							JOIN dewan_kemudahan dk ON k.id_kemudahan = dk.id_kemudahan
 							WHERE dk.id_dewan = ?
 						";
 
-						// Prepare and execute the query
-						if ($stmt = $conn->prepare($query)) {
-							$stmt->bind_param("i", $id_dewan); // Bind the id_dewan parameter
-							$stmt->execute();
-							$result = $stmt->get_result();
+                        // Prepare and execute the query
+                        if ($stmt = $conn->prepare($query)) {
+                            $stmt->bind_param("i", $id_dewan); // Bind the id_dewan parameter
+                            $stmt->execute();
+                            $result = $stmt->get_result();
 
-							if ($result->num_rows > 0) {
-								// Loop through the results and display each kemudahan
-								while ($row = $result->fetch_assoc()) {
-									$nama_kemudahan = $row['nama'];
-									$icon_url = $row['icon_url'];
-									echo '<div class="col-4">';
-									echo '<div class="kemudahan-item">';
-									
-									// Display icon if available
-									if ($icon_url) {
-										echo '<img src="' . $icon_url . '" alt="' . $nama_kemudahan . '" style="height: 50px; margin-right: 30px;">';
-									}
+                            if ($result->num_rows > 0) {
+                                // Loop through the results and display each kemudahan
+                                while ($row = $result->fetch_assoc()) {
+                                    $nama_kemudahan = $row['nama'];
+                                    $icon_url = $row['icon_url'];
+                                    echo '<div class="col-4">';
+                                    echo '<div class="kemudahan-item">';
 
-									echo $nama_kemudahan;
-									echo '</div>';
-									echo '</div>';
-								}
-							} else {
-								echo '<div class="col-12">Tiada kemudahan tersedia.</div>';
-							}
+                                    // Display icon if available
+                                    if ($icon_url) {
+                                        echo '<img src="' . $icon_url . '" alt="' . $nama_kemudahan . '" style="height: 50px; margin-right: 30px;">';
+                                    }
 
-							$stmt->close();
-						}
-						?>
-					</div>
+                                    echo $nama_kemudahan;
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<div class="col-12">Tiada kemudahan tersedia.</div>';
+                            }
+
+                            $stmt->close();
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </section>
@@ -353,40 +426,40 @@ session_start();
 
 
     <script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/jquery.nice-select.min.js"></script>
-	<script src="assets/js/jquery.fancybox.js"></script>
-	<script src="assets/js/isotope.js"></script>
-	<script src="assets/js/appear.js"></script>
-	<script src="assets/js/wow.js"></script>
-	<script src="assets/js/TweenMax.min.js"></script>
-	<script src="assets/js/swiper.min.js"></script>
-	<script src="assets/js/jquery.ajaxchimp.min.js"></script>
-	<script src="assets/js/parallax-scroll.js"></script>
-	<script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-	<script src="assets/js/booking-form.js"></script>
-	<script src="assets/js/odometer.min.js"></script>
-	<script src="assets/js/script.js"></script>
-	
-	<script>
-    // Set today's date as the minimum date
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('tarikh_masuk').setAttribute('min', today);
-    document.getElementById('tarikh_keluar').setAttribute('min', today);
-    
-    // Set minimum date for 'tarikh_keluar' based on 'tarikh_masuk' selection
-    document.getElementById('tarikh_masuk').addEventListener('change', function() {
-        const masukDate = this.value;
-        document.getElementById('tarikh_keluar').setAttribute('min', masukDate);
-    });
-</script>
-	<script>
-	window.addEventListener("load", function () {
-		setTimeout(function () {
-			document.querySelector(".js-preloader").classList.add("loaded");
-		}, 1000);
-	});
-	</script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.nice-select.min.js"></script>
+    <script src="assets/js/jquery.fancybox.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/appear.js"></script>
+    <script src="assets/js/wow.js"></script>
+    <script src="assets/js/TweenMax.min.js"></script>
+    <script src="assets/js/swiper.min.js"></script>
+    <script src="assets/js/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/js/parallax-scroll.js"></script>
+    <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="assets/js/booking-form.js"></script>
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        // Set today's date as the minimum date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tarikh_masuk').setAttribute('min', today);
+        document.getElementById('tarikh_keluar').setAttribute('min', today);
+
+        // Set minimum date for 'tarikh_keluar' based on 'tarikh_masuk' selection
+        document.getElementById('tarikh_masuk').addEventListener('change', function () {
+            const masukDate = this.value;
+            document.getElementById('tarikh_keluar').setAttribute('min', masukDate);
+        });
+    </script>
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                document.querySelector(".js-preloader").classList.add("loaded");
+            }, 1000);
+        });
+    </script>
 
 
 </body>
