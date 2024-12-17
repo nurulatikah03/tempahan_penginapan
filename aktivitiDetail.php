@@ -157,7 +157,7 @@ session_start();
 			$gambar_banner = htmlspecialchars($row['gambar_banner']);
 			$gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
 			$kadar_harga = $row['kadar_harga'];
-			$penerangan = $row['penerangan'];
+			$penerangan_kemudahan = $row['penerangan_kemudahan'];
 			?>
 			<!-- Page Title -->
 			<div class="page-title" 
@@ -265,6 +265,14 @@ session_start();
 										<p class="hotel-booking-form-1-label">BILANGAN PESERTA:</p>
 										<input type="number" min=1 placeholder="Masukkan jumlah peserta" name="num_of_person" id="nd_booking_archive_form_participants_count" value="" required />
 									</div>
+									<div class="form-group">
+										<p class="hotel-booking-form-1-label">JUMLAH BILIK:</p>
+										<input type="number" min="1" placeholder="Jumlah bilik akan dikira" name="num_of_rooms" id="num_of_rooms" value="" required readonly />
+									</div>
+									<div class="form-group">
+/
+
+
 									<div class="form-group mb-3">
 										<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
 										<input type="hidden" name="process" value="aktiviti">
@@ -284,11 +292,10 @@ session_start();
 					</div>
 					
 							<h3 class="fs_40 mb_30">Kemudahan</h3>
-							<p class="mb_20"><?php echo htmlspecialchars($row['penerangan_kemudahan']); ?></p>
+							<p class="mb_20"><?php echo htmlspecialchars($penerangan_kemudahan); ?></p>
 
 							<div class="row">
 							<?php
-							$id_aktiviti = $row['id_aktiviti'];
 
 							$query = "
 								SELECT k.nama, k.icon_url
@@ -377,7 +384,20 @@ session_start();
         const masukDate = this.value;
         document.getElementById('tarikh_keluar').setAttribute('min', masukDate);
     });	
-</script>
+	</script>
+	<script>
+    document.getElementById('nd_booking_archive_form_participants_count').addEventListener('input', function() {
+        // Get the number of participants
+        const numParticipants = parseInt(this.value, 10);
+
+        // Calculate the number of rooms (round up, because 2 participants per room)
+        const numRooms = Math.ceil(numParticipants / 2);
+
+        // Set the calculated value to the 'num_of_rooms' field
+        document.getElementById('num_of_rooms').value = numRooms;
+    });
+	</script>
+
 	<script>
 	window.addEventListener("load", function () {
 		setTimeout(function () {
@@ -386,6 +406,34 @@ session_start();
 	});
 	</script>
 
+	<script>
+		document.getElementById('participants_count').addEventListener('input', function() {
+    var participants = parseInt(this.value, 10);  // Get the number of participants
+    var hallSelect = document.getElementById('hall_select');  // Get the hall dropdown
+    
+    if (participants > 0) {
+        var rooms = Math.ceil(participants / 2);  // Calculate rooms (rounding up for odd numbers)
+        document.getElementById('rooms_count').value = rooms;  // Set the calculated rooms in the "jumlah bilik" input field
+        
+        // Auto-select hall based on number of participants
+        if (participants <= 100) {
+            hallSelect.value = 'dewan_jubli';
+        } else if (participants <= 200) {
+            hallSelect.value = 'dewan_fiber';
+        } else if (participants <= 500) {
+            hallSelect.value = 'dewan_kuliah_kenaf';
+        } else {
+            // If participants exceed 500, set a default value or show an alert
+            hallSelect.value = '';
+            alert("Jumlah peserta melebihi kapasiti dewan yang tersedia.");
+        }
+    } else {
+        document.getElementById('rooms_count').value = '';  // Clear the rooms field if no participants
+        hallSelect.value = '';  // Clear the hall selection
+    }
+});
+
+	</script>
 
 </body>
 

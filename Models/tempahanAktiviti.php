@@ -164,36 +164,47 @@ function getStatusAktiviti($id_aktiviti) {
 }
 
 
-function countRoomAvailable($id_aktiviti, $id_bilik, $id_dewan, $start_date, $end_date) {
-    $conn = DBConnection::getConnection(); // Sambungan pangkalan data
+function countRoomAvailable($id_dewan, $start_date, $end_date) {
+    $conn = DBConnection::getConnection(); // Database connection
 
     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
     $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
-	
-	
-	// Kueri untuk mengira tempahan dalam julat tarikh yang diberikan
+
+    // Step 1: Get max_available_room for the room
+    $roomQuery = "SELECT max_capacity FROM dewan WHERE id_dewan = ?";
+    $roomStmt = $conn->prepare($roomQuery);
+    $roomStmt->bind_param("i", $id_dewan);
+    $roomStmt->execute();
+    $roomResult = $roomStmt->get_result();
+    if ($roomResult->num_rows > 0) {
+        $roomData = $roomResult->fetch_assoc();
+        $maxAvailable = $roomData['max_capacity'];
+    } else {
+        return 0; // Jika tidak ada data dewan
+    }
+
+    // Step 2: Count the number of rooms occupied in the given date range
     $countQuery = "
         SELECT COUNT(*) AS occupied_count 
         FROM tempahan 
-        WHERE id_aktiviti = ?
-		AND id_bilik = ?
-		AND id_dewan = ?
+        WHERE id_dewan = ? 
         AND tarikh_daftar_masuk <= ? 
         AND tarikh_daftar_keluar >= ?
     ";
-	
-	$countStmt = $conn->prepare($countQuery);
-    $countStmt->bind_param("iiiss", $id_aktiviti, $id_bilik, $id_dewan, $formattedCheckOutDate, $formattedCheckInDate); // Correct binding of parameters
+    $countStmt = $conn->prepare($countQuery);
+    $countStmt->bind_param("iss", $id_dewan, $formattedCheckOutDate, $formattedCheckInDate);
     $countStmt->execute();
     $countResult = $countStmt->get_result();
-    
-    // Fetch the result and return the occupied count
     $occupiedData = $countResult->fetch_assoc();
     $occupiedCount = $occupiedData['occupied_count'];
 
-    return $occupiedCount;
-    } 
+    // Step 3: Calculate available rooms
+    $availableRooms = $maxAvailable - $occupiedCount;
+
+    // Ensure we don't return a negative number if overbooked
+    return max(0, $availableRooms);
+}
 
 ?>
