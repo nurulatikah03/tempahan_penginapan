@@ -3,6 +3,10 @@ require_once('../inc\TCPDF\tcpdf.php');
 include_once '../../Models/tempahanPerkahwinan.php';
 include_once '../../Models/pekejPerkahwinan.php';
 session_start();
+if (!isset($_SESSION['booking_number'])) {
+    header('Location: ../../index.php');
+    exit;
+}
 $nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $_SESSION['booking_number'];
 $booking = WeddingReservation::getWedReservationByBookingId($nomborTempahan);
 $package = PekejPerkahwinan::getPekejPerkahwinanById($booking->getWeddingId());
@@ -12,10 +16,16 @@ $addons = WeddingReservation::getAddOnsByReservationId($booking->getId());
 // Sample customer and booking data
 $customerName = $booking->getCustName();
 $customerEmail = $booking->getEmail();
-$invoiceDate = $booking->getReservationDate();
+$invoiceDate = date("d/m/Y h:i A", strtotime($booking->getReservationDate()));
 $bookingNumber = $booking->getBookingNumber();
-$tarikhKenduri = $booking->getCheckInDate();
-$checkOutDate = $booking->getCheckOutDate();
+
+$tarikhKenduri = date("d/m/Y", strtotime($booking->getCheckInDate()));
+$tarikhDaftarKeluar = date("d/m/Y", strtotime($booking->getCheckOutDate()));
+
+$checkInDate = new DateTime($booking->getCheckInDate());
+$checkOutDate = new DateTime($booking->getCheckOutDate());
+$interval = $checkInDate->diff($checkOutDate);
+$numberOfNights = $interval->days;
 
 function beforeTax($totalAmount, $taxRate)
 {
@@ -67,16 +77,16 @@ $html = '
         </tr>
         <tr>
             <td><strong>Email:</strong> ' . $customerEmail . '</td>
+            <td><strong>Tarikh Kenduri:</strong> ' . $tarikhKenduri . '</td>
         </tr>
     </table>
 
     <table cellpadding="5">
         <tr>
             <td><strong>Tarikh Invoice:</strong> ' . $invoiceDate . '</td>
-            <td></td>
+            <td><strong>Tarikh akhir Kenduri:</strong> ' . $tarikhDaftarKeluar . '</td>
         </tr>
         <tr>
-            <td><strong>Tarikh Kenduri:</strong> ' . $tarikhKenduri . '</td>
             <td><strong>Bilangan Pax:</strong> ' . $numOfPax . '</td>
         </tr>
     </table>';
@@ -100,38 +110,42 @@ $html = '
         </thead>
         <tbody>
             <tr>
-                <td width="10%">1</td>
-                <td>' . $packageName . '</td>
-                <td>' . number_format($packageRate, 2) . '</td>
-                <td>1</td>
-                <td>' . number_format($packageRate, 2) . '</td>
+            <td width="10%">1</td>
+            <td>' . $packageName . '</td>
+            <td>' . number_format($packageRate, 2) . '</td>
+            <td>' . $numberOfNights . '</td>
+            <td>' . number_format($packageRate * $numberOfNights, 2) . '</td>
             </tr>';
             $cumAddOnPrice = 0; 
             if (!empty($addons)) {
-                $count = 2; 
+            $count = 2; 
             
-                foreach ($addons as $addon) {
-                    $cumAddOnPrice += $addon['price'] * $addon['quantity']; 
+            foreach ($addons as $addon) {
+                $cumAddOnPrice += $addon['price'] * $addon['quantity']; 
             
-                    $html .= '
-                        <tr>
-                            <td width="10%">' . $count++ . '</td>
-                            <td>' . htmlspecialchars($addon['name']) . '</td>
-                            <td>' . number_format($addon['price'], 2) . '</td>
-                            <td>' . htmlspecialchars($addon['quantity']) . '</td>
-                            <td>' . number_format(($addon['price'] * $addon['quantity']), 2) . '</td>
-                        </tr>';
-                }
+                $html .= '
+                <tr>
+                    <td width="10%">' . $count++ . '</td>
+                    <td>' . htmlspecialchars($addon['name']) . '</td>
+                    <td>' . number_format($addon['price'], 2) . '</td>
+                    <td>' . htmlspecialchars($addon['quantity']) . '</td>
+                    <td>' . number_format(($addon['price'] * $addon['quantity']), 2) . '</td>
+                </tr>';
             }
+            }
+            $grandTotal = $packageRate * $numberOfNights + $cumAddOnPrice;
             $html .= '
-                    </tbody>
+            <tr>
+                <td colspan="4" align="left"><strong>Grand Total</strong></td>
+                <td><strong>' . number_format($grandTotal, 2) . '</strong></td>
+            </tr>
+            </tbody>
                 </table>';
 
 // Output booking details
 $pdf->writeHTML($html, true, false, false, false, '');
 
 // Tax calculation
-$grandTotal = $totalAmount + $cumAddOnPrice;
 $taxAmount = $grandTotal - beforeTax($grandTotal, $taxRate);
 $totalAmount = $grandTotal - $taxAmount;
 

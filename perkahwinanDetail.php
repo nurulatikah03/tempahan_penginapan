@@ -311,7 +311,7 @@ session_start(); ?>
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">Tarikh Kenduri:</p>
                                         <input type="text" id="nd_booking_archive_form_date_range_from" value="" />
-                                        <input type="text" name="tarikh_kenduri" id="date_from" />
+                                        <input type="hidden" name="tarikh_kenduri" id="date_from" />
                                     </div>
 
                                     <div class="form-group">
@@ -325,7 +325,7 @@ session_start(); ?>
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">hingga</p>
                                         <input type="text" id="nd_booking_archive_form_date_range_to" value="" />
-                                        <input type="text" name="tarikh_kenduri_end" id="date_to" />
+                                        <input type="hidden" name="tarikh_kenduri_end" id="date_to" />
                                     </div>
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">Jumlah Hari:</p>
@@ -441,10 +441,67 @@ session_start(); ?>
                         const days = calculateNumberOfDays(fromDate, toDate);
                         $("#numberOfDays").val(days).trigger("change"); // Ensure change event is triggered
                     } else {
-                        $("#numberOfDays").val("").trigger("change"); // Clear and trigger change event
+                        $("#numberOfDays").val("1").trigger("change"); // Default to 1 day
                     }
+
+                    calculateTotal(); // Trigger total price calculation
                 }
 
+
+                // Function to calculate the total price
+                function calculateTotal() {
+                    let numberOfDaysElement = document.getElementById("numberOfDays");
+                    let days = parseInt(numberOfDaysElement.value) || 1;
+                    let total = <?php echo $package->getHargaPekej(); ?> * days;
+
+                    const addons = <?php echo json_encode($allAddOn); ?>;
+
+                    addons.forEach(addon => {
+                        const checkbox = document.getElementById(`addon_${addon.add_on_id}`);
+                        if (checkbox && checkbox.checked) {
+                            if (addon.add_on_nama === 'Ruang porch') {
+                                total += parseFloat(addon.harga);
+                            } else {
+                                const quantityInput = document.getElementById(`quantity_input_${addon.add_on_id}`);
+                                const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
+                                total += parseFloat(addon.harga) * quantity;
+                            }
+                        }
+                    });
+
+                    document.getElementById("totalAmount").textContent = `RM${total.toFixed(2)}`;
+                    document.getElementById("total_price").value = total.toFixed(2);
+                }
+
+                // Toggle quantity input visibility
+                function toggleQuantityInput(checkbox, addonId) {
+                    const quantityDiv = document.getElementById(`quantity_${addonId}`);
+                    if (quantityDiv) {
+                        quantityDiv.style.display = checkbox.checked ? "block" : "none";
+                        if (checkbox.checked) {
+                            const quantityInput = document.getElementById(`quantity_input_${addonId}`);
+                            if (quantityInput) {
+                                quantityInput.value = 1;
+                            }
+                        }
+                    }
+
+                    calculateTotal();
+                }
+
+                // Toggle second date field visibility
+                function toggleSecondDate() {
+                    var secondDateField = document.getElementById("nd_booking_archive_form_date_range_to");
+                    var secondDateLabel = secondDateField.previousElementSibling;
+
+                    if (document.getElementById("multiDayToggle").checked) {
+                        secondDateField.style.display = "block";
+                        secondDateLabel.style.display = "block";
+                    } else {
+                        secondDateField.style.display = "none";
+                        secondDateLabel.style.display = "none";
+                    }
+                }
 
                 // Initialize the "from" datepicker
                 $("#nd_booking_archive_form_date_range_from").datepicker({
@@ -495,125 +552,43 @@ session_start(); ?>
                 $("#date_from").val($.datepicker.formatDate("dd/mm/yy", today));
                 $("#date_to").val($.datepicker.formatDate("dd/mm/yy", tomorrow));
                 updateNumberOfDays();
+
+                // Event listeners for quantity inputs and addon checkboxes
+                document.querySelectorAll('input[type="number"][id^="quantity_input_"]').forEach(input => {
+                    input.addEventListener("change", calculateTotal);
+                    input.addEventListener("input", calculateTotal);
+                });
+
+                document.querySelectorAll('input[type="checkbox"][id^="addon_"]').forEach(checkbox => {
+                    checkbox.addEventListener("change", function() {
+                        const addonId = this.id.split("_")[1];
+                        toggleQuantityInput(this, addonId);
+                    });
+                });
+
+                // Add event listener for number of days
+                document.getElementById("numberOfDays").addEventListener("change", calculateTotal);
+
+                // Multi-day toggle functionality
+                const multiDayToggle = document.getElementById("multiDayToggle");
+                if (multiDayToggle) {
+                    multiDayToggle.addEventListener("change", function() {
+                        updateNumberOfDays();
+                        toggleSecondDate();
+                    });
+
+                    toggleSecondDate();
+                }
+
+                // Initial calculation on page load
+                calculateTotal();
             });
         });
     </script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
 
-    <script>
-        function toggleQuantityInput(checkbox, id) {
-            var quantityDiv = document.getElementById('quantity_' + id);
-            if (checkbox.checked) {
-                quantityDiv.style.display = 'block';
-            } else {
-                quantityDiv.style.display = 'none';
-            }
-        }
 
-        function calculateTotal() {
-            let numberOfDaysElement = document.getElementById('numberOfDays');
-            let days = 1;
-            if (numberOfDaysElement) {
-                days = parseInt(numberOfDaysElement.value) || 1;
-            }
-            let total = <?php echo $package->getHargaPekej(); ?> * days;
-            const addons = <?php echo json_encode($allAddOn); ?>;
-
-            addons.forEach(addon => {
-                const checkbox = document.getElementById(`addon_${addon.add_on_id}`);
-                if (checkbox && checkbox.checked) {
-                    if (addon.add_on_nama === 'Ruang porch') {
-                        total += parseFloat(addon.harga);
-                    } else {
-                        const quantityInput = document.getElementById(`quantity_input_${addon.add_on_id}`);
-                        const quantity = quantityInput ? parseInt(quantityInput.value) || 1 : 1;
-                        total += parseFloat(addon.harga) * quantity;
-                    }
-                }
-            });
-
-            document.getElementById('totalAmount').textContent = `RM${total.toFixed(2)}`;
-            document.getElementById('total_price').value = total.toFixed(2);
-
-        }
-
-        function toggleQuantityInput(checkbox, addonId) {
-            const quantityDiv = document.getElementById(`quantity_${addonId}`);
-            if (quantityDiv) {
-                quantityDiv.style.display = checkbox.checked ? 'block' : 'none';
-                if (checkbox.checked) {
-                    const quantityInput = document.getElementById(`quantity_input_${addonId}`);
-                    if (quantityInput) {
-                        quantityInput.value = 1;
-                    }
-                }
-            }
-
-            calculateTotal();
-        }
-
-        function toggleSecondDate() {
-            var secondDateField = document.getElementById('nd_booking_archive_form_date_range_to');
-            var secondDateLabel = secondDateField.previousElementSibling;
-
-            if (document.getElementById('multiDayToggle').checked) {
-                secondDateField.style.display = 'block';
-                secondDateLabel.style.display = 'block';
-            } else {
-                secondDateField.style.display = 'none';
-                secondDateLabel.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const quantityInputs = document.querySelectorAll('input[type="number"][id^="quantity_input_"]');
-            const tarikhKenduriInput = document.getElementById('nd_booking_archive_form_date_range_from');
-            const tarikhKenduriEndInput = document.getElementById('nd_booking_archive_form_date_range_to');
-            const multiDayToggle = document.getElementById('multiDayToggle');
-
-            const numberOfDaysInput = document.getElementById('numberOfDays');
-            if (numberOfDaysInput) {
-                numberOfDaysInput.addEventListener('change', calculateTotal);
-            }
-
-            function updateSelectedTarikh() {
-                const startDateParts = tarikhKenduriInput.value.split('/');
-                if (startDateParts.length !== 3) return;
-
-                const startDate = new Date(startDateParts[2], startDateParts[1] - 1, startDateParts[0]);
-
-                const endDate = new Date(startDate);
-                endDate.setDate(startDate.getDate() + 1);
-
-                const endDay = String(endDate.getDate()).padStart(2, '0');
-                const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
-                const endYear = endDate.getFullYear();
-
-                if (!multiDayToggle.checked) {
-                    tarikhKenduriEndInput.value = `${endDay}/${endMonth}/${endYear}`;
-                    tarikhKenduriEndInput.readOnly = true;
-                } else {
-                    tarikhKenduriEndInput.readOnly = false;
-                }
-            }
-
-            tarikhKenduriInput.addEventListener('change', updateSelectedTarikh);
-            multiDayToggle.addEventListener('change', function() {
-                updateSelectedTarikh();
-                toggleSecondDate();
-            });
-
-            updateSelectedTarikh();
-            quantityInputs.forEach(input => {
-                input.addEventListener('change', calculateTotal);
-                input.addEventListener('input', calculateTotal);
-            });
-
-            document.getElementById('nd_booking_archive_form_date_range_to').style.display = 'none';
-            document.getElementById('nd_booking_archive_form_date_range_to').previousElementSibling.style.display = 'none';
-        });
-    </script>
 
     <script>
         window.addEventListener("load", function() {

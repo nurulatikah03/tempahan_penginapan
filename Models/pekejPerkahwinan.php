@@ -181,6 +181,20 @@ class PekejPerkahwinan extends Dewan
         return $row['nama_pekej_kahwin'];
     }
 
+    
+    public static function getDewanNameByDewanId($dewanId){
+        $conn = DBConnection::getConnection();
+        $sql = "SELECT nama_dewan FROM dewan WHERE id_dewan = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $dewanId);
+        $stmt->execute();
+        $namaDewan = null;
+        $stmt->bind_result($namaDewan);
+        $stmt->fetch();
+        $stmt->close();
+        return $namaDewan;
+    }
+
     public static function getPerkahwinanImageByType($id_perkahwinan, $type)
     {
         $conn = DBConnection::getConnection();
@@ -362,14 +376,19 @@ class PekejPerkahwinan extends Dewan
     }
 }
 
-function checkAvailabilityWed($id, $date)
-{
+function checkAvailabilityWed($id, $dateIn, $dateOut) {
+    $dateInSql = DateTime::createFromFormat('d/m/Y', $dateIn)->format('Y-m-d');
+    $dateOutSql = DateTime::createFromFormat('d/m/Y', $dateOut)->format('Y-m-d');
+
     $conn = DBConnection::getConnection();
-    $sql = "SELECT * FROM tempahan WHERE id_perkahwinan = ? AND tarikh_tempahan = ?";
+    $sql = "SELECT 1 FROM tempahan WHERE id_dewan = ? AND tarikh_daftar_masuk BETWEEN ? AND ? LIMIT 1";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $id, $date);
+    $stmt->bind_param("iss", $id, $dateInSql, $dateOutSql);
     $stmt->execute();
     $result = $stmt->get_result();
+
+    $isAvailable = $result->num_rows === 0;
+
     $stmt->close();
-    return $result->num_rows === 0;
+    return $isAvailable;
 }

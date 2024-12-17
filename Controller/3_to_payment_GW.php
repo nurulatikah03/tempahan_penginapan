@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($_POST['submit'] == 'kahwin') {
         include '..\Models/tempahanPerkahwinan.php';
         $tarikhKenduriSQL = DateTime::createFromFormat('d/m/Y', $_SESSION['tarikh_kenduri'])->format('Y-m-d');
-        $tarikhKendurNextDay = date('Y-m-d', strtotime($tarikhKenduriSQL . ' +1 day'));
+        $tarikhKenduriENDSQL = DateTime::createFromFormat('d/m/Y', $_SESSION['tarikh_kenduri_end'])->format('Y-m-d');
 
         $_SESSION['booking_number'] = generateBookingNumberWed($tarikhKenduriSQL);
         $_SESSION['payment_method'] = $_POST['payment_method'];
-        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['kapasiti'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKendurNextDay, $_SESSION['total_price_kahwin'], $_POST['payment_method'], $_SESSION['id_dewan_kahwin'] ,$_SESSION["id_perkahwinan"]);
+        $tempahan = new WeddingReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['kapasiti'], $tarikh_tempahan, $tarikhKenduriSQL, $tarikhKenduriENDSQL, $_SESSION['total_price_kahwin'], $_POST['payment_method'], $_SESSION['id_dewan_kahwin'] ,$_SESSION["id_perkahwinan"]);
         if (isset($_SESSION['addons']) && !empty($_SESSION['addons'])) {
             
             $addons = $_SESSION['addons'];

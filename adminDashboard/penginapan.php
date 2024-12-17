@@ -266,8 +266,7 @@ session_start();
 											echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
 											echo '</div>';
 											unset($_SESSION['status']);
-										}
-										elseif (isset($_SESSION['error'])) {
+										} elseif (isset($_SESSION['error'])) {
 											echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $_SESSION['error'];
 											echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
 											echo '</div>';

@@ -50,13 +50,25 @@ class WeddingReservation extends Reservation
         bilangan_pax,
         tarikh_tempahan, 
         tarikh_daftar_masuk, 
+        tarikh_daftar_keluar,
         harga_keseluruhan, 
         cara_bayar, 
         id_dewan, 
         id_perkahwinan) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssdsii", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->dewan_id, $this->wedding_id);
+        $stmt->bind_param("ssssssssdsii", $this->bookingNumber, 
+        $this->cust_name, 
+        $this->phone_number, 
+        $this->email, 
+        $this->num_of_Pax, 
+        $this->reservationDate, 
+        $this->checkInDate, 
+        $this->checkOutDate, 
+        $this->total_price, 
+        $this->payment_method, 
+        $this->dewan_id, 
+        $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();
@@ -70,20 +82,32 @@ class WeddingReservation extends Reservation
     {
         $conn = DBConnection::getConnection();
         $sql = "INSERT INTO tempahan (
-        nombor_tempahan, 
-        nama_penuh, 
-        numbor_fon, 
-        email, 
-        bilangan_pax,
-        tarikh_tempahan, 
-        tarikh_daftar_masuk, 
-        harga_keseluruhan, 
-        cara_bayar, 
-        id_dewan, 
-        id_perkahwinan) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssdsii", $this->bookingNumber, $this->cust_name, $this->phone_number, $this->email, $this->num_of_Pax, $this->reservationDate, $this->checkInDate, $this->total_price, $this->payment_method, $this->dewan_id, $this->wedding_id);
+            nombor_tempahan, 
+            nama_penuh, 
+            numbor_fon, 
+            email, 
+            bilangan_pax,
+            tarikh_tempahan, 
+            tarikh_daftar_masuk, 
+            tarikh_daftar_keluar,
+            harga_keseluruhan, 
+            cara_bayar, 
+            id_dewan, 
+            id_perkahwinan) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssssdsii", $this->bookingNumber, 
+            $this->cust_name, 
+            $this->phone_number, 
+            $this->email, 
+            $this->num_of_Pax, 
+            $this->reservationDate, 
+            $this->checkInDate, 
+            $this->checkOutDate, 
+            $this->total_price, 
+            $this->payment_method, 
+            $this->dewan_id, 
+            $this->wedding_id);
 
         if (!$stmt->execute()) {
             $stmt->close();

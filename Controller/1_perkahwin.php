@@ -20,8 +20,8 @@ $quantityMejaBanquet = $_POST['quantity_Meja_Banquet'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
 
-    if (!checkAvailabilityWed($_POST['id_perkahwinan'], $_POST['tarikh_kenduri'])) {
-        $errors[] = "Tarikh kenduri telah ditempah. Sila pilih tarikh yang lain.";
+    if (!checkAvailabilityWed($_POST['id_dewan'], $_POST['tarikh_kenduri'], $_POST['tarikh_kenduri_end'])) {
+        $errors[] = "Dewan kenduri telah ditempah hari diminta. Sila pilih tarikh yang lain.";
     }
 
     if (!validateKapasiti($_POST['kapasiti'])) {

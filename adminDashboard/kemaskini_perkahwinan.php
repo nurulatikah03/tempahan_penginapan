@@ -372,6 +372,7 @@
 						</div>
 						<div class="modal-body">
 							<!-- Main image preview 1-->
+
 							<div class="text-center mt-1 mb-3">
 								<h3>Gambar sekarang</h3>
 							</div>
@@ -569,11 +570,11 @@
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
 	<script src="assets/js/imagesScript.js"></script>
 
+	
+
 	<!-- third party js ends -->
 
 	<!-- demo app -->
-	<script src="assets/js/pages/demo.products.js"></script>
-	<!-- end demo js-->
 
 </body>
 
