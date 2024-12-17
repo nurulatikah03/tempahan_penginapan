@@ -34,36 +34,65 @@ $conn = DBConnection::getConnection();
 		
 		#modalImage {
 			max-width: 100%;
-			max-height: 90vh; /* Supaya gambar tidak melebihi ketinggian skrin */
+			max-height: 90vh;
+			width: 350px;
+			height: 250px;
+			object-fit: cover;
 		}
-		
+
 		.hover-effect {
 			transition: transform 0.3s ease, opacity 0.3s ease;
 			cursor: pointer;
 		}
 
 		.hover-effect:hover {
-			transform: scale(1.05); /* Zoom in pada hover */
-			opacity: 0.8; /* Sedikit transparan */
-			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan bayangan */
+			transform: scale(1.05);
+			opacity: 0.8;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 		}
 
-		/* Ukuran seragam untuk gambar banner dan tambahan */
-		.uniform-image {
-			width: 200px; /* Ukuran seragam */
-			height: 200px; /* Ukuran seragam */
-			object-fit: cover; /* Pastikan gambar tidak terdistorsi */
-			border-radius: 5px; /* Tambahkan sedikit rounding jika diperlukan */
+		.modal-body {
+			padding: 1rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 
 
+		@media (max-width: 576px) {
+			#modalImage {
+				max-height: 70vh;
+			}
+		}
+
+		
 		/* Ukuran gambar banner */
 		.img-thumbnail {
-			max-width: 150px; /* Lebarkan gambar banner */
-			height: auto;
+			width: 150px; 
+			height: 100px;
+			object-fit: cover;
+		}
+		
+		.img_utama {
+			width: auto; 
+			max-width: 330px;
+			height: 280px; 
 			object-fit: cover;
 		}
 
+		@media (max-width: 768px) {
+			.img_utama {
+				max-width: 100%; 
+				height: auto; 
+			}
+		}
+
+		@media (max-width: 480px) {
+			.img_utama {
+				max-width: 100%;
+				height: auto;
+			}
+		}
 
 
 		</style>
@@ -172,31 +201,35 @@ $conn = DBConnection::getConnection();
 												<?php if ($utama_image): ?>
 													<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $utama_image; ?>', 'Gambar Utama')">
 														<img src="controller/<?php echo $utama_image; ?>" 
-															 class="img-fluid hover-effect" 
+															 class="img-fluid hover-effect img_utama" 
 															 style="max-width: 500px;" 
 															 alt="Gambar Utama" />
 													</a>
 												<?php endif; ?>
 
-												<div class="d-lg-flex d-none justify-content-center">
+												<div class="row justify-content-center">
 													<?php if ($banner_image): ?>
-														<a href="javascript:void(0);" class="text-center d-block mb-4" onclick="showImage('controller/<?php echo $banner_image; ?>', 'Gambar Banner')">
-															<img src="controller/<?php echo $banner_image; ?>" 
-																 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
-																 alt="Gambar Banner" />
-														</a>
+														<div class="col-md-4 text-center mb-4">
+															<a href="javascript:void(0);" onclick="showImage('controller/<?php echo $banner_image; ?>', 'Gambar Banner')">
+																<img src="controller/<?php echo $banner_image; ?>" 
+																	 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
+																	 alt="Gambar Banner" />
+															</a>
+														</div>
 													<?php endif; ?>
 
 													<?php if (!empty($tambahan_images)): ?>
 														<?php foreach ($tambahan_images as $tambahan): ?>
-															<a href="javascript:void(0);" class="ms-2" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
-																<img src="controller/<?php echo $tambahan; ?>" 
-																	 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
-																	 alt="Gambar Tambahan" />
-															</a>
+															<div class="col-md-4 text-center mb-4">
+																<a href="javascript:void(0);" onclick="showImage('controller/<?php echo $tambahan; ?>', 'Gambar Tambahan')">
+																	<img src="controller/<?php echo $tambahan; ?>" 
+																		 class="img-fluid img-thumbnail p-2 uniform-image hover-effect" 
+																		 alt="Gambar Tambahan" />
+																</a>
+															</div>
 														<?php endforeach; ?>
 													<?php else: ?>
-														<p>Tiada gambar tambahan tersedia.</p>
+														<p class="text-center">Tiada gambar tambahan tersedia.</p>
 													<?php endif; ?>
 												</div>
 											</div>
@@ -208,8 +241,8 @@ $conn = DBConnection::getConnection();
 															<h5 id="imageModalLabel" class="modal-title"></h5>
 															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
-														<div class="modal-body text-center">
-															<img id="modalImage" src="" style="max-width: 450px; height: 400px; object-fit: cover;" class="img-fluid" alt="Gambar Besar" />
+														<div class="modal-body">
+															<img id="modalImage" src="" class="img-fluid" alt="Gambar Besar" />
 														</div>
 													</div>
 												</div>

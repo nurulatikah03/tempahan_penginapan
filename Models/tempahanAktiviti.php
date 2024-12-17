@@ -93,7 +93,7 @@ class AktivitiReservation extends Reservation
 
     if (!$stmt->execute()) {
         $stmt->close();
-        throw new Exception("Failed to insert reservation: " . $stmt->error);
+        throw new Exception("Gagal memasukkan tempahan: " . $stmt->error);
     }
 
     $reservationId = $conn->insert_id; // Retrieve the inserted record's ID
@@ -130,11 +130,8 @@ function generateBookingNumber($conn) {
 }
 
 function getKadarHarga($id_aktiviti) {
-     $conn = DBConnection::getConnection();
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
-
+    $conn = DBConnection::getConnection();
+	 
     $query = "SELECT kadar_harga FROM aktiviti WHERE id_aktiviti = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id_aktiviti);
@@ -167,30 +164,36 @@ function getStatusAktiviti($id_aktiviti) {
 }
 
 
-function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
+function countRoomAvailable($id_aktiviti, $id_bilik, $id_dewan, $start_date, $end_date) {
     $conn = DBConnection::getConnection(); // Sambungan pangkalan data
 
     $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
     $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
-
-    // Kueri untuk mengira tempahan dalam julat tarikh yang diberikan
+	
+	
+	// Kueri untuk mengira tempahan dalam julat tarikh yang diberikan
     $countQuery = "
         SELECT COUNT(*) AS occupied_count 
         FROM tempahan 
-        WHERE id_aktiviti = ? 
+        WHERE id_aktiviti = ?
+		AND id_bilik = ?
+		AND id_dewan = ?
         AND tarikh_daftar_masuk <= ? 
         AND tarikh_daftar_keluar >= ?
     ";
-
-    $countStmt = $conn->prepare($countQuery);
-    $countStmt->bind_param("iss", $id_aktiviti, $formattedCheckOutDate, $formattedCheckInDate);
+	
+	$countStmt = $conn->prepare($countQuery);
+    $countStmt->bind_param("iiiss", $id_aktiviti, $id_bilik, $id_dewan, $formattedCheckOutDate, $formattedCheckInDate); // Correct binding of parameters
     $countStmt->execute();
     $countResult = $countStmt->get_result();
-	$occupiedData = $countResult->fetch_assoc();
+    
+    // Fetch the result and return the occupied count
+    $occupiedData = $countResult->fetch_assoc();
     $occupiedCount = $occupiedData['occupied_count'];
-        return $occupiedCount;
+
+    return $occupiedCount;
     } 
 
 ?>
