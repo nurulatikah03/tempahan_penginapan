@@ -94,7 +94,6 @@ $conn = DBConnection::getConnection();
 			}
 		}
 
-
 		</style>
     </head>
 
@@ -131,6 +130,8 @@ $conn = DBConnection::getConnection();
 									dewan.penerangan_kemudahan, 
 									dewan.status_dewan, 
 									dewan.max_capacity, 
+									dewan.mula_tidak_tersedia, 
+									dewan.tamat_tidak_tersedia, 
 									url_gambar.url_gambar,
 									url_gambar.jenis_gambar
 								FROM dewan
@@ -161,6 +162,8 @@ $conn = DBConnection::getConnection();
 									$status_dewan = $row['status_dewan'];
 									$url_gambar = $row['url_gambar'];
 									$jenis_gambar = $row['jenis_gambar'];
+									$mula_tidak_tersedia = $row['mula_tidak_tersedia'];
+									$tamat_tidak_tersedia = $row['tamat_tidak_tersedia'];
 
 									if ($jenis_gambar == 'main') {
 										$utama_image = $url_gambar;
@@ -273,10 +276,20 @@ $conn = DBConnection::getConnection();
 
                                                     <div class="mt-4">
                                                         <div class="row">
-                                                            <div class="col-md-4">
-                                                                <h6 class="font-14">Status Dewan</h6>
-                                                                <p class="text-sm lh-150"><?php echo $status_dewan; ?></p>
-                                                            </div>
+                                                           <div class="col-md-4">
+																<h6 class="font-14">Status Dewan</h6>
+																<p class="text-sm lh-150">
+																	<?php 
+																		echo htmlspecialchars($status_dewan); 
+																		if ($status_dewan == 'Tidak Tersedia') {
+																			echo "<br><span class='fw-bold text-success'>Mula:</span> " . 
+																				 (!empty($mula_tidak_tersedia) ? htmlspecialchars($mula_tidak_tersedia) : "Tidak ditentukan");
+																			echo "<br><span class='fw-bold text-success'>Tamat:</span> " . 
+																				 (!empty($tamat_tidak_tersedia) ? htmlspecialchars($tamat_tidak_tersedia) : "Tidak ditentukan");
+																		}
+																	?>
+																</p>
+															</div>
                                                             <div class="col-md-4">
                                                                 <h6 class="font-14">Bilangan Muatan</h6>
                                                                 <p class="text-sm lh-150"><?php echo $bilangan_muatan.' Orang'; ?></p>

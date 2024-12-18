@@ -208,7 +208,7 @@ session_start();
                             <div class="card">
                                 <div class="card-body">
                                     <div>
-                                        <h3 class="text-center"><label class="col-3 col-form-label">Gambar Bilik</label>
+                                        <h3 class="text-center"><label class="col-3 col-form-label">Gambar Dewan</label>
                                         </h3>
                                         <div class="images">
                                             <div class="row mb-3">
@@ -461,7 +461,7 @@ session_start();
 									?>
                                     <br>
                                     <hr>
-                                    <h3 class="text-center"><label class="col-3 col-form-label">Maklumat bilik</label>
+                                    <h3 class="text-center"><label class="col-3 col-form-label">Maklumat Dewan</label>
                                     </h3>
                                     <form class="form-horizontal" method="post"
                                         action="controller/kemaskiniDewan_process.php" enctype="multipart/form-data">
@@ -599,7 +599,7 @@ session_start();
 										<!-- Form to input unavailable date range -->
 										<div id="unavailable-date-range" style="display: none;">
 											<div class="row mb-3">
-												<label for="mula_tidak_tersedia" class="col-3 col-form-label">Tariku Mula Tidak Tersedia</label>
+												<label for="mula_tidak_tersedia" class="col-3 col-form-label">Tarikh Mula Tidak Tersedia</label>
 												<div class="col-9">
 													<input type="datetime-local" class="form-control" id="mula_tidak_tersedia" name="mula_tidak_tersedia" 
 														value="<?php echo isset($mula_tidak_tersedia) ? $mula_tidak_tersedia : ''; ?>">
