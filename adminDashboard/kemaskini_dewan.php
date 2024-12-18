@@ -136,6 +136,8 @@ session_start();
 								dewan.penerangan_kemudahan, 
 								dewan.status_dewan, 
 								dewan.max_capacity, 
+								dewan.mula_tidak_tersedia, 
+								dewan.tamat_tidak_tersedia, 
 								url_gambar.url_gambar,
 								url_gambar.jenis_gambar
 							FROM dewan
@@ -167,6 +169,8 @@ session_start();
                             $status_dewan = $row['status_dewan'];
                             $url_gambar = $row['url_gambar'];
                             $jenis_gambar = $row['jenis_gambar'];
+							$mula_tidak_tersedia = $row['mula_tidak_tersedia'];
+							$tamat_tidak_tersedia = $row['tamat_tidak_tersedia'];
 
                             if ($jenis_gambar == 'main') {
                                 $main_image = $url_gambar;
@@ -590,8 +594,16 @@ session_start();
 											<label for="status_dewan" class="col-3 col-form-label">Status</label>
 											<div class="col-9">
 												<select class="form-control" id="status_dewan" name="status_dewan" required onchange="toggleUnavailableDateRange(this.value)">
-													<option value="tersedia" <?php echo ($status_dewan == 'tersedia') ? 'selected' : ''; ?>>Tersedia</option>
-													<option value="tidak tersedia" <?php echo ($status_dewan == 'tidak tersedia') ? 'selected' : ''; ?>>Tidak Tersedia</option>
+													<?php 
+													// Dynamically display the selected status first
+													if ($status_dewan == 'Tersedia') {
+														echo '<option value="tersedia" selected>Tersedia</option>';
+														echo '<option value="tidak tersedia">Tidak Tersedia</option>';
+													} else if ($status_dewan == 'Tidak Tersedia') {
+														echo '<option value="tidak tersedia" selected>Tidak Tersedia</option>';
+														echo '<option value="tersedia">Tersedia</option>';
+													}
+													?>
 												</select>
 											</div>
 										</div>
@@ -602,17 +614,18 @@ session_start();
 												<label for="mula_tidak_tersedia" class="col-3 col-form-label">Tarikh Mula Tidak Tersedia</label>
 												<div class="col-9">
 													<input type="datetime-local" class="form-control" id="mula_tidak_tersedia" name="mula_tidak_tersedia" 
-														value="<?php echo isset($mula_tidak_tersedia) ? $mula_tidak_tersedia : ''; ?>">
+														value="<?php echo isset($mula_tidak_tersedia) ? htmlspecialchars($mula_tidak_tersedia) : ''; ?>">
 												</div>
 											</div>
 											<div class="row mb-3">
 												<label for="tamat_tidak_tersedia" class="col-3 col-form-label">Tarikh Tamat Tidak Tersedia</label>
 												<div class="col-9">
 													<input type="datetime-local" class="form-control" id="tamat_tidak_tersedia" name="tamat_tidak_tersedia" 
-														value="<?php echo isset($tamat_tidak_tersedia) ? $tamat_tidak_tersedia : ''; ?>">
+														value="<?php echo isset($tamat_tidak_tersedia) ? htmlspecialchars($tamat_tidak_tersedia) : ''; ?>">
 												</div>
 											</div>
 										</div>
+
                                         <div class="justify-content-end row text-end mt-3">
                                             <div class="col-9">
                                                 <button type="submit" class="btn btn-info">Kemaskini</button>
@@ -788,6 +801,8 @@ session_start();
 		toggleUnavailableDateRange(statusDropdown.value);
 	});
 	</script>
+	
+
 
 
 

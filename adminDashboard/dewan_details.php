@@ -281,11 +281,18 @@ $conn = DBConnection::getConnection();
 																<p class="text-sm lh-150">
 																	<?php 
 																		echo htmlspecialchars($status_dewan); 
+																		
 																		if ($status_dewan == 'Tidak Tersedia') {
-																			echo "<br><span class='fw-bold text-success'>Mula:</span> " . 
-																				 (!empty($mula_tidak_tersedia) ? htmlspecialchars($mula_tidak_tersedia) : "Tidak ditentukan");
-																			echo "<br><span class='fw-bold text-success'>Tamat:</span> " . 
-																				 (!empty($tamat_tidak_tersedia) ? htmlspecialchars($tamat_tidak_tersedia) : "Tidak ditentukan");
+																			function formatDate($datetime) {
+																				if (!empty($datetime)) {
+																					$dateObj = new DateTime($datetime);
+																					return $dateObj->format('d/m/Y H:i:s');
+																				}
+																				return "Tidak ditentukan";
+																			}
+
+																			echo "<br><span class='fw-bold text-success'>Mula:</span> " . formatDate($mula_tidak_tersedia);
+																			echo "<br><span class='fw-bold text-success'>Tamat:</span> " . formatDate($tamat_tidak_tersedia);
 																		}
 																	?>
 																</p>
