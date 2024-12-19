@@ -1,7 +1,7 @@
 <?php
 include_once '../../Models/room.php';
 session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit']) && isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
     //update metadata
     if ($_POST['process'] == 'UpdateMetaData') {
         $roomId = $_POST['penginapan_id'];
@@ -75,9 +75,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         exit;
     } elseif ($_POST['process'] == 'deleteRoom') {
         $roomId = $_POST['room_id'];
+        $imgMain = '../../' . $_POST['gambarmain'];
+        $imgBanner = '../../' . $_POST['gambarbanner'];
+        $imgAdd = $_POST['gambaradd'];
+
+        try {
+            Room::delRoomById($roomId);
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.';
+            header("Location: ../penginapan.php");
+            exit;
+        }
         Room::delImgByRoomId($roomId);
         Room::delAmenByRoomId($roomId);
-        Room::delRoomById($roomId);
+        if (file_exists($imgMain)) {
+            unlink($imgMain);
+        }
+        if (file_exists($imgBanner)) {
+            unlink($imgBanner);
+        }
+        foreach ($imgAdd as $img) {
+            $img = '../../' . $img;
+            if (file_exists($img)) {
+                unlink($img);
+            }
+        }
+
         $_SESSION['status'] = 'Penginapan berjaya dipadam.';
         header("Location: ../penginapan.php");
         exit;
@@ -168,6 +191,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         $_SESSION['status'] = 'Penginapan berjaya ditambah.';
         header("Location: ../penginapan.php");
         exit;
+    } elseif ($_POST['process'] == 'addUnitBilik') {
+        $roomId = $_POST['roomId'];
+        $nomborUnitBilik = $_POST['nomborUnitBilikAdd'];
+        $aras_bilik = $_POST['arasAdd'];
+        foreach ($nomborUnitBilik as $index => $unit) {
+            $aras = $aras_bilik[$index];
+            Room::addRoomUnit($roomId, $unit, $aras);
+        }
+        $_SESSION['status'] = 'Unit bilik berjaya ditambah.';
+        header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
     } elseif ($_POST['process'] == 'UpdateImageAdd') {
 
         if (isset($_FILES['images'])) {
@@ -208,6 +241,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit'])) {
         exit;
     }
 } else {
-    echo "No form submitted.";
+    echo "No form or CRFT tokens.";
     exit;
 }

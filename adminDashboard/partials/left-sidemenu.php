@@ -56,38 +56,40 @@
                     </ul>
                 </div>
             </li>
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'): ?>
+            <div>
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
+                        <i class="uil-building"></i>
+                        <span class="badge bg-success float-end">4</span>
+                        <span> Fasiliti </span>
+                    </a>
+                    <div class="collapse" id="sidebarDashboards">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="dewan.php">Dewan</a>
+                            </li>
+                            <li>
+                                <a href="penginapan.php">Penginapan</a>
+                            </li>
+                            <li>
+                                <a href="aktiviti.php">Aktiviti</a>
+                            </li>
+                            <li>
+                                <a href="perkahwinan.php">Perkahwinan</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
-                    <i class="uil-building"></i>
-                    <span class="badge bg-success float-end">4</span>
-                    <span> Fasiliti </span>
-                </a>
-                <div class="collapse" id="sidebarDashboards">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="dewan.php">Dewan</a>
-                        </li>
-                        <li>
-                            <a href="penginapan.php">Penginapan</a>
-                        </li>
-                        <li>
-                            <a href="aktiviti.php">Aktiviti</a>
-                        </li>
-                        <li>
-                            <a href="perkahwinan.php">Perkahwinan</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="side-nav-item">
-                <a href="tetapan.php" class="side-nav-link">
-                    <i class="uil-cog"></i>
-                    <span> Tetapan </span>
-                </a>
-            </li>
-
+                <li class="side-nav-item">
+                    <a href="tetapan.php" class="side-nav-link">
+                        <i class="uil-cog"></i>
+                        <span> Kemudahan </span>
+                    </a>
+                </li>
+            </div>
+            <?php endif; ?>
         </ul>
         <!-- End Sidebar -->
 

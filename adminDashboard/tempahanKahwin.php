@@ -1,3 +1,6 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,6 +93,7 @@
                                                         $custName = ucwords(strtolower(implode(' ', array_slice(explode(' ', $tempahan->getCustName()), 0, 2))));
                                                         $PekejName = PekejPerkahwinan::getPackageNameById($tempahan->getWeddingId());
                                                         $addons = $tempahan->getAddOnsByReservationId($tempahan_id);
+                                                        $namaDewan = PekejPerkahwinan::getDewanNameByDewanId($tempahan->getDewanId());;
                                                 ?>
                                                         <tr>
                                                             <td>
@@ -151,7 +155,14 @@
                                                                                         value="<?php echo $tempahan->getPhoneNumber(); ?>" readonly
                                                                                         style="background-color: white;">
                                                                                 </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Nama Pekej</label>
+                                                                                    <input type="text" class="form-control"
+                                                                                        value="<?php echo $PekejName; ?>" readonly
+                                                                                        style="background-color: white;">
+                                                                                </div>
                                                                             </div>
+
                                                                             <div class="col-md-6 ps-2 pe-5">
                                                                                 <div class="mb-3">
                                                                                     <label class="form-label">Tarikh dan masa tempahan</label>
@@ -166,15 +177,26 @@
                                                                                         style="background-color: white;">
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label class="form-label">Bilangan PAX</label>
+                                                                                    <label class="form-label">Tarikh Akhir Kenduri</label>
                                                                                     <input type="text" class="form-control"
-                                                                                        value="<?php echo $tempahan->getNumOfPax(); ?>" readonly
+                                                                                        value="<?php echo formatDateFromSQL($tempahan->getCheckOutDate()); ?>" readonly
+                                                                                        style="background-color: white;">
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label">Nama Dewan</label>
+                                                                                    <input type="text" class="form-control"
+                                                                                        value="<?php echo $namaDewan; ?>" readonly
                                                                                         style="background-color: white;">
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="row">
                                                                                 <!-- Left side with email and payment method -->
                                                                                 <div class="col-md-6 pe-2 ps-5">
+                                                                                    <div class="mb-3">
+                                                                                        <label class="form-label">Bilangan PAX</label>
+                                                                                        <input type="text" class="form-control" value="<?php echo htmlspecialchars($tempahan->getNumOfPax()); ?>" readonly style="background-color: white;">
+                                                                                    </div>
                                                                                     <div class="mb-3">
                                                                                         <label class="form-label">Email</label>
                                                                                         <input type="text" class="form-control" value="<?php echo htmlspecialchars($tempahan->getEmail()); ?>" readonly style="background-color: white;">

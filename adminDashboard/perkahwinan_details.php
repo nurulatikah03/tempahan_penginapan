@@ -1,3 +1,7 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 

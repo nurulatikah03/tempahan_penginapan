@@ -1,3 +1,8 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,19 +18,6 @@
 	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<link rel="stylesheet" href="assets/css/style.css">
-	<style>
-		body {
-			font-family: 'Poppins';
-		}
-
-		body[data-leftbar-theme=dark] {
-			--ct-bg-leftbar: #254222;
-		}
-
-		.end-bar .rightbar-title {
-			background-color: #254222;
-		}
-	</style>
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -86,7 +78,7 @@
 										<div class="row mb-3">
 											<label for="jumlahBilik" class="col-3 col-form-label">Jumlah Bilik</label>
 											<div class="col-9">
-												<input type="number" class="form-control" id="jumlahBilik" name="jumlah_bilik" placeholder="Jumlah Bilik" min="1" required>
+												<input type="number" class="form-control" id="jumlahBilik" name="jumlah_bilik" placeholder="Jumlah Bilik" min="1" max="200" required>
 											</div>
 										</div>
 										<div class="row mb-3">
@@ -121,7 +113,7 @@
 													<?php foreach ($aminities as $aminity): ?>
 														<div class="col-4 pb-2">
 															<div class="form-check">
-																<input class="form-check-input" type="checkbox" name="kemudahan[]" value="<?php echo $aminity['name']; ?>" id="<?php echo $aminity['name']; ?>" >
+																<input class="form-check-input" type="checkbox" name="kemudahan[]" value="<?php echo $aminity['name']; ?>" id="<?php echo $aminity['name']; ?>">
 																<label class="form-check-label" for="<?php echo $aminity['name']; ?>">
 																	<img src="../<?php echo $aminity['icon_url']; ?>" alt="<?php echo $aminity['name']; ?>" style="height: 25px; margin-right: 5px;">
 																	<?php echo $aminity['name']; ?>
@@ -150,10 +142,30 @@
 												<input type="file" id="fileinput_tambahan" name="fileinput_tambahan[]" class="form-control" accept="image/*" multiple>
 											</div>
 										</div>
+										<div class="row justify-content-center">
+											<div class="col-8 mt-3">
+												<h4>Informasi Unit Bilik</h4>
+												<table class="table table-bordered">
+													<thead>
+														<tr>
+															<th>Nombor Unit Bilik</th>
+															<th>Aras</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="text" class="form-control" name="nomborUnitBilik[]" placeholder="Nombor Unit Bilik" required></td>
+															<td><input type="number" step="1" class="form-control" name="aras[]" placeholder="Aras Bilik" required></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
 												<input type="hidden" name="process" value="addRoom">
-												<button type="submit" name="Submit" class="btn btn-info">Tambah</button>
+												<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+												<button type="submit" name="Submit" class="btn btn-info">Tambah Bilik</button>
 											</div>
 										</div>
 									</form>
@@ -189,7 +201,41 @@
 	<script src="assets/js/vendor/dataTables.responsive.min.js"></script>
 	<script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
+	<script>
+		document.getElementById('jumlahBilik').addEventListener('input', function() {
+			var jumlahBilik = this.value;
+			var tableBody = document.querySelector('table tbody');
+			tableBody.innerHTML = '';
 
+			for (var i = 0; i < jumlahBilik; i++) {
+				var row = document.createElement('tr');
+
+				var cell1 = document.createElement('td');
+				var input1 = document.createElement('input');
+				input1.type = 'text';
+				input1.className = 'form-control';
+				input1.name = 'nomborUnitBilik[]';
+				input1.placeholder = 'Nombor Unit Bilik';
+				input1.required = true;
+				cell1.appendChild(input1);
+
+				var cell2 = document.createElement('td');
+				var input2 = document.createElement('input');
+				input2.type = 'number';
+				input2.step = '1';
+				input2.className = 'form-control';
+				input2.name = 'aras[]';
+				input2.placeholder = 'Aras Bilik';
+				input2.required = true;
+				cell2.appendChild(input2);
+
+				row.appendChild(cell1);
+				row.appendChild(cell2);
+
+				tableBody.appendChild(row);
+			}
+		});
+	</script>
 	<!-- third party js ends -->
 
 	<!-- demo app -->

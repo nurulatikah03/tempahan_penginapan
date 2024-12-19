@@ -1,6 +1,7 @@
-<?php
-include '../database/DBConnec.php';
-
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+$conn = DBConnection::getConnection();
 $query = "
     SELECT
         k.id_kemudahan,	

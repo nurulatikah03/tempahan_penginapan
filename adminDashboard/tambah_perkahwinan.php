@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,13 +104,26 @@
 											</div>
 										</div>
 										<div class="row mb-3">
-											<label for="fileinput" class="col-3 col-form-label">Muat Naik Gambar</label>
+											<label for="fileinput_utama" class="col-3 col-form-label">Muat Naik Gambar Utama</label>
 											<div class="col-9">
-												<input type="file" id="fileinput" name="fileinput" class="form-control" accept="image/*" required>
+												<input type="file" id="fileinput_utama" name="fileinput_utama" class="form-control" accept="image/*" required>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<label for="fileinput_banner" class="col-3 col-form-label">Muat Naik Gambar Banner</label>
+											<div class="col-9">
+												<input type="file" id="fileinput_banner" name="fileinput_banner" class="form-control" accept="image/*" required>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<label for="fileinput_tambahan" class="col-3 col-form-label">Muat Naik Gambar Tambahan</label>
+											<div class="col-9">
+												<input type="file" id="fileinput_tambahan" name="fileinput_tambahan[]" class="form-control" accept="image/*" multiple>
 											</div>
 										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
+												<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 												<input type="hidden" name="process" value="tambah_pekej">
 												<button type="submit" name="submit" class="btn btn-info">Tambah</button>
 											</div>

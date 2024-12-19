@@ -9,7 +9,7 @@ class Reservation
     protected $cust_name;
     protected $phone_number;
     protected $email;
-    protected $num_of_Pax;
+    protected $num_of_Pax; //Bilangan Bilik Diminta untuk penginapan...Untuk perkahwinan, bilangan tetamu... etc
     protected $reservationDate;
     protected $checkInDate;
     protected $checkOutDate;
