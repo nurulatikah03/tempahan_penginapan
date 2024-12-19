@@ -13,17 +13,17 @@ if (isset($_GET['id_dewan'])) {
             d.penerangan_ringkas, 
             d.status_dewan, 
             d.max_capacity, 
-            COALESCE(utama.url_gambar, '') AS gambar_utama,
+            COALESCE(main.url_gambar, '') AS gambar_main,
             COALESCE(banner.url_gambar, '') AS gambar_banner,
-            COALESCE(tambahan.url_gambar, '') AS gambar_tambahan
+            COALESCE(add.url_gambar, '') AS gambar_tambahan
         FROM 
             dewan d
         LEFT JOIN 
-            dewan_pic utama ON d.id_dewan = utama.id_dewan AND utama.jenis_gambar = 'Utama'
+            url_gambar main ON d.id_dewan = main.id_dewan AND main.jenis_gambar = 'main'
         LEFT JOIN 
-            dewan_pic banner ON d.id_dewan = banner.id_dewan AND banner.jenis_gambar = 'Banner'
+            url_gambar banner ON d.id_dewan = banner.id_dewan AND banner.jenis_gambar = 'banner'
         LEFT JOIN 
-            dewan_pic tambahan ON d.id_dewan = tambahan.id_dewan AND tambahan.jenis_gambar = 'Tambahan'
+            url_gambar add ON d.id_dewan = add.id_dewan AND add.jenis_gambar = 'add'
         WHERE 
             d.id_dewan = $id_dewan
 ";}

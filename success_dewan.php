@@ -1,6 +1,5 @@
 <?php 
 include 'database/DBConnec.php';
-include 'adminDashboard/controller/get_dewan.php';
 
 session_start();
 ?>
@@ -46,25 +45,71 @@ session_start();
         <?php include 'partials/header.php';?>
 
         	<?php
-			$conn = DBConnection::getConnection();
-			$result = $conn->query($sql);
+        $conn = DBConnection::getConnection();
 
-			if ($result->num_rows > 0) {
-				$row = $result->fetch_assoc();
+        if (isset($_GET['id_dewan'])) {
+            $id_dewan = $_GET['id_dewan'];
+        } else {
+            echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
+            exit;
+        }
 
-				// Retrieve data
-				$nama_dewan = htmlspecialchars($row['nama_dewan']);
-				$gambar_utama = htmlspecialchars($row['gambar_utama']);
-				$gambar_banner = htmlspecialchars($row['gambar_banner']);
-				$gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-				$kadar_sewa = $row['kadar_sewa'];
-				$bilangan_muatan = $row['bilangan_muatan'];
-				$penerangan = $row['penerangan'];
-				?>
+        $query = "
+			SELECT 
+				dewan.id_dewan, 
+				dewan.nama_dewan, 
+				dewan.kadar_sewa, 
+				dewan.bilangan_muatan, 
+				dewan.penerangan, 
+				dewan.penerangan_ringkas, 
+				dewan.penerangan_kemudahan, 
+				dewan.status_dewan, 
+				dewan.max_capacity, 
+				url_gambar.url_gambar,
+				url_gambar.jenis_gambar
+			FROM dewan
+				LEFT JOIN url_gambar ON dewan.id_dewan = url_gambar.id_dewan
+				WHERE dewan.id_dewan = ?
+				";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_dewan);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo '<div class="row">';
+            $utama_image = '';
+            $banner_image = '';
+            $tambahan_images = [];
+
+            while ($row = $result->fetch_assoc()) {
+                $id_dewan = $row['id_dewan'];
+                $nama_dewan = $row['nama_dewan'];
+                $kadar_sewa = $row['kadar_sewa'];
+                $bilangan_muatan = $row['bilangan_muatan'];
+                $penerangan = $row['penerangan'];
+                $penerangan_ringkas = $row['penerangan_ringkas'];
+                $penerangan_kemudahan = $row['penerangan_kemudahan'];
+                $max_capacity = $row['max_capacity'];
+                $status_dewan = $row['status_dewan'];
+                $url_gambar = $row['url_gambar'];
+                $jenis_gambar = $row['jenis_gambar'];
+
+                if ($jenis_gambar == 'main') {
+                    $utama_image = $url_gambar;
+                } elseif ($jenis_gambar == 'banner') {
+                    $banner_image = $url_gambar;
+                } elseif ($jenis_gambar == 'add') {
+                    $tambahan_images[] = $url_gambar;
+                }
+            }
+            echo '</div>';
+            ?>
 				<!-- Page Title -->
 				<div class="page-title" 
 					 style="
-						background-image: url('adminDashboard/controller/<?php echo $gambar_banner; ?>');
+						background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
 						background-repeat: no-repeat;
 						background-size: cover;
 						background-position: center;

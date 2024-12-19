@@ -94,7 +94,6 @@ $conn = DBConnection::getConnection();
 			}
 		}
 
-
 		</style>
     </head>
 
@@ -131,10 +130,12 @@ $conn = DBConnection::getConnection();
 									dewan.penerangan_kemudahan, 
 									dewan.status_dewan, 
 									dewan.max_capacity, 
-									dewan_pic.url_gambar,
-									dewan_pic.jenis_gambar
+									dewan.mula_tidak_tersedia, 
+									dewan.tamat_tidak_tersedia, 
+									url_gambar.url_gambar,
+									url_gambar.jenis_gambar
 								FROM dewan
-								LEFT JOIN dewan_pic ON dewan.id_dewan = dewan_pic.id_dewan
+								LEFT JOIN url_gambar ON dewan.id_dewan = url_gambar.id_dewan
 								WHERE dewan.id_dewan = ?
 							"; 
 
@@ -161,12 +162,14 @@ $conn = DBConnection::getConnection();
 									$status_dewan = $row['status_dewan'];
 									$url_gambar = $row['url_gambar'];
 									$jenis_gambar = $row['jenis_gambar'];
+									$mula_tidak_tersedia = $row['mula_tidak_tersedia'];
+									$tamat_tidak_tersedia = $row['tamat_tidak_tersedia'];
 
-									if ($jenis_gambar == 'Utama') {
+									if ($jenis_gambar == 'main') {
 										$utama_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Banner') {
+									} elseif ($jenis_gambar == 'banner') {
 										$banner_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Tambahan') {
+									} elseif ($jenis_gambar == 'add') {
 										$tambahan_images[] = $url_gambar;
 										}
 								}
@@ -273,10 +276,27 @@ $conn = DBConnection::getConnection();
 
                                                     <div class="mt-4">
                                                         <div class="row">
-                                                            <div class="col-md-4">
-                                                                <h6 class="font-14">Status Dewan</h6>
-                                                                <p class="text-sm lh-150"><?php echo $status_dewan; ?></p>
-                                                            </div>
+                                                           <div class="col-md-4">
+																<h6 class="font-14">Status Dewan</h6>
+																<p class="text-sm lh-150">
+																	<?php 
+																		echo htmlspecialchars($status_dewan); 
+																		
+																		if ($status_dewan == 'Tidak Tersedia') {
+																			function formatDate($datetime) {
+																				if (!empty($datetime)) {
+																					$dateObj = new DateTime($datetime);
+																					return $dateObj->format('d/m/Y H:i:s');
+																				}
+																				return "Tidak ditentukan";
+																			}
+
+																			echo "<br><span class='fw-bold text-success'>Mula:</span> " . formatDate($mula_tidak_tersedia);
+																			echo "<br><span class='fw-bold text-success'>Tamat:</span> " . formatDate($tamat_tidak_tersedia);
+																		}
+																	?>
+																</p>
+															</div>
                                                             <div class="col-md-4">
                                                                 <h6 class="font-14">Bilangan Muatan</h6>
                                                                 <p class="text-sm lh-150"><?php echo $bilangan_muatan.' Orang'; ?></p>

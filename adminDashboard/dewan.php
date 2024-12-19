@@ -13,13 +13,13 @@ $query = "
 		d.penerangan_kemudahan,
         d.status_dewan, 
 		d.max_capacity,
-        dp.url_gambar AS gambar_utama
+        u.url_gambar AS gambar_utama
     FROM 
         dewan d
     LEFT JOIN 
-        dewan_pic dp
+        url_gambar u
     ON 
-        d.id_dewan = dp.id_dewan AND dp.jenis_gambar = 'Utama';
+        d.id_dewan = u.id_dewan AND u.jenis_gambar = 'main';
 ";
 $conn = DBConnection::getConnection();
 $result = $conn->query($query);
