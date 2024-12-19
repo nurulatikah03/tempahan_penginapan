@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2024 at 04:34 AM
+-- Generation Time: Dec 19, 2024 at 05:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -189,18 +189,20 @@ CREATE TABLE `dewan` (
   `penerangan_ringkas` varchar(250) DEFAULT NULL,
   `penerangan_kemudahan` varchar(250) DEFAULT NULL,
   `status_dewan` enum('Tersedia','Tidak Tersedia') DEFAULT NULL,
-  `max_capacity` int(11) DEFAULT NULL
+  `max_capacity` int(11) DEFAULT NULL,
+  `mula_tidak_tersedia` int(11) DEFAULT NULL,
+  `tamat_tidak_tersedia` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dewan`
 --
 
-INSERT INTO `dewan` (`id_dewan`, `nama_dewan`, `kadar_sewa`, `bilangan_muatan`, `penerangan`, `penerangan_ringkas`, `penerangan_kemudahan`, `status_dewan`, `max_capacity`) VALUES
-(16, 'Dewan Jubli', 500.00, 250, 'Dewan Jubli adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Jubli adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Jubli memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1),
-(17, 'Dewan Fiber', 350.00, 250, 'Dewan Fiber adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Fiber adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Fiber memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1),
-(18, 'Dewan Kuliah Kenaf', 200.00, 40, 'Dewan Kuliah Kenaf adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Kuliah Kenaf adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Kuliah Kenaf memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1),
-(21, 'Dewan emas', 33.00, 33, 'enerangan', 'enerangan', 'enerangan', 'Tersedia', 3);
+INSERT INTO `dewan` (`id_dewan`, `nama_dewan`, `kadar_sewa`, `bilangan_muatan`, `penerangan`, `penerangan_ringkas`, `penerangan_kemudahan`, `status_dewan`, `max_capacity`, `mula_tidak_tersedia`, `tamat_tidak_tersedia`) VALUES
+(16, 'Dewan Jubli', 500.00, 250, 'Dewan Jubli adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Jubli adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Jubli memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1, NULL, NULL),
+(17, 'Dewan Fiber', 350.00, 250, 'Dewan Fiber adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Fiber adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Fiber memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1, NULL, NULL),
+(18, 'Dewan Kuliah Kenaf', 200.00, 40, 'Dewan Kuliah Kenaf adalah sebuah dewan yang luas dan moden, direka khas untuk memenuhi keperluan pelbagai jenis acara besar dan kecil. Dengan ruang yang selesa dan suasana yang elegan, dewan ini mampu menampung jumlah tetamu yang besar, menjadikannya pilihan utama untuk pelbagai majlis, seperti perkahwinan, seminar, atau penganjuran acara rasmi. ', 'Dewan Kuliah Kenaf adalah dewan moden dan luas, ideal untuk pelbagai acara besar dan kecil.', 'Dewan Kuliah Kenaf memberikan kemudahan yang sesuai untuk digunakan.', 'Tersedia', 1, NULL, NULL),
+(21, 'Dewan emas', 33.00, 33, 'enerangan', 'enerangan', 'enerangan', 'Tersedia', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -420,29 +422,40 @@ CREATE TABLE `url_gambar` (
   `jenis_gambar` enum('main','banner','add','') DEFAULT NULL,
   `url_gambar` text DEFAULT NULL,
   `id_bilik` int(10) DEFAULT NULL,
-  `id_perkahwinan` int(10) DEFAULT NULL
+  `id_perkahwinan` int(10) DEFAULT NULL,
+  `id_dewan` int(11) DEFAULT NULL,
+  `id_aktiviti` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `url_gambar`
 --
 
-INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`, `id_perkahwinan`) VALUES
-(1, 'main', 'assets/images/resource/dalambilik-scaled.jpg', 1, NULL),
-(3, 'main', 'assets/images/resource/room-3_homestay.jpg', 3, NULL),
-(4, 'banner', 'assets/images/background/dalambilik-scaled.jpg', 1, NULL),
-(6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3, NULL),
-(10, 'add', 'assets/images/resource/room-1_bathroom.jpg', 1, NULL),
-(50, 'add', 'assets/images/resource/homestay_patio.jpg', 3, NULL),
-(51, 'add', 'assets/images/resource/homestay_swimming.jpg', 3, NULL),
-(67, 'add', 'assets/images/resource/living-room-1.jpg', 1, NULL),
-(113, 'main', 'assets/images/resource/pic1.png', 2, NULL),
-(114, 'banner', 'assets/images/background/pic3.png', 2, NULL),
-(146, 'banner', 'assets/images/background/ck-yeo-5J6VUR6r9Wc-unsplash.jpg', NULL, 22),
-(147, 'main', 'assets/images/resource/Picture2.png', NULL, 22),
-(148, 'main', 'assets/images/resource/GLOQjWFWgAAK0Zz.jpeg', NULL, 11),
-(149, 'banner', 'assets/images/background/Picture7.png', NULL, 11),
-(179, 'add', 'assets/images/resource/99.jpg', 2, NULL);
+INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`, `id_perkahwinan`, `id_dewan`, `id_aktiviti`) VALUES
+(1, 'main', 'assets/images/resource/dalambilik-scaled.jpg', 1, NULL, NULL, NULL),
+(3, 'main', 'assets/images/resource/room-3_homestay.jpg', 3, NULL, NULL, NULL),
+(4, 'banner', 'assets/images/background/dalambilik-scaled.jpg', 1, NULL, NULL, NULL),
+(6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3, NULL, NULL, NULL),
+(10, 'add', 'assets/images/resource/room-1_bathroom.jpg', 1, NULL, NULL, NULL),
+(50, 'add', 'assets/images/resource/homestay_patio.jpg', 3, NULL, NULL, NULL),
+(51, 'add', 'assets/images/resource/homestay_swimming.jpg', 3, NULL, NULL, NULL),
+(67, 'add', 'assets/images/resource/living-room-1.jpg', 1, NULL, NULL, NULL),
+(113, 'main', 'assets/images/resource/pic1.png', 2, NULL, NULL, NULL),
+(114, 'banner', 'assets/images/background/pic3.png', 2, NULL, NULL, NULL),
+(146, 'banner', 'assets/images/background/ck-yeo-5J6VUR6r9Wc-unsplash.jpg', NULL, 22, NULL, NULL),
+(147, 'main', 'assets/images/resource/Picture2.png', NULL, 22, NULL, NULL),
+(148, 'main', 'assets/images/resource/GLOQjWFWgAAK0Zz.jpeg', NULL, 11, NULL, NULL),
+(149, 'banner', 'assets/images/background/Picture7.png', NULL, 11, NULL, NULL),
+(150, 'main', 'assets/images/resource/6760fd4e628c1.png', NULL, NULL, 16, NULL),
+(151, 'banner', 'assets/images/background/6760e33e3e372.png', NULL, NULL, 16, NULL),
+(152, 'add', 'assets/images/resource/1734402186_0_dewanJubli2.png', NULL, NULL, 16, NULL),
+(153, 'main', 'assets/images/resource/1734403768_lovepik-round-table-meeting-room-picture_501573902.jpg', NULL, NULL, 17, NULL),
+(154, 'banner', 'assets/images/background/1734403768_pngtree-empty-classroom-board-meeting-academic-photo-image_43102854.jpg', NULL, NULL, 17, NULL),
+(155, 'add', 'assets/images/resource/1734403768_0_lovepik-conference-hall-picture_500680046.jpg', NULL, NULL, 17, NULL),
+(156, 'main', 'assets/images/resource/1734403893_dewan_kuliah1.jpg', NULL, NULL, 18, NULL),
+(157, 'banner', 'assets/images/background/1734403893_dewan_kuliah2.jpg', NULL, NULL, 18, NULL),
+(158, 'add', 'assets/images/resource/1734403893_0_dewan_kuliah1.jpg', NULL, NULL, 18, NULL),
+(179, 'add', 'assets/images/resource/99.jpg', 2, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
