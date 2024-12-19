@@ -207,19 +207,6 @@ session_start(); ?>
 
 <body>
 
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
@@ -241,7 +228,7 @@ session_start(); ?>
 
         <div class="page-title" style="background-image: url(<?php echo str_replace(' ', '%20', $package->getGambarBannerKahwin()); ?>);">
             <div class="auto-container">
-                <h1><?php echo $package->getNamaDewan(); ?></h1>
+                <h1><?php echo $package->getNamaPekej(); ?></h1>
             </div>
         </div>
         <div class="bredcrumb-wrap">

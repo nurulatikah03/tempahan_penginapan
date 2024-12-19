@@ -1,6 +1,8 @@
-<?php
-session_start();
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -241,6 +243,12 @@ session_start();
 																				<form action="controller\kemaskiniPenginapan_process.php" method="post">
 																					<input type="hidden" name="process" value="deleteRoom">
 																					<input type="hidden" name="room_id" value="<?php echo $penginapan_id; ?>">
+																					<input type="hidden" name="gambarmain" value="<?php echo $room->getImgMain(); ?>">
+																					<input type="hidden" name="gambarbanner" value="<?php echo $room->getImgBanner(); ?>">
+																					<input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token'] ?>">
+																					<?php foreach ($imgList as $img){
+																						echo '<input type="hidden" name="gambaradd[]" value="'.$img.'">';
+																					};?>
 																					<div class="text-center">
 																						<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
 																						<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>

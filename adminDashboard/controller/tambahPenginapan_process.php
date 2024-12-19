@@ -1,6 +1,6 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
     include_once '../../Models/room.php';
 
     // Sanitize and collect the input data
@@ -98,5 +98,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else {
-    echo "Kaedah permintaan tidak sah.";
+    echo "Kaedah permintaan tidak sah atau tiada token CSRF. Sila login semula.";
 }

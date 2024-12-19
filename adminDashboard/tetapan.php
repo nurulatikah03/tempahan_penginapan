@@ -1,3 +1,7 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
 <!DOCTYPE html>
     <html lang="en">
 	<head>
@@ -71,9 +75,9 @@
 						<!-- end page title -->
 						<?php
 						// Sambungan ke database
-						include '../database/database.php';
 
 						// Query untuk mendapatkan jumlah kemudahan
+						$conn = DBConnection::getConnection();
 						$query = "SELECT COUNT(*) AS total_kemudahan FROM kemudahan";
 						$result = $conn->query($query);
 

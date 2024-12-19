@@ -3,7 +3,7 @@ session_start();
 include_once '../../Models/pekejPerkahwinan.php';
 
 // Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
     if ($_POST['process'] == 'tambah_pekej') {
 
 
@@ -76,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         if (move_uploaded_file($_FILES['fileinput_tambahan']['tmp_name'][$i], $targetFile)) {
                             $urlToAddrTambahan = 'assets/images/resource/' . basename($_FILES['fileinput_tambahan']['name'][$i]);
                             PekejPerkahwinan::addPerkahwinanImage($newWedId, $urlToAddrTambahan, 'add');
-                            $_SESSION['status'] = 'Penginapan berjaya ditambah.';
-                            header("Location: ../penginapan.php");
+                            $_SESSION['status'] = 'Pekej perkahwinan berjaya ditambah.';
+                            header("Location: ../perkahwinan.php");
                         } else {
                             $_SESSION['error'] = "Terdapat ralat semasa memuat naik gambar tambahan.";
                             echo "Ralat semasa memuat naik Gambar Tambahan " . ($i + 1) . ".<br>";
@@ -88,17 +88,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif ($_POST['process'] == 'delete_pekej') {
         $id_pekej = $_POST['id_pekej'];
-        $gambar = $_POST['gambar_url'];
-        $target_file = '../../' . $gambar;
+        $gambar_main = '../../' . $_POST['gambar_url_main'];
+        $gambar_banner = '../../' . $_POST['gambar_url_banner'];
+        $gambar_add = $_POST['gambar_url_Add'];
 
-        if (file_exists($target_file)) {
-            unlink($target_file);
+        try {
+            PekejPerkahwinan::deletePekejPerkahwinan($id_pekej);
+        } catch (Exception $e) {
+            $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif pekej ini.';
+            header("Location: ../perkahwinan.php");
+            exit;
         }
 
-        PekejPerkahwinan::deletePekejPerkahwinan($id_pekej);
-        $_SESSION['success'] = "Pekej Perkahwinan telah berjaya dipadamkan.";
+        if (PekejPerkahwinan::delImgKahwinType($id_pekej, 'main')) {
+            if (file_exists($gambar_main)) {
+                unlink($gambar_main);
+            }
+      }
+
+       if (PekejPerkahwinan::delImgKahwinType($id_pekej, 'banner')) {
+            if (file_exists($gambar_banner)) {
+                unlink($gambar_banner);
+            }
+      }
+
+       if (PekejPerkahwinan::delImgKahwinType($id_pekej, 'add')) {
+        foreach ($gambar_add as $gambar) {
+                $gambarAdd = '../../' . $gambar;
+                echo $gambarAdd . "<br>";
+                if (file_exists($gambarAdd)) {
+                    unlink($gambarAdd);
+                }
+            }
+      }
+
+        $_SESSION['status'] = 'Pekej perkahwinan berjaya dipadam.';
         header("Location: ../perkahwinan.php");
+        exit;
+    } else {
+        echo "Kaedah permintaan tidak sah.";
     }
-} else {
-    echo "Kaedah permintaan tidak sah.";
+}
+else {
+    echo "Kaedah permintaan tidak sah atau tiada token CSRF. Sila login semula.";
 }

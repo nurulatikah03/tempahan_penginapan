@@ -1,3 +1,8 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,19 +18,6 @@
 	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<link rel="stylesheet" href="assets/css/style.css">
-	<style>
-		body {
-			font-family: 'Poppins';
-		}
-
-		body[data-leftbar-theme=dark] {
-			--ct-bg-leftbar: #254222;
-		}
-
-		.end-bar .rightbar-title {
-			background-color: #254222;
-		}
-	</style>
 </head>
 
 <body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -172,6 +164,7 @@
 										<div class="justify-content-end row">
 											<div class="col-9">
 												<input type="hidden" name="process" value="addRoom">
+												<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 												<button type="submit" name="Submit" class="btn btn-info">Tambah Bilik</button>
 											</div>
 										</div>

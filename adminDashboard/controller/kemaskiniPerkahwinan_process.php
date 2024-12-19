@@ -1,12 +1,12 @@
 <?php
 session_start();
 include_once '../../Models/pekejPerkahwinan.php';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['csrf_token']) && isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
     //update metadata
     if ($_POST['process'] == 'delAddon') {
         $id_addon = $_POST['addon_id'];
         PekejPerkahwinan::deleteAddon($id_addon);
-        $_SESSION['success'] = "Addon telah berjaya dipadamkan.";
+        $_SESSION['status'] = "Addon telah berjaya dipadamkan.";
         header("Location: ../perkahwinan.php");
 
         //update image main or banner
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $harga_addon = $_POST['harga'];
         $id_pekej = $_POST['id_pekej'];
         PekejPerkahwinan::addAddon($nama_addon, $harga_addon);
-        $_SESSION['success'] = "Addon telah berjaya ditambah.";
+        $_SESSION['status'] = "Addon telah berjaya ditambah.";
         header("Location: ../perkahwinan.php");
     } elseif ($_POST['process'] == 'kemaskiniAddOn') {
         $ids = isset($_POST['id_addon']) ? $_POST['id_addon'] : [];
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
 
-            $_SESSION['success'] = "Add on berjaya dikemaskini.";
+            $_SESSION['status'] = "Add on berjaya dikemaskini.";
             header("Location: ../perkahwinan.php");
             exit;
         } else {
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Check if the file is empty
         if (empty($gambar_pekej)) {
             PekejPerkahwinan::updatePekejPerkahwinan($id_pekej, $nama_pekej, $kadar_harga, $penerangan_pendek, $penerangan_panjang, $id_dewan);
-            $_SESSION['success'] = "Pekej Perkahwinan telah berjaya dikemaskini.";
+            $_SESSION['status'] = "Pekej Perkahwinan telah berjaya dikemaskini.";
             header("Location: ../perkahwinan.php");
             exit;
         }
@@ -155,6 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 } else {
-    echo "No form submitted.";
+    echo "No form submitted or no csrf token.";
     exit;
 }

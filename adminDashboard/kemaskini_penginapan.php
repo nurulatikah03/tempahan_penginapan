@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+
 try {
 
 	include_once '../Models\room.php';
@@ -130,7 +132,7 @@ try {
 								<div class="images">
 									<div class="row mb-3">
 										<div class="col-4 img-content-text" style="height: 425px;">
-											<h3>Image main</h3>
+											<h3>Gambar Utama</h3>
 											<!-- TRIGGER Edit -->
 											<a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal-1">
 												<div class="action-icon swap">
@@ -142,7 +144,7 @@ try {
 										<div class="col-8">
 											<div class="row" style="height: 200px; width:auto">
 												<div class="col-12 img-content-text">
-													<h3>Banner</h3>
+													<h3>Gambar Banner</h3>
 													<!-- TRIGGER Edit -->
 													<a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal-2">
 														<div class="action-icon swap">
@@ -163,7 +165,7 @@ try {
 																<img src="../<?php echo $imgList[$i]; ?>" alt="Additional Image <?php echo $i + 1; ?>" class="img-fluid" style="border-radius:25px; height: 100%; width: 100%; object-fit: cover;">
 															</a>
 														<?php elseif ($i == 0): ?>
-															<h2 style="overflow: visible; text-align: center; margin-top: 70px; white-space: nowrap;"><strong>~No Image Available</strong></h2>
+															<h2 style="overflow: visible; text-align: center; margin-top: 70px; white-space: nowrap;"><strong>~Tiada gambar tambahan</strong></h2>
 														<?php endif; ?>
 													</div>
 												<?php endfor; ?>
@@ -278,6 +280,7 @@ try {
 								<div class="justify-content-end row">
 									<div class="col-9">
 										<input type="hidden" name="penginapan_id" value="<?php echo $room->getId(); ?>">
+										<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 										<input type="hidden" name="process" value="UpdateMetaData">
 										<button type="submit" name="Submit" class="btn btn-info rounded-button m-0">Kemaskini Maklumat Bilik</button>
 									</div>
@@ -335,7 +338,7 @@ try {
 														<form action="controller/updateRoomUnit.php" method="POST">
 															<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
 															<input type="hidden" name="UB_idDel" value="<?php echo $roomUnit['id_ub']; ?>">
-															<button type="submit" name="process" value="delRoom" class="btn btn-danger rounded-button">Padam</button>
+															<button type="submit" name="process" value="delRoom" class="btn btn-danger rounded-button" <?php echo count($allRoomUnits) <= 1 ? 'disabled' : ''; ?>>Padam</button>
 														</form>
 													</td>
 												</tr>
@@ -348,6 +351,7 @@ try {
 										</tbody>
 									</table>
 									<div class="text-end">
+										<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 										<button type="submit" name="process" value="updateRoomUnit" class="btn btn-info rounded-button m-0">Kemaskini Unit Bilik</button>
 										<button type="button" data-bs-toggle="modal" data-bs-target="#modalTambahBilik" class="btn btn-success rounded-button m-0 ms-3">Tambah unit bilik</button>
 									</div>
@@ -389,6 +393,7 @@ try {
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tutup</button>
 							<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
+							<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 							<input type="hidden" name="process" value="addUnitBilik">
 							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tambah unit bilik</button>
 						</div>
@@ -458,10 +463,11 @@ try {
 							</div>
 							<div class="text-center">
 								<div id="drop-area-1" class="drop-area">Tarik atau Tekan gambar baru</div>
-								<input type="file" id="fileElem-1" accept="image/jpeg, image/png, image/jpg" style="display:none" name="file">
+								<input type="file" id="fileElem-1" accept="image/jpeg, image/png, image/jpg" style="display:none" name="file" required>
 							</div>
 							<input type="hidden" name="URLgambarLama" value="<?php echo $room->getImgMain(); ?>">
 							<input type="hidden" name="process" value="UpdateImageMainAndBanner">
+							<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 							<input type="hidden" name="imgType" value="main">
 							<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
 							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tukar Gambar Utama</button>
@@ -495,12 +501,13 @@ try {
 						<form id="upload-form-2" action="controller/kemaskiniPenginapan_process.php" method="post" enctype="multipart/form-data">
 							<div class="text-center">
 								<div id="drop-area-2" class="drop-area">Tarik atau Tekan gambar baru</div>
-								<input type="file" id="fileElem-2" accept="image/*" style="display:none" name="file">
+								<input type="file" id="fileElem-2" accept="image/*" style="display:none" name="file" required>
 							</div>
 							<div id="preview-container-2" class="preview-container"></div>
 							<input type="hidden" name="URLgambarLama" value="<?php echo $room->getImgBanner(); ?>">
 							<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
 							<input type="hidden" name="process" value="UpdateImageMainAndBanner">
+							<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 							<input type="hidden" name="imgType" value="banner">
 							<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tukar Gambar Banner</button>
 						</form>
@@ -561,6 +568,7 @@ try {
 												accept="image/png, image/jpeg, image/jpg, image.webp"
 												style="display: none;"
 												multiple
+												required
 												onchange="handleFileSelect(this)">
 										</div>
 									</label>
@@ -570,6 +578,7 @@ try {
 							<div class="text-center mt-3">
 								<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
 								<input type="hidden" name="process" value="UpdateImageAdd">
+								<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 								<input type="hidden" name="imgType" value="add">
 								<button type="submit" name="Submit" class="btn btn-primary rounded-button">Kemaskini Gambar Tambahan</button>
 							</div>
@@ -601,6 +610,7 @@ try {
 								<button type="button" class="btn btn-secondary rounded-button" data-bs-toggle="modal" data-bs-target="#uploadModal-3">Tidak, Kembali semula.</button>
 								<form action="controller/kemaskiniPenginapan_process.php" method="post" class="d-inline">
 									<input type="hidden" name="process" value="DeleteImage">
+									<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 									<input type="hidden" name="imgType" value="add">
 									<input type="hidden" name="roomId" value="<?php echo $room->getId(); ?>">
 									<input type="hidden" name="URLgambar" value="<?php echo $imgList[$i] ?>">
@@ -634,8 +644,8 @@ try {
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
 
 	<!-- my js ends -->
-	
-	
+
+
 	<!-- demo app -->
 	<script src="assets/js/pages/demo.products.js"></script>
 

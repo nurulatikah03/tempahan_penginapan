@@ -130,41 +130,47 @@ class PekejPerkahwinan extends Dewan
 
     public static function getPekejPerkahwinanById($id)
     {
-        $conn = DBConnection::getConnection();
+        try {
+            $conn = DBConnection::getConnection();
 
-        $imgMain = PekejPerkahwinan::getPerkahwinanImageByType($id, 'main');
-        $imgBanner = PekejPerkahwinan::getPerkahwinanImageByType($id, 'banner');
-        $imgList = PekejPerkahwinan::getPerkahwinanImageByType($id, 'add');
+            $imgMain = PekejPerkahwinan::getPerkahwinanImageByType($id, 'main');
+            $imgBanner = PekejPerkahwinan::getPerkahwinanImageByType($id, 'banner');
+            $imgList = PekejPerkahwinan::getPerkahwinanImageByType($id, 'add');
 
-        $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $dewan = Dewan::getDewanById($row['id_dewan']);
-        $package = new PekejPerkahwinan(
-            $row['id_dewan'],
-            $dewan->getNamaDewan(),
-            $dewan->getKadarSewa(),
-            $dewan->getBilanganMuatan(),
-            $dewan->getPenerangan(),
-            $dewan->getPeneranganKemudahan(),
-            $dewan->getStatusDewan(),
-            $dewan->getGambarMain(),
-            $dewan->getGambarBanner(),
-            $dewan->getGambarAdd(),
-            $row['id_perkahwinan'],
-            $row['nama_pekej_kahwin'],
-            $row['harga_pekej'],
-            $row['huraian_pendek'],
-            $row['huraian'],
-            $imgMain,
-            $imgBanner,
-            $imgList
-        );
-        $stmt->close();
-        return $package;
+            $sql = "SELECT * FROM perkahwinan WHERE id_perkahwinan = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+            if (!$row) return null;
+            $dewan = Dewan::getDewanById($row['id_dewan']);
+            $package = new PekejPerkahwinan(
+                $row['id_dewan'],
+                $dewan->getNamaDewan(),
+                $dewan->getKadarSewa(),
+                $dewan->getBilanganMuatan(),
+                $dewan->getPenerangan(),
+                $dewan->getPeneranganKemudahan(),
+                $dewan->getStatusDewan(),
+                $dewan->getGambarMain(),
+                $dewan->getGambarBanner(),
+                $dewan->getGambarAdd(),
+                $row['id_perkahwinan'],
+                $row['nama_pekej_kahwin'],
+                $row['harga_pekej'],
+                $row['huraian_pendek'],
+                $row['huraian'],
+                $imgMain,
+                $imgBanner,
+                $imgList
+            );
+            $stmt->close();
+            return $package;
+        } catch (Exception $e) {
+            // Handle exception
+            return null;
+        }
     }
 
 
@@ -373,6 +379,23 @@ class PekejPerkahwinan extends Dewan
         $stmt->execute();
 
         $stmt->close();
+    }
+
+    public static function delImgKahwinType($idPekej, $imgType)
+    {
+        $conn = DBConnection::getConnection();
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "DELETE FROM url_gambar WHERE id_perkahwinan = ? AND jenis_gambar = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("is", $idPekej, $imgType);
+        $stmt->execute();
+
+        $stmt->close();
+        return true;
     }
 }
 

@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +18,7 @@
 	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
 	<style>
 	.preview-link {
 			position: relative;
@@ -120,7 +125,7 @@
 
 					<div class="row">
 						<div class="col-12">
-							<h2 class="text-center mt-4">Kemaskini Gambar Perkahwinan</h2>
+							<h2 class="text-left mt-4">Kemaskini Gambar Perkahwinan</h2>
 							<div class="card" style="border-radius: 25px;">
 								<div class="card-body">
 									<div>
@@ -128,7 +133,7 @@
 										<div class="images">
 											<div class="row mb-3">
 												<div class="col-4 img-content-text" style="height: 425px;">
-													<h3>Image main</h3>
+													<h3>Gambar Utama</h3>
 													<!-- TRIGGER Edit -->
 													<a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal-1">
 														<div class="action-icon swap">
@@ -140,7 +145,7 @@
 												<div class="col-8">
 													<div class="row" style="height: 200px; width:auto">
 														<div class="col-12 img-content-text">
-															<h3>Banner</h3>
+															<h3>Gambar Banner</h3>
 															<!-- TRIGGER Edit -->
 															<a href="#" data-bs-toggle="modal" data-bs-target="#uploadModal-2">
 																<div class="action-icon swap">
@@ -162,7 +167,7 @@
 																		<img src="../<?php echo $imgList[$i]; ?>" alt="Additional Image <?php echo $i + 1; ?>" class="img-fluid" style="border-radius:25px; height: 100%; width: 100%; object-fit: cover;">
 																	</a>
 																<?php elseif ($i == 0): ?>
-																	<h2 style="overflow: visible; text-align: center; margin-top: 70px; white-space: nowrap;"><strong>~No Image Available</strong></h2>
+																	<h2 style="overflow: visible; text-align: center; margin-top: 70px; white-space: nowrap;"><strong>~Tiada gambar tambahan</strong></h2>
 																<?php endif; ?>
 															</div>
 														<?php endfor; ?>
@@ -203,9 +208,10 @@
 									?>
 								</div>
 							</div>
+							<hr>
 
 							<!-- Kemaskini Details Perkahwinan -->
-							<h2 class="text-center mt-4">Kemaskini Maklumat Pekej Perkahwinan</h2>
+							<h2 class="text-left mt-4">Kemaskini Maklumat Pekej Perkahwinan</h2>
 							<div class="card" style="border-radius: 25px;">
 								<div class="card-body">
 									<form class="form-horizontal" method="post" action="controller/kemaskiniPerkahwinan_process.php" enctype="multipart/form-data">
@@ -253,7 +259,8 @@
 										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
-												<button type="submit" name="process" value="kemaskiniDetailPerkahwinan" class="btn btn-info">Kemaskini</button>
+												<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+												<button type="submit" name="process" value="kemaskiniDetailPerkahwinan" class="btn btn-info rounded-button m-0">Kemaskini</button>
 											</div>
 										</div>
 									</form>
@@ -261,6 +268,8 @@
 							</div> <!-- end card-->
 						</div> <!-- end col -->
 					</div>
+					<hr>
+
 					<!-- end row -->
 					<div class="row">
 						<div class="col-12">
@@ -306,6 +315,7 @@
 																		<p class="pt-3"> Tindakan tidak boleh undur semula. </p>
 																	</div>
 																	<form action="controller/kemaskiniPerkahwinan_process.php" method="post">
+																		<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 																		<input type="hidden" name="addon_id" value="<?php echo $addOn['add_on_id']; ?>">
 																		<div class="text-center">
 																			<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
@@ -319,8 +329,8 @@
 												<?php } ?>
 											</tbody>
 										</table>
-										<button type="submit" name="process" value="kemaskiniAddOn" class="btn btn-info">Kemaskini</button>
-										<button type="button" class="btn btn-success" id="tambahRow">Tambah</button>
+										<button type="submit" name="process" value="kemaskiniAddOn" class="btn btn-info rounded-button m-0">Kemaskini</button>
+										<button type="button" class="btn btn-success rounded-button m-0 ms-3" id="tambahRow">Tambah</button>
 
 									</form>
 
@@ -353,6 +363,7 @@
 								</div>
 								<div class="text-end">
 									<input type="hidden" name="id_pekej" value="<?php echo $pekej->getIdPekej(); ?>">
+									<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
 									<button type="submit" name="process" value="addAddon" class="btn btn-primary">Tambah</button>
 								</div>
@@ -386,12 +397,13 @@
 								</div>
 								<div class="text-center">
 									<div id="drop-area-1" class="drop-area">Tarik atau Tekan gambar baru</div>
-									<input type="file" id="fileElem-1" accept="image/jpeg, image/png, image/jpg" style="display:none" name="file">
+									<input type="file" id="fileElem-1" accept="image/jpeg, image/png, image/jpg" style="display:none" name="file" required>
 								</div>
 								<input type="hidden" name="URLgambarLama" value="<?php echo $pekej->getGambarMainKahwin(); ?>">
 								<input type="hidden" name="process" value="UpdateImageMainAndBanner">
 								<input type="hidden" name="imgType" value="main">
 								<input type="hidden" name="idPekej" value="<?php echo $pekej->getIdPekej(); ?>">
+								<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 								<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tukar Gambar Utama</button>
 							</form>
 
@@ -423,11 +435,12 @@
 							<form id="upload-form-2" action="controller/kemaskiniPerkahwinan_process.php" method="post" enctype="multipart/form-data">
 								<div class="text-center">
 									<div id="drop-area-2" class="drop-area">Tarik atau Tekan gambar baru</div>
-									<input type="file" id="fileElem-2" accept="image/*" style="display:none" name="file">
+									<input type="file" id="fileElem-2" accept="image/*" style="display:none" name="file" required>
 								</div>
 								<div id="preview-container-2" class="preview-container"></div>
 								<input type="hidden" name="URLgambarLama" value="<?php echo $pekej->getGambarBannerKahwin(); ?>">
 								<input type="hidden" name="idPekej" value="<?php echo $pekej->getIdPekej(); ?>">
+								<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 								<input type="hidden" name="process" value="UpdateImageMainAndBanner">
 								<input type="hidden" name="imgType" value="banner">
 								<button type="submit" name="Submit" class="btn btn-primary rounded-button">Tukar Gambar Banner</button>
@@ -489,6 +502,7 @@
 													accept="image/png, image/jpeg, image/jpg, image.webp"
 													style="display: none;"
 													multiple
+													required
 													onchange="handleFileSelect(this)">
 											</div>
 										</label>
@@ -498,6 +512,7 @@
 								<div class="text-center mt-3">
 									<input type="hidden" name="idPekej" value="<?php echo $pekej->getIdPekej(); ?>">
 									<input type="hidden" name="process" value="UpdateImageAdd">
+									<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 									<input type="hidden" name="imgType" value="add">
 									<button type="submit" name="Submit" class="btn btn-primary rounded-button">Kemaskini Gambar Tambahan</button>
 								</div>
@@ -531,6 +546,7 @@
 										<input type="hidden" name="imgType" value="add">
 										<input type="hidden" name="idPekej" value="<?php echo $pekej->getIdPekej(); ?>">
 										<input type="hidden" name="URLgambar" value="<?php echo $imgList[$i] ?>">
+										<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 										<button type="submit" name="process" value="DeleteImage" class="btn btn-danger rounded-button">Ya, Padam</button>
 									</form>
 								</div>
@@ -570,7 +586,7 @@
 	<script src="assets/js/vendor/dataTables.checkboxes.min.js"></script>
 	<script src="assets/js/imagesScript.js"></script>
 
-	
+
 
 	<!-- third party js ends -->
 

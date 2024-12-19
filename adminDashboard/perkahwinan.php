@@ -1,6 +1,10 @@
+<?php
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
-<?php session_start(); ?>
+
 <head>
 	<meta charset="utf-8" />
 	<title>INSKET Booking</title>
@@ -13,30 +17,6 @@
 	<link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="app-style" />
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<link rel="stylesheet" href="assets/css/style.css">
-	<style>
-		body {
-			font-family: 'Poppins';
-		}
-
-		body[data-leftbar-theme=dark] {
-			--ct-bg-leftbar: #254222;
-		}
-
-		.end-bar .rightbar-title {
-			background-color: #254222;
-		}
-
-		.limited-text {
-			max-width: 150px;
-			/* Set a maximum width for the table cell */
-			white-space: nowrap;
-			/* Prevent text from wrapping to the next line */
-			overflow: hidden;
-			/* Hide the overflowing text */
-			text-overflow: ellipsis;
-			/* Show '...' for truncated text */
-		}
-	</style>
 </head>
 
 <body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
@@ -57,7 +37,13 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="page-title-box">
-								<h4 class="page-title">Pakej Perkahwinan</h4>
+								<div class="page-title-right">
+									<ol class="breadcrumb m-0">
+										<li class="breadcrumb-item"><a href="#">Fasiliti</a></li>
+										<li class="breadcrumb-item active">Perkahwinan</li>
+									</ol>
+								</div>
+								<h4 class="page-title">Pekej Perkahwinan</h4>
 							</div>
 						</div>
 					</div>
@@ -142,8 +128,13 @@
 																		</div>
 																		<form action="controller/process_Perkahwinan.php" method="post">
 																			<input type="hidden" name="process" value="delete_pekej">
+																			<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 																			<input type="hidden" name="id_pekej" value="<?php echo $pekej->getIdPekej(); ?>">
-																			<input type="hidden" name="gambar_url" value="<?php echo $pekej->getGambarMainKahwin(); ?>">
+																			<input type="hidden" name="gambar_url_main" value="<?php echo $pekej->getGambarMainKahwin(); ?>">
+																			<input type="hidden" name="gambar_url_banner" value="<?php echo $pekej->getGambarBannerKahwin(); ?>">
+																			<?php foreach ($pekej->getGambarAddKahwin() as $gambarAdd) { ?>
+																				<input type="hidden" name="gambar_url_Add[]" value="<?php echo $gambarAdd; ?>">
+																			<?php } ?>
 																			<div class="text-center">
 																				<button type="button" class="btn btn-secondary rounded-button" data-bs-dismiss="modal">Tidak, Kembali semula.</button>
 																				<button type="submit" name="Submit" class="btn btn-danger rounded-button">Ya, Padam</button>
@@ -161,12 +152,19 @@
 												<?php } ?>
 											</tbody>
 										</table>
-										<?php if (isset($_SESSION['success'])) { ?>
-											<div class="alert alert-success alert-dismissible fade show" role="alert">
-												<?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
-												<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-											</div>
-										<?php } ?>
+										<?php
+										if (isset($_SESSION['status'])) {
+											echo '<div class="alert alert-success alert-dismissible fade show" role="alert">' . $_SESSION['status'];
+											echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+											echo '</div>';
+											unset($_SESSION['status']);
+										} elseif (isset($_SESSION['error'])) {
+											echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $_SESSION['error'];
+											echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+											echo '</div>';
+											unset($_SESSION['error']);
+										}
+										?>
 									</div>
 								</div> <!-- end card-body-->
 							</div> <!-- end card-->

@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/require/UserAUTH.php';
+require_once __DIR__ . '/require/onlyAdminView.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,6 +123,7 @@
 										</div>
 										<div class="justify-content-end row">
 											<div class="col-9">
+												<input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 												<input type="hidden" name="process" value="tambah_pekej">
 												<button type="submit" name="submit" class="btn btn-info">Tambah</button>
 											</div>
