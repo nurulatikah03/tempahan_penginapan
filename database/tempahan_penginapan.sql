@@ -495,12 +495,6 @@ ALTER TABLE `tempahan_perkahwinan_addons`
   ADD KEY `add_on_id` (`add_on_id`),
   ADD KEY `id_tempahan` (`id_tempahan`);
 
---
--- Indexes for table `unit_bilik`
---
-ALTER TABLE `unit_bilik`
-  ADD PRIMARY KEY (`id_ub`),
-  ADD KEY `id_bilik` (`id_bilik`);
 
 --
 -- Indexes for table `url_gambar`
@@ -587,11 +581,6 @@ ALTER TABLE `tempahan`
 ALTER TABLE `tempahan_perkahwinan_addons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
---
--- AUTO_INCREMENT for table `unit_bilik`
---
-ALTER TABLE `unit_bilik`
-  MODIFY `id_ub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `url_gambar`
@@ -616,12 +605,6 @@ ALTER TABLE `bilik_kemudahan`
 ALTER TABLE `perkahwinan`
   ADD CONSTRAINT `perkahwinan_ibfk_1` FOREIGN KEY (`id_dewan`) REFERENCES `dewan` (`id_dewan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `unit_bilik`
---
-ALTER TABLE `unit_bilik`
-  ADD CONSTRAINT `unit_bilik_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
