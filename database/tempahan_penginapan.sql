@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2024 at 04:29 AM
+-- Generation Time: Dec 19, 2024 at 04:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ INSERT INTO `add_on_perkahwinan` (`add_on_id`, `add_on_nama`, `harga`) VALUES
 (1, 'Ruang porch', 50),
 (2, 'Meja dan alas', 8),
 (3, 'Kerusi', 1),
-(5, 'Meja Banquet', 8);
+(5, 'Meja Banquet', 5);
 
 -- --------------------------------------------------------
 
@@ -141,10 +141,9 @@ CREATE TABLE `bilik` (
 --
 
 INSERT INTO `bilik` (`id_bilik`, `nama_bilik`, `kapasiti`, `jenis_bilik`, `harga_semalaman`, `huraian_kemudahan`, `huraian_pendek`, `huraian`, `max_capacity`, `id_admin`) VALUES
-(1, 'Bilik biasabiasa', 2, 'Room', 68, 'Datang Dgn tab mandi. dan wifi percuma', 'Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.', 'Bilik yang selesa dan terang ini kini tersedia untuk disewa di kawasan kejiranan yang aman. Sesuai untuk individu bujang atau pelajar, bilik ini menawarkan katil yang selesa, cahaya semula jadi yang mencukupi, almari pakaian terbina dalam, dan akses ke kemudahan bilik mandi dan dapur bersama. Sewa termasuk utiliti asas dan lokasinya berada di kawasan yang tenang dan selamat.', 17, 0),
-(2, 'Bilik VIP', 3, 'Suite', 150, '[Ubah huraian kemudahan bilik VIP dalam database]', 'Disediakan dengan 2 katil super single and televisyen.', 'Bilik VIP yang mewah dan luas ini terletak di kawasan kejiranan berprestij. Sesuai untuk mereka yang mencari pengalaman hidup mewah, bilik ini menawarkan katil bersaiz king, bilik mandi peribadi dengan kelengkapan berkualiti tinggi, pemandangan panorama dari balkoni peribadi, dapur kecil yang lengkap dengan peralatan moden, akses ke kemudahan eksklusif seperti kolam renang, gimnasium, dan keselamatan 24 jam, serta lokasi utama dengan akses mudah ke pengangkutan dan kemudahan lain.', 1, NULL),
-(3, 'Home Stay INSKET', 8, 'Homestay', 200, '[Ubah huraian kemudahan homestay dalam database]', 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 1, NULL),
-(18, 'Red Room', 2, 'Freaky', 53, '555', '5555', '555', 3, NULL);
+(1, 'Bilik biasabiasa', 2, 'Room', 68, 'Datang Dgn tab mandi. dan wifi percuma', 'Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.', 'Bilik yang selesa dan terang ini kini tersedia untuk disewa di kawasan kejiranan yang aman. Sesuai untuk individu bujang atau pelajar, bilik ini menawarkan katil yang selesa, cahaya semula jadi yang mencukupi, almari pakaian terbina dalam, dan akses ke kemudahan bilik mandi dan dapur bersama. Sewa termasuk utiliti asas dan lokasinya berada di kawasan yang tenang dan selamat.', 5, 0),
+(2, 'Bilik VIP', 3, 'Suite', 150, '[Ubah huraian kemudahan bilik VIP dalam database]', 'Disediakan dengan 2 katil super single and televisyen.', 'Bilik VIP yang mewah dan luas ini terletak di kawasan kejiranan berprestij. Sesuai untuk mereka yang mencari pengalaman hidup mewah, bilik ini menawarkan katil bersaiz king, bilik mandi peribadi dengan kelengkapan berkualiti tinggi, pemandangan panorama dari balkoni peribadi, dapur kecil yang lengkap dengan peralatan moden, akses ke kemudahan eksklusif seperti kolam renang, gimnasium, dan keselamatan 24 jam, serta lokasi utama dengan akses mudah ke pengangkutan dan kemudahan lain.', 2, NULL),
+(3, 'Home Stay INSKET', 8, 'Homestay', 200, '[Ubah huraian kemudahan homestay dalam database]', 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -163,21 +162,17 @@ CREATE TABLE `bilik_kemudahan` (
 --
 
 INSERT INTO `bilik_kemudahan` (`id_bilik_kemudahan`, `id_bilik`, `id_kemudahan`) VALUES
-(74, 1, 1),
-(75, 1, 2),
-(76, 1, 3),
-(77, 1, 4),
-(78, 1, 5),
-(79, 1, 6),
-(80, 1, 7),
-(81, 1, 8),
-(82, 1, 11),
-(83, 2, 2),
-(84, 2, 4),
-(85, 2, 5),
-(86, 3, 1),
-(87, 3, 5),
-(88, 3, 11);
+(106, 1, 1),
+(107, 1, 3),
+(108, 1, 4),
+(109, 1, 6),
+(110, 1, 7),
+(111, 1, 11),
+(114, 2, 4),
+(115, 2, 5),
+(116, 3, 1),
+(117, 3, 5),
+(118, 3, 11);
 
 -- --------------------------------------------------------
 
@@ -224,9 +219,6 @@ CREATE TABLE `dewan_kemudahan` (
 --
 
 INSERT INTO `dewan_kemudahan` (`id_dewan_kemudahan`, `id_dewan`, `id_kemudahan`) VALUES
-(62, 16, 1),
-(63, 16, 5),
-(64, 16, 7),
 (68, 18, 1),
 (69, 18, 5),
 (70, 18, 7),
@@ -238,7 +230,10 @@ INSERT INTO `dewan_kemudahan` (`id_dewan_kemudahan`, `id_dewan`, `id_kemudahan`)
 (88, 17, 1),
 (89, 17, 5),
 (90, 17, 7),
-(93, 21, 4);
+(93, 21, 4),
+(97, 16, 1),
+(98, 16, 5),
+(99, 16, 7);
 
 -- --------------------------------------------------------
 
@@ -326,8 +321,8 @@ CREATE TABLE `perkahwinan` (
 --
 
 INSERT INTO `perkahwinan` (`id_perkahwinan`, `nama_pekej_kahwin`, `harga_pekej`, `huraian`, `huraian_pendek`, `id_dewan`) VALUES
-(11, 'Raikan Cinta - Dewan Fiber', 60000.00, 'Penerangan PanjangPenerangan Panjang', 'Penerangan Pendek', 17),
-(17, 'Raikan Cinta - Dewan Jubli', 60000.00, 'Penerangan PanjangPenerangan PanjangPenerangan Panjang', 'Penerangan PendekPenerangan PendekPenerangan Pendek', 16);
+(11, 'Raikan Cinta - Dewan Fiber', 60000.00, 'Penerangan PanjangPenerangan PanjangPenerangan PanjangPenerangan Panjang', 'Penerangan Pendek', 17),
+(22, 'Raikan Cinta - Dewan Emas', 2000.00, 'Penerangan Panjangg', 'Penerangan Pendek', 21);
 
 -- --------------------------------------------------------
 
@@ -359,51 +354,10 @@ CREATE TABLE `tempahan` (
 --
 
 INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_fon`, `email`, `bilangan_pax`, `tarikh_tempahan`, `tarikh_daftar_masuk`, `tarikh_daftar_keluar`, `harga_keseluruhan`, `cara_bayar`, `reference_id`, `id_bilik`, `id_dewan`, `id_perkahwinan`, `id_aktiviti`) VALUES
-(84, 'DEWAN-241204-238', 'try', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 08:33:35', '2024-12-04', '2024-12-05', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
-(85, 'DEWAN-241204-021', 'ffdsfF', '0108376005', 'nurul@GMAIL.COM', 0, '2024-12-04 08:40:49', '2024-12-06', '2024-12-07', 500, 'FPX', NULL, NULL, 1, NULL, NULL),
-(86, 'ROOM-241204-750', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 5, '2024-12-04 09:56:49', '2024-12-04', '2024-12-05', 340, 'LO', NULL, 1, NULL, NULL, NULL),
-(87, 'ROOM-241204-349', 'nurul atikah', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:14:49', '2024-12-04', '2024-12-05', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
-(88, 'DEWAN-241204-959', 'rqgrgqwrcxbfzbddb', '0123456789', 'sayang@GMAIL.COM', NULL, '2024-12-04 12:16:04', '2024-12-04', '2024-12-05', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
-(89, 'DEWAN-241204-565', 'nurul atikah', '0075474352', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:16:58', '2024-12-28', '2024-12-29', 200, 'FPX', NULL, NULL, 3, NULL, NULL),
-(90, 'DEWAN-241204-869', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:18:50', '2024-12-26', '2024-12-27', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
-(91, 'DEWAN-241204-346', 'nurul atikah', '0213322213', 'grqqgq@GMAIL.COM', NULL, '2024-12-04 12:23:55', '2024-12-28', '2024-12-29', 350, 'FPX', NULL, NULL, 2, NULL, NULL),
-(92, 'ROOM-241204-421', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', 1, '2024-12-04 12:26:26', '2024-12-28', '2024-12-29', 150, 'LO', NULL, 2, NULL, NULL, NULL),
-(93, 'DEWAN-241204-445', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:32:08', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL, NULL),
-(94, 'DEWAN-241204-857', 'rqgrgqwrcxbfzbddb', '0108376005', 'EMAIL@GMAIL.COM', NULL, '2024-12-04 12:36:50', '2024-12-28', '2024-12-29', 150, 'FPX', NULL, NULL, 2, NULL, NULL),
-(95, 'DEWAN-241204-851', 'agreagweaew', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:37:59', '2024-12-04', '2024-12-05', 200, 'FPX', NULL, NULL, 3, NULL, NULL),
-(96, 'ROOM-241204-788', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:43:37', '2024-12-31', '2025-01-01', 150, '', NULL, 2, NULL, NULL, NULL),
-(97, 'DEWAN-241204-433', 'nurul', '0075474352', 'nurul@GMAIL.COM', NULL, '2024-12-04 12:44:01', '2024-12-31', '2025-01-01', 150, 'FPX', NULL, NULL, 3, NULL, NULL),
-(98, 'ROOM-241204-113', 'nurul', '0075474352', 'nurul@GMAIL.COM', 1, '2024-12-04 12:44:35', '2024-12-31', '2025-01-01', 150, 'Tunai', NULL, 2, NULL, NULL, NULL),
-(99, 'DEWAN-241204-870', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'nurul03atikah@gmail.com', 0, '2024-12-04 12:45:40', '2024-12-15', '2024-12-16', 350, 'Tunai', NULL, NULL, 2, NULL, NULL),
-(100, 'ROOM-241204-560', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 1, '2024-12-04 12:46:20', '2024-12-22', '2024-12-23', 150, 'Bank Transfer', NULL, 2, NULL, NULL, NULL),
-(101, 'DEWAN-241204-998', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:46:51', '2024-12-19', '2024-12-20', 350, 'Bank Transfer', NULL, NULL, 2, NULL, NULL),
-(102, 'ROOM-241204-422', 'rqgrgqwrcxbfzbddb', '0108376005', 'nurul@GMAIL.COM', 1, '2024-12-04 12:47:28', '2024-12-25', '2024-12-26', 200, 'Tunai', NULL, 3, NULL, NULL, NULL),
-(103, 'DEWAN-241204-792', 'rqgrgqwrcxbfzbddb', '0075474352', 'nurul@GMAIL.COM', 0, '2024-12-04 12:53:11', '2024-12-12', '2024-12-13', 500, 'LO', NULL, NULL, 1, NULL, NULL),
-(104, 'DEWAN-241204-243', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-04 12:56:47', '2025-01-01', '2025-01-10', 4500, 'Tunai', NULL, NULL, 1, NULL, NULL),
-(105, 'DEWAN-241204-095', 'NIK NADIA NATASYA', '0175474352', 'nadia@gmail.com', 0, '2024-12-04 16:46:52', '2025-02-07', '2025-02-11', 800, 'Tunai', NULL, NULL, 3, NULL, NULL),
-(106, 'DEWAN-241205-075', 'atikah nasir', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 00:39:44', '2024-12-05', '2024-12-06', 350, 'Tunai', NULL, NULL, 17, NULL, NULL),
-(107, 'DEWAN-241205-087', 'NURUL ATIKAH BINTI MOHD NASIR', '0108376005', 'atikah9w2ser@GMAIL.COM', 0, '2024-12-05 08:18:29', '2024-12-19', '2024-12-20', 350, 'Tunai', NULL, NULL, 17, NULL, NULL),
-(108, 'DEWAN-241205-166', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 08:52:44', '2024-12-05', '2024-12-06', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
-(109, 'DEWAN-241205-434', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 08:53:22', '2024-12-05', '2024-12-06', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
-(110, 'ROOM-241205-364', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-05 10:21:49', '2024-12-05', '2024-12-06', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
-(111, 'ROOM-241205-669', 'NIK', '0189042908', 'nik92@gmail.com', 1, '2024-12-05 10:22:52', '2024-12-31', '2025-01-01', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
-(112, 'DEWAN-241205-079', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-05 10:32:50', '2025-02-28', '2025-03-01', 500, 'Tunai', NULL, NULL, 16, NULL, NULL),
-(114, 'ROOM-241206-636', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:33:23', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(115, 'ROOM-241206-552', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:48:29', '2025-01-10', '2025-01-11', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(116, 'ROOM-241206-501', 'errerrrrrrrrr', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:48:52', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(117, 'ROOM-241206-896', 'errerrrrrrrrr', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 13:49:11', '2024-12-18', '2024-12-19', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(118, 'ROOM-241206-309', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 1, '2024-12-06 17:07:51', '2024-12-19', '2024-12-20', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(119, 'DEWAN-241206-168', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 17:48:21', '2024-12-13', '2024-12-14', 0, '', NULL, NULL, 16, NULL, NULL),
-(120, 'DEWAN-241206-620', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 17:50:35', '2025-01-08', '2025-01-10', 0, '', NULL, NULL, 16, NULL, NULL),
-(125, 'DEWAN-241206-742', 'nadddddddv', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 22:17:36', '2025-01-23', '2025-01-24', 0, '', NULL, NULL, 16, NULL, NULL),
-(126, 'DEWAN-241206-153', 'nadddddd', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-06 22:27:03', '2025-01-25', '2025-01-26', 0, '', NULL, NULL, 16, NULL, NULL),
-(127, 'DEWAN-241207-432', 'NIK NADIA', '0129879212', 'niknadia@gmail.com', 0, '2024-12-07 14:42:45', '2025-03-19', '2025-03-20', 500, 'FPX', NULL, NULL, 16, NULL, NULL),
-(129, 'DEWAN-241207-915', 'NIKKKK', '0189042908', 'niktasya92@gmail.com', 0, '2024-12-07 15:49:48', '2025-01-09', '2025-01-10', 350, 'FPX', NULL, NULL, 17, NULL, NULL),
-(133, 'DEWAN-241208-140', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-08 08:16:04', '2025-01-09', '2025-01-10', 4, 'FPX', NULL, NULL, 20, NULL, NULL),
-(134, 'DEWAN-241208-633', 'NADIA', '0189042908', 'ndiantsya92@gmail.com', 0, '2024-12-08 08:16:10', '2025-01-09', '2025-01-10', 4, 'Tunai', NULL, NULL, 20, NULL, NULL),
-(141, 'AKTIVITI-241208-988', 'NIK NADIA', '0189042908', 'niknadia@gmail.com', NULL, '2024-12-08 11:55:02', '2024-12-08', '2024-12-09', 4950, 'FPX', NULL, NULL, NULL, NULL, 22),
-(142, 'WED-2024-12-08-8780', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 100, '2024-12-08 12:25:28', '2024-12-08', '0000-00-00', 60155, 'Tunai', NULL, NULL, 17, 11, NULL),
-(143, 'ROOM-241208-511', 'OSLAN', '0184028240', 'wannaqib01@gmail.com', 4, '2024-12-08 12:27:12', '2024-12-08', '2024-12-09', 272, '', NULL, 1, NULL, NULL, NULL);
+(145, 'ROOM-241212-189', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-12 15:04:29', '2024-12-12', '2024-12-13', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
+(146, 'ROOM-241215-919', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-15 10:46:50', '2024-12-15', '2024-12-16', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
+(149, 'ROOM-241215-737', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-15 17:22:19', '2024-12-15', '2024-12-16', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
+(155, 'WED-2024-12-19-5722', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 50, '2024-12-19 09:51:57', '2024-12-19', '2024-12-20', 60008, 'FPX', NULL, NULL, 17, 11, NULL);
 
 -- --------------------------------------------------------
 
@@ -418,6 +372,13 @@ CREATE TABLE `tempahan_perkahwinan_addons` (
   `id_tempahan` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tempahan_perkahwinan_addons`
+--
+
+INSERT INTO `tempahan_perkahwinan_addons` (`id`, `quantity`, `add_on_id`, `id_tempahan`) VALUES
+(48, 1, 2, 155);
+
 -- --------------------------------------------------------
 
 --
@@ -428,10 +389,25 @@ CREATE TABLE `unit_bilik` (
   `id_ub` int(11) NOT NULL,
   `nombor_bilik` varchar(20) DEFAULT NULL,
   `aras` int(11) DEFAULT NULL,
-  `status` enum('aktif','tak aktif','penyelenggaraan','') DEFAULT NULL,
+  `status_bilik` enum('aktif','tak aktif','penyelenggaraan','') DEFAULT 'aktif',
   `tarikh_aktif_semula` date DEFAULT NULL,
   `id_bilik` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `unit_bilik`
+--
+
+INSERT INTO `unit_bilik` (`id_ub`, `nombor_bilik`, `aras`, `status_bilik`, `tarikh_aktif_semula`, `id_bilik`) VALUES
+(19, 'BB001', 2, 'aktif', '0000-00-00', 1),
+(20, 'BB002', 3, 'aktif', '0000-00-00', 1),
+(21, 'BB003', 2, 'aktif', '0000-00-00', 1),
+(22, 'BB004', 2, 'aktif', '0000-00-00', 1),
+(23, 'BB005', 3, 'aktif', '0000-00-00', 1),
+(25, 'Home001', 1, 'aktif', '0000-00-00', 3),
+(33, 'Homestay 2', 1, 'aktif', '0000-00-00', 3),
+(37, '1', 1, 'aktif', '0000-00-00', 2),
+(38, 'test', 3, 'aktif', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -453,23 +429,44 @@ CREATE TABLE `url_gambar` (
 
 INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`, `id_perkahwinan`) VALUES
 (1, 'main', 'assets/images/resource/dalambilik-scaled.jpg', 1, NULL),
-(2, 'main', 'assets/images/resource/room-2_VIP.jpg', 2, NULL),
 (3, 'main', 'assets/images/resource/room-3_homestay.jpg', 3, NULL),
 (4, 'banner', 'assets/images/background/dalambilik-scaled.jpg', 1, NULL),
-(5, 'banner', 'assets/images/background/page-title-5_VIP.jpeg', 2, NULL),
 (6, 'banner', 'assets/images/background/page-title-6_homestay.jpg', 3, NULL),
 (10, 'add', 'assets/images/resource/room-1_bathroom.jpg', 1, NULL),
 (50, 'add', 'assets/images/resource/homestay_patio.jpg', 3, NULL),
 (51, 'add', 'assets/images/resource/homestay_swimming.jpg', 3, NULL),
-(52, 'add', 'assets/images/resource/dewanJubli.jpg', 2, NULL),
 (67, 'add', 'assets/images/resource/living-room-1.jpg', 1, NULL),
-(68, 'main', 'assets/images/resource/pakejPerkahwinan.jpg', NULL, 11),
-(70, 'banner', 'assets/images/background/web banner.png\"', NULL, 11),
-(71, 'add', 'assets/images/resource/annie-spratt-4Hpljf9Y1ko-unsplash.jpg', 3, NULL),
-(80, 'main', 'assets/images/resource/taj mahal.jpg', NULL, 17),
-(82, 'main', 'assets/images/resource/pic1.png', 18, NULL),
-(83, 'banner', 'assets/images/background/pic2.png', 18, NULL),
-(84, 'add', 'assets/images/resource/pic3.png', 18, NULL);
+(113, 'main', 'assets/images/resource/pic1.png', 2, NULL),
+(114, 'banner', 'assets/images/background/pic3.png', 2, NULL),
+(146, 'banner', 'assets/images/background/ck-yeo-5J6VUR6r9Wc-unsplash.jpg', NULL, 22),
+(147, 'main', 'assets/images/resource/Picture2.png', NULL, 22),
+(148, 'main', 'assets/images/resource/GLOQjWFWgAAK0Zz.jpeg', NULL, 11),
+(149, 'banner', 'assets/images/background/Picture7.png', NULL, 11),
+(179, 'add', 'assets/images/resource/99.jpg', 2, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `uid` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_add` datetime NOT NULL,
+  `role` enum('admin','kewangan','','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`uid`, `username`, `password_hash`, `email`, `created_at`, `updated_add`, `role`) VALUES
+(1, 'admin', '$2y$10$qvPruaabaCaJIhMhl7i/ie1BnJZIKkP5Li8fYZ/xOV08dcFnBD4o6', 'adminLKTN@gmail.com', '2024-12-18 01:41:27', '2024-12-18 01:41:27', 'admin'),
+(2, 'kewangan', '$2a$12$EUp4df/wpMI02C9.ed9zA.Zwu.rQ1uWk8K86Nz002/TE1CtPAqYka', 'lktn@gmail.com', '2024-12-18 04:36:53', '2024-12-18 04:36:53', 'kewangan');
 
 --
 -- Indexes for dumped tables
@@ -578,6 +575,12 @@ ALTER TABLE `url_gambar`
   ADD KEY `id_perkahwinan` (`id_perkahwinan`);
 
 --
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`uid`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -585,7 +588,7 @@ ALTER TABLE `url_gambar`
 -- AUTO_INCREMENT for table `add_on_perkahwinan`
 --
 ALTER TABLE `add_on_perkahwinan`
-  MODIFY `add_on_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `add_on_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `aktiviti`
@@ -609,13 +612,13 @@ ALTER TABLE `aktiviti_pic`
 -- AUTO_INCREMENT for table `bilik`
 --
 ALTER TABLE `bilik`
-  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `bilik_kemudahan`
 --
 ALTER TABLE `bilik_kemudahan`
-  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `dewan`
@@ -627,7 +630,7 @@ ALTER TABLE `dewan`
 -- AUTO_INCREMENT for table `dewan_kemudahan`
 --
 ALTER TABLE `dewan_kemudahan`
-  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id_dewan_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `dewan_pic`
@@ -645,31 +648,37 @@ ALTER TABLE `kemudahan`
 -- AUTO_INCREMENT for table `perkahwinan`
 --
 ALTER TABLE `perkahwinan`
-  MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_perkahwinan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
 --
 ALTER TABLE `tempahan_perkahwinan_addons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `unit_bilik`
 --
 ALTER TABLE `unit_bilik`
-  MODIFY `id_ub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_ub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `url_gambar`
 --
 ALTER TABLE `url_gambar`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -689,10 +698,31 @@ ALTER TABLE `perkahwinan`
   ADD CONSTRAINT `perkahwinan_ibfk_1` FOREIGN KEY (`id_dewan`) REFERENCES `dewan` (`id_dewan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `tempahan`
+--
+ALTER TABLE `tempahan`
+  ADD CONSTRAINT `Delete Restriction ` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Delete Restriction Kahwin` FOREIGN KEY (`id_perkahwinan`) REFERENCES `perkahwinan` (`id_perkahwinan`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tempahan_perkahwinan_addons`
+--
+ALTER TABLE `tempahan_perkahwinan_addons`
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_1` FOREIGN KEY (`id_tempahan`) REFERENCES `tempahan` (`id_tempahan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tempahan_perkahwinan_addons_ibfk_2` FOREIGN KEY (`add_on_id`) REFERENCES `add_on_perkahwinan` (`add_on_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `unit_bilik`
 --
 ALTER TABLE `unit_bilik`
   ADD CONSTRAINT `unit_bilik_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `url_gambar`
+--
+ALTER TABLE `url_gambar`
+  ADD CONSTRAINT `url_gambar_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `url_gambar_ibfk_2` FOREIGN KEY (`id_perkahwinan`) REFERENCES `perkahwinan` (`id_perkahwinan`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
