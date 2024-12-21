@@ -1,3 +1,7 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +25,7 @@
     </style>
 </head>
 
-<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<body class="" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
     <!-- Begin page -->
     <div class="wrapper">
 
@@ -32,7 +36,6 @@
 
                 <?php 
 				include 'partials/topbar.php';
-				include '../database/DBConnec.php';
 				
 				$query = "
 					SELECT 

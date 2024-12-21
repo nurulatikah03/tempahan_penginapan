@@ -1,6 +1,7 @@
 <?php
-include '../database/DBConnec.php';
+
 include 'controller/get_aktiviti.php';
+require_once __DIR__ . '/require/UserAUTH.php';
 
 $conn = DBConnection::getConnection();
 
