@@ -91,22 +91,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION['statusTambah'] = 'Aktiviti berjaya ditambah.';
 
         // Insert images into id_aktiviti table
-        $picStmt = $conn->prepare("INSERT INTO aktiviti_pic (jenis_gambar, url_gambar, id_aktiviti) VALUES (?, ?, ?)");
+        $picStmt = $conn->prepare("INSERT INTO url_gambar (jenis_gambar, url_gambar, id_aktiviti) VALUES (?, ?, ?)");
         if ($fileUtama) {
-            $jenis_gambar = 'Utama';
+            $jenis_gambar = 'main';
             $url_gambar = $uploadFileDirUtama . $fileUtama;
             $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_aktiviti);
             $picStmt->execute();
         }
         if ($fileBanner) {
-            $jenis_gambar = 'Banner';
+            $jenis_gambar = 'banner';
             $url_gambar = $uploadFileDirBanner . $fileBanner;
             $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_aktiviti);
             $picStmt->execute();
         }
         if (!empty($fileTambahanList)) {
             foreach ($fileTambahanList as $fileName) {
-                $jenis_gambar = 'Tambahan';
+                $jenis_gambar = 'add';
                 $url_gambar = $uploadFileDirTambahan . $fileName;
                 $picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_aktiviti);
                 $picStmt->execute();
@@ -124,9 +124,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if (!empty($fileTambahan)) {
-			$picStmt = $conn->prepare("INSERT INTO aktiviti_pic (jenis_gambar, url_gambar, id_aktiviti) VALUES (?, ?, ?)");
+			$picStmt = $conn->prepare("INSERT INTO url_gambar (jenis_gambar, url_gambar, id_aktiviti) VALUES (?, ?, ?)");
 			foreach ($fileTambahan as $fileName) {
-				$jenis_gambar = 'Tambahan';
+				$jenis_gambar = 'add';
 				$url_gambar = $uploadFileDirTambahan . $fileName;
 				$picStmt->bind_param("ssi", $jenis_gambar, $url_gambar, $id_aktiviti);
 				$picStmt->execute();

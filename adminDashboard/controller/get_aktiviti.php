@@ -10,17 +10,17 @@ if (isset($_GET['id_aktiviti'])) {
 			a.penerangan_kemudahan,  
             a.penerangan, 
             a.status_aktiviti, 
-            COALESCE(utama.url_gambar, '') AS gambar_utama,
+            COALESCE(main.url_gambar, '') AS gambar_main,
             COALESCE(banner.url_gambar, '') AS gambar_banner,
-            COALESCE(tambahan.url_gambar, '') AS gambar_tambahan
+            COALESCE(add.url_gambar, '') AS gambar_tambahan
         FROM 
             aktiviti a
         LEFT JOIN 
-            aktiviti_pic utama ON a.id_aktiviti = utama.id_aktiviti AND utama.jenis_gambar = 'Utama'
+            url_gambar  utama ON a.id_aktiviti = main.id_aktiviti AND main.jenis_gambar = 'main'
         LEFT JOIN 
-            aktiviti_pic banner ON a.id_aktiviti = banner.id_aktiviti AND banner.jenis_gambar = 'Banner'
+            url_gambar  banner ON a.id_aktiviti = banner.id_aktiviti AND banner.jenis_gambar = 'banner'
         LEFT JOIN 
-            aktiviti_pic tambahan ON a.id_aktiviti = tambahan.id_aktiviti AND tambahan.jenis_gambar = 'Tambahan'
+            url_gambar  tambahan ON a.id_aktiviti = add.id_aktiviti AND add.jenis_gambar = 'add'
         WHERE 
             a.id_aktiviti = $id_aktiviti
 ";}
