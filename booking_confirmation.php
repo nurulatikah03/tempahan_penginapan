@@ -75,6 +75,7 @@ if (!isset($_SESSION['room_id'])) {
 
     <?php
         include_once 'Models/tempahanBilik.php';
+        include_once 'Models/room.php';
 
         $num_of_night = calcNumOfNight($_SESSION['checkInDate'],$_SESSION['checkOutDate']);
         $room_num = $_SESSION['roomsNum'];
@@ -110,8 +111,8 @@ if (!isset($_SESSION['room_id'])) {
                             <div class="form-group">
                                 <p class="hotel-booking-form-1-label">Nama Penuh: </p>
                                 <div class="form-floating">
-                                    <input class="form-control" type="text" name="full_name" value="" placeholder="Nama" required />
-                                    <label for = "text">Nama</label>
+                                    <input class="form-control" type="text" id="full_name" name="full_name" value="" placeholder="Nama" required />
+                                    <label for = "full_name">Nama</label>
                                 </div>
                             </div>
 
@@ -120,8 +121,8 @@ if (!isset($_SESSION['room_id'])) {
                                     <div class="form-group">
                                         <p class="hotel-booking-form-1-label">Alamat Email: </p>
                                         <div class="form-floating">
-                                            <input class="form-control" type="email" name="form-email" value="" placeholder="" required />
-                                            <label for="email">E-mail</label>
+                                            <input class="form-control" type="email" id="form-email" name="form-email" value="" placeholder="" required />
+                                            <label for="form-email">E-mail</label>
                                         </div>
                                     </div>
                                 </div>

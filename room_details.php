@@ -52,19 +52,6 @@
 
 <body>
 
-    <!-- ***** Preloader Start ***** -->
-    <div id="js-preloader" class="js-preloader">
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
@@ -188,8 +175,6 @@
 
                                 <div class="booking-form-3">
                                     <?php
-                                    $today = date('Y-m-d');
-                                    $tomorrow = date('Y-m-d', strtotime('+1 day'));
                                     $todayk = date('d/m/Y');
                                     $tomorrowk = date('d/m/Y', strtotime('+1 day'));
                                     ?>
@@ -197,22 +182,15 @@
                                     <form class="hotel-booking-form-1-form d-block" action="Controller/1_reserve.php" method="POST">
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-                                            <input
-                                                type="date"
-                                                name="check_in"
-                                                id="check_in_date"
-                                                value="<?php echo $today; ?>"
-                                                min="<?php echo $today; ?>" />
+                                            <input type="text" name="check_in" id="nd_booking_archive_form_date_range_from" value="<?php echo date('d/m/Y'); ?>" />
+                                            <input type="hidden" name="check_in" id="check_in_from" />
                                         </div>
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-                                            <input
-                                                type="date"
-                                                name="check_out"
-                                                id="check_out_date"
-                                                value="<?php echo $tomorrow; ?>"
-                                                min="<?php echo $tomorrow; ?>" />
+                                            <input type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="<?php echo date('d/m/Y', strtotime('+1 day')); ?>" />
+                                            <input type="hidden" name="check_out" id="check_in_to" />
                                         </div>
+
                                         <div class="form-group">
                                             <?php
                                             if (!strcasecmp($room_details->getType(), 'homestay') == 0): ?>
@@ -222,17 +200,15 @@
                                                     require_once 'Models/tempahanBilik.php';
                                                     $roomAvailability = countRoomAvailable($_GET['room_id'], $todayk, $tomorrowk, 1);
                                                     $roomCount = $roomAvailability['available_rooms']; ?>
-                                                    <div class="form-group">
-                                                        <?php if ($roomCount > 0): ?>
-                                                            <select name="rooms">
-                                                                <?php for ($i = 1; $i <= $roomCount; $i++): ?>
-                                                                    <option value="<?php echo $i; ?>"><?php echo $i; ?> BILIK</option>
-                                                                <?php endfor; ?>
-                                                            </select>
-                                                        <?php else: ?>
-                                                            <p>Tiada bilik tersedia hari ini.</p>
-                                                        <?php endif; ?>
-                                                    </div>
+                                                    <?php if ($roomCount > 0): ?>
+                                                        <select name="rooms">
+                                                            <?php for ($i = 1; $i <= $roomCount; $i++): ?>
+                                                                <option value="<?php echo $i; ?>"><?php echo $i; ?> BILIK</option>
+                                                            <?php endfor; ?>
+                                                        </select>
+                                                    <?php else: ?>
+                                                        <p>Tiada bilik tersedia hari ini.</p>
+                                                    <?php endif; ?>
                                                 <?php else: ?>
                                                     <input type="hidden" name="rooms" value="1">
                                                 <?php endif; ?>
@@ -277,51 +253,6 @@
                     </div>
                 </div>
             </section>
-            <script>
-                let currentIndex = 0;
-
-                const slides = document.querySelectorAll('.slider-slide');
-                const totalSlides = slides.length;
-                const dots = document.querySelectorAll('.dot');
-
-                document.getElementById('next').addEventListener('click', function() {
-                    if (currentIndex < totalSlides - 1) {
-                        currentIndex++;
-                    } else {
-                        currentIndex = 0;
-                    }
-                    updateSlider();
-                });
-
-                document.getElementById('prev').addEventListener('click', function() {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                    } else {
-                        currentIndex = totalSlides - 1;
-                    }
-                    updateSlider();
-                });
-
-                function updateSlider() {
-                    const sliderWrapper = document.querySelector('.slider-wrapper');
-                    const newTranslateValue = -currentIndex * 100 + '%';
-                    sliderWrapper.style.transform = 'translateX(' + newTranslateValue + ')';
-
-                    dots.forEach(dot => dot.style.backgroundColor = '#bbb');
-
-                    dots[currentIndex].style.backgroundColor = '#717171';
-                }
-
-                dots.forEach((dot, index) => {
-                    dot.addEventListener('click', function() {
-                        currentIndex = index;
-                        updateSlider();
-                    });
-                });
-
-                updateSlider();
-            </script>
-
         <?php
             include 'partials/additional_room.php';
         }
@@ -341,61 +272,109 @@
     <script src="assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="assets/js/parallax-scroll.js"></script>
     <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="assets/js/booking-form.js"></script>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
-
+    <script src="assets/js/imgSlider.js"></script>
+    <!-- <script src="assets/js/booking-form.js"></script> -->
     <script>
-        window.addEventListener("load", function() {
-            setTimeout(function() {
-                document.querySelector(".js-preloader").classList.add("loaded");
-            }, 1000);
-        });
+        jQuery(document).ready(function() {
+            jQuery(function($) {
+                const roomContainer = document.getElementById('room-availability-container');
+                const roomId = new URLSearchParams(window.location.search).get('room_id');
+                const checkInInput = document.getElementById('check_in_from');
+                const checkOutInput = document.getElementById('check_in_to');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkInInput = document.getElementById('check_in_date');
-            const checkOutInput = document.getElementById('check_out_date');
-            const roomContainer = document.getElementById('room-availability-container');
-            const roomId = new URLSearchParams(window.location.search).get('room_id'); // Extract room_id from URL
+                function updateDates() {
+                    var checkInDate = $("#nd_booking_archive_form_date_range_from").datepicker("getDate");
+                    var checkOutDate = $("#nd_booking_archive_form_date_range_to").datepicker("getDate");
 
-
-            checkInInput.addEventListener('change', function() {
-                const checkInDate = new Date(checkInInput.value);
-                const checkOutDate = new Date(checkOutInput.value);
-
-                if (checkOutDate <= checkInDate) {
-                    const newCheckOutDate = new Date(checkInDate);
-                    newCheckOutDate.setDate(newCheckOutDate.getDate() + 1);
-                    checkOutInput.value = newCheckOutDate.toISOString().split('T')[0];
+                    if (checkInDate && checkOutDate) {
+                        // Ensure the check-out date is always after the check-in date
+                        if (checkOutDate <= checkInDate) {
+                            var newCheckOutDate = new Date(checkInDate);
+                            newCheckOutDate.setDate(newCheckOutDate.getDate() + 1);
+                            $("#nd_booking_archive_form_date_range_to").datepicker("setDate", newCheckOutDate);
+                            $("#check_in_to").val($.datepicker.formatDate("dd/mm/yy", newCheckOutDate)).change(); // Trigger change
+                        }
+                    }
                 }
+
+                async function updateRoomAvailability() {
+                    const checkIn = checkInInput.value;
+                    const checkOut = checkOutInput.value;
+
+                    if (checkIn && checkOut) {
+                        try {
+                            const response = await fetch('ajax_check_availability.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    room_id: roomId,
+                                    check_in: checkIn,
+                                    check_out: checkOut,
+                                }),
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+
+                            const result = await response.text();
+                            roomContainer.innerHTML = result;
+                        } catch (error) {
+                            console.error('Error fetching availability:', error);
+                        }
+                    }
+                }
+
+                // Initialize the "from" datepicker
+                $("#nd_booking_archive_form_date_range_from").datepicker({
+                    defaultDate: "+0",
+                    minDate: 0,
+                    altField: "#nd_booking_date_month_from",
+                    altFormat: "M",
+                    firstDay: 0,
+                    dateFormat: "dd/mm/yy",
+                    numberOfMonths: 1,
+                    onSelect: function() {
+                        var checkInValue = $(this).val();
+                        $("#check_in_from").val(checkInValue).change();
+                        updateDates();
+                        updateRoomAvailability();
+                    }
+                });
+
+                // Initialize the "to" datepicker
+                $("#nd_booking_archive_form_date_range_to").datepicker({
+                    defaultDate: "+1",
+                    minDate: "+1d",
+                    altField: "#nd_booking_date_month_to",
+                    altFormat: "M",
+                    firstDay: 0,
+                    dateFormat: "dd/mm/yy",
+                    numberOfMonths: 1,
+                    onSelect: function() {
+                        var checkOutValue = $(this).val();
+                        $("#check_in_to").val(checkOutValue).change();
+                        updateRoomAvailability();
+                        updateDates();
+                    }
+                });
+
+                // Set default dates
+                $("#nd_booking_archive_form_date_range_from").datepicker("setDate", "+0");
+                $("#nd_booking_archive_form_date_range_to").datepicker("setDate", "+1");
+
+                // Trigger datepicker on button click
+                $("#nd_booking_open_calendar_from").click(function() {
+                    $("#nd_booking_archive_form_date_range_from").datepicker("show");
+                });
+                $("#nd_booking_open_calendar_to").click(function() {
+                    $("#nd_booking_archive_form_date_range_to").datepicker("show");
+                });
             });
-
-            async function updateRoomAvailability() {
-                const checkIn = checkInInput.value;
-                const checkOut = checkOutInput.value;
-
-                if (checkIn && checkOut) {
-                    console.log('Fetching availability...'); // Debug log
-                    const response = await fetch('ajax_check_availability.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            room_id: roomId,
-                            check_in: checkIn,
-                            check_out: checkOut
-                        }),
-                    });
-                    const result = await response.text();
-
-                    roomContainer.innerHTML = result; // Update room options or message
-                }
-            }
-
-            // Add event listeners for date inputs
-            checkInInput.addEventListener('change', updateRoomAvailability);
-            checkOutInput.addEventListener('change', updateRoomAvailability);
         });
     </script>
 

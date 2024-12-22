@@ -250,9 +250,49 @@ session_start(); ?>
                             <h2 class="mb_40"><?php echo $package->getNamaPekej(); ?></h2>
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPendek(); ?></p>
 
-                            <div class="mb_60"><img src="<?php echo $package->getGambarMainKahwin(); ?>" style="height: 400px; width:800px" alt=""></div>
+                            <!--picture slider-->
+                            <div class="slider-container" style="width: 100%; max-width: 828px; height: 450px; position: relative; overflow: hidden; margin-bottom: 20px;">
+                                <div class="slider-wrapper" style="display: flex; transition: transform 0.5s ease;">
+                                    <?php
+                                    $perkahwinImgs = $package->getGambarAddKahwin();
+                                    $perkahwinImgs[] = $package->getGambarMainKahwin();
+
+                                    $slideCount = count($perkahwinImgs) > 0 ? count($perkahwinImgs) : 1;
+                                    while ($slideCount > 0) {
+                                        echo '<div class="slider-slide" style="min-width: 100%; box-sizing: border-box;">';
+                                        echo '<img src="' . $perkahwinImgs[$slideCount - 1] . '" alt="Slide image" style="width: 100%; height: 450px; object-fit: cover;">';
+                                        echo '</div>';
+                                        $slideCount--;
+                                    }
+                                    ?>
+                                </div>
+
+                                <button id="prev" style="position: absolute; top: 90%; left: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;">
+                                    <span><i class="icon-3"></i></span>
+                                </button>
+                                <button id="next" style="position: absolute; top: 90%; right: 10px; z-index: 10; transform: translateY(-50%); background: rgba(0, 0, 0, 0.8); color: white; border-radius: 25%; padding: 20px;">
+                                    <span><i class="icon-2"></i></span>
+                                </button>
+                            </div>
+
+                            <!-- Pagination dots--->
+                            <div class="pagination" style="display: flex; justify-content: center;">
+                                <?php
+                                $slideCount = count($perkahwinImgs) > 0 ? count($perkahwinImgs) : 1;
+                                $dotCount = 0;
+
+                                while ($slideCount > 0) {
+                                    echo '<span class="dot" style="height: 15px; width: 15px; margin: 0 5px; cursor: pointer; background-color: #bbb; border-radius: 50%; display: inline-block;"></span>';
+                                    $slideCount--;
+                                    $dotCount++;
+                                }
+                                ?>
+                            </div>
+                            <!--picture slider END-->
 
                             <p class="mb_20 fs_16"><?php echo $package->getPeneranganPenuh(); ?></p>
+
+
 
                             <h3 class="fs_40 mb_30">Kemudahan</h3>
                             <p class="mb_50">Dewan ini menyediakan pelbagai kemudahan untuk memastikan majlis perkahwinan
@@ -410,32 +450,30 @@ session_start(); ?>
     <script src="assets/js/jquery.ajaxchimp.min.js"></script>
     <script src="assets/js/parallax-scroll.js"></script>
     <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="assets/js/imgSlider.js"></script>
     <script>
         jQuery(document).ready(function() {
             jQuery(function($) {
-                // Helper function to calculate the number of days between two dates
                 function calculateNumberOfDays(fromDate, toDate) {
                     const timeDiff = toDate - fromDate;
-                    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+                    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
                 }
 
-                // Function to update the number of days input field
                 function updateNumberOfDays() {
                     const fromDate = $("#nd_booking_archive_form_date_range_from").datepicker("getDate");
                     const toDate = $("#nd_booking_archive_form_date_range_to").datepicker("getDate");
 
                     if (fromDate && toDate) {
                         const days = calculateNumberOfDays(fromDate, toDate);
-                        $("#numberOfDays").val(days).trigger("change"); // Ensure change event is triggered
+                        $("#numberOfDays").val(days).trigger("change"); 
                     } else {
-                        $("#numberOfDays").val("1").trigger("change"); // Default to 1 day
+                        $("#numberOfDays").val("1").trigger("change");
                     }
 
-                    calculateTotal(); // Trigger total price calculation
+                    calculateTotal(); 
                 }
 
 
-                // Function to calculate the total price
                 function calculateTotal() {
                     let numberOfDaysElement = document.getElementById("numberOfDays");
                     let days = parseInt(numberOfDaysElement.value) || 1;
@@ -460,7 +498,6 @@ session_start(); ?>
                     document.getElementById("total_price").value = total.toFixed(2);
                 }
 
-                // Toggle quantity input visibility
                 function toggleQuantityInput(checkbox, addonId) {
                     const quantityDiv = document.getElementById(`quantity_${addonId}`);
                     if (quantityDiv) {
@@ -476,21 +513,30 @@ session_start(); ?>
                     calculateTotal();
                 }
 
-                // Toggle second date field visibility
                 function toggleSecondDate() {
                     var secondDateField = document.getElementById("nd_booking_archive_form_date_range_to");
                     var secondDateLabel = secondDateField.previousElementSibling;
+                    var dateFromField = document.getElementById("nd_booking_archive_form_date_range_from");
+                    var hiddenDateTo = document.getElementById("date_to");
 
                     if (document.getElementById("multiDayToggle").checked) {
                         secondDateField.style.display = "block";
                         secondDateLabel.style.display = "block";
                     } else {
-                        secondDateField.style.display = "none";
+                        secondDateField.style.display = "none"; 
                         secondDateLabel.style.display = "none";
+
+                        var fromDate = $("#nd_booking_archive_form_date_range_from").datepicker("getDate");
+                        var nextDay = new Date(fromDate);
+                        nextDay.setDate(nextDay.getDate() + 1);
+                        
+                        $("#date_to").val($.datepicker.formatDate("dd/mm/yy", nextDay));
+                        $("#nd_booking_archive_form_date_range_to").datepicker("setDate", nextDay);
+                        
+                        updateNumberOfDays();
                     }
                 }
 
-                // Initialize the "from" datepicker
                 $("#nd_booking_archive_form_date_range_from").datepicker({
                     defaultDate: "+0",
                     minDate: 0,
@@ -498,22 +544,18 @@ session_start(); ?>
                     onSelect: function(selectedDate) {
                         const selectedDateObj = $(this).datepicker("getDate");
 
-                        // Calculate the next day for the "to" datepicker
                         const nextDay = new Date(selectedDateObj);
                         nextDay.setDate(nextDay.getDate() + 1);
 
-                        // Update the "to" datepicker's minDate and set its value
                         $("#nd_booking_archive_form_date_range_to").datepicker("option", "minDate", nextDay);
                         $("#nd_booking_archive_form_date_range_to").datepicker("setDate", nextDay);
 
-                        // Update hidden fields and the number of days
                         $("#date_from").val($.datepicker.formatDate("dd/mm/yy", selectedDateObj));
                         $("#date_to").val($.datepicker.formatDate("dd/mm/yy", nextDay));
                         updateNumberOfDays();
                     }
                 });
 
-                // Initialize the "to" datepicker
                 $("#nd_booking_archive_form_date_range_to").datepicker({
                     defaultDate: "+1",
                     minDate: "+1d",
@@ -521,13 +563,11 @@ session_start(); ?>
                     onSelect: function(selectedDate) {
                         const selectedDateObj = $(this).datepicker("getDate");
 
-                        // Update the hidden field for "date_to" and the number of days
                         $("#date_to").val($.datepicker.formatDate("dd/mm/yy", selectedDateObj));
                         updateNumberOfDays();
                     }
                 });
 
-                // Set default dates on page load
                 const today = new Date();
                 const tomorrow = new Date();
                 tomorrow.setDate(today.getDate() + 1);
@@ -535,12 +575,10 @@ session_start(); ?>
                 $("#nd_booking_archive_form_date_range_from").datepicker("setDate", today);
                 $("#nd_booking_archive_form_date_range_to").datepicker("setDate", tomorrow);
 
-                // Initialize hidden fields and the number of days
                 $("#date_from").val($.datepicker.formatDate("dd/mm/yy", today));
                 $("#date_to").val($.datepicker.formatDate("dd/mm/yy", tomorrow));
                 updateNumberOfDays();
 
-                // Event listeners for quantity inputs and addon checkboxes
                 document.querySelectorAll('input[type="number"][id^="quantity_input_"]').forEach(input => {
                     input.addEventListener("change", calculateTotal);
                     input.addEventListener("input", calculateTotal);
@@ -553,10 +591,8 @@ session_start(); ?>
                     });
                 });
 
-                // Add event listener for number of days
                 document.getElementById("numberOfDays").addEventListener("change", calculateTotal);
 
-                // Multi-day toggle functionality
                 const multiDayToggle = document.getElementById("multiDayToggle");
                 if (multiDayToggle) {
                     multiDayToggle.addEventListener("change", function() {
@@ -567,7 +603,6 @@ session_start(); ?>
                     toggleSecondDate();
                 }
 
-                // Initial calculation on page load
                 calculateTotal();
             });
         });

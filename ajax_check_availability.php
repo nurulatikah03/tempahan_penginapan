@@ -4,10 +4,8 @@ require_once 'Models/tempahanBilik.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 $roomId = $data['room_id'] ?? null;
-$checkIn = isset($data['check_in']) ? date('d/m/Y', strtotime($data['check_in'])) : null;
-$checkOut = isset($data['check_out']) ? date('d/m/Y', strtotime($data['check_out'])) : null;
-
-
+$checkIn = $data['check_in'] ?? null;
+$checkOut = $data['check_out'] ?? null;
 
 if ($roomId && $checkIn && $checkOut) {
     $roomAvailability = countRoomAvailable($roomId, $checkIn, $checkOut, 1);

@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
           prevText: "PREV",
           changeMonth: false,
           numberOfMonths: 1,
-          onClose: function() {   
+          onClose: function() {
             var minDate = $(this).datepicker("getDate");
             var newMin = new Date(minDate.setDate(minDate.getDate() + 1));
             $( "#nd_booking_archive_form_date_range_to" ).datepicker( "option", "minDate", newMin );
@@ -55,7 +55,6 @@ jQuery(document).ready(function() {
           dateFormat: "dd/mm/yy",
           numberOfMonths: 1,
           onClose: function() {   
-            
             var nd_booking_input_date_from = $( "#nd_booking_archive_form_date_range_from" ).val();
             var nd_booking_date_number_from = nd_booking_input_date_from.substring(3, 5);
             $( "#nd_booking_date_number_from" ).val(nd_booking_date_number_from);
@@ -76,15 +75,6 @@ jQuery(document).ready(function() {
         
         $("#nd_booking_archive_form_date_range_from").datepicker("setDate", "+0");
         $("#nd_booking_archive_form_date_range_to").datepicker("setDate", "+1");
-   
-        function nd_booking_get_nights(){
-          var nd_booking_archive_form_date_range_from = $("#nd_booking_archive_form_date_range_from").val();
-          var nd_booking_archive_form_date_range_to = $("#nd_booking_archive_form_date_range_to").val();
-          var nd_booking_start = new Date(nd_booking_archive_form_date_range_from);
-          var nd_booking_end = new Date(nd_booking_archive_form_date_range_to);
-          var nd_booking_nights_number = (nd_booking_end - nd_booking_start) / 1000 / 60 / 60 / 24; 
-          $( ".nd_booking_nights_number" ).text(nd_booking_nights_number); 
-        }
 
         $("#nd_booking_open_calendar_from").click(function () {
             $("#nd_booking_archive_form_date_range_from").datepicker("show");
@@ -95,36 +85,5 @@ jQuery(document).ready(function() {
 
     });
 
-    jQuery( function ( $ ) {
-
-        $(".nd_booking_guests_increase").click(function() {
-          var value = $(".nd_booking_guests_number").text();
-          value++;
-          $(".nd_booking_guests_number").text(value);
-          $("#nd_booking_archive_form_guests").val(value);
-
-          if ( value > 1 ) {
-            $(".nd_booking_guests_number_word").text("GUESTS");  
-          }
-
-
-        }); 
-
-        $(".nd_booking_guests_decrease").click(function() {
-          var value = $(".nd_booking_guests_number").text();
-          
-          if ( value > 1 ) {
-            value--;
-            $(".nd_booking_guests_number").text(value);
-            $("#nd_booking_archive_form_guests").val(value);
-          }
-
-          if ( value == 1 ) {
-            $(".nd_booking_guests_number_word").text("GUEST");  
-          }
-          
-        }); 
-        
-      });
 
 });

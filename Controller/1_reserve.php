@@ -9,15 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 if ($_POST['process'] == 'penginapan') {
 
-    $checkInDate = date("d/m/Y", strtotime($_POST['check_in']));
-    $checkOutDate = date("d/m/Y", strtotime($_POST['check_out']));
+    $checkInDate = $_POST['check_in'];
+    $checkOutDate = $_POST['check_out'];
     $rooms = ($_POST['rooms'] < 1) ? 1 : $_POST['rooms'];
 
     //Check availability
     $availableRooms = countRoomAvailable($_SESSION['room_id'], $checkInDate, $checkOutDate, $rooms);
     if (!$availableRooms['available']) {
         $_SESSION['err'] = $availableRooms['message'];
-        echo "<script>window.history.back();</script>";
+        echo $checkInDate . " " . $checkOutDate . " " . $rooms;
+        //echo "<script>window.history.back();</script>";
         exit;
     }
     $_SESSION['checkInDate'] = $checkInDate;

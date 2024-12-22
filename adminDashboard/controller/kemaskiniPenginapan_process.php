@@ -225,15 +225,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit']) && isset($_S
                 $urlToAdd = 'assets/images/resource/' . basename($file_name);
 
                 if (move_uploaded_file($file_tmp, $file_path)) {
-                    echo "<p><strong>Uploaded to:</strong> " . htmlspecialchars($file_path) . "</p>";
                     Room::addImage($roomId, $urlToAdd, $imgType);
                     $_SESSION['status'] = 'Kemaskini gambar tambahan Berjaya';
                     header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
                     exit;
                 } else {
-                    echo "<p style='color: red;'><strong>Error:</strong> Failed to upload file.</p>";
+                    $_SESSION['error'] = 'Failed to upload file.';
+                    header("Location: ../kemaskini_penginapan.php?penginapan_id=" . $roomId);
                 }
-                echo "</div>";
             }
         }
     } else {
