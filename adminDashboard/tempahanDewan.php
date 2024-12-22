@@ -179,7 +179,7 @@ require_once __DIR__ . '/require/UserAUTH.php';
 																				$datetime1 = new DateTime($tarikh_daftar_masuk);
 																				$datetime2 = new DateTime($tarikh_daftar_keluar);
 																				$interval = $datetime1->diff($datetime2);
-																				$bilangan_hari = $interval->days;
+																				$bilangan_hari = $interval->days + 1;
 																				?>
 																				<div class="mb-3">
 																					<label class="form-label">Bilangan Hari</label>

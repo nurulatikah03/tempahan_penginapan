@@ -149,8 +149,8 @@ function getStatusDewan($id_dewan) {
 function countRoomAvailable($id_dewan, $start_date, $end_date) {
     $conn = DBConnection::getConnection(); // Database connection
 
-    $checkInDateObj = DateTime::createFromFormat('d/m/Y', $start_date);
-    $checkOutDateObj = DateTime::createFromFormat('d/m/Y', $end_date);
+    $checkInDateObj = DateTime::createFromFormat('Y-m-d', $start_date);
+    $checkOutDateObj = DateTime::createFromFormat('Y-m-d', $end_date);
     $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
     $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
 

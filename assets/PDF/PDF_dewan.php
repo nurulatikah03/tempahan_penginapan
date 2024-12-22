@@ -41,7 +41,7 @@ if ($result->num_rows > 0) {
     $datetime1 = new DateTime($row['tarikh_daftar_masuk']);
     $datetime2 = new DateTime($row['tarikh_daftar_keluar']);
     $interval = $datetime1->diff($datetime2);
-    $bilangan_hari = $interval->days;
+    $bilangan_hari = ($interval->days) + 1;
 	
 	$taxRate = 0.06;
 	$grandTotal = htmlspecialchars($row['harga_keseluruhan']);
@@ -74,18 +74,18 @@ if ($result->num_rows > 0) {
         <table cellpadding="5">
             <tr>
                 <td><strong>Nama Penyewa:</strong> ' . htmlspecialchars($row['nama_penuh']) . '</td>
-				<td><strong>Nombor Tempahan:</strong> ' . htmlspecialchars($row['nombor_tempahan']) . '</td>
+                <td><strong>Nombor Tempahan:</strong> ' . htmlspecialchars($row['nombor_tempahan']) . '</td>
             </tr>
             <tr>
                 <td><strong>Email:</strong> ' . htmlspecialchars($row['email']) . '</td>
-				<td><strong>Nombot Tel:</strong> ' . htmlspecialchars($row['numbor_fon']) . '</td>
+                <td><strong>Nombor Tel:</strong> ' . htmlspecialchars($row['numbor_fon']) . '</td>
             </tr>
             <tr>
-                <td><strong>Tarikh Tempahan:</strong> ' . htmlspecialchars($row['tarikh_tempahan']) . '</td>
-            </tr>
+				<td><strong>Tarikh Tempahan:</strong> ' . date('d/m/Y H:i:s', strtotime($row['tarikh_tempahan'])) . '</td>
+			</tr>
             <tr>
-                <td><strong>Tarikh Masuk:</strong> ' . htmlspecialchars($row['tarikh_daftar_masuk']) . '</td>
-				<td><strong>Tarikh Keluar:</strong> ' . htmlspecialchars($row['tarikh_daftar_keluar']) . '</td>
+                <td><strong>Tarikh Masuk:</strong> ' . date('d/m/Y', strtotime($row['tarikh_daftar_masuk'])) . '</td>
+                <td><strong>Tarikh Keluar:</strong> ' . date('d/m/Y', strtotime($row['tarikh_daftar_keluar'])) . '</td>
             </tr>
         </table>
         <br/>
@@ -96,13 +96,13 @@ if ($result->num_rows > 0) {
                     <th width="20%"><strong>Bil</strong></th>
                     <th><strong>Nama Dewan</strong></th>
                     <th><strong>Harga Semalaman</strong></th>
-                    <th><strong>Bilangan Malam</strong></th>
+                    <th><strong>Bilangan Hari</strong></th>
                     <th><strong>Jumlah Harga</strong></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-					<td width="20%">1</td>
+                    <td width="20%">1</td>
                     <td>' . htmlspecialchars($row['nama_dewan']) . '</td>
                     <td>RM ' . number_format($row['kadar_sewa'], 2) . '</td>
                     <td>' . $bilangan_hari . '</td>
@@ -110,6 +110,7 @@ if ($result->num_rows > 0) {
                 </tr>
             </tbody>
         </table>';
+
 
     // Tambah HTML ke PDF
     $pdf->writeHTML($html, true, false, true, false, '');
@@ -120,7 +121,7 @@ $html = '
     <h3>Ringkasan</h3>
     <table cellpadding="5">
         <tr>
-            <td><strong>Total harga dewan</strong></td>
+            <td><strong>Harga keseluruhan dewan</strong></td>
             <td align="right">RM' .number_format($row['harga_keseluruhan'], 2) . '</td>
         </tr>
         <tr>
@@ -129,11 +130,11 @@ $html = '
             <td align="right">RM' . number_format($taxAmount, 2) . '</td>
         </tr>
         <tr>
-            <td><strong>Harga total</strong></td>
+            <td><strong>Harga Keseluruhan</strong></td>
             <td align="right"><strong>RM' . number_format($totalAmount, 2) . '</strong></td>
         </tr>
         <tr>
-            <td><strong>Cara Pembayaran:</strong></td>
+            <td><strong>Cara Pembayaran</strong></td>
             <td align="right">' . htmlspecialchars($row['cara_bayar']) . '</td>
 		</tr>
     </table>
