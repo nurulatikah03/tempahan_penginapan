@@ -14,9 +14,9 @@ $query = "
     FROM 
         aktiviti a
     LEFT JOIN 
-        aktiviti_pic ap
+        url_gambar ap
     ON 
-        a.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'Utama';
+        a.id_aktiviti = ap.id_aktiviti AND ap.jenis_gambar = 'main';
 ";
 $conn = DBConnection::getConnection();
 $result = $conn->query($query);

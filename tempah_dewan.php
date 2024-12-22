@@ -153,8 +153,19 @@ include 'database/DBConnec.php';
                             <u>
                                 <h4 class="mb_20">Pengesahan Tempahan</h4>
                             </u>
-                            <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
-							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
+                            <p><strong>Tarikh Masuk:</strong> 
+								<?php 
+									$checkInDate = DateTime::createFromFormat('Y-m-d', $_SESSION['checkInDate']);
+									echo $checkInDate ? $checkInDate->format('d/m/Y') : ''; 
+								?>
+							</p>
+
+							<p><strong>Tarikh Keluar:</strong> 
+								<?php 
+									$checkOutDate = DateTime::createFromFormat('Y-m-d', $_SESSION['checkOutDate']);
+									echo $checkOutDate ? $checkOutDate->format('d/m/Y') : ''; 
+								?>
+							</p>
 							<p><strong>Bilangan Hari:</strong> <?php echo $_SESSION['num_of_night']; ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
                             <a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"

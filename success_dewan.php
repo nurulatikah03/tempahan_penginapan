@@ -196,21 +196,27 @@ session_start();
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>Tarkkh Masuk:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            <?php echo $_SESSION["checkInDate"] ?>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4">
-                            <strong>Tarikh Keluar:</strong>
-                        </div>
-                        <div class="col-sm-8">
-                            <?php echo $_SESSION["checkOutDate"] ?>
-                        </div>
-                    </div>
+						<div class="col-sm-4">
+							<strong>Tarikh Masuk:</strong>
+						</div>
+						<div class="col-sm-8">
+							<?php 
+								$checkInDate = DateTime::createFromFormat('Y-m-d', $_SESSION['checkInDate']);
+								echo $checkInDate ? $checkInDate->format('d/m/Y') : ''; 
+							?>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-sm-4">
+							<strong>Tarikh Keluar:</strong>
+						</div>
+						<div class="col-sm-8">
+							<?php 
+								$checkOutDate = DateTime::createFromFormat('Y-m-d', $_SESSION['checkOutDate']);
+								echo $checkOutDate ? $checkOutDate->format('d/m/Y') : ''; 
+							?>
+						</div>
+					</div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
                             <strong>Bilangan Hari</strong>

@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		echo "Generated Booking Number: $booking_number";
 
 		// Format the dates from session data
-		$tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
-		$tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
+		$tarikhMasukSQL = DateTime::createFromFormat('Y-m-d', $_SESSION["checkInDate"])->format('Y-m-d');
+		$tarikhKeluarSQL = DateTime::createFromFormat('Y-m-d', $_SESSION["checkOutDate"])->format('Y-m-d');
 
 		// Create the reservation object and insert it into the database
 		$tempahan = new DewanReservation(

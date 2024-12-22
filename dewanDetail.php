@@ -136,7 +136,6 @@ session_start();
 
 <body>
 
-    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
             <span class="visually-hidden">Loading...</span>
@@ -148,7 +147,6 @@ session_start();
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    <!-- ***** Preloader End ***** -->
 
     <div class="page-wrapper">
 
@@ -215,7 +213,6 @@ session_start();
             }
             echo '</div>';
             ?>
-            <!-- Page Title -->
             <div class="page-title" style="
                     background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
                     background-repeat: no-repeat;
@@ -227,7 +224,6 @@ session_start();
                 </div>
             </div>
 
-            <!-- Breadcrumb -->
             <div class="bredcrumb-wrap">
                 <div class="auto-container">
                     <ul class="bredcrumb-list">
@@ -258,7 +254,6 @@ session_start();
 
                             <div id="imageCarousel" class="carousel slide mb_60" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    <!-- Gambar Utama (Main Image) -->
                                     <?php if (!empty($utama_image)) { ?>
                                         <div class="carousel-item active">
                                             <img src="adminDashboard/controller/<?php echo $utama_image; ?>"
@@ -267,7 +262,6 @@ session_start();
                                         </div>
                                     <?php } ?>
 
-                                    <!-- Loop through the tambahan images (Additional Images) -->
                                     <?php
                                     if (!empty($tambahan_images)) {
                                         foreach ($tambahan_images as $index => $image) {
@@ -283,19 +277,16 @@ session_start();
                                     ?>
                                 </div>
 
-                                <!-- Carousel Indicators (Pagination Dots) -->
                                 <div class="carousel-indicators">
-                                    <!-- Indicator for the Main Image -->
                                     <?php if (!empty($utama_image)) { ?>
                                         <button type="button" data-bs-target="#imageCarousel" data-bs-slide-to="0"
                                             class="active" aria-label="Slide 1"></button>
                                     <?php } ?>
 
-                                    <!-- Indicators for the Additional Images -->
                                     <?php
                                     if (!empty($tambahan_images)) {
                                         foreach ($tambahan_images as $index => $image) {
-                                            $active_class = ($index == 0 && empty($utama_image)) ? 'active' : ''; // Set first image as active
+                                            $active_class = ($index == 0 && empty($utama_image)) ? 'active' : '';
                                             ?>
                                             <button type="button" data-bs-target="#imageCarousel"
                                                 data-bs-slide-to="<?php echo $index + 1; ?>"
@@ -307,7 +298,6 @@ session_start();
                                     ?>
                                 </div>
 
-                                <!-- Carousel Controls -->
                                 <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel"
                                     data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -328,28 +318,27 @@ session_start();
                             <div class="booking-form-3">
 
                                 <form class="hotel-booking-form-1-form d-block"
-                                    action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
-                                    method="POST">
-                                    <div class="form-group">
-                                        <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-                                        <input type="text" placeholder="dd/mm/yyyy" name="checkInDate"
-                                            id="nd_booking_archive_form_date_range_from" value="" />
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-                                        <input type="text" placeholder="dd/mm/yyyy" name="checkOutDate"
-                                            id="nd_booking_archive_form_date_range_to" value="" />
-                                    </div>
-                                    <div class="form-group mb-3">
-                                        <button type="submit" class="btn-1">Buat Tempahan<span></span></button>
-                                        <input type="hidden" name="process" value="dewan">
-                                    </div>
-                                </form>
+									action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
+									method="POST">
+									<div class="form-group">
+										<p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
+										<input type="date" name="checkInDate" id="checkInDate" min="<?php echo date('Y-m-d'); ?>" />
+									</div>
+									<div class="form-group">
+										<p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
+										<input type="date" name="checkOutDate" id="checkOutDate" min="<?php echo date('Y-m-d'); ?>" />
+									</div>
+									<div class="form-group mb-3">
+										<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
+										<input type="hidden" name="process" value="dewan">
+									</div>
+								</form>
+
                                 <?php
                                 if (isset($_SESSION['err01'])) {
                                     echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err01'] . '</div>';
                                     unset($_SESSION['err01']);
-                                } elseif (isset($_SESSION['err02'])) {  // Use 'elseif' instead of 'else' to check for 'err02'
+                                } elseif (isset($_SESSION['err02'])) {
                                     echo '<div class="alert alert-danger" role="alert">' . $_SESSION['err02'] . '</div>';
                                     unset($_SESSION['err02']);
                                 }
@@ -371,21 +360,18 @@ session_start();
 							WHERE dk.id_dewan = ?
 						";
 
-                        // Prepare and execute the query
                         if ($stmt = $conn->prepare($query)) {
-                            $stmt->bind_param("i", $id_dewan); // Bind the id_dewan parameter
+                            $stmt->bind_param("i", $id_dewan);
                             $stmt->execute();
                             $result = $stmt->get_result();
 
                             if ($result->num_rows > 0) {
-                                // Loop through the results and display each kemudahan
                                 while ($row = $result->fetch_assoc()) {
                                     $nama_kemudahan = $row['nama'];
                                     $icon_url = $row['icon_url'];
                                     echo '<div class="col-4">';
                                     echo '<div class="kemudahan-item">';
 
-                                    // Display icon if available
                                     if ($icon_url) {
                                         echo '<img src="' . $icon_url . '" alt="' . $nama_kemudahan . '" style="height: 50px; margin-right: 30px;">';
                                     }
@@ -411,7 +397,6 @@ session_start();
 
     </div>
 
-    <!--Scroll to top-->
     <div class="scroll-to-top">
         <div>
             <div class="scroll-top-inner">
@@ -422,7 +407,6 @@ session_start();
             </div>
         </div>
     </div>
-    <!-- Scroll to top end -->
 
 
     <script src="assets/js/jquery.min.js"></script>
@@ -442,12 +426,10 @@ session_start();
     <script src="assets/js/script.js"></script>
 
     <script>
-        // Set today's date as the minimum date
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('tarikh_masuk').setAttribute('min', today);
         document.getElementById('tarikh_keluar').setAttribute('min', today);
 
-        // Set minimum date for 'tarikh_keluar' based on 'tarikh_masuk' selection
         document.getElementById('tarikh_masuk').addEventListener('change', function () {
             const masukDate = this.value;
             document.getElementById('tarikh_keluar').setAttribute('min', masukDate);
@@ -460,6 +442,21 @@ session_start();
             }, 1000);
         });
     </script>
+	<script>
+	// JavaScript untuk mengawal tarikh keluar
+	document.getElementById('checkInDate').addEventListener('change', function () {
+		// Ambil nilai tarikh masuk
+		let checkInDate = document.getElementById('checkInDate').value;
+
+		// Tetapkan 'min' untuk tarikh keluar berdasarkan tarikh masuk
+		document.getElementById('checkOutDate').min = checkInDate;
+
+		// Jika tarikh keluar kurang daripada tarikh masuk, kosongkan nilai tarikh keluar
+		if (document.getElementById('checkOutDate').value < checkInDate) {
+			document.getElementById('checkOutDate').value = checkInDate;
+		}
+	});
+</script>
 
 
 </body>

@@ -1,8 +1,6 @@
 <?php
 session_start();
 include 'database/DBConnec.php';
-include 'adminDashboard/controller/get_aktiviti.php';
-
 
 ?>
 
@@ -41,14 +39,14 @@ include 'adminDashboard/controller/get_aktiviti.php';
 	<!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
 		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
-		<div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
-		  <span class="visually-hidden">Loading...</span>
-		</div>
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     <!-- ***** Preloader End ***** -->
 	
@@ -57,23 +55,64 @@ include 'adminDashboard/controller/get_aktiviti.php';
 
         <?php
        $conn = DBConnection::getConnection();
-        $result = $conn->query($sql);
+
+        if (isset($_GET['id_aktiviti'])) {
+            $id_aktiviti = $_GET['id_aktiviti'];
+        } else {
+            echo '<div class="alert alert-danger">ID Aktiviti tidak ditemui.</div>';
+            exit;
+        }
+
+        $query = "
+			SELECT 
+				aktiviti.id_aktiviti, 
+				aktiviti.nama_aktiviti, 
+				aktiviti.kadar_harga, 
+				aktiviti.penerangan_kemudahan,
+				aktiviti.penerangan, 
+				aktiviti.status_aktiviti, 
+				url_gambar.url_gambar,
+				url_gambar.jenis_gambar
+			FROM aktiviti
+				LEFT JOIN url_gambar ON aktiviti.id_aktiviti = url_gambar.id_aktiviti
+				WHERE aktiviti.id_aktiviti = ?
+				";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_aktiviti);
+        $stmt->execute();
+        $result = $stmt->get_result();        
 
         if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
+            echo '<div class="row">';
+            $utama_image = '';
+            $banner_image = '';
+            $tambahan_images = [];
 
-            // Retrieve data
-            $nama_aktiviti = htmlspecialchars($row['nama_aktiviti']);
-            $gambar_utama = htmlspecialchars($row['gambar_utama']);
-            $gambar_banner = htmlspecialchars($row['gambar_banner']);
-            $gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-            $kadar_harga = $row['kadar_harga'];
+        while ($row = $result->fetch_assoc()) {
+			$id_aktiviti = $row['id_aktiviti'];
+            $nama_aktiviti = $row['nama_aktiviti'];
+			$kadar_harga = $row['kadar_harga'];
+            $penerangan_kemudahan = $row['penerangan_kemudahan'];
             $penerangan = $row['penerangan'];
+            $status_aktiviti = $row['status_aktiviti'];
+            $url_gambar = $row['url_gambar'];
+            $jenis_gambar = $row['jenis_gambar'];
+			
+			if ($jenis_gambar == 'main') {
+                    $utama_image = $url_gambar;
+                } elseif ($jenis_gambar == 'banner') {
+                    $banner_image = $url_gambar;
+                } elseif ($jenis_gambar == 'add') {
+                    $tambahan_images[] = $url_gambar;
+                }
+            }
+            echo '</div>';
             ?>
 
             <!-- Page Title -->
             <div class="page-title" style="
-                        background-image: url('adminDashboard/controller/<?php echo $gambar_banner; ?>');
+                        background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
                         background-repeat: no-repeat;
                         background-size: cover;
                         background-position: center;
@@ -97,9 +136,6 @@ include 'adminDashboard/controller/get_aktiviti.php';
             echo "<p>Tiada butiran ditemui untuk aktiviti yang dipilih.</p>";
         }
 
-        // Ambil id_aktiviti (contoh)
-        $row['id_aktiviti'] = isset($_GET['id_aktiviti']) ? htmlspecialchars($_GET['id_aktiviti']) : 0;
-
         ?>
 
         <section class="section-padding">
@@ -114,14 +150,14 @@ include 'adminDashboard/controller/get_aktiviti.php';
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
 							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['total_person']); ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
-                            <a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"
+                            <a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"
                                 class="btn-1">Ubah Tarikh<span></span></a>
                         </div>
                     </div>
                     <div class="col-lg-8 pe-lg-35">
                         <div class="single-post">
                             <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                            <form action="Controller/2_reservation.php?id_aktiviti=<?php echo htmlspecialchars($row['id_aktiviti']); ?>"
+                            <form action="Controller/2_reservation.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"
                                 method="POST">
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Nama Penuh: </p>

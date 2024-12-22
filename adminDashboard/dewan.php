@@ -118,7 +118,7 @@ $result = $conn->query($query);
 																</div>
 															</td>
 															<td>
-																<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img" class="rounded me-3 img-size" />
+																<img src="controller/<?php echo $gambar_utama; ?>" alt="contact-img" title="contact-img"  class="rounded me-3" width="78" height="48" />
 																<p class="m-0 d-inline-block align-middle font-16">
 																	<span class="text-body"><?php echo $nama_dewan; ?></span>
 																</p>
