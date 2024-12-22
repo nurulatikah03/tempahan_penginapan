@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2024 at 05:02 AM
+-- Generation Time: Dec 22, 2024 at 09:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -306,6 +306,30 @@ INSERT INTO `kemudahan` (`id_kemudahan`, `nama`, `icon_url`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `pid` int(11) NOT NULL,
+  `rsp_appln_id` varchar(3) NOT NULL,
+  `rsp_org_id` varchar(10) NOT NULL,
+  `rsp_orderid` varchar(20) DEFAULT NULL,
+  `rsp_amount` decimal(8,2) NOT NULL,
+  `rsp_trxstatus` varchar(15) NOT NULL,
+  `rsp_stcode` varchar(3) NOT NULL,
+  `rsp_bankid` varchar(15) NOT NULL,
+  `rsp_bankname` varchar(50) DEFAULT NULL,
+  `rsp_fpxid` varchar(30) NOT NULL,
+  `rsp_fpxorderno` varchar(30) NOT NULL,
+  `date_created` datetime DEFAULT current_timestamp(),
+  `type` int(11) NOT NULL DEFAULT 0 COMMENT '0 = fpx, 1 = cek, 2 = cash, 3 = EFT, 4= Kad',
+  `doc` text DEFAULT NULL,
+  `tarikh_cek` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `perkahwinan`
 --
 
@@ -359,7 +383,11 @@ INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_
 (145, 'ROOM-241212-189', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-12 15:04:29', '2024-12-12', '2024-12-13', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
 (146, 'ROOM-241215-919', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-15 10:46:50', '2024-12-15', '2024-12-16', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
 (149, 'ROOM-241215-737', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-15 17:22:19', '2024-12-15', '2024-12-16', 68, 'FPX', NULL, 1, NULL, NULL, NULL),
-(155, 'WED-2024-12-19-5722', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 50, '2024-12-19 09:51:57', '2024-12-19', '2024-12-20', 60008, 'FPX', NULL, NULL, 17, 11, NULL);
+(155, 'WED-2024-12-19-5722', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 50, '2024-12-19 09:51:57', '2024-12-19', '2024-12-20', 60008, 'FPX', NULL, NULL, 17, 11, NULL),
+(156, 'ROOM-241219-961', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-19 15:04:14', '2024-12-19', '2024-12-20', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
+(157, 'ROOM-241222-694', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 09:26:26', '1970-01-01', '1970-01-01', 0, 'FPX', NULL, 2, NULL, NULL, NULL),
+(158, 'ROOM-241222-208', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-22 09:43:28', '2024-12-22', '2024-12-23', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
+(159, 'ROOM-241222-106', 'AN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 15:50:48', '2024-12-24', '2024-12-25', 300, 'FPX', NULL, 2, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -401,7 +429,7 @@ CREATE TABLE `unit_bilik` (
 --
 
 INSERT INTO `unit_bilik` (`id_ub`, `nombor_bilik`, `aras`, `status_bilik`, `tarikh_aktif_semula`, `id_bilik`) VALUES
-(19, 'BB001', 2, 'aktif', '0000-00-00', 1),
+(19, 'BB001', 2, 'penyelenggaraan', '2024-12-23', 1),
 (20, 'BB002', 3, 'aktif', '0000-00-00', 1),
 (21, 'BB003', 2, 'aktif', '0000-00-00', 1),
 (22, 'BB004', 2, 'aktif', '0000-00-00', 1),
@@ -455,7 +483,9 @@ INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`,
 (156, 'main', 'assets/images/resource/1734403893_dewan_kuliah1.jpg', NULL, NULL, 18, NULL),
 (157, 'banner', 'assets/images/background/1734403893_dewan_kuliah2.jpg', NULL, NULL, 18, NULL),
 (158, 'add', 'assets/images/resource/1734403893_0_dewan_kuliah1.jpg', NULL, NULL, 18, NULL),
-(179, 'add', 'assets/images/resource/99.jpg', 2, NULL, NULL, NULL);
+(179, 'add', 'assets/images/resource/99.jpg', 2, NULL, NULL, NULL),
+(187, 'add', 'assets/images/resource/FJIV3174.JPG', NULL, 22, NULL, NULL),
+(188, 'add', 'assets/images/resource/FVQU1460.JPG', NULL, 22, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -546,6 +576,13 @@ ALTER TABLE `dewan_pic`
 --
 ALTER TABLE `kemudahan`
   ADD PRIMARY KEY (`id_kemudahan`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`pid`),
+  ADD KEY `rsp_orderid` (`rsp_orderid`);
 
 --
 -- Indexes for table `perkahwinan`
@@ -655,7 +692,13 @@ ALTER TABLE `dewan_pic`
 -- AUTO_INCREMENT for table `kemudahan`
 --
 ALTER TABLE `kemudahan`
-  MODIFY `id_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5484;
 
 --
 -- AUTO_INCREMENT for table `perkahwinan`
@@ -667,7 +710,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
@@ -685,7 +728,7 @@ ALTER TABLE `unit_bilik`
 -- AUTO_INCREMENT for table `url_gambar`
 --
 ALTER TABLE `url_gambar`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -736,6 +779,16 @@ ALTER TABLE `unit_bilik`
 ALTER TABLE `url_gambar`
   ADD CONSTRAINT `url_gambar_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `url_gambar_ibfk_2` FOREIGN KEY (`id_perkahwinan`) REFERENCES `perkahwinan` (`id_perkahwinan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `set_status_bilik_aktif_19` ON SCHEDULE AT '2024-12-23 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE unit_bilik
+                    SET status_bilik = 'aktif', tarikh_aktif_semula = NULL
+                    WHERE id_ub = 19$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
