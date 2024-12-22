@@ -1,6 +1,5 @@
 <?php 
 include 'database/DBConnec.php';
-include 'adminDashboard/controller/get_aktiviti.php';
 
 session_start();
 ?>
@@ -46,23 +45,63 @@ session_start();
 
         	<?php
 			$conn = DBConnection::getConnection();
-			$result = $conn->query($sql);
+			
+			if (isset($_GET['id_aktiviti'])) {
+            $id_aktiviti = $_GET['id_aktiviti'];
+        } else {
+            echo '<div class="alert alert-danger">ID Aktiviti tidak ditemui.</div>';
+            exit;
+		}
+			$query = "
+			SELECT 
+				aktiviti.id_aktiviti, 
+				aktiviti.nama_aktiviti, 
+				aktiviti.kadar_harga, 
+				aktiviti.penerangan_kemudahan,
+				aktiviti.penerangan, 
+				aktiviti.status_aktiviti, 
+				url_gambar.url_gambar,
+				url_gambar.jenis_gambar
+			FROM aktiviti
+				LEFT JOIN url_gambar ON aktiviti.id_aktiviti = url_gambar.id_aktiviti
+				WHERE aktiviti.id_aktiviti = ?
+				";
 
-			if ($result->num_rows > 0) {
-				$row = $result->fetch_assoc();
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_aktiviti);
+        $stmt->execute();
+        $result = $stmt->get_result();        
 
-				// Retrieve data
-				$nama_aktiviti = htmlspecialchars($row['nama_aktiviti']);
-				$gambar_utama = htmlspecialchars($row['gambar_utama']);
-				$gambar_banner = htmlspecialchars($row['gambar_banner']);
-				$gambar_tambahan = htmlspecialchars($row['gambar_tambahan']);
-				$kadar_harga = $row['kadar_harga'];
-				$penerangan = $row['penerangan'];
-				?>
+        if ($result->num_rows > 0) {
+            echo '<div class="row">';
+            $utama_image = '';
+            $banner_image = '';
+            $tambahan_images = [];
+
+        while ($row = $result->fetch_assoc()) {
+			$id_aktiviti = $row['id_aktiviti'];
+            $nama_aktiviti = $row['nama_aktiviti'];
+			$kadar_harga = $row['kadar_harga'];
+            $penerangan_kemudahan = $row['penerangan_kemudahan'];
+            $penerangan = $row['penerangan'];
+            $status_aktiviti = $row['status_aktiviti'];
+            $url_gambar = $row['url_gambar'];
+            $jenis_gambar = $row['jenis_gambar'];
+			
+			if ($jenis_gambar == 'main') {
+                    $utama_image = $url_gambar;
+                } elseif ($jenis_gambar == 'banner') {
+                    $banner_image = $url_gambar;
+                } elseif ($jenis_gambar == 'add') {
+                    $tambahan_images[] = $url_gambar;
+                }
+            }
+            echo '</div>';
+            ?>
 				<!-- Page Title -->
 				<div class="page-title" 
 					 style="
-						background-image: url('adminDashboard/controller/<?php echo $gambar_banner; ?>');
+						background-image: url('adminDashboard/controller/<?php echo $banner_image; ?>');
 						background-repeat: no-repeat;
 						background-size: cover;
 						background-position: center;
@@ -76,7 +115,7 @@ session_start();
 					<div class="auto-container">
 						<ul class="bredcrumb-list">
 							<li><a href="index.php">Laman Utama</a></li>
-							<li><a href="kemudahanAktiviti.php">Aktiviti</a></li>
+							<li><a href="pakejAktiviti.php">Aktiviti</a></li>
 							<li>
 								<a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($_GET["id_aktiviti"]); ?>">
 									<?php echo htmlspecialchars($nama_aktiviti); ?>

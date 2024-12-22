@@ -62,18 +62,18 @@ class AktivitiReservation extends Reservation
         $conn = DBConnection::getConnection();
 
         $sql = "INSERT INTO tempahan (
-        nombor_tempahan, 
-        nama_penuh, 
-        numbor_fon, 
-        bilangan_pax,
-        email,
-        tarikh_tempahan, 
-        tarikh_daftar_masuk, 
-        tarikh_daftar_keluar, 
-        harga_keseluruhan,
-        cara_bayar,            
-        id_aktiviti
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		nombor_tempahan, 
+            nama_penuh, 
+            numbor_fon, 
+            email, 
+            bilangan_pax,
+            tarikh_tempahan, 
+            tarikh_daftar_masuk, 
+            tarikh_daftar_keluar, 
+            harga_keseluruhan, 
+            cara_bayar, 
+            id_dewan
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param(

@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_aktiviti= $_GET['id_aktiviti']; // Get id_aktiviti from the URL
     $image_type = $_POST['image_type']; // This will be "utama", "banner", or "tambahan"
 
-    // Determine the correct upload path
-    if ($image_type == 'utama' || $image_type == 'tambahan') {
+    // Determine the corct upload path
+    if ($image_type == 'main' || $image_type == 'add') {
         $upload_dir = 'assets/images/resource/';
     } elseif ($image_type == 'banner') {
         $upload_dir = 'assets/images/background/';
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $image_url = $upload_dir . $new_file_name;
 
             // Delete old image file
-            $sql_select = "SELECT url_gambar FROM aktiviti_pic WHERE jenis_gambar = ? AND id_aktiviti = ?";
+            $sql_select = "SELECT url_gambar FROM url_gambar WHERE jenis_gambar = ? AND id_aktiviti = ?";
             $stmt_select = $conn->prepare($sql_select);
             $stmt_select->bind_param("si", $image_type, $id_aktiviti);
             $stmt_select->execute();
@@ -40,10 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt_select->close();
 
             // Update new image URL in the database
-            $sql = "UPDATE aktiviti_pic SET url_gambar = ? WHERE jenis_gambar = ? AND id_aktiviti = ?";
+            $sql = "UPDATE url_gambar SET url_gambar = ? WHERE jenis_gambar = ? AND id_aktiviti = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("ssi", $image_url, $image_type, $id_aktiviti);
             if ($stmt->execute()) {
+				$_SESSION['statusUpdate'] = 'Gambar berjaya dikemaskini.';
                 echo "success"; // Indicate success
             } else {
                 echo "Failed to update the database.";

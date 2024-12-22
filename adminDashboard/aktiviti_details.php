@@ -101,10 +101,10 @@ $conn = DBConnection::getConnection();
 									aktiviti.penerangan_kemudahan, 
 									aktiviti.penerangan, 
 									aktiviti.status_aktiviti, 
-									aktiviti_pic.url_gambar,
-									aktiviti_pic.jenis_gambar
+									url_gambar.url_gambar,
+									url_gambar.jenis_gambar
 								FROM aktiviti
-								LEFT JOIN aktiviti_pic ON aktiviti.id_aktiviti = aktiviti_pic.id_aktiviti
+								LEFT JOIN url_gambar ON aktiviti.id_aktiviti = url_gambar.id_aktiviti
 								WHERE aktiviti.id_aktiviti = ?
 							"; 
 
@@ -129,11 +129,11 @@ $conn = DBConnection::getConnection();
 									$url_gambar = $row['url_gambar'];
 									$jenis_gambar = $row['jenis_gambar'];
 
-									if ($jenis_gambar == 'Utama') {
+									if ($jenis_gambar == 'main') {
 										$utama_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Banner') {
+									} elseif ($jenis_gambar == 'banner') {
 										$banner_image = $url_gambar;
-									} elseif ($jenis_gambar == 'Tambahan') {
+									} elseif ($jenis_gambar == 'add') {
 										$tambahan_images[] = $url_gambar;
 										}
 								}
