@@ -131,6 +131,23 @@ session_start();
 </style>
 
 <body>
+	
+	<!-- ***** Preloader Start ***** -->
+<!-- 
+<div id="js-preloader" class="js-preloader">
+    <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-grow" style="width: 2rem; height: 2rem; color:green;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+-->
+<!-- ***** Preloader End ***** -->
+
 
 
 	<div class="page-wrapper">
@@ -267,9 +284,6 @@ session_start();
 											<input type="number" min="1" placeholder="Jumlah bilik akan dikira" name="num_of_rooms" id="num_of_rooms" value="" required readonly />
 										</div>
 										<div class="form-group">
-											/
-
-
 											<div class="form-group mb-3">
 												<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
 												<input type="hidden" name="process" value="aktiviti">
