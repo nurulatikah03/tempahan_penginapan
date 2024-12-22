@@ -20,7 +20,8 @@ $query = "SELECT
             t.tarikh_daftar_keluar, 
             t.harga_keseluruhan, 
             t.id_aktiviti, 
-            t.nombor_tempahan, 
+            t.nombor_tempahan,
+			t.cara_bayar,
             a.nama_aktiviti,
             a.kadar_harga
           FROM tempahan t
@@ -135,7 +136,11 @@ if ($result->num_rows > 0) {
             <tr>
                 <td><strong>Harga total</strong></td>
                 <td align="right"><strong>RM ' . number_format($totalAmount, 2) . '</strong></td>
-            </tr>
+            </tr>			
+			<tr>
+            <td><strong>Cara Pembayaran:</strong></td>
+            <td align="right">' . htmlspecialchars($row['cara_bayar']) . '</td>
+		</tr>
         </table>
         <p>If you have any questions regarding this invoice, please contact us at admin@lktn.gov.my.</p>
     ';

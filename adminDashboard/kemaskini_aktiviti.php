@@ -1,7 +1,6 @@
 <?php
-include '../database/DBConnec.php';
 include 'controller/get_aktiviti.php';
-
+require_once __DIR__ . '/require/UserAUTH.php';
 ?>
 
 <!DOCTYPE html>
@@ -355,6 +354,16 @@ include 'controller/get_aktiviti.php';
                                                     rows="3" required><?php echo $penerangan_kemudahan; ?></textarea>
                                             </div>
                                         </div>
+										 <div class="row mb-5">
+                                            <label for="status_aktiviti" class="col-3 col-form-label">Status</label>
+                                            <div class="col-9">
+                                                <select class="form-control" id="status_aktiviti" name="status_aktiviti" value="<?php echo $status_aktiviti;?>" required>
+													<option value="tersedia" <?php echo ($status_aktiviti == 'tersedia') ? 'selected' : ''; ?>>Tersedia</option>
+													<option value="tidak tersedia" <?php echo ($status_aktiviti == 'tidak tersedia') ? 'selected' : ''; ?>>Tidak Tersedia</option>
+												</select>
+                                            </div>
+                                        </div>
+										
 										<div class="row mb-3">
 											<label class="col-3 col-form-label">Kemudahan</label>
 											<div class="col-9">
@@ -410,15 +419,7 @@ include 'controller/get_aktiviti.php';
 												</div>
 											</div>
 										</div>
-                                        <div class="row mb-5">
-                                            <label for="status_aktiviti" class="col-3 col-form-label">Status</label>
-                                            <div class="col-9">
-                                                <select class="form-control" id="status_aktiviti" name="status_aktiviti" value="<?php echo $status_aktiviti;?>" required>
-													<option value="tersedia" <?php echo ($status_aktiviti == 'tersedia') ? 'selected' : ''; ?>>Tersedia</option>
-													<option value="tidak tersedia" <?php echo ($status_aktiviti == 'tidak tersedia') ? 'selected' : ''; ?>>Tidak Tersedia</option>
-												</select>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="justify-content-end row text-end mt-3">
                                             <div class="col-9">
                                                 <button type="submit" class="btn btn-info">Kemaskini</button>

@@ -21,6 +21,7 @@ $query = "SELECT
             t.harga_keseluruhan, 
             t.id_dewan, 
             t.nombor_tempahan, 
+			t.cara_bayar,
             d.nama_dewan,
             d.kadar_sewa
           FROM tempahan t
@@ -131,6 +132,10 @@ $html = '
             <td><strong>Harga total</strong></td>
             <td align="right"><strong>RM' . number_format($totalAmount, 2) . '</strong></td>
         </tr>
+        <tr>
+            <td><strong>Cara Pembayaran:</strong></td>
+            <td align="right">' . htmlspecialchars($row['cara_bayar']) . '</td>
+		</tr>
     </table>
     <p>If you have any questions regarding this invoice, please contact us at admin@lktn.gov.my.</p>
 ';

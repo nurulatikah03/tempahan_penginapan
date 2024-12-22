@@ -1,3 +1,6 @@
+<?php 
+require_once __DIR__ . '/require/UserAUTH.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
     
@@ -103,7 +106,6 @@
 												<div class="col-9">
 													<div class="row g-2">
 														<?php
-														include '../database/DBConnec.php';
 														$query = "SELECT id_kemudahan, nama, icon_url FROM kemudahan";
 														$conn = DBConnection::getConnection();
 														$result = $conn->query($query);
