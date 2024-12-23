@@ -145,7 +145,8 @@ include 'database/DBConnec.php';
                         <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                             <u>
                                 <h4 class="mb_20">Pengesahan Tempahan</h4>
-                            </u>
+							</u>
+						
                             <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
 							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['total_person']); ?></p>

@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
+	$_SESSION['id_dewan'] = isset($_POST['id_dewan']) ? htmlspecialchars($_POST['id_dewan']) : '';
+
     $_SESSION['checkInDate'] = isset($_POST['checkInDate']) ? htmlspecialchars($_POST['checkInDate']) : '';
     $_SESSION['checkOutDate'] = isset($_POST['checkOutDate']) ? htmlspecialchars($_POST['checkOutDate']) : '';
 	$_SESSION['total_person'] = isset($_POST['num_of_person']) ? htmlspecialchars($_POST['num_of_person']) : '';

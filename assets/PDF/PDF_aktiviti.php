@@ -12,21 +12,27 @@ if (!$nombor_tempahan) {
 
 // Query untuk mendapatkan data tempahan
 $query = "SELECT 
-            t.nama_penuh, 
-            t.numbor_fon, 
-            t.email, 
-            t.tarikh_tempahan, 
-            t.tarikh_daftar_masuk, 
-            t.tarikh_daftar_keluar, 
-            t.harga_keseluruhan, 
-            t.id_aktiviti, 
-            t.nombor_tempahan,
-			t.cara_bayar,
-            a.nama_aktiviti,
-            a.kadar_harga
-          FROM tempahan t
-          JOIN aktiviti a ON t.id_aktiviti = a.id_aktiviti
-          WHERE t.nombor_tempahan = ?";
+    t.nama_penuh, 
+    t.numbor_fon, 
+    t.email, 
+    t.tarikh_tempahan, 
+    t.tarikh_daftar_masuk, 
+    t.tarikh_daftar_keluar, 
+    t.harga_keseluruhan, 
+    t.id_aktiviti, 
+    t.nombor_tempahan,
+    t.cara_bayar,
+    a.nama_aktiviti,
+    a.kadar_harga,
+    d.nama_dewan,
+    d.id_dewan,
+    b.id_bilik,
+    b.nama_bilik
+		FROM tempahan t
+		LEFT JOIN aktiviti a ON t.id_aktiviti = a.id_aktiviti
+		LEFT JOIN dewan d ON t.id_dewan = d.id_dewan
+		LEFT JOIN bilik b ON t.id_bilik = b.id_bilik
+		WHERE t.nombor_tempahan =?";
 
 $conn = DBConnection::getConnection();
 $stmt = $conn->prepare($query);
@@ -82,14 +88,15 @@ if ($result->num_rows > 0) {
             </tr>
             <tr>
                 <td><strong>Email:</strong> ' . htmlspecialchars($row['email']) . '</td>
-                <td><strong>Nombor Tel:</strong> ' . htmlspecialchars($row['numbor_fon']) . '</td>
-            </tr>
-            <tr>
-                <td><strong>Tarikh Tempahan:</strong> ' . htmlspecialchars($row['tarikh_tempahan']) . '</td>
+                <td><strong>Tarikh Invoice:</strong> ' . htmlspecialchars($row['tarikh_tempahan']) . '</td>
             </tr>
             <tr>
                 <td><strong>Tarikh Masuk:</strong> ' . htmlspecialchars($row['tarikh_daftar_masuk']) . '</td>
                 <td><strong>Tarikh Keluar:</strong> ' . htmlspecialchars($row['tarikh_daftar_keluar']) . '</td>
+            </tr>
+			
+			<tr>
+                <td><strong>Bilangan Peserta:</strong> ' .$total_person . '</td>
             </tr>
         </table>
         <br/>
@@ -98,10 +105,9 @@ if ($result->num_rows > 0) {
             <thead>
                 <tr>
                     <th width="20%"><strong>Bil</strong></th>
-                    <th><strong>Nama Aktiviti</strong></th>
+                    <th><strong>Nama </strong></th>
                     <th><strong>Harga Semalaman</strong></th>
-                    <th><strong>Bilangan Peserta</strong></th>
-                    <th><strong>Bilangan Malam</strong></th>
+                    <th><strong>Bilangan Hari</strong></th>
                     <th><strong>Jumlah Harga</strong></th>
                 </tr>
             </thead>
@@ -110,7 +116,6 @@ if ($result->num_rows > 0) {
                     <td width="20%">1</td>
                     <td>' . htmlspecialchars($row['nama_aktiviti']) . '</td>
                     <td>RM ' . number_format($row['kadar_harga'], 2) . '</td>
-                    <td>' . $total_person . '</td>
                     <td>' . $bilangan_hari . '</td>
                     <td>RM ' . number_format($row['harga_keseluruhan'], 2) . '</td>
                 </tr>

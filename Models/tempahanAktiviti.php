@@ -4,6 +4,8 @@ require_once "tempahan.php";
 class AktivitiReservation extends Reservation
 {
     private $id_aktiviti;
+	private $id_dewan;
+	private $id_bilik;
 
     public function __construct(
         $id,
@@ -17,17 +19,32 @@ class AktivitiReservation extends Reservation
         $checkOutDate,
         $total_price,
         $payment_method,
-        $id_aktiviti
+        $id_aktiviti,
+		$id_dewan,
+		$id_bilik,
+		
     ) {
         parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax, $reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->id_aktiviti = $id_aktiviti;
+		$this->id_dewan = $id_dewan;
+		$this->id_bilik = $id_bilik;
     }
 
     public function getAktivitiId()
     {
         return $this->id_aktiviti;
     }
-
+	
+	public function getDewanId()
+    {
+        return $this->id_dewan;
+    }
+	
+	public function getBilikId()
+    {
+        return $this->id_bilik;
+    }
+	
     public function setName($name)
     {
         $this->cust_name = $name;
@@ -58,28 +75,28 @@ class AktivitiReservation extends Reservation
         tarikh_daftar_keluar, 
         harga_keseluruhan, 
         cara_bayar, 
-        id_dewan
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        id_aktiviti, 
+		id_dewan,
+		id_bilik
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
     
-    if ($stmt === false) {
-        throw new Exception("Failed to prepare statement: " . $conn->error);
-    }
-
-    $stmt->bind_param(
-        "ssssssssssi",
+	 $stmt->bind_param(
+        "ssssssssssiii",
         $this->bookingNumber,
         $this->cust_name,
         $this->phone_number,
-        $this->num_of_Pax,
         $this->email,
+        $this->num_of_Pax,
         $this->reservationDate,
         $this->checkInDate,
         $this->checkOutDate,
         $this->total_price,
         $this->payment_method,
-        $this->id_aktiviti
+        $this->id_aktiviti,
+		$this->id_dewan,
+		$this->id_bilik
     );
 
     if (!$stmt->execute()) {
@@ -88,9 +105,7 @@ class AktivitiReservation extends Reservation
     }
 
     $reservationId = $conn->insert_id;  // Retrieve the inserted record's ID
-
-    // Return the reservation ID to make sure the execution is finished before closing
-    $stmt->close();  // Only close the statement after execution and returning the result
+	$stmt->close();
     return $reservationId;
 }
 
@@ -138,7 +153,7 @@ function getKadarHarga($id_aktiviti)
         $row = $result->fetch_assoc();
         return $row['kadar_harga'];
     } else {
-        throw new Exception("Price for activity with ID $id_aktiviti not found.");
+        return null;
     }
 }
 
@@ -159,4 +174,50 @@ function getStatusAktiviti($id_aktiviti)
         return null;
     }
 }
+function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
+    $conn = DBConnection::getConnection(); // Database connection
+
+    $checkInDateObj = DateTime::createFromFormat('Y-m-d', $start_date);
+    $checkOutDateObj = DateTime::createFromFormat('Y-m-d', $end_date);
+    $formattedCheckInDate = $checkInDateObj->format('Y-m-d');
+    $formattedCheckOutDate = $checkOutDateObj->format('Y-m-d');
+
+    // Step 2: Count the number of rooms occupied in the given date range
+    $countQuery = "
+        SELECT COUNT(*) AS occupied_count 
+        FROM tempahan 
+        WHERE id_aktiviti = ? 
+        AND tarikh_daftar_masuk <= ? 
+        AND tarikh_daftar_keluar >= ?
+    ";
+    $countStmt = $conn->prepare($countQuery);
+    $countStmt->bind_param("iss", $id_aktiviti, $formattedCheckOutDate, $formattedCheckInDate);
+    $countStmt->execute();
+    $countResult = $countStmt->get_result();
+    $occupiedData = $countResult->fetch_assoc();
+    $occupiedCount = $occupiedData['occupied_count'];
+
+    // Return the occupied count (assuming that's the "available" count)
+    return max(0, $occupiedCount);
+}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the input fields
+        const checkInDate = document.getElementById('nd_booking_archive_form_date_range_from');
+        const checkOutDate = document.getElementById('nd_booking_archive_form_date_range_to');
+
+        // Add an event listener to validate on form submission
+        checkOutDate.addEventListener('blur', function () {
+            const checkInValue = new Date(checkInDate.value);
+            const checkOutValue = new Date(checkOutDate.value);
+
+            // Check if the dates are the same
+            if (checkInValue.getTime() === checkOutValue.getTime()) {
+                alert('Check-out date cannot be the same as check-in date. Please select a different date.');
+                checkOutDate.value = ''; // Clear the invalid date
+            }
+        });
+    });
+</script>
+
 ?>

@@ -339,25 +339,6 @@ session_start();
 											<p class="hotel-booking-form-1-label">JUMLAH BILIK:</p>
 											<input type="number" min="1" placeholder="Jumlah bilik akan dikira" name="num_of_rooms" id="num_of_rooms" value="" required readonly />
 										</div>
-										<div class="form-group">
-											<p class="hotel-booking-form-1-label">NAMA DEWAN:</p>
-											<select name="id_dewan" id="id_dewan" class="form-control" required>
-												<option value="" disabled selected>Pilih Dewan</option>
-												<?php
-												// Panggil data dari database
-												$sql = "SELECT id_dewan, nama_dewan FROM dewan";
-												$result = $conn->query($sql);
-
-												if ($result->num_rows > 0) {
-													while($row = $result->fetch_assoc()) {
-														echo "<option value='" . $row['id_dewan'] . "'>" . $row['nama_dewan'] . "</option>";
-													}
-												} else {
-													echo "<option value=''>Tidak ada dewan</option>";
-												}
-												?>
-											</select>
-										</div>
 
 
                                         </div>

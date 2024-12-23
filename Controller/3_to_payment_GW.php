@@ -98,51 +98,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		header("Location: $redirectUrl");
 		exit();
 	}	elseif ($_POST['submit'] == 'aktiviti') {
-		include_once '../Models/tempahanAktiviti.php';
-		include_once __DIR__ . '/../database/DBConnec.php';
+        include_once '../Models/tempahanAktiviti.php';
+        include_once __DIR__ . '/../database/DBConnec.php';
 
-		$conn = DBConnection::getConnection();
+        $conn = DBConnection::getConnection();
 
-		// Check if 'id_aktiviti' exists in the URL
-		if (isset($_GET['id_aktiviti']) && !empty($_GET['id_aktiviti'])) {
-			$id_aktiviti = htmlspecialchars($_GET['id_aktiviti']); // Ambil id_dewan dari URL
-		} else {
-			echo "Error: 'id_aktiviti' not found in the URL.";
-			exit();
-		}
+        if (isset($_GET['id_aktiviti']) && !empty($_GET['id_aktiviti'])) {
+            $id_aktiviti = htmlspecialchars($_GET['id_aktiviti']);
+        } else {
+            echo "Error: 'id_aktiviti' not found in the URL.";
+            exit();
+        }
 
-		// Generate booking number
-		$booking_number = generateBookingNumber($conn);
-		$_SESSION['booking_number'] = $booking_number; // Simpan booking_number ke dalam session
-		echo "Generated Booking Number: $booking_number";
+        // Generate booking number
+        $booking_number = generateBookingNumber($conn);
+        $_SESSION['booking_number'] = $booking_number;
+        echo "Generated Booking Number: $booking_number";
 
-		// Format the dates from session data
-		$tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
-		$tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
+        $tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
+        $tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
 
-		// Create the reservation object and insert it into the database
-		$tempahan = new AktivitiReservation(
-			null,
-			$booking_number,
-			$_SESSION['cust_name'],
-			$_SESSION['phone_number'],
-			$_SESSION['form-email'],
-			$_SESSION['total_person'],
-			$tarikh_tempahan,
-			$tarikhMasukSQL,
-			$tarikhKeluarSQL,
-			$_SESSION['total_price'],
-			$_POST['payment_method'],
-			$id_aktiviti // Gunakan id_aktiviti langsung dari URL
-		);
-		$tempahan->insertReservation();
+        $tempahan = new AktivitiReservation(
+            null,
+            $booking_number,
+            $_SESSION['cust_name'],
+            $_SESSION['phone_number'],
+            $_SESSION['form-email'],
+            $_SESSION['total_person'],
+            $tarikh_tempahan,
+            $tarikhMasukSQL,
+            $tarikhKeluarSQL,
+            $_SESSION['total_price'],
+            $_POST['payment_method'],
+            $id_aktiviti,
+			$_SESSION['id_dewan'],
+			$_SESSION['id_bilik']
+        );
 
-		// Redirect to success_aktiviti.php with the id_aktiviti parameter
-		$redirectUrl = "../success_aktiviti.php?id_aktiviti=" . $id_aktiviti;
+        try {
+            $tempahan->insertReservation();
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+            exit();
+        }
 
-		header("Location: $redirectUrl");
-		exit();
-	}
-	
-	
+        $redirectUrl = "../success_aktiviti.php?id_aktiviti=" . $id_aktiviti;
+        header("Location: $redirectUrl");
+        exit();
+    }
 }
+?>
