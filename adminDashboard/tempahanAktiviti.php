@@ -127,6 +127,7 @@ require_once __DIR__ . '/require/UserAUTH.php';
 														$tarikh_tempahan = $row['tarikh_tempahan'];
 														$nama_aktiviti = $row['nama_aktiviti'];
 														$harga_keseluruhan = $row['harga_keseluruhan'];
+														
 														?>
 														<tr>
 															<td class="all" style="width: 20px;">
@@ -180,11 +181,6 @@ require_once __DIR__ . '/require/UserAUTH.php';
 																				$bilangan_hari = $interval->days;
 																				?>
 																				<div class="mb-3">
-																					<label class="form-label">Bilangan Hari</label>
-																					<input type="text" class="form-control" value="<?php echo $bilangan_hari; ?>"
-																						readonly style="background-color: white;">
-																				</div>
-																				<div class="mb-3">
 																					<label class="form-label">Nombor Telefon</label>
 																					<input type="text" class="form-control"
 																						value="<?php echo $numbor_fon; ?>" readonly
@@ -196,12 +192,19 @@ require_once __DIR__ . '/require/UserAUTH.php';
 																						readonly style="background-color: white;">
 																				</div>
 																				<div class="mb-3">
+																					<label class="form-label">Bilangan Hari</label>
+																					<input type="text" class="form-control" value="<?php echo $bilangan_hari; ?>"
+																						readonly style="background-color: white;">
+																				</div>
+																				<div class="mb-3">
 																					<label class="form-label">Cara pembayaran</label>
 																					<input type="text" class="form-control"
 																						value="<?php echo $cara_bayar; ?>" readonly
 																						style="background-color: white;">
 																				</div>
 																			</div>
+																			
+																			
 																			<div class="col-md-6 ps-2 pe-5">
 																				<div class="mb-3">
 																					<label class="form-label">Tarikh dan masa tempahan</label>

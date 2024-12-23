@@ -100,12 +100,13 @@ if ($result->num_rows > 0) {
             </tr>
         </table>
         <br/>
+
         <h3>Butiran Tempahan</h3>
-        <table border="1" cellpadding="5" cellspacing="0">
+        <table border="1" cellpadding="3" cellspacing="0">
             <thead>
                 <tr>
-                    <th width="20%"><strong>Bil</strong></th>
-                    <th><strong>Nama </strong></th>
+                    <th width="10%"><strong>Bil</strong></th>
+                    <th><strong>Nama Aktiviti</strong></th>
                     <th><strong>Harga Semalaman</strong></th>
                     <th><strong>Bilangan Hari</strong></th>
                     <th><strong>Jumlah Harga</strong></th>
@@ -113,7 +114,7 @@ if ($result->num_rows > 0) {
             </thead>
             <tbody>
                 <tr>
-                    <td width="20%">1</td>
+                    <td width="10%">1</td>
                     <td>' . htmlspecialchars($row['nama_aktiviti']) . '</td>
                     <td>RM ' . number_format($row['kadar_harga'], 2) . '</td>
                     <td>' . $bilangan_hari . '</td>

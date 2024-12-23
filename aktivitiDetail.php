@@ -3,6 +3,7 @@
 include 'database/DBConnec.php';
 
 session_start();
+
 ?>
 
 <!DOCTYPE html>
@@ -244,7 +245,7 @@ session_start();
                         <div class="single-post">
                            <h2 class="mb_10"><?php echo $nama_aktiviti; ?></h2>
 								<span class="section_heading_title_small" style="font-size: 25px;" >Kadar Sewa
-									RM<?php echo htmlspecialchars(number_format($kadar_harga, 2)); ?>/seorang/sehari</span>	
+									RM<?php echo htmlspecialchars(number_format($kadar_harga, 2)); ?></span>	
 								<p class="mb_20"><?php echo htmlspecialchars($penerangan); ?></p>
 
                             <div id="imageCarousel" class="carousel slide mb_60" data-bs-ride="carousel">
@@ -319,35 +320,69 @@ session_start();
                             <div class="booking-form-3">
 
                                 <form class="hotel-booking-form-1-form d-block"
-                                    action="Controller/1_aktiviti.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"
-                                    method="POST">
-                                    <div class="form-group">
-                                        <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-                                        <input type="text" placeholder="dd/mm/yyyy" name="checkInDate"
-                                            id="nd_booking_archive_form_date_range_from" value="" />
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-                                        <input type="text" placeholder="dd/mm/yyyy" name="checkOutDate"
-                                            id="nd_booking_archive_form_date_range_to" value="" />
-                                    </div>                                
-										<div class="form-group">
-											<p class="hotel-booking-form-1-label">BILANGAN PESERTA:</p>
-											<input type="number" min=1 placeholder="Masukkan jumlah peserta" name="num_of_person" id="nd_booking_archive_form_participants_count" value="" required />
-										</div>
-										<div class="form-group">
-											<p class="hotel-booking-form-1-label">JUMLAH BILIK:</p>
-											<input type="number" min="1" placeholder="Jumlah bilik akan dikira" name="num_of_rooms" id="num_of_rooms" value="" required readonly />
-										</div>
+								action="Controller/1_aktiviti.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"
+								method="POST" onsubmit="return validateBooking();">
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
+									<input type="text" placeholder="dd/mm/yyyy" name="checkInDate" id="nd_booking_archive_form_date_range_from" value="" />
+								</div>
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
+									<input type="text" placeholder="dd/mm/yyyy" name="checkOutDate" id="nd_booking_archive_form_date_range_to" value="" />
+								</div>
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">BILANGAN PESERTA:</p>
+									<input type="number" min="1" placeholder="Masukkan jumlah peserta" name="num_of_person"
+										id="nd_booking_archive_form_participants_count" value="" required onchange="updateRooms();" />
+								</div>
 
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">JUMLAH BILIK:</p>
+									<input type="number" min="1" placeholder="Jumlah bilik akan dikira" name="num_of_rooms" id="num_of_rooms" value="" required readonly />
+								</div>
 
-                                        </div>
-										<div class="form-group">
-											<div class="form-group mb-3">
-												<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
-												<input type="hidden" name="process" value="aktiviti">
-											</div>
-									</form>
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">NAMA BILIK:</p>
+									<?php 
+									// Query untuk mendapatkan data bilik berdasarkan kapasitas maksimum
+									$query = "SELECT nama_bilik, max_capacity FROM bilik WHERE id_bilik = 1";
+									$result = $conn->query($query);
+
+									if ($result && $result->num_rows > 0) {
+										$row = $result->fetch_assoc();
+										$nama_bilik = $row['nama_bilik'];
+										$max_capacity = $row['max_capacity'];
+									} else {
+										$nama_bilik = "Tidak dapat memaparkan nama bilik.";
+										$max_capacity = 0;
+									}
+									?>
+									<input type="text" id="nama_bilik" placeholder="Nama bilik akan dipaparkan" readonly value="<?php echo htmlspecialchars($nama_bilik); ?>" />
+								</div>
+
+								<div class="form-group">
+									<p class="hotel-booking-form-1-label">NAMA DEWAN:</p>
+									<?php 
+									$query = "SELECT nama_dewan FROM dewan WHERE id_dewan = 16";
+									$result = $conn->query($query);
+
+									if ($result && $result->num_rows > 0) {
+										$row = $result->fetch_assoc();
+										$nama_dewan = $row['nama_dewan'];
+									} else {
+										$nama_dewan = "Tidak dapat memaparkan nama dewan.";
+									}
+									?>
+									<input type="text" id="nama_dewan" placeholder="Nama Dewan akan dipaparkan" readonly value="<?php echo htmlspecialchars($nama_dewan); ?>" />
+								</div>
+
+								<div class="form-group">
+								<div class="form-group mb-3">
+									<button type="submit" class="btn-1" id="bookingButton" disabled>Buat Tempahan<span></span></button>
+									<input type="hidden" name="process" value="aktiviti">
+								</div>
+							</div>
+							</form>
 								</div>
 							</div>
 						</div>
@@ -435,6 +470,74 @@ session_start();
 	<script src="assets/js/booking-form.js"></script>
 	<script src="assets/js/odometer.min.js"></script>
 	<script src="assets/js/script.js"></script>
+	
+	<script>
+// Fungsi untuk mengupdate jumlah bilik dan memeriksa ketersediaan bilik
+function updateRooms() {
+    const participantsCount = document.getElementById('nd_booking_archive_form_participants_count').value;
+    const roomsCountInput = document.getElementById('num_of_rooms');
+    const maxCapacity = <?php echo $max_capacity; ?>;
+    const bookingButton = document.getElementById('bookingButton'); // Tombol buat tempahan
+
+    if (participantsCount && maxCapacity) {
+        // Hitung jumlah bilik (2 peserta per bilik)
+        const requiredRooms = Math.ceil(participantsCount / 2);
+
+        // Periksa ketersediaan bilik
+        if (requiredRooms <= maxCapacity) {
+            roomsCountInput.value = requiredRooms;
+
+            // Enable button if room count is sufficient
+            bookingButton.disabled = false; 
+        } else {
+            alert(`Maaf, hanya ${maxCapacity} bilik yang tersedia.`);
+            roomsCountInput.value = maxCapacity;
+
+            // Disable button if room count exceeds available capacity
+            bookingButton.disabled = true;
+        }
+    }
+}
+
+// Fungsi untuk validasi tempahan sebelum dihantar
+function validateBooking() {
+    const participantsCount = document.getElementById('nd_booking_archive_form_participants_count').value;
+    const roomsCount = document.getElementById('num_of_rooms').value;
+    const maxCapacity = <?php echo $max_capacity; ?>;
+
+    // Jika jumlah bilik tidak mencukupi
+    if (roomsCount > maxCapacity) {
+        alert('Maaf, jumlah bilik tidak mencukupi.');
+        return false; // Menghalang form dari dihantar
+    }
+
+    return true; // Teruskan penghantaran form
+}
+</script>
+	<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const idDewan = "<?= isset($_POST['id_dewan']) ? $_POST['id_dewan'] : ''; ?>";
+        
+        if (idDewan) {
+            fetch('get_nama_dewan.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id_dewan: idDewan }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.nama_dewan) {
+                        document.getElementById('nama_dewan').value = data.nama_dewan;
+                    } else {
+                        console.error('No results found for the given ID.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+	</script>
 
 	<script>
 		// Set today's date as the minimum date
@@ -468,84 +571,6 @@ session_start();
 			}, 1000);
 		});
 	</script>
-
-	<script>
-		document.getElementById('participants_count').addEventListener('input', function() {
-			var participants = parseInt(this.value, 10); // Get the number of participants
-			var hallSelect = document.getElementById('hall_select'); // Get the hall dropdown
-
-			if (participants > 0) {
-				var rooms = Math.ceil(participants / 2); // Calculate rooms (rounding up for odd numbers)
-				document.getElementById('rooms_count').value = rooms; // Set the calculated rooms in the "jumlah bilik" input field
-
-				// Auto-select hall based on number of participants
-				if (participants <= 100) {
-					hallSelect.value = 'dewan_jubli';
-				} else if (participants <= 200) {
-					hallSelect.value = 'dewan_fiber';
-				} else if (participants <= 500) {
-					hallSelect.value = 'dewan_kuliah_kenaf';
-				} else {
-					// If participants exceed 500, set a default value or show an alert
-					hallSelect.value = '';
-					alert("Jumlah peserta melebihi kapasiti dewan yang tersedia.");
-				}
-			} else {
-				document.getElementById('rooms_count').value = ''; // Clear the rooms field if no participants
-				hallSelect.value = ''; // Clear the hall selection
-			}
-		});
-	</script>
-	<script>
-    // Function to fetch dewan options from the PHP script
-    function fetchDewanOptions() {
-        // Create an XMLHttpRequest (AJAX) object
-        var xhr = new XMLHttpRequest();
-        
-        // Set up the request (GET method to the PHP script)
-        xhr.open('GET', 'get_dewan.php', true);
-
-        // Define what happens when the request is successful
-        xhr.onload = function() {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                // Parse the JSON response
-                var dewanOptions = JSON.parse(xhr.responseText);
-                
-                // Get the select element for dewan
-                var selectElement = document.getElementById('id_dewan');
-                
-                // Clear any existing options in the select element
-                selectElement.innerHTML = '<option value="" disabled selected>Pilih Dewan</option>';
-                
-                // Loop through the dewan options and add them to the dropdown
-                dewanOptions.forEach(function(dewan) {
-                    var option = document.createElement('option');
-                    option.value = dewan.id_dewan;
-                    option.textContent = dewan.nama_dewan;
-                    selectElement.appendChild(option);
-                });
-            } else {
-                // Handle errors if the request failed
-                console.error('Failed to fetch dewan options:', xhr.statusText);
-            }
-        };
-
-        // Define what happens in case of error with the request
-        xhr.onerror = function() {
-            console.error('Request failed');
-        };
-
-        // Send the request
-        xhr.send();
-    }
-
-    // Call the function to fetch dewan options when the page loads
-    window.onload = function() {
-        fetchDewanOptions();
-    };
-</script>
-
-
 </body>
 
 </html>
