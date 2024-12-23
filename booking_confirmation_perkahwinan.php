@@ -86,8 +86,12 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                     <div class="widget mb_40 gray-bg p_40" style="padding-top: 10px;">
                         <u><h4 class="mb_20">Pengesahan Tempahan</h4></u>
                             <p><strong>Nama Dewan:</strong> <?php echo htmlspecialchars($_SESSION['nama_dewan']); ?></p>
+
                             <p><strong>Tarikh Kenduri:</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri']); ?></p>
-                            <p><strong>Tarikh Akhir Kenduri :</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri_end']); ?></p>
+                            <?php if ($_SESSION['num_of_days'] > 1): ?>
+                                <p><strong>Tarikh Akhir Kenduri :</strong> <?php echo htmlspecialchars($_SESSION['tarikh_kenduri_end']); ?></p>
+                            <?php endif; ?>
+
                             <p><strong>Bilangan Pax:</strong> <?php echo htmlspecialchars($_SESSION['kapasiti']); ?></p>
                             <?php
                             if (isset($_SESSION['addons']) && is_array($_SESSION['addons']) && count($_SESSION['addons']) > 0) {
@@ -140,7 +144,6 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" name="price" value ="<?php echo $price ?>">
                             <input type="hidden" name="process" value ="kahwin">
                             
                             <div class="form-group mb-0 text-end">

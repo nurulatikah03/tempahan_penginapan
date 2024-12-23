@@ -80,7 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit']) && isset($_S
         $imgAdd = $_POST['gambaradd'];
 
         try {
-            Room::delRoomById($roomId);
+            if(!Room::delRoomById($roomId)) {
+                throw new Exception('Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.');
+            }
         } catch (Exception $e) {
             $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.';
             header("Location: ../penginapan.php");

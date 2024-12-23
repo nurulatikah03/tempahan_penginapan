@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../database/DBConnec.php';
+require_once __DIR__ . '/../database/DBConnec.php';
 
 class Aktiviti
 {

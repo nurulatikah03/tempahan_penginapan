@@ -67,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['nama_pekej'] = $_POST['nama_pekej'];
         $_SESSION['tarikh_kenduri'] = $_POST['tarikh_kenduri'];
         $_SESSION['tarikh_kenduri_end'] = $_POST['tarikh_kenduri_end'];
+        $_SESSION['num_of_days'] = (strtotime(str_replace('/', '-', $_POST['tarikh_kenduri_end'])) - strtotime(str_replace('/', '-', $_POST['tarikh_kenduri']))) / (60 * 60 * 24) ;
         $_SESSION['addons'] = $addons;
         $_SESSION['kapasiti'] = $_POST['kapasiti'];
         $_SESSION['nama_dewan'] = $_POST['nama_dewan'];

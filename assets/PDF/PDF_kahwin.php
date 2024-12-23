@@ -1,13 +1,18 @@
 <?php
 require_once('../inc\TCPDF\tcpdf.php');
-include_once '../../Models/tempahanPerkahwinan.php';
-include_once '../../Models/pekejPerkahwinan.php';
+require_once '../../Models/tempahanPerkahwinan.php';
+require_once '../../Models/pekejPerkahwinan.php';
 session_start();
-if (!isset($_SESSION['booking_number'])) {
-    header('Location: ../../index.php');
-    exit;
+if (isset($_SESSION['username'])) {
+    $nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 }
-$nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $_SESSION['booking_number'];
+elseif(isset($_SESSION['booking_number'])){
+    $nomborTempahan =  $_SESSION['booking_number'];
+}
+else {
+    header("Location: ../../index.php");
+    exit();
+}
 $booking = WeddingReservation::getWedReservationByBookingId($nomborTempahan);
 $package = PekejPerkahwinan::getPekejPerkahwinanById($booking->getWeddingId());
 $addons = WeddingReservation::getAddOnsByReservationId($booking->getId());

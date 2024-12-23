@@ -103,6 +103,16 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                             <?php echo $_SESSION['tarikh_kenduri'] ?>
                         </div>
                     </div>
+                    <?php if ($_SESSION['num_of_days'] > 1): ?>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Tarikh kenduri Terakhir:</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php echo $_SESSION['tarikh_kenduri_end'] ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                     <div class="row mb-3">
                         <div class="col-sm-4">
                             <strong>Nama penuh:</strong>
@@ -141,12 +151,15 @@ if (!isset($_SESSION['id_perkahwinan'])) {
                         </div>
                         <div class="col-sm-8">
                             <?php
-                            if (isset($_SESSION['addons']) && is_array($_SESSION['addons'])) {
+                            if (!empty($_SESSION['addons']) && isset($_SESSION['addons']) && is_array($_SESSION['addons'])) {
                                 echo "<ul>";
                                 foreach ($_SESSION['addons'] as $addon) {
                                     echo "<li>" . htmlspecialchars($addon['name']) . " x " . htmlspecialchars($addon['quantity']) . "</li>";
                                 }
                                 echo "</ul>";
+                            }
+                            else {
+                                echo "Tiada add-ons";
                             }
                             ?>
                         </div>

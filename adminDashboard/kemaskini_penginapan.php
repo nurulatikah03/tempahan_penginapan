@@ -200,8 +200,15 @@ try {
 							</div>
 							<?php
 							if (isset($_SESSION['status'])) {
-								echo '<div class="alert alert-success" role="alert">' . $_SESSION['status'] . '.</div>';
+								echo '<div class="alert alert-success alert-dismissible fade show" role="alert">' . $_SESSION['status'];
+								echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+								echo '</div>';
 								unset($_SESSION['status']);
+							} elseif (isset($_SESSION['error'])) {
+								echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">' . $_SESSION['error'];
+								echo '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+								echo '</div>';
+								unset($_SESSION['error']);
 							}
 							?>
 						</div>

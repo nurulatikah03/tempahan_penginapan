@@ -3,7 +3,16 @@ require_once('..\inc\TCPDF\tcpdf.php');
 include_once '../../Models/tempahanBilik.php';
 include_once '../../Models/room.php';
 session_start();
-$nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS) ?: $_SESSION['booking_number'];
+if (isset($_SESSION['username'])) {
+    $nomborTempahan = filter_input(INPUT_GET, 'viewInvoice', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+}
+elseif(isset($_SESSION['booking_number'])){
+    $nomborTempahan =  $_SESSION['booking_number'];
+}
+else {
+    header("Location: ../../index.php");
+    exit();
+}
 $booking = RoomReservation::getReservationByBookId($nomborTempahan);
 $room = Room::getRoomById($booking->getRoomId());
 

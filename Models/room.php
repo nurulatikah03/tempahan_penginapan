@@ -346,12 +346,50 @@ class Room
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "DELETE FROM bilik WHERE id_bilik = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $roomId);
-        $stmt->execute();
+        try {
+            // Start transaction
+            $conn->begin_transaction();
 
-        $stmt->close();
+            // Check for existing reservations
+            $sql = "SELECT COUNT(*) as count FROM tempahan t 
+                   INNER JOIN bilik b ON t.id_bilik = b.id_bilik 
+                   WHERE b.id_bilik = ?;";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $roomId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+
+            if ($row['count'] > 0) {
+                throw new Exception("Cannot delete room - active reservations exist");
+            }
+
+            // Delete dependencies in correct order
+            Room::delImgByRoomId($roomId);
+            Room::delAmenByRoomId($roomId);
+            
+            // Delete room units
+            $sql = "DELETE FROM unit_bilik WHERE id_bilik = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $roomId);
+            $stmt->execute();
+
+            // Delete the room
+            $sql = "DELETE FROM bilik WHERE id_bilik = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $roomId);
+            $stmt->execute();
+
+            // Commit transaction
+            $conn->commit();
+
+        } catch (Exception $e) {
+            // Rollback on error
+            $conn->rollback();
+            throw $e;
+        } finally {
+            $stmt->close();
+        }
     }
 
 
@@ -533,10 +571,9 @@ class Room
             $stmt->close();
 
             if (!empty($tarikh_aktif_semula) && $status === 'penyelenggaraan') {
-                // Create a unique event name based on the room ID
                 $eventName = "set_status_bilik_aktif_" . $UB_ID;
 
-                // Drop the existing event if it already exists
+                // Drop if exist
                 $dropEventSql = "DROP EVENT IF EXISTS $eventName";
                 $conn->query($dropEventSql);
 

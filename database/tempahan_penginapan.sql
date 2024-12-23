@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2024 at 09:03 AM
+-- Generation Time: Dec 23, 2024 at 09:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -143,7 +143,8 @@ CREATE TABLE `bilik` (
 INSERT INTO `bilik` (`id_bilik`, `nama_bilik`, `kapasiti`, `jenis_bilik`, `harga_semalaman`, `huraian_kemudahan`, `huraian_pendek`, `huraian`, `max_capacity`, `id_admin`) VALUES
 (1, 'Bilik biasabiasa', 2, 'Room', 68, 'Datang Dgn tab mandi. dan wifi percuma', 'Sesuai untuk 2 orang. Disediakan dengan penghawa dingin.', 'Bilik yang selesa dan terang ini kini tersedia untuk disewa di kawasan kejiranan yang aman. Sesuai untuk individu bujang atau pelajar, bilik ini menawarkan katil yang selesa, cahaya semula jadi yang mencukupi, almari pakaian terbina dalam, dan akses ke kemudahan bilik mandi dan dapur bersama. Sewa termasuk utiliti asas dan lokasinya berada di kawasan yang tenang dan selamat.', 5, 0),
 (2, 'Bilik VIP', 3, 'Suite', 150, '[Ubah huraian kemudahan bilik VIP dalam database]', 'Disediakan dengan 2 katil super single and televisyen.', 'Bilik VIP yang mewah dan luas ini terletak di kawasan kejiranan berprestij. Sesuai untuk mereka yang mencari pengalaman hidup mewah, bilik ini menawarkan katil bersaiz king, bilik mandi peribadi dengan kelengkapan berkualiti tinggi, pemandangan panorama dari balkoni peribadi, dapur kecil yang lengkap dengan peralatan moden, akses ke kemudahan eksklusif seperti kolam renang, gimnasium, dan keselamatan 24 jam, serta lokasi utama dengan akses mudah ke pengangkutan dan kemudahan lain.', 2, NULL),
-(3, 'Home Stay INSKET', 8, 'Homestay', 200, '[Ubah huraian kemudahan homestay dalam database]', 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 2, NULL);
+(3, 'Home Stay INSKET', 8, 'Homestay', 200, '[Ubah huraian kemudahan homestay dalam database]', 'Sesuai untuk keluarga besar dan mempuyai ruang letak kereta.', 'Homestay yang selesa dan mesra ini menawarkan pengalaman penginapan yang unik dan berpatutan. Terletak di kawasan yang tenang, homestay ini menyediakan bilik-bilik yang bersih dan kemas, serta kemudahan asas seperti dapur, bilik mandi, dan ruang tamu bersama. Nikmati suasana seperti berada di rumah sendiri, sambil berinteraksi dengan tuan rumah yang ramah dan membantu.', 2, NULL),
+(31, 'Red Room', 1, '1', 1, '1', '1', '1', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -172,7 +173,8 @@ INSERT INTO `bilik_kemudahan` (`id_bilik_kemudahan`, `id_bilik`, `id_kemudahan`)
 (115, 2, 5),
 (116, 3, 1),
 (117, 3, 5),
-(118, 3, 11);
+(118, 3, 11),
+(119, 31, 7);
 
 -- --------------------------------------------------------
 
@@ -190,8 +192,8 @@ CREATE TABLE `dewan` (
   `penerangan_kemudahan` varchar(250) DEFAULT NULL,
   `status_dewan` enum('Tersedia','Tidak Tersedia') DEFAULT NULL,
   `max_capacity` int(11) DEFAULT NULL,
-  `mula_tidak_tersedia` int(11) DEFAULT NULL,
-  `tamat_tidak_tersedia` int(11) DEFAULT NULL
+  `mula_tidak_tersedia` datetime DEFAULT NULL,
+  `tamat_tidak_tersedia` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -387,7 +389,9 @@ INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_
 (156, 'ROOM-241219-961', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-19 15:04:14', '2024-12-19', '2024-12-20', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
 (157, 'ROOM-241222-694', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 09:26:26', '1970-01-01', '1970-01-01', 0, 'FPX', NULL, 2, NULL, NULL, NULL),
 (158, 'ROOM-241222-208', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-22 09:43:28', '2024-12-22', '2024-12-23', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
-(159, 'ROOM-241222-106', 'AN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 15:50:48', '2024-12-24', '2024-12-25', 300, 'FPX', NULL, 2, NULL, NULL, NULL);
+(159, 'ROOM-241222-106', 'AN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 15:50:48', '2024-12-24', '2024-12-25', 300, 'FPX', NULL, 2, NULL, NULL, NULL),
+(163, 'ROOM-241223-833', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-23 11:55:38', '2024-12-24', '2024-12-25', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
+(165, 'ROOM-241223-205', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-23 16:33:23', '2024-12-23', '2024-12-24', 1, 'FPX', NULL, 31, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -429,7 +433,7 @@ CREATE TABLE `unit_bilik` (
 --
 
 INSERT INTO `unit_bilik` (`id_ub`, `nombor_bilik`, `aras`, `status_bilik`, `tarikh_aktif_semula`, `id_bilik`) VALUES
-(19, 'BB001', 2, 'penyelenggaraan', '2024-12-23', 1),
+(19, 'BB001', 2, 'aktif', NULL, 1),
 (20, 'BB002', 3, 'aktif', '0000-00-00', 1),
 (21, 'BB003', 2, 'aktif', '0000-00-00', 1),
 (22, 'BB004', 2, 'aktif', '0000-00-00', 1),
@@ -437,7 +441,8 @@ INSERT INTO `unit_bilik` (`id_ub`, `nombor_bilik`, `aras`, `status_bilik`, `tari
 (25, 'Home001', 1, 'aktif', '0000-00-00', 3),
 (33, 'Homestay 2', 1, 'aktif', '0000-00-00', 3),
 (37, '1', 1, 'aktif', '0000-00-00', 2),
-(38, 'test', 3, 'aktif', NULL, 2);
+(38, 'test', 3, 'aktif', '0000-00-00', 2),
+(40, '1', 1, 'aktif', NULL, 31);
 
 -- --------------------------------------------------------
 
@@ -485,7 +490,10 @@ INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`,
 (158, 'add', 'assets/images/resource/1734403893_0_dewan_kuliah1.jpg', NULL, NULL, 18, NULL),
 (179, 'add', 'assets/images/resource/99.jpg', 2, NULL, NULL, NULL),
 (187, 'add', 'assets/images/resource/FJIV3174.JPG', NULL, 22, NULL, NULL),
-(188, 'add', 'assets/images/resource/FVQU1460.JPG', NULL, 22, NULL, NULL);
+(188, 'add', 'assets/images/resource/FVQU1460.JPG', NULL, 22, NULL, NULL),
+(189, 'main', 'assets/images/resource/pngtree-simple-ketupat-kartun-cartoon-vector-illustration-png-image_4526275.png', 31, NULL, NULL, NULL),
+(190, 'banner', 'assets/images/background/png-clipart-ketupat.png', 31, NULL, NULL, NULL),
+(191, 'add', 'assets/images/resource/poster raya 2.jpg', 31, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -662,13 +670,13 @@ ALTER TABLE `aktiviti_pic`
 -- AUTO_INCREMENT for table `bilik`
 --
 ALTER TABLE `bilik`
-  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_bilik` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `bilik_kemudahan`
 --
 ALTER TABLE `bilik_kemudahan`
-  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `id_bilik_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `dewan`
@@ -710,7 +718,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
@@ -722,13 +730,13 @@ ALTER TABLE `tempahan_perkahwinan_addons`
 -- AUTO_INCREMENT for table `unit_bilik`
 --
 ALTER TABLE `unit_bilik`
-  MODIFY `id_ub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_ub` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `url_gambar`
 --
 ALTER TABLE `url_gambar`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -779,16 +787,6 @@ ALTER TABLE `unit_bilik`
 ALTER TABLE `url_gambar`
   ADD CONSTRAINT `url_gambar_ibfk_1` FOREIGN KEY (`id_bilik`) REFERENCES `bilik` (`id_bilik`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `url_gambar_ibfk_2` FOREIGN KEY (`id_perkahwinan`) REFERENCES `perkahwinan` (`id_perkahwinan`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-DELIMITER $$
---
--- Events
---
-CREATE DEFINER=`root`@`localhost` EVENT `set_status_bilik_aktif_19` ON SCHEDULE AT '2024-12-23 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE unit_bilik
-                    SET status_bilik = 'aktif', tarikh_aktif_semula = NULL
-                    WHERE id_ub = 19$$
-
-DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

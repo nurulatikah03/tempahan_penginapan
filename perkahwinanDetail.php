@@ -610,15 +610,6 @@ session_start(); ?>
     <script src="assets/js/odometer.min.js"></script>
     <script src="assets/js/script.js"></script>
 
-
-
-    <script>
-        window.addEventListener("load", function() {
-            setTimeout(function() {
-                document.querySelector(".js-preloader").classList.add("loaded");
-            }, 1000);
-        });
-    </script>
 </body>
 
 </html>
