@@ -201,12 +201,28 @@ session_start();
                             <?php echo $_SESSION["total_person"] ?> Peserta
                         </div>
                     </div>
+					<div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Nama Bilik</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php echo $_SESSION["nama_bilik"] ?>
+                        </div>
+                    </div>
+					<div class="row mb-3">
+                        <div class="col-sm-4">
+                            <strong>Nama Dewan</strong>
+                        </div>
+                        <div class="col-sm-8">
+                            <?php echo $_SESSION["nama_dewan"] ?> 
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col-sm-4">
                             <strong>Jumlah Harga:</strong>
                         </div>
                         <div class="col-sm-8">
-                            RM<?php echo $_SESSION["total_price"] ?>
+                            RM <?php echo $_SESSION["total_price"] ?>
                         </div>
                     </div>
                 </div>

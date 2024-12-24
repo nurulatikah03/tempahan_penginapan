@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2024 at 09:37 AM
+-- Generation Time: Dec 23, 2024 at 07:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,8 +63,8 @@ CREATE TABLE `aktiviti` (
 --
 
 INSERT INTO `aktiviti` (`id_aktiviti`, `nama_aktiviti`, `kadar_harga`, `penerangan_kemudahan`, `penerangan`, `status_aktiviti`) VALUES
-(22, 'Pakej Teambuilding', 99.00, 'Kemudahan dalam pakej teambuilding biasanya dirancang untuk memberikan pengalaman yang menyeluruh, menyeronokkan, dan bermakna kepada peserta.', 'Pakej teambuilding adalah program atau perkhidmatan yang dirancang untuk meningkatkan kerjasama, komunikasi, dan hubungan antara ahli kumpulan, organisasi, atau pasukan. Aktiviti teambuilding sering kali melibatkan pelbagai aktiviti interaktif, permainan, dan latihan yang bertujuan untuk memperkukuhkan semangat kerja berpasukan dan menggalakkan pencapaian matlamat bersama.', 'Tersedia'),
-(23, 'Pakej Kem Pelajar', 55.00, 'Kemudahan dalam pakej kem pelajar biasanya merangkumi beberapa elemen yang bertujuan untuk memberikan pengalaman pembelajaran yang bermakna serta menyeronokkan. Kemudahan-kemudahan ini direka untuk memastikan para pelajar dapat menikmati pengalaman yang seimbang antara pembelajaran, rekreasi, dan pembangunan diri dalam suasana yang selamat dan kondusif.', 'Kem pelajar adalah program intensif yang bertujuan untuk mengembangkan potensi pelajar melalui aktiviti yang menyeronokkan, mencabar, dan bermakna. Kem ini biasanya diadakan di lokasi yang jauh dari persekitaran sekolah biasa, seperti kawasan semula jadi, pusat latihan, atau resort, dengan tujuan memberikan suasana baru yang merangsang pembelajaran dan perkembangan diri.', 'Tersedia');
+(26, 'Pakej Kem Pelajar', 55.00, 'Kemudahan dalam pakej kem pelajar biasanya merangkumi beberapa elemen yang bertujuan untuk memberikan pengalaman pembelajaran yang bermakna serta menyeronokkan. Kemudahan-kemudahan ini direka untuk memastikan para pelajar dapat menikmati pengalaman yang seimbang antara pembelajaran, rekreasi, dan pembangunan diri dalam suasana yang selamat dan kondusif.', 'Kem pelajar adalah program intensif yang bertujuan untuk mengembangkan potensi pelajar melalui aktiviti yang menyeronokkan, mencabar, dan bermakna. Kem ini biasanya diadakan di lokasi yang jauh dari persekitaran sekolah biasa, seperti kawasan semula jadi, pusat latihan, atau resort, dengan tujuan memberikan suasana baru yang merangsang pembelajaran dan perkembangan diri.', 'Tersedia'),
+(27, 'Pakej Teambuilding', 99.00, 'Kemudahan dalam pakej teambuilding biasanya dirancang untuk memberikan pengalaman yang menyeluruh, menyeronokkan, dan bermakna kepada peserta.', 'Pakej teambuilding adalah program atau perkhidmatan yang dirancang untuk meningkatkan kerjasama, komunikasi, dan hubungan antara ahli kumpulan, organisasi, atau pasukan. Aktiviti teambuilding sering kali melibatkan pelbagai aktiviti interaktif, permainan, dan latihan yang bertujuan untuk memperkukuhkan semangat kerja berpasukan dan menggalakkan pencapaian matlamat bersama.', 'Tersedia');
 
 -- --------------------------------------------------------
 
@@ -90,7 +90,14 @@ INSERT INTO `aktiviti_kemudahan` (`id_aktiviti_kemudahan`, `id_aktiviti`, `id_ke
 (56, 23, 2),
 (57, 23, 4),
 (58, 23, 5),
-(59, 23, 7);
+(59, 23, 7),
+(65, 27, 1),
+(66, 27, 3),
+(67, 27, 5),
+(68, 27, 7),
+(75, 26, 1),
+(76, 26, 5),
+(77, 26, 7);
 
 -- --------------------------------------------------------
 
@@ -391,7 +398,9 @@ INSERT INTO `tempahan` (`id_tempahan`, `nombor_tempahan`, `nama_penuh`, `numbor_
 (158, 'ROOM-241222-208', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-22 09:43:28', '2024-12-22', '2024-12-23', 150, 'FPX', NULL, 2, NULL, NULL, NULL),
 (159, 'ROOM-241222-106', 'AN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 2, '2024-12-22 15:50:48', '2024-12-24', '2024-12-25', 300, 'FPX', NULL, 2, NULL, NULL, NULL),
 (163, 'ROOM-241223-833', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-23 11:55:38', '2024-12-24', '2024-12-25', 200, 'FPX', NULL, 3, NULL, NULL, NULL),
-(165, 'ROOM-241223-205', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-23 16:33:23', '2024-12-23', '2024-12-24', 1, 'FPX', NULL, 31, NULL, NULL, NULL);
+(165, 'ROOM-241223-205', 'WAN MUHAMMAD NAQIB ZAFRAN WAN ROSLAN', '0184028240', 'wannaqib01@gmail.com', 1, '2024-12-23 16:33:23', '2024-12-23', '2024-12-24', 1, 'FPX', NULL, 31, NULL, NULL, NULL),
+(166, 'AKTIVITI-241224-729', 'NIK NADIA', '0189042908', 'ndiantsya92@gmail.com', 5, '2024-12-24 02:34:38', '2024-12-24', '2024-12-25', 275, 'FPX', NULL, NULL, 0, NULL, 26),
+(167, 'AKTIVITI-241224-098', 'NATASYA', '0189042908', 'tasya@gmail.com', 9, '2024-12-24 02:35:36', '2024-12-28', '2024-12-29', 495, 'FPX', NULL, NULL, 0, NULL, 26);
 
 -- --------------------------------------------------------
 
@@ -493,7 +502,13 @@ INSERT INTO `url_gambar` (`id_gambar`, `jenis_gambar`, `url_gambar`, `id_bilik`,
 (188, 'add', 'assets/images/resource/FVQU1460.JPG', NULL, 22, NULL, NULL),
 (189, 'main', 'assets/images/resource/pngtree-simple-ketupat-kartun-cartoon-vector-illustration-png-image_4526275.png', 31, NULL, NULL, NULL),
 (190, 'banner', 'assets/images/background/png-clipart-ketupat.png', 31, NULL, NULL, NULL),
-(191, 'add', 'assets/images/resource/poster raya 2.jpg', 31, NULL, NULL, NULL);
+(191, 'add', 'assets/images/resource/poster raya 2.jpg', 31, NULL, NULL, NULL),
+(192, 'main', 'assets/images/resource/6769a99943ea1.jpg', NULL, NULL, NULL, 26),
+(193, 'banner', 'assets/images/background/1734977863_kemPelajar2.jpg', NULL, NULL, NULL, 26),
+(194, 'add', 'assets/images/resource/1734977863_0_kemPelajar3.jpg', NULL, NULL, NULL, 26),
+(195, 'main', 'assets/images/resource/1734977908_teamBuilding1.jpg', NULL, NULL, NULL, 27),
+(196, 'banner', 'assets/images/background/1734977908_teamBuilding2.jpg', NULL, NULL, NULL, 27),
+(197, 'add', 'assets/images/resource/1734977908_0_teamBuilding3.jpg', NULL, NULL, NULL, 27);
 
 -- --------------------------------------------------------
 
@@ -652,13 +667,13 @@ ALTER TABLE `add_on_perkahwinan`
 -- AUTO_INCREMENT for table `aktiviti`
 --
 ALTER TABLE `aktiviti`
-  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_aktiviti` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `aktiviti_kemudahan`
 --
 ALTER TABLE `aktiviti_kemudahan`
-  MODIFY `id_aktiviti_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_aktiviti_kemudahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `aktiviti_pic`
@@ -718,7 +733,7 @@ ALTER TABLE `perkahwinan`
 -- AUTO_INCREMENT for table `tempahan`
 --
 ALTER TABLE `tempahan`
-  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id_tempahan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT for table `tempahan_perkahwinan_addons`
@@ -736,7 +751,7 @@ ALTER TABLE `unit_bilik`
 -- AUTO_INCREMENT for table `url_gambar`
 --
 ALTER TABLE `url_gambar`
-  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id_gambar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT for table `user`

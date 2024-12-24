@@ -200,24 +200,6 @@ function countRoomAvailable($id_aktiviti, $start_date, $end_date) {
     // Return the occupied count (assuming that's the "available" count)
     return max(0, $occupiedCount);
 }
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Get the input fields
-        const checkInDate = document.getElementById('nd_booking_archive_form_date_range_from');
-        const checkOutDate = document.getElementById('nd_booking_archive_form_date_range_to');
 
-        // Add an event listener to validate on form submission
-        checkOutDate.addEventListener('blur', function () {
-            const checkInValue = new Date(checkInDate.value);
-            const checkOutValue = new Date(checkOutDate.value);
-
-            // Check if the dates are the same
-            if (checkInValue.getTime() === checkOutValue.getTime()) {
-                alert('Check-out date cannot be the same as check-in date. Please select a different date.');
-                checkOutDate.value = ''; // Clear the invalid date
-            }
-        });
-    });
-</script>
 
 ?>

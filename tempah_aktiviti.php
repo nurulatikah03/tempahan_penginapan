@@ -55,6 +55,26 @@ include 'database/DBConnec.php';
 
         <?php
        $conn = DBConnection::getConnection();
+	   
+		// Fetch nama_bilik based on id_bilik=1
+		$query_bilik = "SELECT nama_bilik FROM bilik WHERE id_bilik = 1"; // Update table and column names as needed
+		$result_bilik = $conn->query($query_bilik);
+		if ($result_bilik->num_rows > 0) {
+			$row_bilik = $result_bilik->fetch_assoc();
+			$_SESSION['nama_bilik'] = $row_bilik['nama_bilik'];
+		} else {
+			$_SESSION['nama_bilik'] = 'Nama Bilik tidak tersedia';
+		}
+
+		// Fetch nama_dewan based on id_dewan=16
+		$query_dewan = "SELECT nama_dewan FROM dewan WHERE id_dewan = 16"; // Update table and column names as needed
+		$result_dewan = $conn->query($query_dewan);
+		if ($result_dewan->num_rows > 0) {
+			$row_dewan = $result_dewan->fetch_assoc();
+			$_SESSION['nama_dewan'] = $row_dewan['nama_dewan'];
+		} else {
+			$_SESSION['nama_dewan'] = 'Nama Dewan tidak tersedia';
+		}
 
         if (isset($_GET['id_aktiviti'])) {
             $id_aktiviti = $_GET['id_aktiviti'];
@@ -150,7 +170,17 @@ include 'database/DBConnec.php';
                             <p><strong>Tarikh Masuk:</strong> <?php echo htmlspecialchars($_SESSION['checkInDate']); ?></p>
 							<p><strong>Tarikh Keluar:</strong> <?php echo htmlspecialchars($_SESSION['checkOutDate']); ?></p>
 							<p><strong>Bilangan Peserta:</strong> <?php echo htmlspecialchars ($_SESSION['total_person']); ?></p>
-							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
+							<p><strong>Nama Bilik:</strong> 
+								<?php 
+									echo isset($_SESSION['nama_bilik']) ? htmlspecialchars($_SESSION['nama_bilik']) : 'Nama Bilik tidak tersedia';
+								?>
+							</p>
+							<p><strong>Nama Dewan:</strong> 
+								<?php 
+									echo isset($_SESSION['nama_dewan']) ? htmlspecialchars($_SESSION['nama_dewan']) : 'Nama Dewan tidak tersedia';
+								?>
+							</p>
+							<p><strong>Harga keseluruhan: </strong>RM <?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
                             <a href="aktivitiDetail.php?id_aktiviti=<?php echo htmlspecialchars($id_aktiviti); ?>"
                                 class="btn-1">Ubah Tarikh<span></span></a>
                         </div>
