@@ -322,11 +322,11 @@ session_start();
 									method="POST">
 									<div class="form-group">
 										<p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
-										<input type="date" name="checkInDate" id="checkInDate" min="<?php echo date('Y-m-d'); ?>" />
+										<input type="date" name="checkInDate" id="checkInDate" min="<?php echo date('Y-m-d'); ?>" required/>
 									</div>
 									<div class="form-group">
 										<p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
-										<input type="date" name="checkOutDate" id="checkOutDate" min="<?php echo date('Y-m-d'); ?>" />
+										<input type="date" name="checkOutDate" id="checkOutDate" min="<?php echo date('Y-m-d'); ?>" required/>
 									</div>
 									<div class="form-group mb-3">
 										<button type="submit" class="btn-1">Buat Tempahan<span></span></button>
