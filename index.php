@@ -1,3 +1,11 @@
+<?php 
+if (!empty($_REQUEST)) {
+	foreach ($_REQUEST as $key => $value) {
+		echo $key . ': ' . htmlspecialchars($value) . '<br>';
+	}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

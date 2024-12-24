@@ -80,32 +80,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['Submit']) && isset($_S
         $imgAdd = $_POST['gambaradd'];
 
         try {
-            if(!Room::delRoomById($roomId)) {
-                throw new Exception('Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.');
-            }
+            // Delete room and its dependencies
+            Room::delRoomById($roomId);
+            
         } catch (Exception $e) {
-            $_SESSION['error'] = 'Terdapat tempahan yang menggunakan bilik ni. Hanya boleh nyahaktif bilik ini.';
+            $_SESSION['error'] = $e->getMessage();
+            header("Location: ../penginapan.php");
+            exit;
+        } finally {
+            // Delete physical image files first
+            if (file_exists($imgMain)) {
+                unlink($imgMain);
+            }
+            if (file_exists($imgBanner)) {
+                unlink($imgBanner);
+            }
+            foreach ($imgAdd as $img) {
+                $img = '../../' . $img;
+                if (file_exists($img)) {
+                    unlink($img);
+                }
+            }
+            $_SESSION['status'] = 'Penginapan berjaya dipadam.';
             header("Location: ../penginapan.php");
             exit;
         }
-        Room::delImgByRoomId($roomId);
-        Room::delAmenByRoomId($roomId);
-        if (file_exists($imgMain)) {
-            unlink($imgMain);
-        }
-        if (file_exists($imgBanner)) {
-            unlink($imgBanner);
-        }
-        foreach ($imgAdd as $img) {
-            $img = '../../' . $img;
-            if (file_exists($img)) {
-                unlink($img);
-            }
-        }
-
-        $_SESSION['status'] = 'Penginapan berjaya dipadam.';
-        header("Location: ../penginapan.php");
-        exit;
     } elseif ($_POST['process'] == 'addRoom') {
 
         $nama_bilik = htmlspecialchars($_POST['nama_bilik']);

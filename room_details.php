@@ -183,12 +183,12 @@
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH MASUK:</p>
                                             <input type="text" name="check_in" id="nd_booking_archive_form_date_range_from" value="<?php echo date('d/m/Y'); ?>" />
-                                            <input type="hidden" name="check_in" id="check_in_from" />
+                                            <input type="hidden" name="check_in" id="check_in_from" value="<?=$todayk?>" />
                                         </div>
                                         <div class="form-group">
                                             <p class="hotel-booking-form-1-label">TARIKH KELUAR:</p>
                                             <input type="text" name="check_out" id="nd_booking_archive_form_date_range_to" value="<?php echo date('d/m/Y', strtotime('+1 day')); ?>" />
-                                            <input type="hidden" name="check_out" id="check_in_to" />
+                                            <input type="hidden" name="check_out" id="check_in_to" value="<?=$tomorrowk?>" />
                                         </div>
 
                                         <div class="form-group">

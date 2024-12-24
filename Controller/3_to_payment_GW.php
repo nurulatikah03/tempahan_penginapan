@@ -14,8 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tarikhMasukSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkInDate"])->format('Y-m-d');
         $tarikhKeluarSQL = DateTime::createFromFormat('d/m/Y', $_SESSION["checkOutDate"])->format('Y-m-d');
 
-
-        $tempahan = new RoomReservation(null, $_SESSION['booking_number'], $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['roomsNum'] ,$tarikh_tempahan, $tarikhMasukSQL, $tarikhKeluarSQL, $_SESSION['total_price'], $_POST['payment_method'] ,$_SESSION['room_id']);
+        $tempahan = new RoomReservation(null, ($_SESSION['booking_number'] . 'succ'), $_SESSION['cust_name'], $_SESSION['phone_number'], $_SESSION['form-email'], $_SESSION['roomsNum'], $tarikh_tempahan, $tarikhMasukSQL, $tarikhKeluarSQL, $_SESSION['total_price'], $_POST['payment_method'], $_SESSION['room_id']);
 
         $tempahan->insertReservation();
 
