@@ -41,7 +41,7 @@
     <!-- ***** Preloader End ***** -->
 	
     <div class="page-wrapper">
-        <div class="page-title" style="background-image: url(assets/images/pakejj.jpg);">
+        <div class="page-title" style="background-image: url(assets/images/resource/teambuilding.jpg);">
             <?php
             include 'partials/header.php';
             include("database/DBConnec.php");
