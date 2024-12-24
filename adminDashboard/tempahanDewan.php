@@ -62,6 +62,9 @@ require_once __DIR__ . '/require/UserAUTH.php';
 						t.id_dewan IS NOT NULL
 					AND 
 						t.id_perkahwinan IS NULL
+					AND 
+						t.id_aktiviti IS NULL
+						
 				";
 				$conn = DBConnection::getConnection();
 				$result = $conn->query($query);
