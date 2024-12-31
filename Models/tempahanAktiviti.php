@@ -21,8 +21,7 @@ class AktivitiReservation extends Reservation
         $payment_method,
         $id_aktiviti,
 		$id_dewan,
-		$id_bilik,
-		
+		$id_bilik
     ) {
         parent::__construct($id, $bookingNumber, $cust_name, $phone_number, $email, $num_of_Pax, $reservationDate, $checkInDate, $checkOutDate, $total_price, $payment_method);
         $this->id_aktiviti = $id_aktiviti;
