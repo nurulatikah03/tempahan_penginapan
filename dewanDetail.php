@@ -3,7 +3,7 @@
 include 'database/DBConnec.php';
 
 session_start();
-
+$_SESSION['id_dewan'] = $_GET['id_dewan'];
 ?>
 
 <!DOCTYPE html>
@@ -318,7 +318,7 @@ session_start();
                             <div class="booking-form-3">
 
                                 <form class="hotel-booking-form-1-form d-block"
-									action="Controller/1_dewan.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
+									action="Controller/1_dewan.php"
 									method="POST">
 									<div class="form-group">
 										<p class="hotel-booking-form-1-label">TARIKH MASUK:</p>

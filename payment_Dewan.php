@@ -51,12 +51,11 @@ session_start();
 		<?php
         $conn = DBConnection::getConnection();
 
-        if (isset($_GET['id_dewan'])) {
-            $id_dewan = $_GET['id_dewan'];
-        } else {
-            echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
-            exit;
-        }
+        if (isset($_SESSION['id_dewan'])) {
+			$id_dewan = $_SESSION['id_dewan']; 
+		} else {
+			echo "ID Dewan tidak wujud dalam sesi.";
+		}
 
         $query = "
 			SELECT 
@@ -129,7 +128,7 @@ session_start();
 						<li><a href="index.php">Laman Utama</a></li>
 						<li><a href="kemudahanDewan.php">Dewan</a></li>
 						<li><a
-								href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"><?php echo $nama_dewan ?></a>
+								href="dewanDetail.php?id_dewan=<?php echo $_SESSION['id_dewan']; ?>"><?php echo $nama_dewan ?></a>
 						</li>
 						<li>Pengesahan</li>
 					</ul>
@@ -224,7 +223,7 @@ session_start();
                     </div>
                 </div>
                 <div class="card-footer">
-					<form action="Controller\3_to_payment_GW.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>" method="POST">
+					<form action="Controller\3_to_payment_GW.php" method="POST">
                         <label class="fs-5 my-3" for="payment-method">Pilih cara bayaran:</label>
                             <select class="mb-4" id="payment-method" name="payment_method" required>
                                 <option value="FPX">FPX</option>
@@ -235,8 +234,22 @@ session_start();
                             </select>
                         <div class="my-1 text-end">
                             <button type="submit" name="submit" value="dewan" class="btn-1">Proceed to Payment<span></span></button>
-                            <a href="tempah_dewan.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
+                            <a href="tempah_dewan.php" class="btn-1 mx-2">ubah Butiran Peribadi<span></span></a>
                         </div>
+                    </form>
+					<?php
+                    include_once 'Models\tempahanDewan.php';
+                    $conn = DBConnection::getConnection();
+                    $_SESSION['booking_number'] = generateBookingNumber($conn); ?>
+
+                    <form action="https://e-payment.lktn.gov.my/v4/req2pay_tempahan.php" method="post">
+                        <input type="hidden" name="req_appid" value="eTempahan">
+                        <input type="hidden" name="req_amount" value="<?= $_SESSION["total_price"] ?>">
+                        <input type="hidden" name="req_orderid" value="<?= $_SESSION['booking_number'] ?>">
+                        <input type="hidden" name="req_email" value="<?= $_SESSION["form-email"] ?>">
+                        <input type="hidden" name="req_rtnurl" value="https://apps.lktn.gov.my/eTempahanPenginapan/index.php">
+                        <input type="hidden" name="hash_key" value="">
+                        <button type="submit" name="submit" class="btn-1">Pergi ke test<span></span></button>
                     </form>
                 </div>
             </div>

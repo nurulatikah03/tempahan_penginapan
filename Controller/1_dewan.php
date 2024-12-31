@@ -5,12 +5,16 @@ include_once __DIR__ . '/../database/DBConnec.php';
 $conn = DBConnection::getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_GET['id_dewan']) && !empty($_GET['id_dewan'])) {
-        $id_dewan = htmlspecialchars($_GET['id_dewan']); // Retrieve id_dewan from URL
-    } else {
-        echo "ID Dewan tidak ditemukan di URL.";
-        exit();  // Exit if 'id_dewan' is not found in the URL
-    }
+	
+	if (isset($_SESSION['id_dewan']) && !empty($_SESSION['id_dewan'])) {
+		$id_dewan = htmlspecialchars($_SESSION['id_dewan']);
+	} elseif (isset($_GET['id_dewan']) && !empty($_GET['id_dewan'])) {
+		$id_dewan = htmlspecialchars($_GET['id_dewan']);
+		$_SESSION['id_dewan'] = $id_dewan; 
+	} else {
+		echo "ID Dewan tidak ditemukan.";
+		exit();
+	}
 
     // Retrieve and validate input dates
     $checkInDate = isset($_POST['checkInDate']) ? htmlspecialchars($_POST['checkInDate']) : '';
@@ -98,8 +102,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['num_of_night'] = $num_of_night;
             $_SESSION['total_price'] = $total_price;
 
-            $redirectUrl = "../tempah_dewan.php?id_dewan=" . $id_dewan;
-            header("Location: $redirectUrl");
+            header("Location: ../tempah_dewan.php");
+			exit();
+
             exit();
         } else {
             echo "Format tanggal tidak valid.";

@@ -58,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$conn = DBConnection::getConnection();
 
 		// Check if 'id_dewan' exists in the URL
-		if (isset($_GET['id_dewan']) && !empty($_GET['id_dewan'])) {
-			$id_dewan = htmlspecialchars($_GET['id_dewan']); // Ambil id_dewan dari URL
+		if (isset($_SESSION['id_dewan']) && !empty($_SESSION['id_dewan'])) {
+			$id_dewan = htmlspecialchars($_SESSION['id_dewan']); // Ambil id_dewan dari URL
 		} else {
 			echo "Error: 'id_dewan' not found in the URL.";
 			exit();
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$_SESSION['cust_name'],
 			$_SESSION['phone_number'],
 			$_SESSION['form-email'],
-            0,
+            NULL,
 			$tarikh_tempahan,
 			$tarikhMasukSQL,
 			$tarikhKeluarSQL,
@@ -91,10 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		);
 		$tempahan->insertReservation();
 
-		// Redirect to success_dewan.php with the id_dewan parameter
-		$redirectUrl = "../success_dewan.php?id_dewan=" . $id_dewan;
-
-		header("Location: $redirectUrl");
+		header("Location: ../success_dewan.php");
 		exit();
 	}	elseif ($_POST['submit'] == 'aktiviti') {
         include_once '../Models/tempahanAktiviti.php';

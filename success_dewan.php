@@ -47,8 +47,8 @@ session_start();
         	<?php
         $conn = DBConnection::getConnection();
 
-        if (isset($_GET['id_dewan'])) {
-            $id_dewan = $_GET['id_dewan'];
+        if (isset($_SESSION['id_dewan'])) {
+            $id_dewan = $_SESSION['id_dewan'];
         } else {
             echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
             exit;
@@ -125,7 +125,7 @@ session_start();
 							<li><a href="index.php">Laman Utama</a></li>
 							<li><a href="kemudahanDewan.php">Dewan</a></li>
 							<li>
-								<a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($_GET["id_dewan"]); ?>">
+								<a href="dewanDetail.php?id_dewan=<?php echo $_SESSION['id_dewan']; ?>">
 									<?php echo htmlspecialchars($nama_dewan); ?>
 								</a>
 							</li>

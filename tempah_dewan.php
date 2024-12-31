@@ -58,12 +58,11 @@ include 'database/DBConnec.php';
         <?php
         $conn = DBConnection::getConnection();
 
-        if (isset($_GET['id_dewan'])) {
-            $id_dewan = $_GET['id_dewan'];
-        } else {
-            echo '<div class="alert alert-danger">ID Dewan tidak ditemui.</div>';
-            exit;
-        }
+        if (isset($_SESSION['id_dewan'])) {
+			$id_dewan = $_SESSION['id_dewan']; 
+		} else {
+			echo "ID Dewan tidak wujud dalam sesi.";
+		}
 
         $query = "
 			SELECT 
@@ -168,7 +167,7 @@ include 'database/DBConnec.php';
 							</p>
 							<p><strong>Bilangan Hari:</strong> <?php echo $_SESSION['num_of_night']; ?></p>
 							<p><strong>Harga keseluruhan: </strong>RM<?php echo htmlspecialchars($_SESSION['total_price']); ?></p>
-                            <a href="dewanDetail.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
+                            <a href="dewanDetail.php?id_dewan=<?php echo $_SESSION['id_dewan']; ?>"
                                 class="btn-1">Ubah
                                 Tarikh<span></span></a>
                         </div>
@@ -176,7 +175,7 @@ include 'database/DBConnec.php';
                     <div class="col-lg-8 pe-lg-35">
                         <div class="single-post">
                             <h3 class="mb_40">Masukkan maklumat peribadi anda</h3>
-                            <form action="Controller/2_reservation.php?id_dewan=<?php echo htmlspecialchars($id_dewan); ?>"
+                            <form action="Controller/2_reservation.php"
                                 method="POST">
                                 <div class="form-group">
                                     <p class="hotel-booking-form-1-label">Nama Penuh: </p>
